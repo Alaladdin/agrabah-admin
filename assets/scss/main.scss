@@ -1,0 +1,11 @@
+.btn {
+  @apply px-4 py-1 font-semibold rounded text-white bg-gray-800;
+
+  &--white {
+    @apply text-gray-800 bg-white;
+  }
+
+  &--indigo {
+    @apply text-white bg-indigo-600;
+  }
+}
