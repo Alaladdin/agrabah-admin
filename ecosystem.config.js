@@ -22,7 +22,7 @@ module.exports = {
       ref          : 'origin/main',
       repo         : 'https://github.com/Alaladdin/mpei-admin-nuxt',
       path         : '$HOME/dev/mpei-admin',
-      'post-deploy': 'pnpm install; pm2 restart ./ecosystem.config.js --env production',
+      'post-deploy': 'pnpm install; pnpm run build; pm2 restart ./ecosystem.config.js --env production',
     },
   },
 }

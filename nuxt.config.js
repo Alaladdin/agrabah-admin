@@ -24,7 +24,7 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     'nuxt-fontawesome',
   ],
   fontawesome: {
@@ -59,11 +59,11 @@ export default {
     color : '#4C4BE0',
     height: '5px',
   },
-  pwa: {
-    manifest: {
-      lang: 'en',
-    },
-  },
+  // pwa: {
+  //   manifest: {
+  //     lang: 'en',
+  //   },
+  // },
   optimizedImages: {
     optimizeImages     : true,
     optimizeImagesInDev: true,

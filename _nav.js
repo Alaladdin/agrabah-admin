@@ -1,10 +1,5 @@
 export default [
   {
-    path : 'login',
-    title: 'Login (temp)',
-    icon : 'sign-in-alt',
-  },
-  {
     path : '/',
     title: 'Home',
     icon : 'home',
