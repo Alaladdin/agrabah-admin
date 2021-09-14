@@ -1,11 +1,11 @@
 .btn {
-  @apply px-4 py-1 font-semibold rounded text-white bg-gray-800;
+  @apply px-4 py-1 font-semibold rounded text-white bg-gray-800 duration-150 focus:outline-none focus:ring focus:ring-gray-400 disabled:opacity-50;
 
   &--white {
-    @apply text-gray-800 bg-white;
+    @apply text-gray-800 bg-white focus:ring-gray-300;
   }
 
   &--indigo {
-    @apply text-white bg-indigo-600;
+    @apply text-white bg-indigo-600 focus:ring-indigo-300;
   }
 }

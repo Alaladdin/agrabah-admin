@@ -69,8 +69,13 @@ export default {
     updateActuality () {
       const { content, lazyContent } = this.actuality
 
+      this.isUpdating = true
       this.setActuality({ content, lazyContent })
+        .then(this.getActualityData)
         .catch(console.error)
+        .finally(() => {
+          this.isUpdating = false
+        })
     },
   },
 }
