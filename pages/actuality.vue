@@ -1,11 +1,11 @@
 <template>
   <div class="flex w-full h-full">
     <div class="flex justify-between mb-3 w-full h-2/5">
-      <textarea v-model="actuality.content" :class="[textareaClasses, 'mr-3']" />
-      <textarea v-model="actuality.lazyContent" :class="textareaClasses" />
+      <textarea v-model="actuality.content" :class="[textareaClasses, { 'bg-yellow-50': isActualityEdited.content }, 'mr-3']" />
+      <textarea v-model="actuality.lazyContent" :class="[textareaClasses, { 'bg-yellow-50':isActualityEdited.lazyContent }]" />
     </div>
 
-    <div class="flex justify-between items-center rounded">
+    <div class="flex justify-between items-center rounded select-none">
       <div class="inline-block px-4 py-1 rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold" role="alert">
         <p>{{ updatedAtText }}</p>
       </div>
@@ -26,19 +26,29 @@ export default {
   data () {
     return {
       actuality      : {},
+      textareaClasses: 'w-full px-3 py-2 border rounded text-gray-700 shadow-sm resize-none duration-150 focus:ring-2 focus:ring-indigo-400 focus:outline-none',
+      editedActuality: [false, false],
       isLoading      : true,
       isUpdating     : false,
       isGettingError : false,
-      textareaClasses: 'w-full px-3 py-2 border rounded text-gray-700 shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none resize-none',
     }
   },
   computed: {
-    ...mapGetters('actuality', ['getActuality']),
+    ...mapGetters('actuality', { inActuality: 'getActuality' }),
 
     updatedAtText () {
       if (this.isLoading || this.isGettingError) return '...'
 
       return `Updated at ${this.actuality.date}`
+    },
+    isActualityEdited () {
+      const { content: inContent, lazyContent: inLazyContent } = this.inActuality || {}
+      const { content, lazyContent } = this.actuality
+
+      return {
+        content    : inContent !== content,
+        lazyContent: inLazyContent !== lazyContent,
+      }
     },
     isButtonsDisabled () {
       return this.isLoading || this.isUpdating
@@ -64,7 +74,7 @@ export default {
         })
     },
     getActualityData () {
-      this.actuality = clone(this.getActuality)
+      this.actuality = clone(this.inActuality)
     },
     updateActuality () {
       const { content, lazyContent } = this.actuality
