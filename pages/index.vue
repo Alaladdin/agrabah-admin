@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div v-for="(item, index) in onlineData" :key="index" class="flex justify-between items-center p-3 mb-3 rounded shadow-sm text-gray-600 bg-white">
+  <div class="grid grid-cols-2 gap-4">
+    <div v-for="(item, index) in onlineData" :key="index" class="flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white">
       <div class="font-semibold text-md text-gray-600">
         {{ item.title }}
         <a v-if="item.link" :href="item.link" class="text-blue-500">{{ item.linkTitle }}</a>

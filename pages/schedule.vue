@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-3 rounded bg-white">
+    <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-5 rounded shadow-sm bg-white">
       <div class="pb-2 border-b">
         <span class="font-bold">{{ s.dayOfWeekString.toUpperCase() }}</span> –
         <span>{{ s.date }}</span>
@@ -20,6 +20,16 @@
       <div v-if="s.building !== '-'" class="text-sm text-gray-500">
         {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
       </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="btn mr-3">
+        Post to VK
+      </button>
+
+      <button class="btn btn--indigo">
+        Post to DIS
+      </button>
     </div>
   </div>
 </template>

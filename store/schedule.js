@@ -8,7 +8,6 @@ export const getters = {
 
 export const mutations = {
   set (state, schedule) {
-    console.log(schedule)
     state.schedule = schedule
   },
 }
