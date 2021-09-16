@@ -9,10 +9,10 @@ export const getters = {
 }
 
 export const mutations = {
-  set (state, data) {
+  set (state, actuality) {
     state.actuality = {
-      ...data,
-      date: moment(data.date).format('DD.MM HH:mm'),
+      ...actuality,
+      date: moment(actuality.date).format('DD.MM HH:mm'),
     }
   },
 }

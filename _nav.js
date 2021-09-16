@@ -30,6 +30,11 @@ export default [
     icon : 'bell',
   },
   {
+    path : '/schedule',
+    title: 'Schedule',
+    icon : 'calendar-alt',
+  },
+  {
     path : '/metrics',
     title: 'Metrics',
     icon : 'chart-bar',
