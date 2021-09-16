@@ -24,7 +24,18 @@
           </NuxtLink>
         </nav>
 
-        <div class="flex justify-between items-center p-2 text-indigo-100 bg-indigo-800">
+        <ul v-show="isShowProfileContext" class="p-2 rounded-t-lg shadow text-indigo-100 bg-indigo-900">
+          <li
+            v-for="(item, index) in ['Profile', 'Bum', 'Bum', 'Bum']"
+            :key="index"
+            class="p-2 rounded duration-50 cursor-pointer hover:bg-indigo-800"
+            @click="profileContextClick"
+          >
+            {{ item }}
+          </li>
+        </ul>
+
+        <div class="flex justify-between items-center p-2 text-indigo-100 bg-indigo-800" @click="makeTrue('isShowProfileContext')">
           <img
             class="rounded-full w-16 h-16 border-4 border-indigo-600 shadow-sm"
             :src="userData.avatarUrl"
@@ -75,6 +86,7 @@ export default {
         'focus:shadow-outline',
         'select-none',
       ],
+      isShowProfileContext: false,
     }
   },
   computed: {
@@ -93,6 +105,15 @@ export default {
   methods: {
     getNotificationsCount (index) {
       return Math.ceil(Math.random() * index)
+    },
+    profileContextClick () {
+      this.makeFalse('isShowProfileContext')
+    },
+    makeTrue (field) {
+      this[field] = true
+    },
+    makeFalse (field) {
+      this[field] = false
     },
   },
 }
