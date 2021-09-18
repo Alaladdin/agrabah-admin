@@ -65,5 +65,9 @@ export default {
       optimizationLevel: 7,
     },
   },
-  build: {},
+  // build: {
+  //   extend (config) {
+  //     config.node = { fs: 'empty' }
+  //   },
+  // },
 }

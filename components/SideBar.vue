@@ -35,7 +35,7 @@
           </li>
         </ul>
 
-        <div class="flex justify-between items-center p-2 text-indigo-100 bg-indigo-800" @click="makeTrue('isShowProfileContext')">
+        <div class="flex justify-between items-center p-2 text-indigo-100 bg-indigo-800" @click="openProfileContext">
           <img
             class="rounded-full w-16 h-16 border-4 border-indigo-600 shadow-sm"
             :src="userData.avatarUrl"
@@ -107,6 +107,12 @@ export default {
       return Math.ceil(Math.random() * index)
     },
     profileContextClick () {
+      this.closeProfileContext()
+    },
+    openProfileContext () {
+      this.makeTrue('isShowProfileContext')
+    },
+    closeProfileContext () {
       this.makeFalse('isShowProfileContext')
     },
     makeTrue (field) {
