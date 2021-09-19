@@ -2,10 +2,7 @@
   <div class="flex flex-col justify-center">
     <span class="mb-20 font-bold text-3xl text-center text-gray-800">MPEI ADMIN</span>
 
-    <button
-      class="flex justify-between items-center p-1 font-semibold text-white bg-indigo-500 rounded"
-      @click="login"
-    >
+    <button class="btn btn--login" @click="login">
       <span class="bg-indigo-400 py-1 px-2 rounded">
         <fa :icon="['fab', 'discord']" />
       </span>

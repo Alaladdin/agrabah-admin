@@ -8,4 +8,8 @@
   &--indigo {
     @apply text-white bg-indigo-600 focus:ring-indigo-300;
   }
+
+  &--login {
+    @apply flex justify-between items-center p-1 bg-indigo-500 focus:ring-indigo-300
+  }
 }
