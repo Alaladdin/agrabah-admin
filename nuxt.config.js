@@ -53,6 +53,12 @@ export default {
         clientSecret       : process.env.DISCORD_CLIENT_SECRET,
         codeChallengeMethod: 'S256',
         grantType          : 'authorization_code',
+        scope              : ['identify', 'guilds'],
+        token              : {
+          property: 'access_token',
+          type    : 'Bearer',
+          maxAge  : (60 * 60 * 24) * 14, // 14 days
+        },
       },
     },
   },

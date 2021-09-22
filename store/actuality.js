@@ -1,5 +1,3 @@
-import moment from 'moment'
-
 export const state = () => ({
   actuality: null,
 })
@@ -12,7 +10,8 @@ export const mutations = {
   set (state, actuality) {
     state.actuality = {
       ...actuality,
-      date: moment(actuality.date).format('DD.MM HH:mm'),
+      content    : actuality.content || '',
+      lazyContent: actuality.lazyContent || '',
     }
   },
 }
@@ -33,10 +32,7 @@ export const actions = {
       })
   },
   setActuality (ctx, { content, lazyContent }) {
-    const actuality = {
-      content    : content || null,
-      lazyContent: lazyContent || null,
-    }
+    const actuality = { content, lazyContent }
 
     return this.$api.$post('setActuality', { actuality })
       .then((data) => {

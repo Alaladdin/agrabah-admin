@@ -10,6 +10,11 @@ export default [
     icon : 'users',
   },
   {
+    path : '/2fa',
+    title: '2FA',
+    icon : 'fingerprint',
+  },
+  {
     path : '/short-url',
     title: 'Short URL',
     icon : 'link',

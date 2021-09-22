@@ -39,7 +39,7 @@ export default {
     updatedAtText () {
       if (this.isLoading || this.isGettingError) return '...'
 
-      return `Updated at ${this.actuality.date}`
+      return `Updated at ${this.actuality.updatedAt}`
     },
     isActualityEdited () {
       const { content: inContent, lazyContent: inLazyContent } = this.inActuality || {}
