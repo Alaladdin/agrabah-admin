@@ -13,8 +13,8 @@ export const mutations = {
 }
 
 export const actions = {
-  loadSchedule (ctx) {
-    return this.$api.$get('getSchedule')
+  loadSchedule (ctx, { start, finish }) {
+    return this.$api.$get('getSchedule', { params: { start, finish } })
       .then((data) => {
         if (!data) throw (data)
 

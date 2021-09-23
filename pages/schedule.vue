@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div class="mb-6">
+      <span class="p-2 mr-3 rounded bg-white shadow-sm">Start: {{ selectedDates.start }}</span>
+      <span class="p-2 rounded bg-white shadow-sm">Finish: {{ selectedDates.finish }}</span>
+    </div>
+
+    <div v-if="!schedule.length" class="py-3 mb-5 rounded text-center text-xl font-semibold text-red-500 bg-white shadow">
+      No schedule for this date
+    </div>
+
     <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-5 rounded shadow-sm bg-white">
       <div class="pb-2 border-b">
         <span class="font-bold">{{ s.dayOfWeekString.toUpperCase() }}</span> –
@@ -22,14 +31,25 @@
       </div>
     </div>
 
-    <div class="flex justify-end">
-      <button class="btn mr-3">
-        Post to VK
-      </button>
+    <div class="flex justify-between">
+      <div>
+        <button class="btn mr-3">
+          Post to VK
+        </button>
 
-      <button class="btn btn--indigo">
-        Post to DIS
-      </button>
+        <button class="btn btn--indigo">
+          Post to DIS
+        </button>
+      </div>
+
+      <div>
+        <button class="btn mr-3" @click="goPrevWeek">
+          Prev
+        </button>
+        <button class="btn mr-3" @click="goNextWeek">
+          Next
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -37,30 +57,65 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone } from 'lodash'
+import moment from 'moment'
+
+const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
+const DEFAULT_DATE_FORMAT = 'DD.MM'
 
 export default {
   name: 'Schedule',
   data () {
+    const start = moment().startOf('isoWeek').format(SERVER_DATE_FORMAT)
+    const finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
+
     return {
-      schedule: [],
+      schedule      : [],
+      scheduleOffset: { start, finish },
     }
   },
   computed: {
     ...mapGetters('schedule', { inSchedule: 'getSchedule' }),
+
+    selectedDates () {
+      const { start, finish } = this.scheduleOffset
+
+      return {
+        start : moment(start).format(DEFAULT_DATE_FORMAT),
+        finish: moment(finish).format(DEFAULT_DATE_FORMAT),
+      }
+    },
   },
-  created () {
-    this.loadScheduleData()
+  watch: {
+    scheduleOffset: {
+      immediate: true,
+      deep     : true,
+      handler () {
+        this.loadScheduleData()
+      },
+    },
   },
   methods: {
     ...mapActions('schedule', ['loadSchedule']),
 
     loadScheduleData () {
-      this.loadSchedule()
+      this.loadSchedule(this.scheduleOffset)
         .then(this.getScheduleData)
         .catch(console.error)
     },
     getScheduleData () {
       this.schedule = clone(this.inSchedule)
+    },
+    goNextWeek () {
+      const { start, finish } = this.scheduleOffset
+
+      this.scheduleOffset.start = moment(start).add('7', 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment(finish).add('7', 'days').format(SERVER_DATE_FORMAT)
+    },
+    goPrevWeek () {
+      const { start, finish } = this.scheduleOffset
+
+      this.scheduleOffset.start = moment(start).subtract('7', 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment(finish).subtract('7', 'days').format(SERVER_DATE_FORMAT)
     },
   },
 }
