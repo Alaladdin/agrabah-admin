@@ -26,12 +26,12 @@
 
         <ul v-show="isShowProfileContext" class="p-2 rounded-t-lg shadow text-indigo-100 bg-indigo-900">
           <li
-            v-for="(item, index) in ['Profile', 'Bum', 'Bum', 'Bum']"
+            v-for="(item, index) in profileContextMenu"
             :key="index"
             class="p-2 rounded duration-50 cursor-pointer hover:bg-indigo-800"
-            @click="profileContextClick"
+            @click="profileContextClick(item)"
           >
-            {{ item }}
+            {{ item.title }}
           </li>
         </ul>
 
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import navItems from '@/_nav'
 
 export default {
@@ -86,28 +87,33 @@ export default {
         'focus:shadow-outline',
         'select-none',
       ],
+      profileContextMenu: [
+        {
+          title: 'Profile',
+          name : 'profile',
+        },
+        {
+          title: 'Bum',
+          name : 'profile',
+        },
+        {
+          title: 'Bum',
+          name : 'profile',
+        },
+      ],
       isShowProfileContext: false,
     }
   },
   computed: {
-    userData () {
-      const { id: userId, username, avatar, banner, discriminator } = this.$auth.$state.user
-      const discordCDNUrl = 'https://cdn.discordapp.com'
-
-      return {
-        username,
-        discriminator,
-        avatarUrl: `${discordCDNUrl}/avatars/${userId}/${avatar}`,
-        bannerUrl: `${discordCDNUrl}/banners/${userId}/${banner}`,
-      }
-    },
+    ...mapGetters({ userData: 'getUserData' }),
   },
   methods: {
     getNotificationsCount (index) {
-      return Math.ceil(Math.random() * index)
+      return Math.ceil(Math.random() * (index || 5))
     },
-    profileContextClick () {
+    profileContextClick (item) {
       this.closeProfileContext()
+      this.$router.push(item)
     },
     openProfileContext () {
       this.makeTrue('isShowProfileContext')
