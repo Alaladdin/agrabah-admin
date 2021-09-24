@@ -12,13 +12,13 @@
             v-for="(item, index) in navItems"
             :key="index"
             :to="item.path"
-            :class="classes"
+            :class="['nuxt-link', { disabled : item.disabled }]"
           >
             <div>
               <fa class="mr-3 text-indigo-100" :icon="item.icon" />
               <span class="mr-1">{{ item.title }}</span>
             </div>
-            <span v-if="getNotificationsCount(index)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
+            <span v-if="!item.disabled && getNotificationsCount(index)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
               {{ getNotificationsCount(index) }}
             </span>
           </NuxtLink>
@@ -66,27 +66,6 @@ export default {
   data () {
     return {
       navItems,
-      classes: [
-        'flex',
-        'flex-row',
-        'justify-between',
-        'px-4',
-        'py-2',
-        'mt-2',
-        'text-sm',
-        'font-semibold',
-        'text-indigo-200',
-        'rounded-lg',
-        'transition',
-        'duration-75',
-        'ease-in-out',
-        'cursor-pointer',
-        'hover:bg-indigo-800',
-        'focus:bg-indigo-900',
-        'focus:outline-none',
-        'focus:shadow-outline',
-        'select-none',
-      ],
       profileContextMenu: [
         {
           title: 'Profile',

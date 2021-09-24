@@ -10,6 +10,18 @@
   }
 
   &--login {
-    @apply flex justify-between items-center p-1 bg-indigo-500 focus:ring-indigo-300
+    @apply flex justify-between items-center p-1 bg-indigo-500 focus:ring-indigo-300;
+  }
+}
+
+.nuxt-link {
+  @apply flex flex-row justify-between px-4 py-2 mt-2 text-sm font-semibold text-indigo-200 rounded-lg transition duration-75 ease-in-out cursor-pointer hover:bg-indigo-800 focus:bg-indigo-900 focus:outline-none focus:shadow-outline select-none;
+
+  &-exact-active {
+    @apply bg-indigo-900 hover:bg-indigo-900 text-indigo-100;
+  }
+
+  &.disabled {
+    @apply pointer-events-none cursor-default opacity-50;
   }
 }
