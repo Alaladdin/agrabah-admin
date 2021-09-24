@@ -5,7 +5,7 @@
     <div class="flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
         <div class="flex flex-col h-full">
-          <h1 class="mb-10 font-bold text-3xl text-gray-800 text-center">
+          <h1 v-if="pageTitle" class="mb-10 font-bold text-3xl text-gray-800 text-center">
             {{ pageTitle }}
           </h1>
           <Nuxt class="flex flex-col" />
@@ -20,20 +20,31 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { find } from 'lodash'
 import { capitalize } from '@/helpers'
+import navItems from '@/_nav'
 
 export default {
-  name    : 'Default',
+  name: 'Default',
+  data () {
+    return {
+      navItems,
+    }
+  },
   computed: {
     ...mapGetters({ appVersion: 'getAppVersion' }),
 
     pageTitle () {
-      if (this.$route.path !== '/' || !this.$auth.$state.user)
-        return this.capitalize(this.$nuxt.$route.name)
+      const { path } = this.$route
+      const { user } = this.$auth.$state
 
-      const { username } = this.$auth.$state.user
+      if (path !== '/' || !user) {
+        const currentRouteData = find(navItems, navItem => navItem.path === path)
 
-      return `Hi, ${username}`
+        return currentRouteData.title
+      }
+
+      return `Hi, ${user.username}`
     },
   },
   created () {
