@@ -35,22 +35,25 @@
           </li>
         </ul>
 
-        <div class="flex justify-between items-center p-2 text-indigo-100 bg-indigo-800" @click="openProfileContext">
-          <img
-            class="rounded-full w-16 h-16 border-4 border-indigo-600 shadow-sm"
-            :src="userData.avatarUrl"
-            :alt="userData.username"
-          >
-          <div class="flex items-center">
-            <div class="flex flex-col justify-end mr-5">
+        <div class="flex justify-between items-center text-indigo-100 bg-indigo-800">
+          <div class="flex justify-center items-center p-2">
+            <img
+              v-on-clickaway="closeProfileContext"
+              class="mr-8 rounded-full w-16 h-16 border-4 border-indigo-600 shadow-sm cursor-pointer"
+              :src="userData.avatarUrl"
+              :alt="userData.username"
+              @click="openProfileContext"
+            >
+
+            <div class="flex flex-col mr-5">
               <span class="font-semibold">{{ userData.username }}</span>
               <span class="text-xs text-indigo-300">#{{ userData.discriminator }}</span>
             </div>
-
-            <NuxtLink to="/logout" class="text-sm">
-              <fa class="mr-3" icon="sign-out-alt" />
-            </NuxtLink>
           </div>
+
+          <NuxtLink to="/logout" class="flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-75">
+            <fa icon="sign-out-alt" />
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -59,10 +62,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { mixin as clickaway } from 'vue-clickaway'
 import navItems from '@/_nav'
 
 export default {
-  name: 'SideBar',
+  name  : 'SideBar',
+  mixins: [clickaway],
   data () {
     return {
       navItems,
@@ -72,12 +77,8 @@ export default {
           name : 'profile',
         },
         {
-          title: 'Bum',
-          name : 'profile',
-        },
-        {
-          title: 'Bum',
-          name : 'profile',
+          title: 'Logout',
+          name : 'logout',
         },
       ],
       isShowProfileContext: false,

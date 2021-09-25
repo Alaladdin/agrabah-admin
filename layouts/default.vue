@@ -1,6 +1,6 @@
 <template>
   <div class="flex bg-gray-200">
-    <SideBar />
+    <sideBar />
 
     <div class="flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -41,7 +41,7 @@ export default {
       if (path !== '/' || !user) {
         const currentRouteData = find(navItems, navItem => navItem.path === path)
 
-        return currentRouteData.title
+        return currentRouteData ? currentRouteData.title : ''
       }
 
       return `Hi, ${user.username}`

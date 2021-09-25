@@ -1,35 +1,41 @@
 <template>
   <div>
-    <div class="mb-6">
-      <span class="p-2 mr-3 rounded bg-white shadow-sm">Start: {{ selectedDates.start }}</span>
-      <span class="p-2 rounded bg-white shadow-sm">Finish: {{ selectedDates.finish }}</span>
+    <div class="mb-5">
+      <span class="px-2 py-1 mr-3 rounded bg-white shadow-sm">Start: {{ selectedDates.start }}</span>
+      <span class="px-2 py-1 rounded bg-white shadow-sm">Finish: {{ selectedDates.finish }}</span>
     </div>
 
-    <div v-if="!schedule.length" class="py-3 mb-5 rounded text-center text-xl font-semibold text-red-500 bg-white shadow">
-      No schedule for this date
+    <div v-if="!schedule" class="py-3 mb-5 rounded text-center text-xl font-semibold text-gray-500 bg-white shadow">
+      Loading...
     </div>
 
-    <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-5 rounded shadow-sm bg-white">
-      <div class="pb-2 border-b">
-        <span class="font-bold">{{ s.dayOfWeekString.toUpperCase() }}</span> –
-        <span>{{ s.date }}</span>
-        <span class="text-xs text-gray-600">[{{ s.kindOfWork }}]</span>
-      </div>
-      <div class="py-2 font-semibold">
-        {{ s.discipline }}
-      </div>
-      <div class="mb-2 text-sm">
-        {{ s.beginLesson }} - {{ s.endLesson }}
+    <template v-if="schedule">
+      <div v-if="!schedule.length" class="py-3 mb-5 rounded text-center text-xl font-semibold text-red-500 bg-white shadow">
+        No schedule for this date
       </div>
 
-      <div v-if="s.group" class="text-xs text-gray-500">
-        Группа: {{ s.group }}
-      </div>
+      <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-5 rounded shadow-sm bg-white">
+        <div class="pb-2 border-b">
+          <span class="font-bold">{{ s.dayOfWeekString.toUpperCase() }}</span> –
+          <span>{{ s.date }}</span>
+          <span class="text-xs text-gray-600">[{{ s.kindOfWork }}]</span>
+        </div>
+        <div class="py-2 font-semibold">
+          {{ s.discipline }}
+        </div>
+        <div class="mb-2 text-sm">
+          {{ s.beginLesson }} - {{ s.endLesson }}
+        </div>
 
-      <div v-if="s.building !== '-'" class="text-sm text-gray-500">
-        {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
+        <div v-if="s.group" class="text-xs text-gray-500">
+          Группа: {{ s.group }}
+        </div>
+
+        <div v-if="s.building !== '-'" class="text-sm text-gray-500">
+          {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
+        </div>
       </div>
-    </div>
+    </template>
 
     <div class="flex justify-between">
       <div>
@@ -69,7 +75,7 @@ export default {
     const finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
 
     return {
-      schedule      : [],
+      schedule      : null,
       scheduleOffset: { start, finish },
     }
   },
