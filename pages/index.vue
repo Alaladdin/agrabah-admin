@@ -3,7 +3,9 @@
     <div v-for="(item, index) in updownServices" :key="index" class="flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white">
       <div class="font-semibold text-md text-gray-600">
         {{ item.title }}
-        <a v-if="item.linkTitle" :href="item.url" class="text-blue-500" target="_blank">{{ item.linkTitle }}</a>
+        <span v-if="item.linkTitle">
+          — <a class="text-blue-500" :href="item.url" target="_blank"> {{ item.linkTitle }}</a>
+        </span>
       </div>
 
       <div class="flex justify-between items-center">
@@ -19,19 +21,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name    : 'Home',
   computed: {
     ...mapGetters('updown', { updownServices: 'getUpdownServices' }),
   },
-  mounted () {
-    this.getUpdownStatus().catch(() => {})
-  },
   methods: {
-    ...mapActions('updown', ['getUpdownStatus']),
-
     getOnlineText (isOnline) {
       if (isOnline === null) return 'unknown'
 

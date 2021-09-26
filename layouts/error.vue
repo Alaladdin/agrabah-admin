@@ -16,7 +16,7 @@
         </div>
 
         <div class="flex justify-center mb-7">
-          <NuxtLink v-if="$auth.loggedIn" to="/" class="inline-block btn mr-7">
+          <NuxtLink v-if="$auth.loggedIn" class="inline-block btn mr-7" to="/" exact-active-class="">
             <fa class="mr-3" icon="long-arrow-alt-left" />
             <span>Get back</span>
           </NuxtLink>

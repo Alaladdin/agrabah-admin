@@ -49,8 +49,10 @@ export default {
   },
   created () {
     this.loadAppVersion()
+    this.getUpdownStatus().catch(() => {})
   },
   methods: {
+    ...mapActions('updown', ['getUpdownStatus']),
     ...mapActions(['loadAppVersion']),
 
     capitalize,

@@ -18,8 +18,8 @@
               <fa class="mr-3 text-indigo-100" :icon="item.icon" />
               <span class="mr-1">{{ item.title }}</span>
             </div>
-            <span v-if="!item.disabled && getNotificationsCount(index)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
-              {{ getNotificationsCount(index) }}
+            <span v-if="!item.disabled && getNotificationsCount(item)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
+              {{ getNotificationsCount(item) }}
             </span>
           </NuxtLink>
         </nav>
@@ -63,6 +63,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
+import { find } from 'lodash'
 import navItems from '@/_nav'
 
 export default {
@@ -85,11 +86,17 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ userData: 'getUserData' }),
+    ...mapGetters({
+      userData           : 'getUserData',
+      navbarNotifications: 'getNavbarNotifications',
+    }),
   },
   methods: {
-    getNotificationsCount (index) {
-      return Math.ceil(Math.random() * (index || 5))
+    getNotificationsCount (navItem) {
+      const keys = Object.keys(this.navbarNotifications)
+      const key = find(keys, key => key === navItem.title.toLowerCase())
+
+      return this.navbarNotifications[key] || 0
     },
     profileContextClick (item) {
       this.closeProfileContext()

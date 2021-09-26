@@ -1,12 +1,16 @@
 import { version } from '@/package.json'
 
 export const state = () => ({
-  appVersion: null,
+  appVersion         : null,
+  navbarNotifications: {
+    home: 2,
+  },
 })
 
 export const getters = {
-  getAppVersion: state => state.appVersion,
-  getUserData  : (state) => {
+  getAppVersion         : state => state.appVersion,
+  getNavbarNotifications: state => state.navbarNotifications,
+  getUserData           : (state) => {
     if (!state.auth.user) return null
 
     const { id: userId, avatar, banner } = state.auth.user
@@ -18,7 +22,6 @@ export const getters = {
       bannerUrl: `${discordCDNUrl}/banners/${userId}/${banner}`,
     }
   },
-
 }
 
 export const mutations = {
