@@ -15,17 +15,17 @@
             {{ weekDays[index] }}
           </div>
 
-          <template v-if="getScheduleForWeekDay(weekDay)">
-            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="p-3">
-              <p class="text-right text-xs text-gray-400 font-semibold">
-                {{ weekDates[index] }}
-              </p>
+          <div class="p-3">
+            <p class="mb-1 text-right text-xs text-gray-400 font-semibold">
+              {{ weekDates[index] }}
+            </p>
 
-              <p v-if="s.noLessons" class="p-2 mt-2 rounded text-center text-sm bg-green-300 text-green-700">
+            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex">
+              <p v-if="s.noLessons" class="mt-2 p-2 rounded text-center text-sm bg-green-300 text-green-700">
                 No lessons
               </p>
 
-              <div v-if="!s.noLessons" class="p-2 rounded text-sm">
+              <div v-if="!s.noLessons" class="mb-3 rounded text-sm">
                 <p class="truncate font-semibold mb-1">
                   {{ s.discipline }}
                 </p>
@@ -38,12 +38,12 @@
                   </p>
 
                   <p v-if="s.building !== '-'">
-                    {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
+                    {{ s.auditorium }} · ({{ s.building }})
                   </p>
                 </div>
               </div>
             </div>
-          </template>
+          </div>
         </div>
       </div>
     </template>
