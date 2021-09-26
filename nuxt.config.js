@@ -12,7 +12,7 @@ export default {
   plugins: ['@/plugins/api'],
   css    : ['@/assets/scss/main.scss'],
   env    : {
-    authToken: process.env.AUTH_TOKEN || '',
+    authToken: process.env.AUTH_TOKEN,
     VKToken  : process.env.VK_TOKEN_DEV,
     DISToken : process.env.DIS_TOKEN,
   },

@@ -1,9 +1,9 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
-    <div v-for="(item, index) in onlineData" :key="index" class="flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white">
+    <div v-for="(item, index) in updownServices" :key="index" class="flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white">
       <div class="font-semibold text-md text-gray-600">
         {{ item.title }}
-        <a v-if="item.linkTitle" :href="item.link" class="text-blue-500" target="_blank">{{ item.linkTitle }}</a>
+        <a v-if="item.linkTitle" :href="item.url" class="text-blue-500" target="_blank">{{ item.linkTitle }}</a>
       </div>
 
       <div class="flex justify-between items-center">
@@ -19,39 +19,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  name: 'Home',
-  data () {
-    return {
-      onlineData: [
-        {
-          title    : 'Website',
-          link     : 'https://mpei.space',
-          linkTitle: 'mpei.space',
-          isOnline : null,
-        },
-        {
-          title   : 'Agrabah server',
-          link    : 'https://api.mpei.space',
-          isOnline: null,
-        },
-        {
-          title   : 'URL shortener',
-          link    : 'https://woka.site',
-          isOnline: null,
-        },
-        {
-          title   : 'DIS Bot',
-          isOnline: null,
-        },
-        {
-          title   : 'VK Bot',
-          isOnline: null,
-        },
-      ],
-    }
+  name    : 'Home',
+  computed: {
+    ...mapGetters('updown', { updownServices: 'getUpdownServices' }),
+  },
+  mounted () {
+    this.getUpdownStatus().catch(() => {})
   },
   methods: {
+    ...mapActions('updown', ['getUpdownStatus']),
+
     getOnlineText (isOnline) {
       if (isOnline === null) return 'unknown'
 
