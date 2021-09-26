@@ -27,7 +27,7 @@
 
               <div v-if="!s.noLessons" class="mb-3 rounded text-sm">
                 <p class="truncate font-semibold mb-1">
-                  {{ s.discipline }}
+                  {{ getAbbreviation(s.discipline) }}
                 </p>
 
                 <div class="text-xs text-gray-500">
@@ -76,6 +76,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { filter } from 'lodash'
+import { getAbbreviation } from '@/helpers'
 
 const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
 
@@ -118,6 +119,7 @@ export default {
   methods: {
     ...mapActions('schedule', ['loadSchedule']),
 
+    getAbbreviation,
     loadScheduleData () {
       this.loadSchedule(this.scheduleOffset).catch(console.error)
     },

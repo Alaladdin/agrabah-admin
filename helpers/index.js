@@ -9,4 +9,15 @@
 
 const capitalize = string => string[0].toUpperCase() + string.slice(1)
 
-export { capitalize }
+const getAbbreviation = (string) => {
+  const stringArray = string.split(' ')
+
+  if (stringArray.length === 1) return string
+
+  return stringArray.map(s => s[0]).join('').toUpperCase()
+}
+
+export {
+  capitalize,
+  getAbbreviation
+}
