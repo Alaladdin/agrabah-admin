@@ -51,7 +51,7 @@
             </div>
           </div>
 
-          <NuxtLink to="/logout" class="flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-75">
+          <NuxtLink to="/logout" class="flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-150">
             <fa icon="sign-out-alt" />
           </NuxtLink>
         </div>

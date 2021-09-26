@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div v-if="!schedule" class="py-3 mb-5 rounded text-center text-xl font-semibold text-gray-500 bg-white shadow">
+    <div v-if="!schedule" class="py-2 mb-4 rounded text-center text-xl font-semibold text-gray-500 bg-white shadow-sm">
       Loading...
     </div>
 
     <template v-if="schedule">
-      <div v-if="!schedule.length" class="py-3 mb-5 rounded text-center text-xl font-semibold text-red-500 bg-white shadow">
-        No schedule for this date
-      </div>
-
-      <div v-if="schedule.length" class="grid grid-cols-5 mb-4 rounded-lg overflow-hidden shadow-sm">
-        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="bg-white" :class="{ 'border-r-1 border-purple-200' : index !== 4 }">
+      <div class="grid grid-cols-5 mb-4 rounded-lg overflow-hidden shadow-sm">
+        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" :class="['bg-white', { 'border-r-1 border-purple-200' : index !== 4 }]">
           <div class="py-3 bg-purple-200 text-purple-600 text-center">
             {{ weekDays[index] }}
           </div>
@@ -20,27 +16,21 @@
               {{ weekDates[index] }}
             </p>
 
-            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex">
-              <p v-if="s.noLessons" class="mt-2 p-2 rounded text-center text-sm bg-green-300 text-green-700">
-                No lessons
+            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-3 rounded text-sm">
+              <p class="truncate font-semibold mb-1">
+                {{ getAbbreviation(s.discipline) }}
               </p>
 
-              <div v-if="!s.noLessons" class="mb-3 rounded text-sm">
-                <p class="truncate font-semibold mb-1">
-                  {{ getAbbreviation(s.discipline) }}
+              <div class="text-xs text-gray-500">
+                <p>{{ s.kindOfWork }}</p>
+
+                <p v-if="s.group">
+                  {{ s.group }}
                 </p>
 
-                <div class="text-xs text-gray-500">
-                  <p>{{ s.kindOfWork }}</p>
-
-                  <p v-if="s.group">
-                    {{ s.group }}
-                  </p>
-
-                  <p v-if="s.building !== '-'">
-                    {{ s.auditorium }} · ({{ s.building }})
-                  </p>
-                </div>
+                <p v-if="s.building !== '-'">
+                  {{ s.auditorium }} · ({{ s.building }})
+                </p>
               </div>
             </div>
           </div>
@@ -99,7 +89,7 @@ export default {
       const dates = []
 
       for (let i = 0; i < 5; i++) {
-        const date = moment(start, SERVER_DATE_FORMAT).add(i, 'days').format('DD')
+        const date = moment(start, SERVER_DATE_FORMAT).add(i, 'days').format('DD.MM')
 
         dates.push(date)
       }
@@ -124,9 +114,7 @@ export default {
       this.loadSchedule(this.scheduleOffset).catch(console.error)
     },
     getScheduleForWeekDay (weekDay) {
-      const schedule = filter(this.schedule, s => s.dayOfWeekString.toLowerCase() === weekDay.toLowerCase())
-
-      return schedule.length ? schedule : [{ noLessons: true }]
+      return filter(this.schedule, s => s.dayOfWeekString.toLowerCase() === weekDay.toLowerCase())
     },
     changeWeek (isNext = true) {
       const { start, finish } = this.scheduleOffset
