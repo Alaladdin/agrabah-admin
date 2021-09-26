@@ -27,7 +27,6 @@ export const actions = {
         return data.actuality
       })
       .catch((err) => {
-        ctx.commit('set', null)
         throw err
       })
   },

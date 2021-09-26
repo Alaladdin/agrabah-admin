@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div class="mb-5">
-      <span class="px-2 py-1 mr-3 rounded bg-white shadow-sm">Start: {{ selectedDates.start }}</span>
-      <span class="px-2 py-1 rounded bg-white shadow-sm">Finish: {{ selectedDates.finish }}</span>
-    </div>
-
     <div v-if="!schedule" class="py-3 mb-5 rounded text-center text-xl font-semibold text-gray-500 bg-white shadow">
       Loading...
     </div>
@@ -14,46 +9,63 @@
         No schedule for this date
       </div>
 
-      <div v-for="(s, index) in schedule" :key="index" class="p-3 mb-5 rounded shadow-sm bg-white">
-        <div class="pb-2 border-b">
-          <span class="font-bold">{{ s.dayOfWeekString.toUpperCase() }}</span> –
-          <span>{{ s.date }}</span>
-          <span class="text-xs text-gray-600">[{{ s.kindOfWork }}]</span>
-        </div>
-        <div class="py-2 font-semibold">
-          {{ s.discipline }}
-        </div>
-        <div class="mb-2 text-sm">
-          {{ s.beginLesson }} - {{ s.endLesson }}
-        </div>
+      <div v-if="schedule.length" class="grid grid-cols-5 mb-4 rounded-lg overflow-hidden shadow-sm">
+        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="bg-white" :class="{ 'border-r-1 border-purple-200' : index !== 4 }">
+          <div class="py-3 bg-purple-200 text-purple-600 text-center">
+            {{ weekDays[index] }}
+          </div>
 
-        <div v-if="s.group" class="text-xs text-gray-500">
-          Группа: {{ s.group }}
-        </div>
+          <template v-if="getScheduleForWeekDay(weekDay)">
+            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="p-3">
+              <p class="text-right text-xs text-gray-400 font-semibold">
+                {{ weekDates[index] }}
+              </p>
 
-        <div v-if="s.building !== '-'" class="text-sm text-gray-500">
-          {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
+              <p v-if="s.noLessons" class="p-2 mt-2 rounded text-center text-sm bg-green-300 text-green-700">
+                No lessons
+              </p>
+
+              <div v-if="!s.noLessons" class="p-2 rounded text-sm">
+                <p class="truncate font-semibold mb-1">
+                  {{ s.discipline }}
+                </p>
+
+                <div class="text-xs text-gray-500">
+                  <p>{{ s.kindOfWork }}</p>
+
+                  <p v-if="s.group">
+                    {{ s.group }}
+                  </p>
+
+                  <p v-if="s.building !== '-'">
+                    {{ s.auditorium }} · <span class="text-xs">({{ s.building }})</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </template>
 
-    <div class="flex justify-between">
+    <div class="flex justify-between text-sm">
       <div>
-        <button class="btn mr-3">
+        <button class="btn mr-3" disabled>
           Post to VK
         </button>
 
-        <button class="btn btn--indigo">
+        <button class="btn btn--indigo" disabled>
           Post to DIS
         </button>
       </div>
 
       <div>
-        <button class="btn mr-3" @click="goPrevWeek">
-          Prev
+        <button class="btn btn--white mr-3" @click="changeWeek(false)">
+          <fa icon="chevron-left" />
         </button>
-        <button class="btn mr-3" @click="goNextWeek">
-          Next
+
+        <button class="btn btn--white" @click="changeWeek(true)">
+          <fa icon="chevron-right" />
         </button>
       </div>
     </div>
@@ -62,11 +74,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone } from 'lodash'
 import moment from 'moment'
+import { filter } from 'lodash'
 
 const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
-const DEFAULT_DATE_FORMAT = 'DD.MM'
 
 export default {
   name: 'Schedule',
@@ -75,20 +86,24 @@ export default {
     const finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
 
     return {
-      schedule      : null,
       scheduleOffset: { start, finish },
+      weekDays      : moment.weekdaysShort().splice(1),
     }
   },
   computed: {
-    ...mapGetters('schedule', { inSchedule: 'getSchedule' }),
+    ...mapGetters('schedule', { schedule: 'getSchedule' }),
 
-    selectedDates () {
-      const { start, finish } = this.scheduleOffset
+    weekDates () {
+      const { start } = this.scheduleOffset
+      const dates = []
 
-      return {
-        start : moment(start).format(DEFAULT_DATE_FORMAT),
-        finish: moment(finish).format(DEFAULT_DATE_FORMAT),
+      for (let i = 0; i < 5; i++) {
+        const date = moment(start, SERVER_DATE_FORMAT).add(i, 'days').format('DD')
+
+        dates.push(date)
       }
+
+      return dates
     },
   },
   watch: {
@@ -104,24 +119,19 @@ export default {
     ...mapActions('schedule', ['loadSchedule']),
 
     loadScheduleData () {
-      this.loadSchedule(this.scheduleOffset)
-        .then(this.getScheduleData)
-        .catch(console.error)
+      this.loadSchedule(this.scheduleOffset).catch(console.error)
     },
-    getScheduleData () {
-      this.schedule = clone(this.inSchedule)
-    },
-    goNextWeek () {
-      const { start, finish } = this.scheduleOffset
+    getScheduleForWeekDay (weekDay) {
+      const schedule = filter(this.schedule, s => s.dayOfWeekString.toLowerCase() === weekDay.toLowerCase())
 
-      this.scheduleOffset.start = moment(start).add('7', 'days').format(SERVER_DATE_FORMAT)
-      this.scheduleOffset.finish = moment(finish).add('7', 'days').format(SERVER_DATE_FORMAT)
+      return schedule.length ? schedule : [{ noLessons: true }]
     },
-    goPrevWeek () {
+    changeWeek (isNext = true) {
       const { start, finish } = this.scheduleOffset
+      const amount = isNext ? 7 : -7
 
-      this.scheduleOffset.start = moment(start).subtract('7', 'days').format(SERVER_DATE_FORMAT)
-      this.scheduleOffset.finish = moment(finish).subtract('7', 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
     },
   },
 }
