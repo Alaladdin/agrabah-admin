@@ -21,7 +21,7 @@ export default {
   data () {
     return {
       vkSendToChatId: null,
-      message       : 'Hello there, General Kenobi',
+      message       : '- Hello there\n- General Kenobi',
       isSending     : false,
     }
   },

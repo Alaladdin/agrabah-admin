@@ -4,8 +4,30 @@
       Loading...
     </div>
 
+    <div class="flex justify-between mb-4 text-sm">
+      <div>
+        <button class="btn mr-3" :disabled="schedule && !schedule.length" @click="postVK">
+          Post to VK
+        </button>
+
+        <button class="btn btn--indigo" disabled>
+          Post to DIS
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn--white mr-3" @click="changeWeek(false)">
+          <fa icon="chevron-left" />
+        </button>
+
+        <button class="btn btn--white" @click="changeWeek(true)">
+          <fa icon="chevron-right" />
+        </button>
+      </div>
+    </div>
+
     <template v-if="schedule">
-      <div class="grid grid-cols-5 mb-4 rounded-lg overflow-hidden shadow-sm">
+      <div class="grid grid-cols-5 rounded-lg overflow-hidden shadow-sm">
         <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" :class="['bg-white', { 'border-r-1 border-purple-200' : index !== 4 }]">
           <div class="py-3 bg-purple-200 text-purple-600 text-center">
             {{ weekDays[index] }}
@@ -37,28 +59,6 @@
         </div>
       </div>
     </template>
-
-    <div class="flex justify-between text-sm">
-      <div>
-        <button class="btn mr-3" :disabled="schedule && !schedule.length" @click="postVK">
-          Post to VK
-        </button>
-
-        <button class="btn btn--indigo" disabled>
-          Post to DIS
-        </button>
-      </div>
-
-      <div>
-        <button class="btn btn--white mr-3" @click="changeWeek(false)">
-          <fa icon="chevron-left" />
-        </button>
-
-        <button class="btn btn--white" @click="changeWeek(true)">
-          <fa icon="chevron-right" />
-        </button>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -130,9 +130,11 @@ export default {
     postVK () {
       const message = this.getScheduleToPost()
 
-      this.sendMessage({ message })
+      if (message.length) this.sendMessage({ message })
     },
     getScheduleToPost () {
+      if (!this.schedule.length) return []
+
       const msg = []
 
       each(this.schedule, (s) => {

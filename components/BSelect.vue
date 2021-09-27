@@ -13,7 +13,7 @@ export default {
   name : 'BSelect',
   props: {
     value: {
-      type   : String,
+      type   : [Number, String],
       default: null,
     },
     options: {
