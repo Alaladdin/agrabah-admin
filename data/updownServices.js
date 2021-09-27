@@ -17,6 +17,12 @@ export default [
     isOnline : null,
   },
   {
+    title    : 'Image uploader',
+    url      : 'https://tirex.site',
+    linkTitle: 'tirex.site',
+    isOnline : null,
+  },
+  {
     title   : 'DIS Bot',
     isOnline: null,
   },
