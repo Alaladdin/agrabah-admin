@@ -1,8 +1,8 @@
 <template>
   <div class="flex w-full h-full">
     <div class="flex justify-between mb-3 w-full h-2/5">
-      <textarea v-model="actuality.content" :class="[textareaClasses, { 'bg-yellow-50': isActualityEdited.content }, 'mr-3']" />
-      <textarea v-model="actuality.lazyContent" :class="[textareaClasses, { 'bg-yellow-50':isActualityEdited.lazyContent }]" />
+      <textarea v-model="actuality.content" :class="['textarea', { 'bg-yellow-50': isActualityEdited.content }, 'mr-3']" />
+      <textarea v-model="actuality.lazyContent" :class="['textarea', { 'bg-yellow-50': isActualityEdited.lazyContent }]" />
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
@@ -26,7 +26,6 @@ export default {
   data () {
     return {
       actuality      : {},
-      textareaClasses: 'w-full px-3 py-2 border rounded text-gray-700 shadow-sm resize-none duration-150 focus:ring-2 focus:ring-indigo-400 focus:outline-none',
       editedActuality: [false, false],
       isLoading      : true,
       isUpdating     : false,

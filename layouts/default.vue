@@ -22,7 +22,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import { find, filter } from 'lodash'
 import { capitalize } from '@/helpers'
-import navItems from '@/_nav'
+import navItems from '@/data/nav'
 import updownServices from '@/data/updownServices'
 
 export default {

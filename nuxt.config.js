@@ -11,6 +11,7 @@ export default {
   },
   plugins: ['@/plugins/api'],
   css    : ['@/assets/scss/main.scss'],
+  isDev  : process.env.NODE_ENV !== 'production',
   env    : {
     authToken: process.env.AUTH_TOKEN,
     VKToken  : process.env.VK_TOKEN_DEV,

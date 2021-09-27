@@ -64,7 +64,7 @@
 import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
 import { find } from 'lodash'
-import navItems from '@/_nav'
+import navItems from '@/data/nav'
 
 export default {
   name  : 'SideBar',

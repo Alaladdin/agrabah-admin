@@ -23,10 +23,9 @@ export default [
     disabled: true,
   },
   {
-    path    : '/bots/vk',
-    title   : 'VK Bot',
-    icon    : ['fab', 'vk'],
-    disabled: true,
+    path : '/bots/vk',
+    title: 'VK Bot',
+    icon : ['fab', 'vk'],
   },
   {
     path    : '/bots/discord',
