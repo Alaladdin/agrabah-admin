@@ -41,7 +41,7 @@ export const actions = {
         ctx.commit('setUpdownStatus', data.updownStatus)
         ctx.commit('updateUpdownServices', data.updownStatus)
 
-        return data
+        return data.updownStatus
       })
       .catch((err) => {
         throw err

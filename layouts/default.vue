@@ -20,9 +20,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { find } from 'lodash'
+import { find, filter } from 'lodash'
 import { capitalize } from '@/helpers'
 import navItems from '@/_nav'
+import updownServices from '@/data/updownServices'
 
 export default {
   name: 'Default',
@@ -47,9 +48,18 @@ export default {
       return `Hi, ${user.username}`
     },
   },
-  created () {
+  mounted () {
     this.loadAppVersion()
-    this.getUpdownStatus().catch(() => {})
+    this.getUpdownStatus()
+      .then((hosts) => {
+        const onlineHosts = filter(hosts, host => !host.down)
+
+        this.$store.commit('patchNavbarNotifications', {
+          key  : 'home',
+          value: updownServices.length - onlineHosts.length,
+        })
+      })
+      .catch(() => {})
   },
   methods: {
     ...mapActions('updown', ['getUpdownStatus']),

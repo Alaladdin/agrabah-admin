@@ -1,10 +1,9 @@
+import vue from 'vue'
 import { version } from '@/package.json'
 
 export const state = () => ({
   appVersion         : null,
-  navbarNotifications: {
-    home: 2,
-  },
+  navbarNotifications: {},
 })
 
 export const getters = {
@@ -27,6 +26,9 @@ export const getters = {
 export const mutations = {
   setAppVersion (state, data) {
     state.appVersion = data
+  },
+  patchNavbarNotifications (state, { key, value }) {
+    vue.set(state.navbarNotifications, key, value)
   },
 }
 
