@@ -36,10 +36,10 @@
         </ul>
 
         <div class="flex justify-between items-center text-indigo-100 bg-indigo-800">
-          <div class="flex justify-center items-center p-2">
+          <div class="flex justify-center items-center p-3">
             <img
               v-on-clickaway="closeProfileContext"
-              class="mr-8 rounded-full w-16 h-16 border-4 border-indigo-600 shadow-sm cursor-pointer"
+              class="mr-8 rounded-full w-16 h-16 ring-4 ring-indigo-600 shadow-sm cursor-pointer"
               :src="userData.avatarUrl"
               :alt="userData.username"
               @click="openProfileContext"

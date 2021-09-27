@@ -4,6 +4,7 @@
       class="mb-10 rounded-full ring-8 ring-white shadow-xl"
       src="~/assets/img/oib__orig__square.png"
       width="256"
+      height="256"
     >
 
     <div class="mb-3 font-bold text-3xl text-center text-gray-800">
