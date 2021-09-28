@@ -1,6 +1,6 @@
 <template>
   <div class="flex bg-gray-200">
-    <BSideBar />
+    <SideBar />
 
     <div class="flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">

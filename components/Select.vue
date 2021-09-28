@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name : 'BSelect',
+  name : 'Select',
   props: {
     value: {
       type   : [Number, String],

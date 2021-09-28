@@ -1,8 +1,8 @@
 <template>
   <div class="flex w-full h-full">
     <div class="flex justify-between mb-3 w-full h-2/5">
-      <textarea v-model="actuality.content" :class="['textarea', { 'bg-yellow-50': isActualityEdited.content }, 'mr-3']" />
-      <textarea v-model="actuality.lazyContent" :class="['textarea', { 'bg-yellow-50': isActualityEdited.lazyContent }]" />
+      <textarea v-model="actuality.content" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.content }, 'mr-3']" :disabled="isEditDisabled" />
+      <textarea v-model="actuality.lazyContent" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.lazyContent }]" :disabled="isEditDisabled" />
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
@@ -10,9 +10,7 @@
         <p>{{ updatedAtText }}</p>
       </div>
 
-      <button class="btn btn--indigo" :disabled="isButtonsDisabled" @click="updateActuality">
-        Update
-      </button>
+      <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" @click="updateActuality" />
     </div>
   </div>
 </template>
@@ -49,7 +47,7 @@ export default {
         lazyContent: inLazyContent !== lazyContent,
       }
     },
-    isButtonsDisabled () {
+    isEditDisabled () {
       return this.isLoading || this.isUpdating
     },
   },

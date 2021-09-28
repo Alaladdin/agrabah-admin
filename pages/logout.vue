@@ -7,12 +7,12 @@
       height="256"
     >
 
-    <div class="mb-3 font-bold text-3xl text-center text-gray-800">
+    <p class="mb-3 font-bold text-3xl text-center text-gray-800">
       Logging out
-    </div>
-    <div class="mb-10 text-2xl text-center text-gray-800">
+    </p>
+    <p class="mb-10 text-2xl text-center text-gray-800">
       Are u sure?
-    </div>
+    </p>
 
     <div class="flex justify-between">
       <NuxtLink class="inline-block btn mr-7" to="/">
@@ -20,10 +20,7 @@
         <span>Get back</span>
       </NuxtLink>
 
-      <button class="btn btn--white" @click="logout">
-        <span class="mr-3">Logout</span>
-        <fa icon="sign-out-alt" />
-      </button>
+      <Button text="Logout" btn-style="white" icon-after="sign-out-alt" @click="logout" />
     </div>
   </div>
 </template>

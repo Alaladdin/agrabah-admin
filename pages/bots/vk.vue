@@ -3,11 +3,8 @@
     <textarea v-model="message" class="textarea mb-5 h-70 resize-none" />
 
     <div class="flex justify-end items-center">
-      <BSelect v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
-
-      <button class="btn w-min" :disabled="isSendDisabled" @click="sendMess">
-        Send
-      </button>
+      <Select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
+      <Button class="w-min" text="Send" :disabled="isSendDisabled" @click="sendMess" />
     </div>
   </div>
 </template>

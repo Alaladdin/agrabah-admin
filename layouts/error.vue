@@ -7,24 +7,17 @@
           <span class="block mb-3 font-bold text-3xl text-gray-800">Woooooooooooooops</span>
 
           <div v-if="error.statusCode !== 403" class="mb-10 text-2xl text-center text-gray-800">
-            {{ error.message }}
-          </div>
-
-          <div v-if="error.statusCode === 403" class="mb-10 text-2xl text-center text-gray-800">
-            It's seems, u have no access to this <strong>super-duper</strong> page
+            {{ errorMessage }}
           </div>
         </div>
 
-        <div class="flex justify-center mb-7">
-          <NuxtLink v-if="$auth.loggedIn" class="inline-block btn mr-7" to="/" exact-active-class="">
+        <div v-if="$auth.loggedIn" class="flex justify-center mb-7">
+          <NuxtLink class="inline-block btn mr-7" to="/" exact-active-class="">
             <fa class="mr-3" icon="long-arrow-alt-left" />
             <span>Get back</span>
           </NuxtLink>
 
-          <button v-if="$auth.loggedIn" class="btn btn--white" @click="logout">
-            <span class="mr-3">Logout</span>
-            <fa icon="sign-out-alt" />
-          </button>
+          <Button text="Logout" btn-style="white" icon-after="sign-out-alt" @click="logout" />
         </div>
 
         <div class="flex">
@@ -46,10 +39,12 @@ export default {
       default: () => ({}),
     },
   },
-  data () {
-    return {
-      buttonsClassesList: ['flex', 'justify-center', 'items-center', 'py-2', 'px-3', 'font-semibold', 'rounded'],
-    }
+  computed: {
+    errorMessage () {
+      if (this.error.statusCode !== 403) return this.error.message
+
+      return 'It\'s seems, u have no access to this super-duper page'
+    },
   },
   methods: {
     logout () {

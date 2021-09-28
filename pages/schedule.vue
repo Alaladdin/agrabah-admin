@@ -6,23 +6,13 @@
 
     <div class="flex justify-between mb-4 text-sm">
       <div>
-        <button class="btn mr-3" :disabled="schedule && !schedule.length" @click="postVK">
-          Post to VK
-        </button>
-
-        <button class="btn btn--indigo" disabled>
-          Post to DIS
-        </button>
+        <Button class="mr-3" text="Post to VK" :disabled="schedule && !schedule.length" @click="postVK" />
+        <Button text="Post to DIS" btn-style="indigo" disabled />
       </div>
 
       <div>
-        <button class="btn btn--white mr-3" @click="changeWeek(false)">
-          <fa icon="chevron-left" />
-        </button>
-
-        <button class="btn btn--white" @click="changeWeek(true)">
-          <fa icon="chevron-right" />
-        </button>
+        <Button class="mr-3" btn-style="white" icon-before="chevron-left" @click="changeWeek(false)" />
+        <Button btn-style="white" icon-after="chevron-right" @click="changeWeek(true)" />
       </div>
     </div>
 
