@@ -9,7 +9,7 @@ export const getters = {
 }
 
 export const actions = {
-  sendMessage (ctx, { message, chatId = vkChats.main, parseLinks = false }) {
+  sendMessage (ctx, { message, chatId = vkChats[0].chatId, parseLinks = false }) {
     return this.$api.$post('/vk/sendMessage', { message, chatId, parseLinks })
   },
 }

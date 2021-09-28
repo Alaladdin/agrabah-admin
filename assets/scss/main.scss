@@ -47,3 +47,7 @@
     @apply absolute inline-flex h-full w-full rounded-full opacity-75;
   }
 }
+
+.badge {
+  @apply py-1 px-3 rounded shadow-sm bg-white text-gray-600 text-sm;
+}

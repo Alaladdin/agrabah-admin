@@ -1,13 +1,9 @@
 <template>
   <div>
-    <div v-if="!schedule" class="py-2 mb-4 rounded text-center text-xl font-semibold text-gray-500 bg-white shadow-sm">
-      Loading...
-    </div>
-
     <div class="flex justify-between mb-4 text-sm">
-      <div>
-        <Button class="mr-3" text="Post to VK" :disabled="schedule && !schedule.length" @click="postVK" />
-        <Button text="Post to DIS" btn-style="indigo" disabled />
+      <div class="flex">
+        <Button class="mr-3" text="Post to VK" :loading="isPostingVK" :disabled="isButtonsDisabled" @click="postVK" />
+        <Button text="Post to DIS" btn-style="indigo" :loading="isPostingDIS" disabled />
       </div>
 
       <div>
@@ -69,6 +65,8 @@ export default {
     return {
       scheduleOffset: { start, finish },
       weekDays      : moment.weekdaysShort().splice(1),
+      isPostingVK   : false,
+      isPostingDIS  : false,
     }
   },
   computed: {
@@ -85,6 +83,9 @@ export default {
       }
 
       return dates
+    },
+    isButtonsDisabled () {
+      return this.isPostingVK || this.isPostingDIS || (this.schedule && !this.schedule.length)
     },
   },
   watch: {
@@ -120,7 +121,13 @@ export default {
     postVK () {
       const message = this.getScheduleToPost()
 
-      if (message.length) this.sendMessage({ message })
+      if (!message.length) return
+
+      this.isPostingVK = true
+      this.sendMessage({ message })
+        .finally(() => {
+          this.isPostingVK = false
+        })
     },
     getScheduleToPost () {
       if (!this.schedule.length) return []

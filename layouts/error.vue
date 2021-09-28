@@ -6,12 +6,12 @@
           <span class="block mb-3 font-bold text-9xl text-gray-900">{{ error.statusCode }}</span>
           <span class="block mb-3 font-bold text-3xl text-gray-800">Woooooooooooooops</span>
 
-          <div v-if="error.statusCode !== 403" class="mb-10 text-2xl text-center text-gray-800">
+          <div class="mb-10 text-2xl text-center text-gray-800">
             {{ errorMessage }}
           </div>
         </div>
 
-        <div v-if="$auth.loggedIn" class="flex justify-center mb-7">
+        <div v-if="error.statusCode !== 403" class="flex justify-center mb-7">
           <NuxtLink class="inline-block btn mr-7" to="/" exact-active-class="">
             <fa class="mr-3" icon="long-arrow-alt-left" />
             <span>Get back</span>

@@ -1,16 +1,13 @@
 import config from '@/nuxt.config.js'
 
 export default config.isDev
-  ? {
-      main          : 2000000003,
-      spam          : 2000000003,
-      trash         : 2000000003,
-      trashSecondary: 2000000004,
-      hateGera      : 2000000003,
-    }
-  : {
-      main    : 2000000005,
-      spam    : 2000000004,
-      hateGera: 2000000012,
-      trash   : 2000000003,
-    }
+  ? [
+      { title: 'TRASH #1', chatId: 2000000003 },
+      { title: 'TRASH #2', chatId: 2000000004 },
+    ]
+  : [
+      { title: 'Основная', chatId: 2000000005 },
+      { title: 'SPAM', chatId: 2000000004 },
+      { title: 'Хейт Геры', chatId: 2000000012 },
+      { title: 'TRASH (dev)', chatId: 2000000003 },
+    ]

@@ -10,7 +10,7 @@
         <p>{{ updatedAtText }}</p>
       </div>
 
-      <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" @click="updateActuality" />
+      <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" :loading="isUpdating" @click="updateActuality" />
     </div>
   </div>
 </template>

@@ -8,10 +8,12 @@
           <h1 v-if="pageTitle" class="mb-10 font-bold text-3xl text-gray-800 text-center">
             {{ pageTitle }}
           </h1>
+
           <Nuxt class="flex flex-col" />
-          <div class="fixed bottom-3 right-3 py-1 px-3 rounded shadow-sm bg-white text-gray-600 text-sm">
+
+          <a v-if="appVersion" class="badge fixed bottom-3 right-3" href="https://github.com/Alaladdin/mpei-admin-nuxt" target="_blank">
             v {{ appVersion }}
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -21,7 +23,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { find, filter } from 'lodash'
-import { capitalize } from '@/helpers'
 import navItems from '@/data/nav'
 import updownServices from '@/data/updownServices'
 
@@ -66,10 +67,8 @@ export default {
       .catch(() => {})
   },
   methods: {
-    ...mapActions('updown', ['getUpdownStatus']),
     ...mapActions(['loadAppVersion']),
-
-    capitalize,
+    ...mapActions('updown', ['getUpdownStatus']),
   },
 }
 </script>
