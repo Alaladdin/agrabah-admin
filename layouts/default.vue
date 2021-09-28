@@ -51,7 +51,11 @@ export default {
   mounted () {
     this.loadAppVersion()
     this.getUpdownStatus()
-      .then((hosts) => {
+      .then((allHosts) => {
+        const hosts = filter(allHosts, (host) => {
+          return find(updownServices, service => service.url && host.url.includes(service.url))
+        })
+
         const onlineHosts = filter(hosts, host => !host.down)
 
         this.$store.commit('patchNavbarNotifications', {

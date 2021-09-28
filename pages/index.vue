@@ -1,19 +1,21 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
-    <div v-for="(item, index) in updownServices" :key="index" class="flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white">
+    <div v-for="(service, index) in updownServices" :key="index" class="updown__item">
       <div class="font-semibold text-md text-gray-600">
-        {{ item.title }}
-        <span v-if="item.linkTitle">
-          — <a class="text-blue-500" :href="item.url" target="_blank"> {{ item.linkTitle }}</a>
+        {{ service.title }}
+        <span v-if="service.linkTitle">
+          — <a class="text-blue-500" :href="service.url" target="_blank"> {{ service.linkTitle }}</a>
         </span>
       </div>
 
       <div class="flex justify-between items-center">
-        <span :class="['mr-3', getOnlineTextClass(item.isOnline)]">{{ getOnlineText(item.isOnline) }}</span>
+        <p :class="['mr-3', getIndicatorTextClass(service.isOnline)]">
+          {{ getIndicatorText(service.isOnline) }}
+        </p>
 
         <span class="relative flex h-2.5 w-2.5">
-          <span :class="['animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', item.isOnline !== null ? getOnlineBgClass(item.isOnline) : '']" />
-          <span :class="[ 'relative inline-flex rounded-full h-2.5 w-2.5', getOnlineBgClass(item.isOnline)]" />
+          <span :class="['updown__online-indicator', getIndicatorBgClass(service.isOnline)]" />
+          <span v-if="service.isOnline !== null" :class="getPulseClass(service.isOnline)" />
         </span>
       </div>
     </div>
@@ -29,17 +31,22 @@ export default {
     ...mapGetters('updown', { updownServices: 'getUpdownServices' }),
   },
   methods: {
-    getOnlineText (isOnline) {
+    getIndicatorText (isOnline) {
       if (isOnline === null) return 'unknown'
 
       return isOnline ? 'online' : 'offline'
     },
-    getOnlineTextClass (isOnline) {
+    getIndicatorTextClass (isOnline) {
       if (isOnline === null) return 'text-gray-400'
 
       return isOnline ? 'text-green-400' : 'text-red-400'
     },
-    getOnlineBgClass (isOnline) {
+    getPulseClass (isOnline) {
+      if (isOnline === null) return ''
+
+      return ['updown__online-pulse', 'animate-ping', this.getIndicatorBgClass(isOnline)]
+    },
+    getIndicatorBgClass (isOnline) {
       if (isOnline === null) return 'bg-gray-400'
 
       return isOnline ? 'bg-green-400' : 'bg-red-400'

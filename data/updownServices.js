@@ -1,7 +1,7 @@
 export default [
   {
-    title   : 'API service',
-    url     : 'https://api.mpei.space/version',
+    title   : 'MPEI schedule API',
+    url     : 'http://ts.mpei.ru',
     isOnline: null,
   },
   {

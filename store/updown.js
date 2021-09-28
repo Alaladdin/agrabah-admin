@@ -16,15 +16,12 @@ export const mutations = {
   },
   updateUpdownServices (state, updownStatus) {
     state.updownServices = map(state.updownServices, (service) => {
-      const status = find(updownStatus, s => s.url === service.url)
+      const status = find(updownStatus, s => service.url && s.url.includes(service.url))
 
       if (status) {
-        const { down, alias, error, last_status: lastStatus } = status
+        const { down, last_status: lastStatus } = status
 
         service.isOnline = !down && lastStatus === 200
-        service.status = lastStatus
-        service.error = error
-        service.alias = alias
       }
 
       return service
