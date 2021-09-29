@@ -5,9 +5,24 @@ export default [
     icon : 'home',
   },
   {
-    path    : '/team',
-    title   : 'Team',
-    icon    : 'users',
+    path : '/actuality',
+    title: 'Actuality',
+    icon : 'bell',
+  },
+  {
+    path : '/schedule',
+    title: 'Schedule',
+    icon : 'calendar-alt',
+  },
+  {
+    path : '/bots/vk',
+    title: 'VK Bot',
+    icon : ['fab', 'vk'],
+  },
+  {
+    path    : '/bots/discord',
+    title   : 'DIS Bot',
+    icon    : ['fab', 'discord'],
     disabled: true,
   },
   {
@@ -23,25 +38,16 @@ export default [
     disabled: true,
   },
   {
-    path : '/bots/vk',
-    title: 'VK Bot',
-    icon : ['fab', 'vk'],
-  },
-  {
-    path    : '/bots/discord',
-    title   : 'DIS Bot',
-    icon    : ['fab', 'discord'],
+    path    : '/team',
+    title   : 'Team',
+    icon    : 'users',
     disabled: true,
   },
   {
-    path : '/actuality',
-    title: 'Actuality',
-    icon : 'bell',
-  },
-  {
-    path : '/schedule',
-    title: 'Schedule',
-    icon : 'calendar-alt',
+    path    : '/audit',
+    title   : 'Audit',
+    icon    : 'history',
+    disabled: true,
   },
   {
     path    : '/metrics',

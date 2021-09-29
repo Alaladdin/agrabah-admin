@@ -10,14 +10,17 @@
         <p>{{ updatedAtText }}</p>
       </div>
 
-      <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" :loading="isUpdating" @click="updateActuality" />
+      <div class="flex">
+        <Button class="mr-3" text="Post VK" :loading="isPosting" :disabled="isUpdating || isPosting" @click="postActuality" />
+        <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" :loading="isUpdating" @click="updateActuality" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone } from 'lodash'
+import { clone, each } from 'lodash'
 
 export default {
   name: 'Actuality',
@@ -26,6 +29,7 @@ export default {
       actuality      : {},
       editedActuality: [false, false],
       isLoading      : true,
+      isPosting      : false,
       isUpdating     : false,
       isGettingError : false,
     }
@@ -48,7 +52,7 @@ export default {
       }
     },
     isEditDisabled () {
-      return this.isLoading || this.isUpdating
+      return this.isLoading || this.isUpdating || this.isPosting
     },
   },
   created () {
@@ -56,6 +60,7 @@ export default {
   },
   methods: {
     ...mapActions('actuality', ['loadActuality', 'setActuality']),
+    ...mapActions('vk', ['sendMessage']),
 
     loadActualityData () {
       this.isLoading = true
@@ -83,6 +88,20 @@ export default {
         .finally(() => {
           this.isUpdating = false
         })
+    },
+    postActuality () {
+      const { content, lazyContent } = this.actuality
+      const actualities = Object.values({ content, lazyContent })
+
+      each(actualities, (actuality) => {
+        this.isPosting = true
+
+        this.sendMessage({ message: actuality })
+          .catch(console.error)
+          .finally(() => {
+            this.isPosting = false
+          })
+      })
     },
   },
 }

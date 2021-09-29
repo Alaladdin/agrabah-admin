@@ -2,8 +2,8 @@
   <div>
     <div class="flex justify-between mb-4 text-sm">
       <div class="flex">
-        <Button class="mr-3" text="Post to VK" :loading="isPostingVK" :disabled="isButtonsDisabled" @click="postVK" />
-        <Button text="Post to DIS" btn-style="indigo" :loading="isPostingDIS" disabled />
+        <Button class="mr-3" text="Post VK" :loading="isPostingVK" :disabled="isButtonsDisabled" @click="postVK" />
+        <Button text="Post DIS" btn-style="indigo" :loading="isPostingDIS" disabled />
       </div>
 
       <div>
