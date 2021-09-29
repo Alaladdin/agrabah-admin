@@ -9,17 +9,18 @@
       </div>
     </div>
 
-    <div>
+    <div v-if="botConfigFields.length">
       <h3 class="my-6 text-xl font-semibold text-center">
         Bot Config
       </h3>
 
       <div class="flex justify-center">
-        <div class="bg-white p-3 rounded w-max">
+        <div class="bg-white rounded w-max">
           <div
             v-for="({ title,value }, index) in botConfigFields"
             :key="index"
-            class="flex justify-between p-1 w-100"
+            class="flex justify-between p-3 w-100"
+            :class="(index < botConfigFields.length - 1) ? 'border-b-1' : ''"
           >
             {{ title }} <span>{{ value }}</span>
           </div>
