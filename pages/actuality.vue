@@ -11,8 +11,8 @@
       </div>
 
       <div class="flex">
-        <Button class="mr-3" text="Post VK" :loading="isPosting" :disabled="isUpdating || isPosting" @click="postActuality" />
-        <Button text="Update" btn-style="indigo" :disabled="isEditDisabled" :loading="isUpdating" @click="updateActuality" />
+        <Button class="mr-3" text="Post VK" :loading="isPosting" :disabled="isPostDisabled" @click="postActuality" />
+        <Button text="Update" btn-style="indigo" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone, each } from 'lodash'
+import { clone, filter, each } from 'lodash'
 
 export default {
   name: 'Actuality',
@@ -53,6 +53,14 @@ export default {
     },
     isEditDisabled () {
       return this.isLoading || this.isUpdating || this.isPosting
+    },
+    isPostDisabled () {
+      if (!this.inActuality) return false
+
+      const { content, lazyContent } = this.inActuality
+      const notEmptyActualities = filter(Object.values({ content, lazyContent }, act => act && act.trim()))
+
+      return this.isUpdating || this.isPosting || !notEmptyActualities.length
     },
   },
   created () {
@@ -90,7 +98,7 @@ export default {
         })
     },
     postActuality () {
-      const { content, lazyContent } = this.actuality
+      const { content, lazyContent } = this.inActuality
       const actualities = Object.values({ content, lazyContent })
 
       each(actualities, (actuality) => {
