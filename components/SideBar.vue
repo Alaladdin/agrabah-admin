@@ -12,14 +12,14 @@
             v-for="(item, index) in navItems"
             :key="index"
             :to="item.path"
-            :class="['nuxt-link', { disabled : item.disabled }]"
+            :class="['nuxt-link', { 'disabled' : item.disabled }]"
           >
             <div>
               <fa class="mr-3 text-indigo-100" :icon="item.icon" />
               <span class="mr-1">{{ item.title }}</span>
             </div>
             <span v-if="!item.disabled && getNotificationsCount(item)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
-              <span v-anime="animateNumber({ textContent: [0, getNotificationsCount(item)] })" />
+              <span>{{ getNotificationsCount(item) }}</span>
             </span>
           </NuxtLink>
         </nav>
@@ -64,7 +64,6 @@
 import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
 import { find } from 'lodash'
-import { animateNumber } from '@/animations'
 import navItems from '@/data/nav'
 
 export default {
@@ -93,7 +92,6 @@ export default {
     }),
   },
   methods: {
-    animateNumber,
     getNotificationsCount (navItem) {
       const keys = Object.keys(this.navbarNotifications)
       const key = find(keys, key => key === navItem.title.toLowerCase())

@@ -21,8 +21,8 @@
         </div>
 
         <div class="flex">
-          <img v-anime="pendulumY()" src="~/assets/img/middle_finger_right.png" width="300">
-          <img v-anime="pendulumY({ delay: 150 })" src="~/assets/img/middle_finger_left.png" width="300">
+          <img src="~/assets/img/middle_finger_right.png" width="300">
+          <img src="~/assets/img/middle_finger_left.png" width="300">
         </div>
       </div>
     </div>
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import { pendulumY } from '@/animations'
-
 export default {
   name  : 'Error',
   layout: 'single',
@@ -49,7 +47,6 @@ export default {
     },
   },
   methods: {
-    pendulumY,
     logout () {
       this.$auth.logout()
         .then(() => window.location.reload())
