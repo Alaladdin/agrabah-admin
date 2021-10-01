@@ -11,8 +11,8 @@
           </div>
         </div>
 
-        <div v-if="error.statusCode !== 403" class="flex justify-center mb-7">
-          <NuxtLink class="inline-block btn mr-7" to="/" exact-active-class="">
+        <div v-if=" $auth.loggedIn" class="flex justify-center mb-7">
+          <NuxtLink v-if="error.statusCode !== 403" class="inline-block btn mr-7" to="/" exact-active-class="">
             <fa class="mr-3" icon="long-arrow-alt-left" />
             <span>Get back</span>
           </NuxtLink>
@@ -21,8 +21,8 @@
         </div>
 
         <div class="flex">
-          <img src="~/assets/img/middle_finger_right.png" width="300">
-          <img src="~/assets/img/middle_finger_left.png" width="300">
+          <img v-anime="pendulumY()" src="~/assets/img/middle_finger_right.png" width="300">
+          <img v-anime="pendulumY({ delay: 150 })" src="~/assets/img/middle_finger_left.png" width="300">
         </div>
       </div>
     </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { pendulumY } from '@/animations'
+
 export default {
   name  : 'Error',
   layout: 'single',
@@ -47,6 +49,7 @@ export default {
     },
   },
   methods: {
+    pendulumY,
     logout () {
       this.$auth.logout()
         .then(() => window.location.reload())

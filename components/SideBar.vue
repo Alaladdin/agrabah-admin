@@ -19,7 +19,7 @@
               <span class="mr-1">{{ item.title }}</span>
             </div>
             <span v-if="!item.disabled && getNotificationsCount(item)" class="inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600">
-              <animated-number :value="getNotificationsCount(item)" :format-value="parseInt" :duration="200" />
+              <span v-anime="animateNumber({ textContent: [0, getNotificationsCount(item)] })" />
             </span>
           </NuxtLink>
         </nav>
@@ -64,13 +64,12 @@
 import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
 import { find } from 'lodash'
-import AnimatedNumber from 'animated-number-vue'
+import { animateNumber } from '@/animations'
 import navItems from '@/data/nav'
 
 export default {
-  name      : 'SideBar',
-  components: { AnimatedNumber },
-  mixins    : [clickaway],
+  name  : 'SideBar',
+  mixins: [clickaway],
   data () {
     return {
       navItems,
@@ -94,6 +93,7 @@ export default {
     }),
   },
   methods: {
+    animateNumber,
     getNotificationsCount (navItem) {
       const keys = Object.keys(this.navbarNotifications)
       const key = find(keys, key => key === navItem.title.toLowerCase())

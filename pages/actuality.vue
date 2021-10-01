@@ -1,6 +1,6 @@
 <template>
-  <div class="flex w-full h-full">
-    <div class="flex justify-between mb-3 w-full h-2/5">
+  <div class="flex w-full">
+    <div class="flex justify-between mb-3 w-full h-80">
       <textarea v-model="actuality.content" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.content }, 'mr-3']" :disabled="isEditDisabled" />
       <textarea v-model="actuality.lazyContent" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.lazyContent }]" :disabled="isEditDisabled" />
     </div>
