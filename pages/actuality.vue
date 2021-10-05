@@ -1,66 +1,57 @@
 <template>
   <div class="flex w-full">
-    <div class="flex justify-between mb-3 w-full h-80">
-      <textarea v-model="actuality.content" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.content }, 'mr-3']" :disabled="isEditDisabled" />
-      <textarea v-model="actuality.lazyContent" :class="['textarea', { 'bg-yellow-50': !isLoading && isActualityEdited.lazyContent }]" :disabled="isEditDisabled" />
+    <div class="flex justify-between mb-3 w-full h-85">
+      <label class="flex flex-col mr-3 w-full h-full">
+        <div class="textarea__label relative">
+          <span>Main</span>
+          <span v-show="isUnsavedChanges('content')" class="badge badge---warn absolute left-0 fade-in">Unsaved changes</span>
+        </div>
+        <textarea v-model="actuality.content" class="textarea h-full" :disabled="isEditDisabled" />
+      </label>
+
+      <label class="flex flex-col w-full h-full">
+        <div class="textarea__label relative">
+          <span>Lazy</span>
+          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">Unsaved changes</span>
+        </div>
+        <textarea v-model="actuality.lazyContent" class="textarea h-full" :disabled="isEditDisabled" />
+      </label>
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
-      <div class="inline-block px-4 py-1 rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold" role="alert">
-        <p>{{ updatedAtText }}</p>
+      <div class="inline-block rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold">
+        <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
       </div>
 
-      <div class="flex">
-        <Button class="mr-3" text="Post VK" :loading="isPosting" :disabled="isPostDisabled" @click="postActuality" />
-        <Button text="Update" btn-style="indigo" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
-      </div>
+      <Button text="Update" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone, filter, each } from 'lodash'
+import { clone } from 'lodash'
+import { parseError } from '@/helpers'
 
 export default {
   name: 'Actuality',
   data () {
     return {
-      actuality      : {},
-      editedActuality: [false, false],
-      isLoading      : true,
-      isPosting      : false,
-      isUpdating     : false,
-      isGettingError : false,
+      actuality : {},
+      isLoading : true,
+      isUpdating: false,
     }
   },
   computed: {
     ...mapGetters('actuality', { inActuality: 'getActuality' }),
 
     updatedAtText () {
-      if (this.isLoading || this.isGettingError) return '...'
+      const { updatedAt } = this.actuality
 
-      return `Updated at ${this.actuality.updatedAt}`
-    },
-    isActualityEdited () {
-      const { content: inContent, lazyContent: inLazyContent } = this.inActuality || {}
-      const { content, lazyContent } = this.actuality
-
-      return {
-        content    : inContent !== content,
-        lazyContent: inLazyContent !== lazyContent,
-      }
+      return updatedAt && `Updated at ${updatedAt}`
     },
     isEditDisabled () {
-      return this.isLoading || this.isUpdating || this.isPosting
-    },
-    isPostDisabled () {
-      if (!this.inActuality) return false
-
-      const { content, lazyContent } = this.inActuality
-      const notEmptyActualities = filter(Object.values({ content, lazyContent }, act => act && act.trim()))
-
-      return this.isUpdating || this.isPosting || !notEmptyActualities.length
+      return this.isLoading || this.isUpdating
     },
   },
   created () {
@@ -68,17 +59,13 @@ export default {
   },
   methods: {
     ...mapActions('actuality', ['loadActuality', 'setActuality']),
-    ...mapActions('vk', ['sendMessage']),
 
     loadActualityData () {
       this.isLoading = true
 
       this.loadActuality()
         .then(this.getActualityData)
-        .catch((err) => {
-          this.isGettingError = true
-          console.error(err)
-        })
+        .catch(this.onFail)
         .finally(() => {
           this.isLoading = false
         })
@@ -90,26 +77,21 @@ export default {
       const { content, lazyContent } = this.actuality
 
       this.isUpdating = true
+
       this.setActuality({ content, lazyContent })
         .then(this.getActualityData)
-        .catch(console.error)
+        .catch(this.onFail)
         .finally(() => {
           this.isUpdating = false
         })
     },
-    postActuality () {
-      const { content, lazyContent } = this.inActuality
-      const actualities = Object.values({ content, lazyContent })
+    isUnsavedChanges (field) {
+      if (this.isLoading) return false
 
-      each(actualities, (actuality) => {
-        this.isPosting = true
-
-        this.sendMessage({ message: actuality })
-          .catch(console.error)
-          .finally(() => {
-            this.isPosting = false
-          })
-      })
+      return this.actuality[field] !== this.inActuality[field]
+    },
+    onFail (error) {
+      this.$store.commit('pushError', parseError(error))
     },
   },
 }
