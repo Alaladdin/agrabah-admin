@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-gray-200">
+  <div class="flex scrollbar-default bg-gray-200">
     <SideBar />
 
     <div class="flex justify-center w-full">
@@ -17,6 +17,14 @@
         </div>
       </div>
     </div>
+
+    <Modal
+      v-for="(error, index) in errors"
+      :key="index"
+      :show="!!error"
+      :text="error"
+      @close-modal="closeErrorModal"
+    />
   </div>
 </template>
 
@@ -34,7 +42,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ appVersion: 'getAppVersion' }),
+    ...mapGetters({ errors: 'getErrors', appVersion: 'getAppVersion' }),
 
     pageTitle () {
       const { path } = this.$route
@@ -69,6 +77,10 @@ export default {
   methods: {
     ...mapActions(['loadAppVersion']),
     ...mapActions('updown', ['getUpdownStatus']),
+
+    closeErrorModal (error) {
+      this.$store.commit('removeError', error)
+    },
   },
 }
 </script>

@@ -10,19 +10,17 @@
     </div>
 
     <div v-if="botConfigFields.length">
-      <h3 class="my-6 text-xl font-semibold text-center">
-        Bot Config
-      </h3>
+      <h3 class="my-6 text-xl font-semibold text-center">Bot Config</h3>
 
       <div class="flex justify-center">
         <div class="bg-white rounded w-max">
           <div
-            v-for="({ title,value }, index) in botConfigFields"
+            v-for="(field, index) in botConfigFields"
             :key="index"
-            class="flex justify-between p-3 w-100"
-            :class="(index < botConfigFields.length - 1) ? 'border-b-1' : ''"
+            class="flex justify-between p-3 w-100 border-b-1 last:border-b-0"
           >
-            {{ title }} <span>{{ value }}</span>
+            <span>{{ field.title }}</span>
+            <span :class="field.isEnabled ? 'text-green-400' : 'text-red-400'">{{ field.value }}</span>
           </div>
         </div>
       </div>
@@ -33,6 +31,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { map } from 'lodash'
+import { parseError } from '@/helpers'
 
 export default {
   name: 'Vk',
@@ -55,21 +54,23 @@ export default {
     botConfigFields () {
       if (!this.botConfig) return []
 
-      const { isEnabled: isAutopostingEnabled } = this.botConfig.actualityAutoposting
+      const { isBotActive, actualityAutoposting } = this.botConfig
 
       return [
         {
-          title: 'Состояние бота',
-          value: this.botConfig ? 'включен' : 'выключен',
+          title    : 'Состояние бота',
+          value    : isBotActive ? 'включен' : 'выключен',
+          isEnabled: isBotActive,
         },
         {
-          title: 'Автопостинг актуалочки',
-          value: isAutopostingEnabled ? 'включен' : 'выключен',
+          title    : 'Автопостинг актуалочки',
+          value    : actualityAutoposting.isEnabled ? 'включен' : 'выключен',
+          isEnabled: actualityAutoposting.isEnabled,
         },
       ]
     },
     isSendDisabled () {
-      return this.message.length < 5 || this.isSending
+      return !this.message.length || this.isSending
     },
   },
   mounted () {
@@ -86,10 +87,13 @@ export default {
         .then(() => {
           this.message = ''
         })
-        .catch(console.error)
+        .catch(this.onFail)
         .finally(() => {
           this.isSending = false
         })
+    },
+    onFail (error) {
+      this.$store.commit('pushError', parseError(error))
     },
   },
 }
