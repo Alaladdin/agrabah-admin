@@ -17,7 +17,17 @@ const getAbbreviation = (string) => {
   return stringArray.map(s => s[0]).join('').toUpperCase()
 }
 
+const parseError = (e) => {
+  if (e.text) return e.text
+  if (e.error) return e.error
+  if (e.message) return e.message
+  if (e.statusText) return `${e.status} ${e.statusText}`
+
+  return 'Unexpected error'
+}
+
 export {
+  parseError,
   capitalize,
   getAbbreviation
 }

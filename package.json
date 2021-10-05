@@ -1,6 +1,6 @@
 {
   "name": "mpei-admin-nuxt",
-  "version": "0.1.34",
+  "version": "0.1.35",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -36,6 +36,8 @@
     "@nuxt/utils": "^2.15.8",
     "@nuxtjs/eslint-config": "^6.0.1",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@windicss/animations": "^1.0.8",
+    "@windicss/plugin-scrollbar": "^1.2.3",
     "dotenv": "^10.0.0",
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",

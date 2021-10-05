@@ -21,8 +21,8 @@
         </div>
 
         <div class="flex">
-          <img src="~/assets/img/middle_finger_right.png" width="300">
-          <img src="~/assets/img/middle_finger_left.png" width="300">
+          <img class="animate-bounce" src="~/assets/img/middle_finger_right.png" width="300">
+          <img class="animate-bounce animate-delay-1" src="~/assets/img/middle_finger_left.png" width="300">
         </div>
       </div>
     </div>

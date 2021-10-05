@@ -13,7 +13,8 @@ module.exports = {
     'plugin:nuxt/recommended',
   ],
   rules: {
-    'key-spacing': [1, {
+    'vue/singleline-html-element-content-newline': [0],
+    'key-spacing'                                : [1, {
       singleLine: {
         beforeColon: false,
         afterColon : true,

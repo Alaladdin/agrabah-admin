@@ -1,44 +1,22 @@
 <template>
   <div>
-    <div class="flex justify-between mb-4 text-sm">
-      <div class="flex">
-        <Button class="mr-3" text="Post VK" :loading="isPostingVK" :disabled="isButtonsDisabled" @click="postVK" />
-        <Button text="Post DIS" btn-style="indigo" :loading="isPostingDIS" disabled />
-      </div>
-
-      <div>
-        <Button class="mr-3" btn-style="white" icon-before="chevron-left" @click="changeWeek(false)" />
-        <Button btn-style="white" icon-after="chevron-right" @click="changeWeek(true)" />
-      </div>
+    <div class="flex justify-end mb-5 text-sm">
+      <Button class="mr-3" btn-style="white" icon-before="chevron-left" @click="changeWeek(false)" />
+      <Button btn-style="white" icon-after="chevron-right" @click="changeWeek(true)" />
     </div>
 
     <template v-if="schedule">
-      <div class="grid grid-cols-5 rounded-lg overflow-hidden shadow-sm">
-        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" :class="['bg-white', { 'border-r-1 border-purple-200' : index !== 4 }]">
-          <div class="py-3 bg-purple-200 text-purple-600 text-center">
-            {{ weekDays[index] }}
-          </div>
-
+      <div class="schedule">
+        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="schedule__item">
+          <p class="schedule__header-item">{{ weekDays[index] }}</p>
           <div class="p-3">
-            <p class="mb-1 text-right text-xs text-gray-400 font-semibold">
-              {{ weekDates[index] }}
-            </p>
-
-            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-3 rounded text-sm">
-              <p class="truncate font-semibold mb-1">
-                {{ getAbbreviation(s.discipline) }}
-              </p>
-
+            <p class="schedule__date">{{ weekDates[index] }}</p>
+            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-4 rounded text-sm">
+              <p class="truncate font-semibold mb-1">{{ getAbbreviation(s.discipline) }}</p>
               <div class="text-xs text-gray-500">
                 <p>{{ s.kindOfWork }}</p>
-
-                <p v-if="s.group">
-                  {{ s.group }}
-                </p>
-
-                <p v-if="s.building !== '-'">
-                  {{ s.auditorium }} · ({{ s.building }})
-                </p>
+                <p v-if="s.group">{{ s.group }}</p>
+                <p v-if="s.building !== '-'">{{ s.auditorium }} · ({{ s.building }})</p>
               </div>
             </div>
           </div>
@@ -51,8 +29,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { each, filter } from 'lodash'
-import { getAbbreviation } from '@/helpers'
+import { filter } from 'lodash'
+import { getAbbreviation, parseError } from '@/helpers'
 
 const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
 
@@ -65,8 +43,6 @@ export default {
     return {
       scheduleOffset: { start, finish },
       weekDays      : moment.weekdaysShort().splice(1),
-      isPostingVK   : false,
-      isPostingDIS  : false,
     }
   },
   computed: {
@@ -83,9 +59,6 @@ export default {
       }
 
       return dates
-    },
-    isButtonsDisabled () {
-      return this.isPostingVK || this.isPostingDIS || (this.schedule && !this.schedule.length)
     },
   },
   watch: {
@@ -105,8 +78,7 @@ export default {
 
     getAbbreviation,
     loadScheduleData () {
-      this.loadSchedule(this.scheduleOffset)
-        .catch(console.error)
+      this.loadSchedule(this.scheduleOffset).catch(this.onFail)
     },
     getScheduleForWeekDay (weekDay) {
       return filter(this.schedule, s => s.dayOfWeekString.toLowerCase() === weekDay.toLowerCase())
@@ -118,36 +90,8 @@ export default {
       this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
       this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
     },
-    postVK () {
-      const message = this.getScheduleToPost()
-
-      if (!message.length) return
-
-      this.isPostingVK = true
-      this.sendMessage({ message })
-        .finally(() => {
-          this.isPostingVK = false
-        })
-    },
-    getScheduleToPost () {
-      if (!this.schedule.length) return []
-
-      const msg = []
-
-      each(this.schedule, (s) => {
-        const schedule = []
-        const disciplineAbbr = this.getAbbreviation(s.discipline)
-
-        schedule.push(`[${s.dayOfWeekString}] ${s.date} -  ${disciplineAbbr}`)
-        schedule.push(`Тип: ${s.kindOfWork}`)
-
-        if (s.group) schedule.push(`Группа: ${s.group}`)
-        if (s.building !== '-') schedule.push(`Место сбора: ${s.auditorium} · ${s.building}`)
-
-        msg.push(schedule.join('\n'))
-      })
-
-      return msg.join('\n\n')
+    onFail (error) {
+      this.$store.commit('pushError', parseError(error))
     },
   },
 }
