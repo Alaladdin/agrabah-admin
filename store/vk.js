@@ -1,4 +1,4 @@
-import vkChats from '@/data/chats'
+import { vkChats } from '@/data'
 
 export const state = () => ({
   vkChats,

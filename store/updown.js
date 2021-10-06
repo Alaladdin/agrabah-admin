@@ -1,5 +1,5 @@
 import { map, find } from 'lodash'
-import updownServices from '@/data/updownServices'
+import { updownServices } from '@/data'
 
 export const state = () => ({
   updownServices,
