@@ -38,10 +38,9 @@ export default [
     disabled: true,
   },
   {
-    path    : '/team',
-    title   : 'Team',
-    icon    : 'users',
-    disabled: true,
+    path : '/team',
+    title: 'Team',
+    icon : 'users',
   },
   {
     path    : '/audit',
