@@ -25,6 +25,7 @@
     @apply flex justify-between items-center p-1 bg-indigo-500 focus:ring-indigo-300;
   }
 
+  &.disabled,
   &:disabled {
     @apply pointer-events-none opacity-50;
   }

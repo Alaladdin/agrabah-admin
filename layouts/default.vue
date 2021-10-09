@@ -30,9 +30,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { find, filter, map } from 'lodash'
+import { find, filter } from 'lodash'
 import { parseError } from '@/helpers'
-import { navItems, updownServices, usersWhiteMap } from '@/data'
+import { navItems, updownServices } from '@/data'
 
 export default {
   name: 'Default',
@@ -58,10 +58,7 @@ export default {
     },
   },
   mounted () {
-    const usersIds = map(filter(usersWhiteMap, user => !user.hide), user => user.id)
-
     this.loadAppVersion()
-    this.loadTeamUsers(usersIds).catch(this.onFail)
     this.getUpdownStatus()
       .then((allHosts) => {
         const hosts = filter(allHosts, (host) => {
@@ -80,7 +77,6 @@ export default {
   methods: {
     ...mapActions({
       loadAppVersion : 'loadAppVersion',
-      loadTeamUsers  : 'discord/loadTeamUsers',
       getUpdownStatus: 'updown/getUpdownStatus',
     }),
 

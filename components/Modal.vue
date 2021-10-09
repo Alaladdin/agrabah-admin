@@ -20,9 +20,7 @@
                 {{ title }}
               </h3>
               <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                  {{ text }}
-                </p>
+                <p class="whitespace-pre-line text-sm text-gray-500">{{ text }}</p>
               </div>
             </div>
           </div>
