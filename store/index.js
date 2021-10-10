@@ -16,12 +16,17 @@ export const getters = {
     if (!state.auth.user) {
       return {
         username   : 'guest',
-        accessLevel: 2,
+        accessLevel: 'guest',
         loggedIn   : false,
+        isGuest    : true,
       }
     }
 
     const { user, loggedIn } = state.auth
+
+    user.isGuest = user.accessLevel === 'guest'
+    user.isAdmin = ['owner', 'admin'].includes(user.accessLevel)
+    user.isFullAccess = user.accessLevel === 'owner'
 
     return { ...user, loggedIn }
   },

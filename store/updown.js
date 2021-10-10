@@ -31,7 +31,7 @@ export const mutations = {
 
 export const actions = {
   getUpdownStatus (ctx) {
-    return this.$api.$get('getUpdownStatus')
+    return this.$axios.$get('/api/getUpdownStatus')
       .then((data) => {
         if (!data) throw (data)
 

@@ -18,7 +18,7 @@ export const mutations = {
 
 export const actions = {
   loadActuality (ctx) {
-    return this.$api.$get('getActuality')
+    return this.$axios.$get('/api/getActuality')
       .then((data) => {
         if (!data) throw (data)
 
@@ -33,7 +33,7 @@ export const actions = {
   setActuality (ctx, { content, lazyContent }) {
     const actuality = { content, lazyContent }
 
-    return this.$api.$post('setActuality', { actuality })
+    return this.$axios.$post('/api/setActuality', { actuality })
       .then((data) => {
         if (!data) throw (data)
 

@@ -1,6 +1,6 @@
 export default function ({ store, redirect }) {
-  const { auth } = store.state
+  const { getUserData: user } = store.getters
 
-  if (auth.accessLevel > 1)
-    return redirect('/404')
+  if (!user.isAdmin && !user.isFullAccess)
+    return redirect('/')
 }

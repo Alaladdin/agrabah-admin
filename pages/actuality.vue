@@ -6,7 +6,7 @@
           <span>Main</span>
           <span v-show="isUnsavedChanges('content')" class="badge badge---warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <textarea v-model="actuality.content" class="textarea h-full" :disabled="isEditDisabled" />
+        <textarea v-model="actuality.content" class="textarea h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
 
       <label class="flex flex-col w-full h-full">
@@ -14,7 +14,7 @@
           <span>Lazy</span>
           <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
-        <textarea v-model="actuality.lazyContent" class="textarea h-full" :disabled="isEditDisabled" />
+        <textarea v-model="actuality.lazyContent" class="textarea h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
     </div>
 
@@ -23,7 +23,7 @@
         <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
       </div>
 
-      <Button text="Update" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
+      <Button v-if="user.isAdmin" text="Update" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
     </div>
   </div>
 </template>
@@ -43,7 +43,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('actuality', { inActuality: 'getActuality' }),
+    ...mapGetters({
+      user       : 'getUserData',
+      inActuality: 'actuality/getActuality',
+    }),
 
     updatedAtText () {
       const { updatedAt } = this.actuality

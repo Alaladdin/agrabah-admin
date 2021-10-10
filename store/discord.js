@@ -14,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   getBotConfig (ctx) {
-    return this.$api.$get('/dis/getStore')
+    return this.$axios.$get('/api/dis/getStore')
       .then((data) => {
         ctx.commit('setBotConfig', data.store)
 

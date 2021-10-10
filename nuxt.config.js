@@ -9,10 +9,9 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  plugins: ['@/plugins/api'],
-  css    : ['@/assets/scss/main.scss'],
-  isDev  : process.env.NODE_ENV !== 'production',
-  env    : {
+  css  : ['@/assets/scss/main.scss'],
+  isDev: process.env.NODE_ENV !== 'production',
+  env  : {
     authToken: process.env.AUTH_TOKEN,
     VKToken  : process.env.VK_TOKEN_DEV,
     DISToken : process.env.DIS_TOKEN,
@@ -49,6 +48,9 @@ export default {
     '/api': {
       target     : process.env.NODE_ENV !== 'production' ? 'http://localhost:9000' : 'https://api.mpei.space',
       pathRewrite: { '^/api': '/' },
+      headers    : {
+        AuthToken: process.env.AUTH_TOKEN,
+      },
     },
   },
   router: {
@@ -57,16 +59,21 @@ export default {
   },
   auth: {
     strategies: {
-      discord: {
-        clientId           : process.env.DISCORD_CLIENT_ID,
-        clientSecret       : process.env.DISCORD_CLIENT_SECRET,
-        codeChallengeMethod: 'S256',
-        grantType          : 'authorization_code',
-        scope              : ['identify', 'guilds'],
-        token              : {
-          property: 'access_token',
+      local: {
+        token: {
+          property: 'token',
+          global  : true,
+          required: true,
           type    : 'Bearer',
-          maxAge  : (60 * 60 * 24) * 14, // 14 days
+        },
+        user: {
+          property : 'user',
+          autoFetch: true,
+        },
+        endpoints: {
+          user  : { url: '/api/auth/user', method: 'get' },
+          login : { url: '/api/auth/login', method: 'post' },
+          logout: false,
         },
       },
     },

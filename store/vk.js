@@ -18,10 +18,10 @@ export const mutations = {
 
 export const actions = {
   sendMessage (ctx, { message, chatId = vkChats[0].chatId, parseLinks = false }) {
-    return this.$api.$post('/vk/sendMessage', { message, chatId, parseLinks })
+    return this.$axios.$post('/api/vk/sendMessage', { message, chatId, parseLinks })
   },
   getBotConfig (ctx) {
-    return this.$api.$get('/vk/getStore')
+    return this.$axios.$get('/api/vk/getStore')
       .then((data) => {
         ctx.commit('setBotConfig', data.store)
 

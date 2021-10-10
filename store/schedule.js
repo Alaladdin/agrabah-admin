@@ -14,7 +14,7 @@ export const mutations = {
 
 export const actions = {
   loadSchedule (ctx, { start, finish }) {
-    return this.$api.$get('getSchedule', { params: { start, finish } })
+    return this.$axios.$get('/api/getSchedule', { params: { start, finish } })
       .then((data) => {
         if (!data) throw (data)
 
