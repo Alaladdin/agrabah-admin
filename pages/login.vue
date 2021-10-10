@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     register () {
-      this.isSigning = true
+      this.handleSinging()
 
       this.$axios.$post('/api/auth/register', this.userData)
         .then((user) => {
@@ -73,13 +73,17 @@ export default {
         })
     },
     login () {
-      this.isSigning = true
+      this.handleSinging()
 
       this.$auth.loginWith('local', { data: this.userData })
         .catch(this.onFail)
         .finally(() => {
           this.isSigning = false
         })
+    },
+    handleSinging () {
+      this.isSigning = true
+      this.error = ''
     },
     onFail (error) {
       const { data: errorData } = error.response
