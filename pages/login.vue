@@ -7,8 +7,14 @@
         </h1>
 
         <div class="w-8/10 min-w-70">
-          <input v-model.trim="userData.username" class="px-2 py-1 mb-3 rounded border w-full" type="text" placeholder="username">
-          <input v-model.trim="userData.password" class="px-2 py-1 mb-5 rounded border w-full" type="password" placeholder="password">
+          <div v-if="error" class="mb-5">
+            <div class="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
+              <p>{{ error }}</p>
+            </div>
+          </div>
+
+          <input v-model.trim="userData.username" :class="['input mb-3', isUsernameValid ? 'valid' : 'invalid']" type="text" placeholder="username">
+          <input v-model.trim="userData.password" :class="['input mb-5', isPasswordValid ? 'valid' : 'invalid']" type="password" placeholder="password">
 
           <div class="flex justify-between gap-3">
             <Button class="w-full" text="Register" btn-style="indigo" :disabled="isButtonsDisabled" @click="register" />
@@ -24,8 +30,6 @@
   </div>
 </template>
 <script>
-import { parseError } from '@/helpers'
-
 export default {
   name  : 'Login',
   layout: 'single',
@@ -35,12 +39,23 @@ export default {
         username: '',
         password: '',
       },
+      error    : '',
       isSigning: false,
     }
   },
   computed: {
+    isUsernameValid () {
+      const usernameLength = this.userData.username.length
+
+      return usernameLength >= 4 && usernameLength <= 15
+    },
+    isPasswordValid () {
+      const passLength = this.userData.password.length
+
+      return passLength >= 6 && passLength <= 20
+    },
     isButtonsDisabled () {
-      return !this.userData.username || !this.userData.password || this.isSigning
+      return !this.isUsernameValid || !this.isPasswordValid || this.isSigning
     },
   },
   methods: {
@@ -67,7 +82,9 @@ export default {
         })
     },
     onFail (error) {
-      this.$store.commit('pushError', parseError(error))
+      const { data: errorData } = error.response
+
+      this.error = errorData ? errorData.error : error
     },
   },
 }
