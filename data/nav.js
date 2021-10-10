@@ -31,14 +31,14 @@ export default [
     path    : '/authenticator',
     title   : '2FA',
     icon    : 'fingerprint',
-    scope   : ['admin'],
+    scope   : ['user'],
     disabled: true,
   },
   {
     path    : '/short-url',
     title   : 'Short URL',
     icon    : 'link',
-    scope   : ['admin'],
+    scope   : ['user'],
     disabled: true,
   },
   {

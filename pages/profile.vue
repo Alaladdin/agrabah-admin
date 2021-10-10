@@ -19,7 +19,7 @@
 
         <p class="flex justify-between p-3 w-100 border-b-1 last:border-b-0">
           <span>Access level</span>
-          <span>{{ user.accessLevel }}</span>
+          <span>{{ user.scope.join(', ') }}</span>
         </p>
       </div>
     </div>
