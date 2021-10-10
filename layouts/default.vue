@@ -48,7 +48,7 @@ export default {
       const { path } = this.$route
       const { user } = this.$auth.$state
 
-      if (path !== '/' || !user) {
+      if (!user || path !== '/') {
         const currentRouteData = find(navItems, navItem => navItem.path === path)
 
         return currentRouteData ? currentRouteData.title : ''

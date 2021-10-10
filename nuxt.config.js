@@ -42,9 +42,17 @@ export default {
       },
     ],
   },
-  axios : { proxy: true },
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    '/api': {
+      target     : process.env.NODE_ENV !== 'production' ? 'http://localhost:9000' : 'https://api.mpei.space',
+      pathRewrite: { '^/api': '/' },
+    },
+  },
   router: {
-    middleware       : ['auth', 'disallowAuth'],
+    middleware       : ['restrictPages'],
     routeNameSplitter: '/',
   },
   auth: {

@@ -13,16 +13,17 @@ export const getters = {
   getNavbarNotifications: state => state.navbarNotifications,
   getErrors             : state => state.errors,
   getUserData           : (state) => {
-    if (!state.auth.user) return null
-
-    const { id: userId, avatar, banner } = state.auth.user
-    const discordCDNUrl = 'https://cdn.discordapp.com'
-
-    return {
-      ...state.auth.user,
-      avatarUrl: `${discordCDNUrl}/avatars/${userId}/${avatar}`,
-      bannerUrl: `${discordCDNUrl}/banners/${userId}/${banner}`,
+    if (!state.auth.user) {
+      return {
+        username   : 'guest',
+        accessLevel: 2,
+        loggedIn   : false,
+      }
     }
+
+    const { user, loggedIn } = state.auth
+
+    return { ...user, loggedIn }
   },
 }
 
