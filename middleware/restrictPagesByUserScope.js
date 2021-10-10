@@ -6,7 +6,7 @@ export default function ({ store, redirect, route }) {
 
   const page = find(navItems, item => item.path === route.path)
 
-  if (page.scope) {
+  if (page && page.scope) {
     const hasAccess = some(page.scope, (navScope) => {
       return user.scope.includes(navScope)
     })

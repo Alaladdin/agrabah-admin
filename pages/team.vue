@@ -29,9 +29,8 @@ import moment from 'moment'
 import { parseError } from '@/helpers'
 
 export default {
-  name      : 'Team',
-  middleware: ['admin'],
-  computed  : {
+  name    : 'Team',
+  computed: {
     ...mapGetters('team', { users: 'getUsers' }),
   },
   mounted () {

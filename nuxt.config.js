@@ -54,7 +54,7 @@ export default {
     },
   },
   router: {
-    middleware       : ['restrictPages'],
+    middleware       : ['restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
     routeNameSplitter: '/',
   },
   auth: {

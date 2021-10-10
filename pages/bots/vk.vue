@@ -34,8 +34,7 @@ import { map } from 'lodash'
 import { parseError } from '@/helpers'
 
 export default {
-  name      : 'Vk',
-  middleware: ['admin'],
+  name: 'Vk',
   data () {
     return {
       vkSendToChatId: null,
