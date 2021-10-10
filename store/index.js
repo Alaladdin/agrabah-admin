@@ -15,20 +15,19 @@ export const getters = {
   getUserData           : (state) => {
     if (!state.auth.user) {
       return {
-        username   : 'guest',
-        accessLevel: 'guest',
-        loggedIn   : false,
-        isGuest    : true,
+        username: 'guest',
+        scope   : ['guest'],
+        loggedIn: false,
       }
     }
 
     const { user, loggedIn } = state.auth
 
-    user.isGuest = user.accessLevel === 'guest'
-    user.isAdmin = ['owner', 'admin'].includes(user.accessLevel)
-    user.isFullAccess = user.accessLevel === 'owner'
-
-    return { ...user, loggedIn }
+    return {
+      ...user,
+      isAdmin: (user.scope.includes('admin') || user.scope.includes('owner')),
+      loggedIn,
+    }
   },
 }
 

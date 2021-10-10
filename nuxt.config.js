@@ -67,7 +67,7 @@ export default {
           type    : 'Bearer',
         },
         user: {
-          property : 'user',
+          property : false,
           autoFetch: true,
         },
         endpoints: {

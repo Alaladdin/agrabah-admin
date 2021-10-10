@@ -39,20 +39,19 @@
           <div class="flex justify-center items-center p-3">
             <img
               v-on-clickaway="closeProfileContext"
-              class="mr-8 rounded-full w-16 h-16 ring-4 ring-indigo-600 shadow-sm cursor-pointer"
-              :src="userData.avatarUrl"
-              :alt="userData.username"
+              class="mr-8 rounded-full w-16 h-16 ring-4 ring-indigo-600 shadow-sm object-cover cursor-pointer"
+              src="~/assets/img/avatar__default.jpg"
+              :alt="user.username"
               @click="openProfileContext"
             >
 
             <div class="flex flex-col mr-5">
-              <span class="font-semibold">{{ userData.username }}</span>
-              <span class="text-xs text-indigo-300">#{{ userData.discriminator }}</span>
+              <span class="text-md font-semibold">{{ user.username }}</span>
             </div>
           </div>
 
-          <NuxtLink to="/logout" class="flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-150">
-            <fa icon="sign-out-alt" />
+          <NuxtLink :to="user.loggedIn ? '/logout' : '/login'" class="flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-150">
+            <fa :icon="user.loggedIn ? 'sign-out-alt' : 'sign-in-alt'" />
           </NuxtLink>
         </div>
       </div>
@@ -63,7 +62,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mixin as clickaway } from 'vue-clickaway'
-import { find } from 'lodash'
+import { find, filter, keys, some } from 'lodash'
 import { navItems } from '@/data'
 
 export default {
@@ -71,7 +70,6 @@ export default {
   mixins: [clickaway],
   data () {
     return {
-      navItems,
       profileContextMenu: [
         {
           title: 'Profile',
@@ -87,14 +85,24 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userData           : 'getUserData',
+      user               : 'getUserData',
       navbarNotifications: 'getNavbarNotifications',
     }),
+
+    navItems () {
+      const { scope: userScope } = this.user
+
+      return filter(navItems, (navItem) => {
+        if (!navItem.scope) return true
+
+        return some(navItem.scope, navSingleScope => userScope.includes(navSingleScope))
+      })
+    },
   },
   methods: {
     getNotificationsCount (navItem) {
-      const keys = Object.keys(this.navbarNotifications)
-      const key = find(keys, key => key === navItem.title.toLowerCase())
+      const notificationsKeys = keys(this.navbarNotifications)
+      const key = find(notificationsKeys, key => key === navItem.title.toLowerCase())
 
       return this.navbarNotifications[key] || 0
     },
@@ -103,16 +111,11 @@ export default {
       this.$router.push(item)
     },
     openProfileContext () {
-      this.makeTrue('isShowProfileContext')
+      if (this.user.loggedIn)
+        this.isShowProfileContext = true
     },
     closeProfileContext () {
-      this.makeFalse('isShowProfileContext')
-    },
-    makeTrue (field) {
-      this[field] = true
-    },
-    makeFalse (field) {
-      this[field] = false
+      this.isShowProfileContext = false
     },
   },
 }
