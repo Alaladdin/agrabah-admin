@@ -11,6 +11,6 @@ export default function ({ store, redirect, route }) {
       return user.scope.includes(navScope)
     })
 
-    if (!hasAccess) return redirect('/')
+    if (!hasAccess) redirect({ name: 'index' })
   }
 }

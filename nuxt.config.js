@@ -47,7 +47,7 @@ export default {
   proxy: {
     '/api': {
       target     : process.env.NODE_ENV !== 'production' ? 'http://localhost:9000' : 'https://api.mpei.space',
-      pathRewrite: { '^/api': '/' },
+      pathRewrite: { '^/api/': '/' },
       headers    : {
         AuthToken: process.env.AUTH_TOKEN,
       },
