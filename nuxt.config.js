@@ -22,6 +22,7 @@ export default {
     '@nuxtjs/dotenv',
     'nuxt-windicss',
     '@aceforth/nuxt-optimized-images',
+    'nuxt-build-optimisations',
   ],
   modules: [
     '@nuxtjs/axios',

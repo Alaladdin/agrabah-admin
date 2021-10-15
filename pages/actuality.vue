@@ -60,6 +60,9 @@ export default {
   created () {
     this.loadActualityData()
   },
+  beforeDestroy () {
+    this.$store.commit('actuality/CLEAR_DATA')
+  },
   methods: {
     ...mapActions('actuality', ['loadActuality', 'setActuality']),
 
@@ -94,7 +97,7 @@ export default {
       return this.actuality[field] !== this.inActuality[field]
     },
     onFail (error) {
-      this.$store.commit('pushError', parseError(error))
+      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }

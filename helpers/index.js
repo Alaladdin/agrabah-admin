@@ -1,4 +1,5 @@
 import { isString } from 'lodash'
+import { nanoid } from 'nanoid'
 
 const capitalize = string => string[0].toUpperCase() + string.slice(1)
 
@@ -20,7 +21,12 @@ const parseError = (e) => {
   return 'Unexpected error'
 }
 
+const generateSmallId = (size) => {
+  return nanoid(size)
+}
+
 export {
+  generateSmallId,
   parseError,
   capitalize,
   getAbbreviation

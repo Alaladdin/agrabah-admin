@@ -13,6 +13,9 @@ export const mutations = {
   ADD_USER (state, user) {
     state.users.push(user)
   },
+  CLEAR_DATA (state) {
+    state.users = null
+  },
 }
 
 export const actions = {

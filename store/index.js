@@ -32,22 +32,22 @@ export const getters = {
 }
 
 export const mutations = {
-  setAppVersion (state, data) {
+  SET_APP_VERSION (state, data) {
     state.appVersion = data
   },
-  patchNavbarNotifications (state, { key, value }) {
+  PATCH_NAVBAR_NOTIFICATIONS (state, { key, value }) {
     vue.set(state.navbarNotifications, key, value)
   },
-  pushError (state, error) {
+  PUSH_ERROR (state, error) {
     state.errors.push(error)
   },
-  removeError (state, error) {
+  REMOVE_ERROR (state, error) {
     state.errors = filter(state.errors, err => err !== error)
   },
 }
 
 export const actions = {
   loadAppVersion (ctx) {
-    ctx.commit('setAppVersion', version)
+    ctx.commit('SET_APP_VERSION', version)
   },
 }

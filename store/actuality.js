@@ -1,18 +1,21 @@
 export const state = () => ({
-  actuality: null,
+  data: null,
 })
 
 export const getters = {
-  getActuality: state => state.actuality,
+  getActuality: state => state.data,
 }
 
 export const mutations = {
-  set (state, actuality) {
-    state.actuality = {
+  SET_ACTUALITY (state, actuality) {
+    state.data = {
       ...actuality,
       content    : actuality.content || '',
       lazyContent: actuality.lazyContent || '',
     }
+  },
+  CLEAR_DATA (state) {
+    state.data = null
   },
 }
 
@@ -22,7 +25,7 @@ export const actions = {
       .then((data) => {
         if (!data) throw (data)
 
-        ctx.commit('set', data.actuality)
+        ctx.commit('SET_ACTUALITY', data.actuality)
 
         return data.actuality
       })
@@ -37,7 +40,7 @@ export const actions = {
       .then((data) => {
         if (!data) throw (data)
 
-        ctx.commit('set', data.actuality)
+        ctx.commit('SET_ACTUALITY', data.actuality)
 
         return data.actuality
       })

@@ -67,7 +67,7 @@ export default {
 
         const onlineHosts = filter(hosts, host => !host.down)
 
-        this.$store.commit('patchNavbarNotifications', {
+        this.$store.commit('PATCH_NAVBAR_NOTIFICATIONS', {
           key  : 'home',
           value: updownServices.length - onlineHosts.length,
         })
@@ -81,10 +81,10 @@ export default {
     }),
 
     closeErrorModal (error) {
-      this.$store.commit('removeError', error)
+      this.$store.commit('REMOVE_ERROR', error)
     },
     onFail (error) {
-      this.$store.commit('pushError', parseError(error))
+      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }

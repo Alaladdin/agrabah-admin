@@ -11,10 +11,10 @@ export const getters = {
 }
 
 export const mutations = {
-  setUpdownStatus (state, newData) {
+  SET_UPDOWN_STATUS (state, newData) {
     state.updownStatus = newData
   },
-  updateUpdownServices (state, updownStatus) {
+  UPDATE_UPDOWN_SERVICES (state, updownStatus) {
     state.updownServices = map(state.updownServices, (service) => {
       const status = find(updownStatus, s => service.url && s.url.includes(service.url))
 
@@ -35,8 +35,8 @@ export const actions = {
       .then((data) => {
         if (!data) throw (data)
 
-        ctx.commit('setUpdownStatus', data.updownStatus)
-        ctx.commit('updateUpdownServices', data.updownStatus)
+        ctx.commit('SET_UPDOWN_STATUS', data.updownStatus)
+        ctx.commit('UPDATE_UPDOWN_SERVICES', data.updownStatus)
 
         return data.updownStatus
       })

@@ -11,8 +11,11 @@ export const getters = {
 }
 
 export const mutations = {
-  setBotConfig (state, botConfig) {
+  SET_CONFIG (state, botConfig) {
     state.botConfig = botConfig
+  },
+  CLEAR_DATA (state) {
+    state.botConfig = null
   },
 }
 
@@ -23,7 +26,7 @@ export const actions = {
   getBotConfig (ctx) {
     return this.$axios.$get('/api/vk/getStore')
       .then((data) => {
-        ctx.commit('setBotConfig', data.store)
+        ctx.commit('SET_CONFIG', data.store)
 
         return data.store
       })

@@ -1,30 +1,43 @@
 export const state = () => ({
-  schedule: null,
+  data     : null,
+  requestId: null,
 })
 
 export const getters = {
-  getSchedule: state => state.schedule,
+  getSchedule: state => state.data,
 }
 
 export const mutations = {
-  set (state, schedule) {
-    state.schedule = schedule
+  SET_SCHEDULE (state, schedule) {
+    state.data = schedule
+  },
+  SET_REQUEST_ID (state, requestId) {
+    state.requestId = requestId
+  },
+  CLEAR_DATA (state) {
+    state.data = null
+    state.requestId = null
   },
 }
 
 export const actions = {
-  loadSchedule (ctx, { start, finish }) {
+  loadSchedule (ctx, { start, finish, requestId }) {
+    ctx.commit('SET_REQUEST_ID', requestId)
+
     return this.$axios.$get('/api/getSchedule', { params: { start, finish } })
       .then((data) => {
         if (!data) throw (data)
 
-        ctx.commit('set', data.schedule)
+        if (ctx.state.requestId === requestId)
+          ctx.commit('SET_SCHEDULE', data.schedule)
 
         return data.schedule
       })
       .catch((err) => {
-        ctx.commit('set', null)
-        throw err
+        if (ctx.state.requestId === requestId) {
+          ctx.commit('SET_SCHEDULE', null)
+          throw err
+        }
       })
   },
 }

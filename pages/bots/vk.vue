@@ -73,6 +73,9 @@ export default {
       return !this.message.length || this.isSending
     },
   },
+  beforeDestroy () {
+    this.$store.commit('vk/CLEAR_DATA')
+  },
   mounted () {
     this.vkSendToChatId = this.vkChats[0].chatId
     this.getBotConfig()
@@ -93,7 +96,7 @@ export default {
         })
     },
     onFail (error) {
-      this.$store.commit('pushError', parseError(error))
+      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }

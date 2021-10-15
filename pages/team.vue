@@ -37,6 +37,9 @@ export default {
     this.loadUsers()
       .catch(this.onFail)
   },
+  beforeDestroy () {
+    this.$store.commit('team/CLEAR_DATA')
+  },
   methods: {
     ...mapActions('team', ['loadUsers']),
 
@@ -44,7 +47,7 @@ export default {
       return moment(date).format('DD.MM.YYYY')
     },
     onFail (error) {
-      this.$store.commit('pushError', parseError(error))
+      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }
