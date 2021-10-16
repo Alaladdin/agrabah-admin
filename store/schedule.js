@@ -1,5 +1,5 @@
 export const state = () => ({
-  data     : null,
+  data     : [],
   requestId: null,
 })
 
@@ -15,7 +15,7 @@ export const mutations = {
     state.requestId = requestId
   },
   CLEAR_DATA (state) {
-    state.data = null
+    state.data = []
     state.requestId = null
   },
 }
@@ -35,7 +35,7 @@ export const actions = {
       })
       .catch((err) => {
         if (ctx.state.requestId === requestId) {
-          ctx.commit('SET_SCHEDULE', null)
+          ctx.commit('SET_SCHEDULE', [])
           throw err
         }
       })

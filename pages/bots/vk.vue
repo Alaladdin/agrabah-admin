@@ -5,7 +5,7 @@
 
       <div class="flex justify-end items-center">
         <Select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
-        <Button text="Send" :disabled="isSendDisabled" :loading="isSending" @click="sendMess" />
+        <Button text="Send" :disabled="isSendDisabled" @click="sendMess" />
       </div>
     </div>
 

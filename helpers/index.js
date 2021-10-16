@@ -21,7 +21,7 @@ const parseError = (e) => {
   return 'Unexpected error'
 }
 
-const generateSmallId = (size) => {
+const generateSmallId = (size = 6) => {
   return nanoid(size)
 }
 

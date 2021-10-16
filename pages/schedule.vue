@@ -6,24 +6,22 @@
       <Button btn-style="white" icon-after="chevron-right" @click="changeWeek(true)" />
     </div>
 
-    <template v-if="schedule">
-      <div class="schedule">
-        <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="schedule__item">
-          <p class="schedule__header-item">{{ weekDays[index] }}</p>
-          <div class="p-3">
-            <p class="schedule__date">{{ weekDates[index] }}</p>
-            <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-4 rounded text-sm">
-              <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
-              <div class="text-xs text-gray-500">
-                <p>{{ s.kindOfWork }}</p>
-                <p v-if="s.group">{{ s.group }}</p>
-                <p v-if="s.building !== '-'">{{ s.auditorium }} · ({{ s.building }})</p>
-              </div>
+    <div class="schedule">
+      <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="schedule__item">
+        <p class="schedule__header-item">{{ weekDays[index] }}</p>
+        <div class="p-3 mh-10">
+          <p class="schedule__date">{{ weekDates[index] }}</p>
+          <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-4 rounded text-sm">
+            <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
+            <div class="text-xs text-gray-500">
+              <p>{{ s.kindOfWork }}</p>
+              <p v-if="s.group">{{ s.group }}</p>
+              <p v-if="s.building !== '-'">{{ s.auditorium }} · ({{ s.building }})</p>
             </div>
           </div>
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -40,8 +38,8 @@ export default {
   data () {
     return {
       scheduleOffset: { start: null, finish: null },
-      requestId     : null,
       weekDays      : moment.weekdaysShort().splice(1),
+      requestId     : null,
     }
   },
   computed: {

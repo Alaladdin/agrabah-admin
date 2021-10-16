@@ -23,7 +23,10 @@
         <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
       </div>
 
-      <Button v-if="user.isAdmin" text="Update" :loading="isUpdating" :disabled="isEditDisabled" @click="updateActuality" />
+      <div>
+        <Button text="Refresh" btn-style="white" :disabled="isEditDisabled" @click="loadActualityData" />
+        <Button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isEditDisabled" @click="updateActuality" />
+      </div>
     </div>
   </div>
 </template>
@@ -70,13 +73,13 @@ export default {
       this.isLoading = true
 
       this.loadActuality()
-        .then(this.getActualityData)
+        .then(this.applyActualityData)
         .catch(this.onFail)
         .finally(() => {
           this.isLoading = false
         })
     },
-    getActualityData () {
+    applyActualityData () {
       this.actuality = clone(this.inActuality)
     },
     updateActuality () {
