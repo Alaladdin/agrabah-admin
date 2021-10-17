@@ -7,16 +7,17 @@
           <span class="font-semibold text-xl">{{ user.username }}</span>
         </div>
 
-        <div class="text-sm">
-          <p class="flex justify-between">
-            <span class="mr-5">Access level</span>
-            <span>{{ user.scope.join(', ') }}</span>
-          </p>
+        <div class="flex">
+          <div class="text-sm">{{ user.scope.join(', ') }}</div>
 
-          <p class="flex justify-between">
-            <span class="mr-5">Since</span>
-            <span>{{ formatDate(user.createdAt) }}</span>
-          </p>
+          <div v-if="canEditUser(user)" class="flex ml-5">
+            <t-button class="px-2 mr-2" disabled>
+              <fa icon="edit" />
+            </t-button>
+            <t-button class="px-2" variant="danger" @click="confirmRemoveUser(user)">
+              <fa icon="times" />
+            </t-button>
+          </div>
         </div>
       </div>
     </template>
@@ -25,13 +26,19 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import moment from 'moment'
 import { parseError } from '@/helpers'
 
 export default {
   name    : 'Team',
   computed: {
-    ...mapGetters('team', { users: 'getUsers' }),
+    ...mapGetters({
+      currentUser: 'getUserData',
+      users      : 'team/getUsers',
+    }),
+
+    isOwner () {
+      return this.$auth.hasScope('owner')
+    },
   },
   mounted () {
     this.loadUsers()
@@ -41,10 +48,16 @@ export default {
     this.$store.commit('team/CLEAR_DATA')
   },
   methods: {
-    ...mapActions('team', ['loadUsers']),
+    ...mapActions('team', ['loadUsers', 'removeUser']),
 
-    formatDate (date) {
-      return moment(date).format('DD.MM.YYYY')
+    canEditUser (user) {
+      return this.isOwner && user._id !== this.currentUser._id
+    },
+    confirmRemoveUser (user) {
+      const isConfirmed = confirm(`Remove ${user.username}?`)
+
+      if (isConfirmed)
+        this.removeUser(user)
     },
     onFail (error) {
       this.$store.commit('PUSH_ERROR', parseError(error))

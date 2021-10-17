@@ -63,7 +63,7 @@ export default {
       this.handleSinging()
 
       this.$axios.$post('/api/auth/register', this.userData)
-        .then((user) => {
+        .then(({ user }) => {
           this.$auth.setUser(user)
           this.$auth.setUserToken(user.token)
         })

@@ -1,3 +1,5 @@
+import { filter } from 'lodash'
+
 export const state = () => ({
   users: null,
 })
@@ -12,6 +14,9 @@ export const mutations = {
   },
   ADD_USER (state, user) {
     state.users.push(user)
+  },
+  REMOVE_USER (state, user) {
+    state.users = filter(state.users, u => u._id !== user._id)
   },
   CLEAR_DATA (state) {
     state.users = null
@@ -28,6 +33,25 @@ export const actions = {
           ctx.commit('SET_USERS', data)
 
           return res.data
+        }
+
+        throw data
+      })
+      .catch((err) => {
+        throw err
+      })
+  },
+  removeUser (ctx, user) {
+    const data = { _id: user._id }
+
+    return this.$axios.delete('/api/auth/removeUser', { data })
+      .then((res) => {
+        const { data } = res
+
+        if (data && !data.error) {
+          ctx.commit('REMOVE_USER', user)
+
+          return ctx.state.users
         }
 
         throw data

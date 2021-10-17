@@ -62,13 +62,13 @@ export default {
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: 'user.token',
           global  : true,
           required: true,
           type    : 'Bearer',
         },
         user: {
-          property : false,
+          property : 'user',
           autoFetch: true,
         },
         endpoints: {
