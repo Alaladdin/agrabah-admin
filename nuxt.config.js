@@ -5,7 +5,6 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'MPEI ADMIN SIDE' },
-      { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -16,6 +15,7 @@ export default {
     VKToken  : process.env.VK_TOKEN_DEV,
     DISToken : process.env.DIS_TOKEN,
   },
+  plugins     : ['~/plugins/vue-tailwind'],
   components  : true,
   buildModules: [
     '@nuxtjs/eslint-module',

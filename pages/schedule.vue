@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="flex justify-end mb-5 text-sm">
-      <Button class="mr-5" text="Current week" @click="applyInitialScheduleDates" />
-      <Button class="mr-3" btn-style="white" icon-before="chevron-left" @click="changeWeek(false)" />
-      <Button btn-style="white" icon-after="chevron-right" @click="changeWeek(true)" />
+      <t-button class="mr-5" text="Current week" @click="applyInitialScheduleDates" />
+      <t-button class="mr-3" variant="white" @click="changeWeek(false)">
+        <fa icon="chevron-left" />
+      </t-button>
+      <t-button variant="white" @click="changeWeek(true)">
+        <fa icon="chevron-right" />
+      </t-button>
     </div>
 
     <div class="schedule">

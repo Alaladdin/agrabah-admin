@@ -1,13 +1,11 @@
 <template>
-  <div class="flex scrollbar-default bg-gray-200">
+  <div class="min-h-screen flex scrollbar-default bg-gray-200">
     <SideBar />
 
-    <div class="flex justify-center w-full">
+    <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
         <div class="flex flex-col h-full">
-          <h1 v-if="pageTitle" class="mb-10 font-bold text-3xl text-gray-800 text-center">
-            {{ pageTitle }}
-          </h1>
+          <t-tag v-if="pageTitle" class="mb-10" variant="title" tag-name="h1">{{ pageTitle }}</t-tag>
 
           <Nuxt class="flex flex-col" />
 
@@ -18,13 +16,22 @@
       </div>
     </div>
 
-    <Modal
+    <t-modal
       v-for="(error, index) in errors"
       :key="index"
-      :show="!!error"
-      :text="error"
-      @close-modal="closeErrorModal"
-    />
+      :value="!!error"
+      header="Error"
+      variant="danger"
+      @closed="closeErrorModal"
+    >
+      <div class="flex items-center">
+        <div class="flex items-center justify-center rounded-full h-10 w-10 bg-red-200 text-lg">
+          <fa class="text-red-500" icon="exclamation-triangle" />
+        </div>
+
+        <p class="ml-4 text-red-500 whitespace-pre-line">{{ error }}</p>
+      </div>
+    </t-modal>
   </div>
 </template>
 

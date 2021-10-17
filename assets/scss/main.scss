@@ -1,46 +1,13 @@
-.textarea {
-  @apply w-full px-3 py-2 border rounded text-gray-700 shadow-sm resize-none duration-150 focus:ring-2 focus:ring-indigo-400 focus:outline-none disabled:bg-gray-100;
-
-  &__label {
-    @apply mb-2 font-semibold text-center text-gray-700 text-lg;
-  }
+button {
+  cursor: pointer;
 }
 
-.btn {
-  @apply px-4 py-1 font-semibold rounded text-white bg-gray-800 duration-150 focus:outline-none focus:ring focus:ring-gray-400 shadow-sm;
-
-  &--white {
-    @apply text-gray-800 bg-white focus:ring-gray-300;
-  }
-
-  &--blue {
-    @apply text-white bg-blue-600 focus:ring-blue-300;
-  }
-
-  &--indigo {
-    @apply text-white bg-indigo-600 focus:ring-indigo-300;
-  }
-
-  &--login {
-    @apply flex justify-between items-center p-1 bg-indigo-500 focus:ring-indigo-300;
-  }
-
-  &.disabled,
-  &:disabled {
-    @apply pointer-events-none opacity-50;
-  }
+textarea {
+  @apply font-sans text-base;
 }
 
-.input {
-  @apply px-2 py-1 rounded border focus:border-indigo-300 w-full focus:outline-none;
-
-  &.invalid {
-    @apply border-red-300;
-  }
-
-  &.valid {
-    @apply focus:border-green-300;
-  }
+.actuality__textarea-label {
+  @apply mb-2 font-semibold text-center text-gray-700 text-lg;
 }
 
 .nuxt-link {
@@ -93,14 +60,12 @@
   }
 }
 
-.modal {
-  &__btn {
-    @apply mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 transition duration-150 shadow-sm px-4 py-1 bg-white text-base font-semibold text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm;
+.scrollbar-default {
+  @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
+}
 
-    &--danger {
-      @apply border-transparent bg-red-600 text-white hover:bg-red-700;
-    }
-  }
+.fade-in {
+  animation: fadeIn 150ms forwards;
 }
 
 .animate {
@@ -108,17 +73,9 @@
     animation: bounce 2s infinite ease-in-out;
   }
 
-  &-delay-1 {
-    animation-delay: 1s;
+  &-bounce-reverse {
+    animation: bounce-reversed 2s infinite ease-in-out;
   }
-}
-
-.fade-in {
-  animation: fadeIn 150ms forwards;
-}
-
-.scrollbar-default {
-  @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
 }
 
 @keyframes bounce {
@@ -128,6 +85,16 @@
 
   50% {
     transform: translateY(0);
+  }
+}
+
+@keyframes bounce-reversed {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
   }
 }
 

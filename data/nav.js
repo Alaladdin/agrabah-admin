@@ -68,4 +68,10 @@ export default [
     scope   : ['admin'],
     disabled: true,
   },
+  {
+    path : '/components/example',
+    title: 'Components Example',
+    icon : 'cubes',
+    scope: ['admin'],
+  },
 ]

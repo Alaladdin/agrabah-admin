@@ -2,19 +2,20 @@
   <div class="flex w-full">
     <div class="flex justify-between mb-3 w-full h-85">
       <label class="flex flex-col mr-3 w-full h-full">
-        <div class="textarea__label relative">
+        <div class="actuality__textarea-label relative">
           <span>Main</span>
           <span v-show="isUnsavedChanges('content')" class="badge badge---warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <textarea v-model="actuality.content" class="textarea h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model.trim="actuality.content" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
 
       <label class="flex flex-col w-full h-full">
-        <div class="textarea__label relative">
+        <div class="actuality__textarea-label relative">
           <span>Lazy</span>
-          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">Unsaved changes</span>
+          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">
+            Unsaved changes</span>
         </div>
-        <textarea v-model="actuality.lazyContent" class="textarea h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model.trim="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
     </div>
 
@@ -23,9 +24,12 @@
         <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
       </div>
 
-      <div>
-        <Button text="Refresh" btn-style="white" :disabled="isEditDisabled" @click="loadActualityData" />
-        <Button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isEditDisabled" @click="updateActuality" />
+      <div class="flex">
+        <t-button variant="white" :disabled="isEditDisabled" @click="loadActualityData">
+          <fa icon="sync-alt" />
+        </t-button>
+
+        <t-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isEditDisabled" @click="updateActuality" />
       </div>
     </div>
   </div>

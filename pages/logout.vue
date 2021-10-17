@@ -7,20 +7,21 @@
       height="256"
     >
 
-    <p class="mb-3 font-bold text-3xl text-center text-gray-800">
-      Logging out
-    </p>
-    <p class="mb-10 text-2xl text-center text-gray-800">
-      Are u sure?
-    </p>
+    <t-tag class="mb-5" variant="title">Logging out</t-tag>
+    <t-tag class="mb-10 text-2xl font-normal" variant="subtitle">
+      <span class="text-gray-700">Are u sure?</span>
+    </t-tag>
 
     <div class="flex justify-between">
-      <NuxtLink class="inline-block btn mr-7" to="/">
-        <fa class="mr-3" icon="long-arrow-alt-left" />
+      <t-button class="mr-7" to="/">
+        <fa class="mr-4" icon="long-arrow-alt-left" />
         <span>Get back</span>
-      </NuxtLink>
+      </t-button>
 
-      <Button text="Logout" btn-style="white" icon-after="sign-out-alt" @click="logout" />
+      <t-button variant="white" @click="logout">
+        <span class="mr-4">Logout</span>
+        <fa icon="sign-out-alt" />
+      </t-button>
     </div>
   </div>
 </template>

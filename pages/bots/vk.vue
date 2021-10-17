@@ -1,11 +1,11 @@
 <template>
   <div>
     <div>
-      <textarea v-model.trim="message" class="textarea mb-5 h-70 resize-none" />
+      <t-textarea v-model.trim="message" class="mb-3 w-full h-70" />
 
       <div class="flex justify-end items-center">
-        <Select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
-        <Button text="Send" :disabled="isSendDisabled" @click="sendMess" />
+        <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
+        <t-button :disabled="isSendDisabled" @click="sendMess">Send</t-button>
       </div>
     </div>
 
@@ -47,7 +47,7 @@ export default {
 
     chatSelectOptions () {
       return map(this.vkChats, chat => ({
-        title: chat.title,
+        label: chat.title,
         value: chat.chatId,
       }))
     },
