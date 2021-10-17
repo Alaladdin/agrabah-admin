@@ -20,7 +20,7 @@ export const mutations = {
 
 export const actions = {
   loadUsers (ctx) {
-    return this.$axios.get('/api/auth/getUsers')
+    return this.$axios.post('/api/auth/getUsers')
       .then((res) => {
         const { data } = res
 

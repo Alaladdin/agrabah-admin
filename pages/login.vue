@@ -13,12 +13,12 @@
             </div>
           </div>
 
-          <input v-model.trim="userData.username" :class="['input mb-3', isUsernameValid ? 'valid' : 'invalid']" type="text" placeholder="username">
-          <input v-model.trim="userData.password" :class="['input mb-5', isPasswordValid ? 'valid' : 'invalid']" type="password" placeholder="password">
+          <t-input v-model.trim="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" type="text" placeholder="username" />
+          <t-input v-model.trim="userData.password" class="mb-5 w-full " :variant="isPasswordValid ? 'success' : 'danger'" type="password" placeholder="password" />
 
           <div class="flex justify-between gap-3">
-            <Button class="w-full" text="Register" btn-style="indigo" :disabled="isButtonsDisabled" @click="register" />
-            <Button class="w-full" text="Log in" :disabled="isButtonsDisabled" @click="login" />
+            <t-button class="w-full py-1.5" text="Register" variant="indigo" :disabled="isButtonsDisabled" @click="register" />
+            <t-button class="w-full py-1.5" text="Log in" :disabled="isButtonsDisabled" @click="login" />
           </div>
         </div>
       </div>
