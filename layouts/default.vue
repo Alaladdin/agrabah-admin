@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex scrollbar-default bg-gray-200">
+  <div class="min-h-screen flex bg-gray-200">
     <SideBar />
 
     <div class="pl-64 flex justify-center w-full">
@@ -22,7 +22,7 @@
       :value="!!error"
       header="Error"
       variant="danger"
-      @closed="closeErrorModal"
+      @closed="closeErrorModal(error)"
     >
       <div class="flex items-center">
         <div class="flex items-center justify-center rounded-full h-10 w-10 bg-red-200 text-lg">
