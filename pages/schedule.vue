@@ -9,13 +9,12 @@
         <fa icon="chevron-right" />
       </t-button>
     </div>
-
     <div class="schedule">
-      <div v-for="(weekDay, index) in ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ']" :key="index" class="schedule__item">
-        <p class="schedule__header-item">{{ weekDays[index] }}</p>
-        <div class="p-3 mh-10">
-          <p class="schedule__date">{{ weekDates[index] }}</p>
-          <div v-for="(s, scheduleIndex) in getScheduleForWeekDay(weekDay)" :key="scheduleIndex" class="mb-4 rounded text-sm">
+      <div v-for="(u, i) in 5" :key="i" class="schedule__item">
+        <p class="schedule__header-item">{{ weekDays[i] }}</p>
+        <div class="p-3 transition duration-100" :class="getCellClasses(weekDates[i])">
+          <p class="schedule__date">{{ weekDates[i] }}</p>
+          <div v-for="(s, scheduleIndex) in getScheduleForDate(weekDates[i])" :key="scheduleIndex" class="mb-4 rounded text-sm">
             <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
             <div class="text-xs text-gray-500">
               <p>{{ s.kindOfWork }}</p>
@@ -41,14 +40,18 @@ export default {
   name: 'Schedule',
   data () {
     return {
-      scheduleOffset: { start: null, finish: null },
-      weekDays      : moment.weekdaysShort().splice(1),
-      requestId     : null,
+      scheduleOffset    : { start: null, finish: null },
+      weekDays          : moment.weekdaysShort().splice(1),
+      todayDateFormatted: moment().format('DD.MM'),
+      isLoading         : false,
     }
   },
   computed: {
     ...mapGetters('schedule', { schedule: 'getSchedule' }),
 
+    queryData () {
+      return assign({}, this.scheduleOffset, { requestId: generateSmallId() })
+    },
     weekDates () {
       const { start } = this.scheduleOffset
       const dates = []
@@ -63,11 +66,8 @@ export default {
     },
   },
   watch: {
-    scheduleOffset: {
-      deep: true,
-      handler () {
-        this.loadScheduleData()
-      },
+    'scheduleOffset.start' (v) {
+      if (v) this.loadScheduleData()
     },
   },
   created () {
@@ -77,37 +77,39 @@ export default {
     this.$store.commit('schedule/CLEAR_DATA')
   },
   methods: {
-    ...mapActions({
-      loadSchedule: 'schedule/loadSchedule',
-      sendMessage : 'vk/sendMessage',
-    }),
+    ...mapActions('schedule', ['loadSchedule']),
 
     applyInitialScheduleDates () {
-      const start = moment().startOf('isoWeek').format(SERVER_DATE_FORMAT)
-      const finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
-
-      this.scheduleOffset.start = start
-      this.scheduleOffset.finish = finish
+      this.scheduleOffset.start = moment().startOf('isoWeek').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
     },
     loadScheduleData () {
-      this.requestId = generateSmallId()
-      const data = assign({}, this.scheduleOffset, { requestId: this.requestId })
+      this.isLoading = true
 
-      this.loadSchedule(data)
+      this.loadSchedule(this.queryData)
         .catch(this.onFail)
-    },
-    getScheduleForWeekDay (weekDay) {
-      return filter(this.schedule, s => s.dayOfWeekString.toLowerCase() === weekDay.toLowerCase())
-    },
-    changeWeek (isNext = true) {
-      const { start, finish } = this.scheduleOffset
-      const amount = isNext ? 7 : -7
-
-      this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
-      this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(amount, 'days').format(SERVER_DATE_FORMAT)
+        .finally(() => {
+          this.isLoading = false
+        })
     },
     onFail (error) {
       this.$store.commit('PUSH_ERROR', parseError(error))
+    },
+    getScheduleForDate (date) {
+      return filter(this.schedule, s => s.date === date)
+    },
+    changeWeek (isNext = true) {
+      const { start, finish } = this.scheduleOffset
+      const offsetAmount = isNext ? 7 : -7
+
+      this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
+    },
+    getCellClasses (cellWeekDate) {
+      return {
+        'opacity-50'  : this.isLoading,
+        'bg-violet-50': this.todayDateFormatted === cellWeekDate,
+      }
     },
   },
 }

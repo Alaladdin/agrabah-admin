@@ -37,7 +37,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone } from 'lodash'
+import { clone, isEmpty } from 'lodash'
 import { parseError } from '@/helpers'
 
 export default {
@@ -45,7 +45,7 @@ export default {
   data () {
     return {
       actuality : {},
-      isLoading : true,
+      isLoading : false,
       isUpdating: false,
     }
   },
@@ -65,10 +65,10 @@ export default {
     },
   },
   created () {
-    this.loadActualityData()
-  },
-  beforeDestroy () {
-    this.$store.commit('actuality/CLEAR_DATA')
+    if (isEmpty(this.inActuality))
+      this.loadActualityData()
+    else
+      this.applyActualityData()
   },
   methods: {
     ...mapActions('actuality', ['loadActuality', 'setActuality']),
@@ -92,7 +92,7 @@ export default {
       this.isUpdating = true
 
       this.setActuality({ content, lazyContent })
-        .then(this.getActualityData)
+        .then(this.loadActualityData)
         .catch(this.onFail)
         .finally(() => {
           this.isUpdating = false
