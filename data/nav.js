@@ -62,13 +62,6 @@ export default [
     disabled: true,
   },
   {
-    path    : '/settings',
-    title   : 'Settings',
-    icon    : 'cog',
-    scope   : ['admin'],
-    disabled: true,
-  },
-  {
     path : '/components/example',
     title: 'Components Example',
     icon : 'cubes',

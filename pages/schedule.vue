@@ -12,7 +12,7 @@
     <div class="schedule">
       <div v-for="(u, i) in 5" :key="i" class="schedule__item">
         <p class="schedule__header-item">{{ weekDays[i] }}</p>
-        <div class="p-3 transition duration-100" :class="getCellClasses(weekDates[i])">
+        <div :class="getCellClasses(weekDates[i])">
           <p class="schedule__date">{{ weekDates[i] }}</p>
           <div v-for="(s, scheduleIndex) in getScheduleForDate(weekDates[i])" :key="scheduleIndex" class="mb-4 rounded text-sm">
             <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
@@ -34,6 +34,8 @@ import moment from 'moment'
 import { assign, filter } from 'lodash'
 import { generateSmallId, parseError } from '@/helpers'
 
+const DEFAULT_DATE_FORMAT = 'DD.MM'
+const COMPARE_DATE_FORMAT = 'MM.DD'
 const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
 
 export default {
@@ -42,7 +44,7 @@ export default {
     return {
       scheduleOffset    : { start: null, finish: null },
       weekDays          : moment.weekdaysShort().splice(1),
-      todayDateFormatted: moment().format('DD.MM'),
+      todayDateFormatted: moment().format(COMPARE_DATE_FORMAT),
       isLoading         : false,
     }
   },
@@ -57,7 +59,7 @@ export default {
       const dates = []
 
       for (let i = 0; i < 5; i++) {
-        const date = moment(start, SERVER_DATE_FORMAT).add(i, 'days').format('DD.MM')
+        const date = moment(start, SERVER_DATE_FORMAT).add(i, 'days').format(DEFAULT_DATE_FORMAT)
 
         dates.push(date)
       }
@@ -105,11 +107,17 @@ export default {
       this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
       this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
     },
-    getCellClasses (cellWeekDate) {
-      return {
-        'opacity-50'  : this.isLoading,
-        'bg-violet-50': this.todayDateFormatted === cellWeekDate,
-      }
+    getCellClasses (cellDate) {
+      const fixedClasses = 'p-3 h-full transition duration-100'
+      const cellDateFormatted = moment(cellDate, DEFAULT_DATE_FORMAT).format(COMPARE_DATE_FORMAT)
+
+      return [
+        fixedClasses, {
+          'opacity-50'            : this.isLoading,
+          'opacity-50 bg-gray-100': this.todayDateFormatted > cellDateFormatted,
+          'bg-violet-50'          : this.todayDateFormatted === cellDateFormatted,
+        },
+      ]
     },
   },
 }
