@@ -1,6 +1,6 @@
-import config from '@/nuxt.config.js'
+const isDev = process.env.NODE_ENV !== 'production'
 
-export default config.isDev
+export default isDev
   ? [
       { title: 'TRASH #1', chatId: 2000000003 },
       { title: 'TRASH #2', chatId: 2000000004 },

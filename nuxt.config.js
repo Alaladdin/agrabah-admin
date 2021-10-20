@@ -8,9 +8,11 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  css  : ['@/assets/scss/main.scss'],
-  isDev: process.env.NODE_ENV !== 'production',
-  env  : {
+  css   : ['@/assets/scss/main.scss'],
+  render: {
+    asyncScripts: true,
+  },
+  env: {
     authToken: process.env.AUTH_TOKEN,
     VKToken  : process.env.VK_TOKEN_DEV,
     DISToken : process.env.DIS_TOKEN,
@@ -27,7 +29,18 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
+    '@nuxtjs/component-cache',
+    'nuxt-helmet',
     'nuxt-fontawesome',
+    ['nuxt-tailvue', {
+      toast: {
+        defaultProps: {
+          classToast  : 'v-toast bg-white',
+          classMessage: 'whitespace-pre-line',
+          timeout     : 3,
+        },
+      },
+    }],
   ],
   fontawesome: {
     component: 'fa',
