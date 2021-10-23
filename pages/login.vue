@@ -13,8 +13,8 @@
             </div>
           </div>
 
-          <t-input v-model.trim="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" type="text" placeholder="username" />
-          <t-input v-model.trim="userData.password" class="mb-5 w-full " :variant="isPasswordValid ? 'success' : 'danger'" type="password" placeholder="password" />
+          <t-input v-model="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" type="text" placeholder="username" />
+          <t-input v-model="userData.password" class="mb-5 w-full " :variant="isPasswordValid ? 'success' : 'danger'" type="password" placeholder="password" />
 
           <div class="flex justify-between gap-3">
             <t-button class="w-full py-1.5" text="Register" variant="indigo" :disabled="isButtonsDisabled" @click="register" />
@@ -45,12 +45,12 @@ export default {
   },
   computed: {
     isUsernameValid () {
-      const usernameLength = this.userData.username.length
+      const usernameLength = this.userData.username.trim().length
 
       return usernameLength >= 4 && usernameLength <= 15
     },
     isPasswordValid () {
-      const passLength = this.userData.password.length
+      const passLength = this.userData.password.trim().length
 
       return passLength >= 6 && passLength <= 20
     },

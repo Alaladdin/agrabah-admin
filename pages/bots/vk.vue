@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <t-textarea v-model.trim="message" class="mb-3 w-full h-70" />
+      <t-textarea v-model="message" class="mb-3 w-full h-70" />
 
       <div class="flex justify-end items-center">
         <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />

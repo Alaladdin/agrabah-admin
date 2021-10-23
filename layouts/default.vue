@@ -9,9 +9,7 @@
 
           <Nuxt class="flex flex-col" />
 
-          <a v-if="appVersion" class="badge fixed bottom-3 right-3" href="https://github.com/Alaladdin/mpei-admin-nuxt" target="_blank">
-            v {{ appVersion }}
-          </a>
+          <AppVersion />
         </div>
       </div>
     </div>
@@ -49,7 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ errors: 'getErrors', appVersion: 'getAppVersion' }),
+    ...mapGetters({ errors: 'getErrors' }),
 
     pageTitle () {
       const { path } = this.$route
@@ -65,7 +63,6 @@ export default {
     },
   },
   mounted () {
-    this.loadAppVersion()
     this.getUpdownStatus()
       .then((allHosts) => {
         const hosts = filter(allHosts, (host) => {
@@ -82,10 +79,7 @@ export default {
       .catch(this.onFail)
   },
   methods: {
-    ...mapActions({
-      loadAppVersion : 'loadAppVersion',
-      getUpdownStatus: 'updown/getUpdownStatus',
-    }),
+    ...mapActions('updown', ['getUpdownStatus']),
 
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)

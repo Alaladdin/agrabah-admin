@@ -6,7 +6,7 @@
           <span>Main</span>
           <span v-show="isUnsavedChanges('content')" class="badge badge---warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model.trim="actuality.content" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="actuality.content" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
 
       <label class="flex flex-col w-full h-full">
@@ -15,7 +15,7 @@
           <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">
             Unsaved changes</span>
         </div>
-        <t-textarea v-model.trim="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
     </div>
 
