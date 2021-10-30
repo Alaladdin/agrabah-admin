@@ -69,7 +69,7 @@ export default {
           return find(updownServices, service => service.url && host.url.includes(service.url))
         })
 
-        const onlineHosts = filter(hosts, host => !host.down)
+        const onlineHosts = filter(hosts, host => !host.error)
 
         this.$store.commit('PATCH_NAVBAR_NOTIFICATIONS', {
           key  : 'home',
