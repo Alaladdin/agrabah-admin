@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-end mb-5 text-sm">
-      <t-button class="mr-5" text="Current week" @click="applyInitialScheduleDates" />
+      <t-button class="mr-5" text="Current week" @click="applyInitialData" />
       <t-button class="mr-3" variant="white" @click="changeWeek(false)">
         <fa icon="chevron-left" />
       </t-button>
@@ -42,10 +42,8 @@ export default {
   name: 'Schedule',
   data () {
     return {
-      scheduleOffset    : { start: null, finish: null },
-      weekDays          : moment.weekdaysShort().splice(1),
-      todayDateFormatted: moment().format(COMPARE_DATE_FORMAT),
-      isLoading         : false,
+      scheduleOffset: { start: null, finish: null },
+      isLoading     : false,
     }
   },
   computed: {
@@ -73,7 +71,7 @@ export default {
     },
   },
   created () {
-    this.applyInitialScheduleDates()
+    this.applyInitialData()
   },
   beforeDestroy () {
     this.$store.commit('schedule/CLEAR_DATA')
@@ -81,41 +79,42 @@ export default {
   methods: {
     ...mapActions('schedule', ['loadSchedule']),
 
-    applyInitialScheduleDates () {
-      this.scheduleOffset.start = moment().startOf('isoWeek').format(SERVER_DATE_FORMAT)
-      this.scheduleOffset.finish = moment().endOf('isoWeek').format(SERVER_DATE_FORMAT)
+    applyInitialData () {
+      this.todayFormattedDate = moment().format(COMPARE_DATE_FORMAT)
+      this.weekDays = moment.weekdaysShort().splice(1)
+      this.scheduleOffset.start = moment().add(2, 'days').startOf('isoWeek').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment().add(2, 'days').endOf('isoWeek').format(SERVER_DATE_FORMAT)
     },
     loadScheduleData () {
       this.isLoading = true
 
       this.loadSchedule(this.queryData)
-        .catch(this.onFail)
+        .catch((error) => {
+          this.$store.commit('PUSH_ERROR', parseError(error))
+        })
         .finally(() => {
           this.isLoading = false
         })
-    },
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
     },
     getScheduleForDate (date) {
       return filter(this.schedule, s => s.date === date)
     },
     changeWeek (isNext = true) {
       const { start, finish } = this.scheduleOffset
-      const offsetAmount = isNext ? 7 : -7
+      const offsetAmount = isNext ? 1 : -1
 
-      this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
-      this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(offsetAmount, 'days').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.start = moment(start, SERVER_DATE_FORMAT).add(offsetAmount, 'weeks').format(SERVER_DATE_FORMAT)
+      this.scheduleOffset.finish = moment(finish, SERVER_DATE_FORMAT).add(offsetAmount, 'weeks').format(SERVER_DATE_FORMAT)
     },
     getCellClasses (cellDate) {
       const fixedClasses = 'p-3 h-full transition duration-100'
-      const cellDateFormatted = moment(cellDate, DEFAULT_DATE_FORMAT).format(COMPARE_DATE_FORMAT)
+      const cellFormattedDate = moment(cellDate, DEFAULT_DATE_FORMAT).format(COMPARE_DATE_FORMAT)
 
       return [
         fixedClasses, {
           'opacity-50'            : this.isLoading,
-          'opacity-50 bg-gray-100': this.todayDateFormatted > cellDateFormatted,
-          'bg-violet-50'          : this.todayDateFormatted === cellDateFormatted,
+          'opacity-50 bg-gray-100': this.todayFormattedDate > cellFormattedDate,
+          'bg-violet-50'          : this.todayFormattedDate === cellFormattedDate,
         },
       ]
     },
