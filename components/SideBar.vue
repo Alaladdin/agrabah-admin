@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       profileContextMenu: [
-        { title: 'Profile', name: 'profile' },
+        { title: 'Profile', name: 'me' },
         { title: 'Logout', name: 'logout' },
       ],
       isShowProfileContext: false,

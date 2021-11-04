@@ -12,11 +12,6 @@ export default {
   render: {
     asyncScripts: true,
   },
-  env: {
-    authToken: process.env.AUTH_TOKEN,
-    VKToken  : process.env.VK_TOKEN_DEV,
-    DISToken : process.env.DIS_TOKEN,
-  },
   plugins     : ['~/plugins/vue-tailwind'],
   components  : true,
   buildModules: [
@@ -45,14 +40,8 @@ export default {
   fontawesome: {
     component: 'fa',
     imports  : [
-      {
-        set  : '@fortawesome/free-solid-svg-icons',
-        icons: ['fas'],
-      },
-      {
-        set  : '@fortawesome/free-brands-svg-icons',
-        icons: ['fab'],
-      },
+      { set: '@fortawesome/free-solid-svg-icons', icons: ['fas'] },
+      { set: '@fortawesome/free-brands-svg-icons', icons: ['fab'] },
     ],
   },
   axios: {
@@ -76,9 +65,9 @@ export default {
       local: {
         token: {
           property: 'user.token',
+          type    : 'Bearer',
           global  : true,
           required: true,
-          type    : 'Bearer',
         },
         user: {
           property : 'user',

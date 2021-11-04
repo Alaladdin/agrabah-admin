@@ -96,6 +96,22 @@ textarea, {
   }
 }
 
+.options {
+  @apply flex justify-between p-3 w-100 border-b-1 last:border-b-0;
+
+  &__item {
+    @apply text-xs font-mono leading-loose;
+
+    &---success {
+      @apply text-green-400;
+    }
+
+    &---danger {
+      @apply text-red-400;
+    }
+  }
+}
+
 .badge {
   @apply py-1 px-3 rounded shadow-sm bg-white text-gray-600 text-xs w-max;
 

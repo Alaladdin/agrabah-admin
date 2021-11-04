@@ -14,13 +14,9 @@
 
       <div class="flex justify-center">
         <div class="bg-white rounded w-max">
-          <div
-            v-for="(field, index) in botConfigFields"
-            :key="index"
-            class="flex justify-between p-3 w-100 border-b-1 last:border-b-0"
-          >
+          <div v-for="(field, index) in botConfigFields" :key="index" class="options">
             <span>{{ field.title }}</span>
-            <span :class="['text-xs font-mono leading-loose', field.isEnabled ? 'text-green-400' : 'text-red-400']">
+            <span :class="['options__item', field.isEnabled ? 'options__item---success' : 'options__item---danger']">
               {{ field.value }}
             </span>
           </div>
@@ -40,7 +36,7 @@ export default {
   data () {
     return {
       vkSendToChatId: null,
-      message       : '- Hello there\n- General Kenobi!',
+      message       : '',
       isSending     : false,
     }
   },
@@ -81,6 +77,7 @@ export default {
   mounted () {
     this.vkSendToChatId = this.vkChats[0].chatId
     this.loadBotConfig()
+      .catch(this.onFail)
   },
   methods: {
     ...mapActions('vk', ['sendMessage', 'loadBotConfig']),

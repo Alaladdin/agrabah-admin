@@ -31,7 +31,7 @@ import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
-  name    : 'Profile',
+  name    : 'Me',
   computed: {
     ...mapGetters({ user: 'getUserData' }),
   },

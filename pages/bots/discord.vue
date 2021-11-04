@@ -5,13 +5,9 @@
 
       <div class="flex justify-center">
         <div class="bg-white rounded w-max">
-          <div
-            v-for="(field, index) in botConfigFields"
-            :key="index"
-            class="flex justify-between p-3 w-100 border-b-1 last:border-b-0"
-          >
+          <div v-for="(field, index) in botConfigFields" :key="index" class="options">
             <span>{{ field.title }}</span>
-            <span class="text-xs font-mono leading-loose">{{ field.value }}</span>
+            <span class="options__item">{{ field.value }}</span>
           </div>
         </div>
       </div>
@@ -34,18 +30,9 @@ export default {
       const { actualityChannel, actualityTime, savedShortId } = this.botConfig
 
       return [
-        {
-          title: 'Channel ID',
-          value: actualityChannel,
-        },
-        {
-          title: 'Time',
-          value: actualityTime,
-        },
-        {
-          title: 'Last posted ID',
-          value: savedShortId || 'none',
-        },
+        { title: 'Channel ID', value: actualityChannel },
+        { title: 'Time', value: actualityTime },
+        { title: 'Last posted ID', value: savedShortId || 'none' },
       ]
     },
   },
@@ -54,6 +41,7 @@ export default {
   },
   mounted () {
     this.loadBotConfig()
+      .catch(this.onFail)
   },
   methods: {
     ...mapActions('discord', ['loadBotConfig']),
