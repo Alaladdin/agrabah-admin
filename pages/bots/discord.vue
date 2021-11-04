@@ -11,7 +11,7 @@
             class="flex justify-between p-3 w-100 border-b-1 last:border-b-0"
           >
             <span>{{ field.title }}</span>
-            <span>{{ field.value }}</span>
+            <span class="text-xs font-mono leading-loose">{{ field.value }}</span>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default {
 
       return [
         {
-          title: 'Channel',
+          title: 'Channel ID',
           value: actualityChannel,
         },
         {
@@ -43,7 +43,7 @@ export default {
           value: actualityTime,
         },
         {
-          title: 'Last posted Id',
+          title: 'Last posted ID',
           value: savedShortId || 'none',
         },
       ]

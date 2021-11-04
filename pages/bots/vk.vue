@@ -20,7 +20,9 @@
             class="flex justify-between p-3 w-100 border-b-1 last:border-b-0"
           >
             <span>{{ field.title }}</span>
-            <span :class="field.isEnabled ? 'text-green-400' : 'text-red-400'">{{ field.value }}</span>
+            <span :class="['text-xs font-mono leading-loose', field.isEnabled ? 'text-green-400' : 'text-red-400']">
+              {{ field.value }}
+            </span>
           </div>
         </div>
       </div>
@@ -58,13 +60,13 @@ export default {
 
       return [
         {
-          title    : 'Состояние бота',
-          value    : isBotActive ? 'включен' : 'выключен',
+          title    : 'Bot',
+          value    : isBotActive ? 'enabled' : 'disabled',
           isEnabled: isBotActive,
         },
         {
-          title    : 'Автопостинг актуалочки',
-          value    : actualityAutoposting.isEnabled ? 'включен' : 'выключен',
+          title    : 'Actuality autoposting',
+          value    : actualityAutoposting.isEnabled ? 'enabled' : 'disabled',
           isEnabled: actualityAutoposting.isEnabled,
         },
       ]
