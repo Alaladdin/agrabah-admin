@@ -23,7 +23,7 @@ export const actions = {
   sendMessage (ctx, { message, chatId = vkChats[0].chatId, parseLinks = false }) {
     return this.$axios.$post('/api/vk/sendMessage', { message, chatId, parseLinks })
   },
-  getBotConfig (ctx) {
+  loadBotConfig (ctx) {
     return this.$axios.$get('/api/vk/getStore')
       .then((data) => {
         ctx.commit('SET_CONFIG', data.store)

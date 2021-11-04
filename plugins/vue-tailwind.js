@@ -21,6 +21,9 @@ const VueTailwindSettings = {
     props    : {
       fixedClasses: 'px-3 py-2 rounded shadow-sm transition duration-100 ease-in-out resize-none focus:outline-none focus:ring focus:ring-indigo-400 focus:ring-opacity-50 disabled:bg-gray-100',
       classes     : 'text-gray-800 placeholder-gray-400 bg-white',
+      variants    : {
+        danger: 'placeholder-red-400 focus:ring-red-400',
+      },
     },
   },
   't-alert': {

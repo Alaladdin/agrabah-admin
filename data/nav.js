@@ -21,11 +21,10 @@ export default [
     scope: ['admin'],
   },
   {
-    path    : '/bots/discord',
-    title   : 'DIS Bot',
-    icon    : ['fab', 'discord'],
-    scope   : ['admin'],
-    disabled: true,
+    path : '/bots/discord',
+    title: 'DIS Bot',
+    icon : ['fab', 'discord'],
+    scope: ['admin'],
   },
   {
     path    : '/authenticator',

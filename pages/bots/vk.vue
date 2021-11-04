@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <t-textarea v-model="message" class="mb-3 w-full h-70" />
+      <t-textarea v-model="message" class="mb-3 w-full h-70" :variant="{ 'danger' : !message }" />
 
       <div class="flex justify-end items-center">
         <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
@@ -78,10 +78,10 @@ export default {
   },
   mounted () {
     this.vkSendToChatId = this.vkChats[0].chatId
-    this.getBotConfig()
+    this.loadBotConfig()
   },
   methods: {
-    ...mapActions('vk', ['sendMessage', 'getBotConfig']),
+    ...mapActions('vk', ['sendMessage', 'loadBotConfig']),
 
     sendMess () {
       this.isSending = true
