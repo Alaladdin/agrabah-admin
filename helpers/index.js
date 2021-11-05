@@ -1,14 +1,9 @@
 import { isString } from 'lodash'
 import { nanoid } from 'nanoid'
+import { isUsernameValid } from './validators'
 
-const capitalize = string => string[0].toUpperCase() + string.slice(1)
-
-const getAbbreviation = (string) => {
-  const stringArray = string.split(' ')
-
-  if (stringArray.length === 1) return string
-
-  return stringArray.map(s => s[0]).join('').toUpperCase()
+const generateSmallId = (size = 6) => {
+  return nanoid(size)
 }
 
 const parseError = (e) => {
@@ -21,13 +16,8 @@ const parseError = (e) => {
   return 'Unexpected error'
 }
 
-const generateSmallId = (size = 6) => {
-  return nanoid(size)
-}
-
 export {
+  isUsernameValid,
   generateSmallId,
-  parseError,
-  capitalize,
-  getAbbreviation
+  parseError
 }

@@ -12,7 +12,7 @@ export default {
   render: {
     asyncScripts: true,
   },
-  plugins     : ['~/plugins/vue-tailwind'],
+  plugins     : ['~/plugins/vue-tailwind', '~/plugins/handleError'],
   components  : true,
   buildModules: [
     '@nuxtjs/eslint-module',

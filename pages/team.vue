@@ -5,7 +5,7 @@
         <div class="flex items-center">
           <img class="mr-5 rounded-full w-12 h-12 ring-4 ring-violet-300 object-cover shadow-xl" src="~/assets/img/avatar__default.jpg">
           <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
-          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isUsernameValid }" />
+          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
         </div>
 
         <div class="flex">
@@ -26,7 +26,7 @@
                 <t-checkbox label="user" checked disabled />
                 <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
               </div>
-              <t-button class="px-2 mr-2" variant="indigo" :disabled="!isUsernameValid" @click="editUserData">
+              <t-button class="px-2 mr-2" variant="indigo" :disabled="!isNewUsernameValid" @click="editUserData">
                 <fa icon="save" />
               </t-button>
               <t-button class="px-2" variant="danger" @click="stopUserEditing">
@@ -43,7 +43,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone } from 'lodash'
-import { parseError } from '@/helpers'
+import { isUsernameValid } from '@/helpers'
 
 export default {
   name: 'Team',
@@ -58,15 +58,13 @@ export default {
       users      : 'team/getUsers',
     }),
 
-    isUsernameValid () {
-      const usernameLength = this.editingUserData.username.trim().length
-
-      return usernameLength >= 4 && usernameLength <= 15
+    isNewUsernameValid () {
+      return isUsernameValid(this.editingUserData.username)
     },
   },
   mounted () {
     this.loadUsers()
-      .catch(this.onFail)
+      .catch(this.$handleError)
   },
   beforeDestroy () {
     this.$store.commit('team/CLEAR_DATA')
@@ -91,7 +89,7 @@ export default {
     editUserData () {
       this.editUser(this.editingUserData)
         .then(this.stopUserEditing)
-        .catch(this.onFail)
+        .catch(this.$handleError)
     },
     stopUserEditing () {
       this.editingUserData = null
@@ -103,10 +101,7 @@ export default {
       const isRemoveConfirmed = confirm(`Remove user "${user.username}"?`)
 
       if (isRemoveConfirmed)
-        this.removeUser(user).catch(this.onFail)
-    },
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
+        this.removeUser(user).catch(this.$handleError)
     },
   },
 }
