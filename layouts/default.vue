@@ -24,10 +24,10 @@
     >
       <div class="flex items-center">
         <div class="flex items-center justify-center rounded-full h-10 w-10 bg-red-200 text-lg">
-          <fa class="text-red-500" icon="exclamation-triangle" />
+          <fa icon="exclamation-triangle" />
         </div>
 
-        <p class="ml-4 text-red-500 whitespace-pre-line">{{ error }}</p>
+        <p class="ml-4 whitespace-pre-line">{{ error }}</p>
       </div>
     </t-modal>
   </div>

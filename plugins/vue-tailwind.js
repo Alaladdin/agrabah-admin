@@ -91,7 +91,7 @@ const VueTailwindSettings = {
     props    : {
       wrapped     : true,
       fixedClasses: {
-        label       : 'ml-2 text-sm text-gray-700',
+        label       : 'ml-1 text-sm text-gray-700',
         inputWrapper: 'inline-flex items-center leading-none',
         wrapper     : 'flex items-center',
       },
@@ -102,7 +102,7 @@ const VueTailwindSettings = {
     props    : {
       wrapped     : true,
       fixedClasses: {
-        label       : 'text-sm text-gray-700',
+        label       : 'ml-1 text-sm text-gray-700',
         inputWrapper: 'inline-flex items-center leading-none',
         wrapper     : 'flex items-center',
       },
@@ -130,7 +130,7 @@ const VueTailwindSettings = {
       variants: {
         danger: {
           header: 'bg-red-100 text-red-600',
-          modal : 'bg-red-50',
+          modal : 'bg-red-50 text-red-500',
           footer: 'bg-red-100 text-red-500',
           close : 'bg-red-200 text-red-700 hover:bg-red-300 focus:ring-red-500',
         },

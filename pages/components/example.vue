@@ -38,9 +38,25 @@
     </div>
 
     <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
+      <t-checkbox class="block">Like</t-checkbox>
+      <t-checkbox class="block">Super like</t-checkbox>
+    </div>
+
+    <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Radio</h2>
-      <t-radio class="block" value="Default">Like</t-radio>
-      <t-radio class="block" value="Default">Dislike</t-radio>
+      <t-radio class="block" name="radio">Like</t-radio>
+      <t-radio class="block" name="radio">Dislike</t-radio>
+    </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Modal</h2>
+      <div class="flex">
+        <t-button class="mr-2" @click="$modal.show('default')">Default modal</t-button>
+        <t-button variant="danger" @click="$modal.show('danger')">Danger modal</t-button>
+      </div>
+      <t-modal name="default" header="Header" footer="Footer" @closed="$modal.hide('default')">Content</t-modal>
+      <t-modal name="danger" header="Header" footer="Footer" variant="danger" @closed="$modal.hide('danger')">Content</t-modal>
     </div>
   </div>
 </template>
