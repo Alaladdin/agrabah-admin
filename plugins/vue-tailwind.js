@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TRadio, TModal } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TRadio, TCheckbox, TModal } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -88,6 +88,17 @@ const VueTailwindSettings = {
   },
   't-radio': {
     component: TRadio,
+    props    : {
+      wrapped     : true,
+      fixedClasses: {
+        label       : 'ml-2 text-sm text-gray-700',
+        inputWrapper: 'inline-flex items-center leading-none',
+        wrapper     : 'flex items-center',
+      },
+    },
+  },
+  't-checkbox': {
+    component: TCheckbox,
     props    : {
       wrapped     : true,
       fixedClasses: {

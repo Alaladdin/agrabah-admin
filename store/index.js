@@ -26,6 +26,7 @@ export const getters = {
     return {
       ...user,
       isAdmin: (user.scope.includes('admin') || user.scope.includes('owner')),
+      isOwner: user.scope.includes('owner'),
       loggedIn,
     }
   },
@@ -35,7 +36,7 @@ export const mutations = {
   SET_APP_VERSION (state, data) {
     state.appVersion = data
   },
-  PATCH_NAVBAR_NOTIFICATIONS (state, { key, value }) {
+  SET_SIDEBAR_NOTIFICATION (state, { key, value }) {
     vue.set(state.navbarNotifications, key, value)
   },
   PUSH_ERROR (state, error) {

@@ -63,7 +63,7 @@ export default {
     },
   },
   mounted () {
-    this.getUpdownStatus()
+    this.loadUpdownStatus()
       .then((allHosts) => {
         const hosts = filter(allHosts, (host) => {
           return find(updownServices, service => service.url && host.url.includes(service.url))
@@ -71,7 +71,7 @@ export default {
 
         const onlineHosts = filter(hosts, host => !host.error)
 
-        this.$store.commit('PATCH_NAVBAR_NOTIFICATIONS', {
+        this.$store.commit('SET_SIDEBAR_NOTIFICATION', {
           key  : 'home',
           value: updownServices.length - onlineHosts.length,
         })
@@ -79,7 +79,7 @@ export default {
       .catch(this.onFail)
   },
   methods: {
-    ...mapActions('updown', ['getUpdownStatus']),
+    ...mapActions('updown', ['loadUpdownStatus']),
 
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)
