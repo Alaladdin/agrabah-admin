@@ -1,10 +1,11 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
     <template v-if="users">
-      <div v-for="(user, index) in users" :key="index" class="updown__item" :class="{ 'opacity-20' : editingUserData && !isEditingUser(user) }">
+      <div v-for="(user, index) in users" :key="index" class="updown__item" :class="getUserItemClass(user)">
         <div class="flex items-center">
           <img class="mr-5 rounded-full w-12 h-12 ring-4 ring-violet-300 object-cover shadow-xl" src="~/assets/img/avatar__default.jpg">
-          <span class="font-semibold text-xl">{{ user.username }}</span>
+          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
+          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isUsernameValid }" />
         </div>
 
         <div class="flex">
@@ -20,12 +21,12 @@
               </t-button>
             </div>
 
-            <template v-if="isEditingUser(user)">
+            <template v-else>
               <div class="flex text-sm mr-3">
                 <t-checkbox label="user" checked disabled />
                 <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
               </div>
-              <t-button class="px-2 mr-2" variant="indigo" @click="editUserData">
+              <t-button class="px-2 mr-2" variant="indigo" :disabled="!isUsernameValid" @click="editUserData">
                 <fa icon="save" />
               </t-button>
               <t-button class="px-2" variant="danger" @click="stopUserEditing">
@@ -56,6 +57,12 @@ export default {
       currentUser: 'getUserData',
       users      : 'team/getUsers',
     }),
+
+    isUsernameValid () {
+      const usernameLength = this.editingUserData.username.trim().length
+
+      return usernameLength >= 4 && usernameLength <= 15
+    },
   },
   mounted () {
     this.loadUsers()
@@ -67,6 +74,12 @@ export default {
   methods: {
     ...mapActions('team', ['loadUsers', 'editUser', 'removeUser']),
 
+    getUserItemClass (user) {
+      return {
+        'ring-2 ring-purple-300': this.currentUser._id === user._id,
+        'opacity-20'            : this.editingUserData && !this.isEditingUser(user),
+      }
+    },
     canEditUser (user) {
       const { _id, isOwner } = this.currentUser
 

@@ -13,7 +13,7 @@
             </div>
           </div>
 
-          <t-input v-model="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" type="text" placeholder="username" />
+          <t-input v-model="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" placeholder="username" />
           <t-input v-model="userData.password" class="mb-5 w-full " :variant="isPasswordValid ? 'success' : 'danger'" type="password" placeholder="password" />
 
           <div class="flex justify-between gap-3">
