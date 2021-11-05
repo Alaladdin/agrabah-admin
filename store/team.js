@@ -1,7 +1,8 @@
 import { map, filter, assign } from 'lodash'
 
 export const state = () => ({
-  users: null,
+  users    : null,
+  requestId: null,
 })
 
 export const getters = {
@@ -9,6 +10,9 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_REQUEST_ID (state, requestId) {
+    state.requestId = requestId
+  },
   SET_USERS (state, users) {
     state.users = users
   },
@@ -27,25 +31,30 @@ export const mutations = {
   },
   CLEAR_DATA (state) {
     state.users = null
+    state.requestId = null
   },
 }
 
 export const actions = {
-  loadUsers (ctx) {
-    return this.$axios.post('/api/auth/getUsers')
+  loadUsers (ctx, { requestId, filters }) {
+    ctx.commit('SET_REQUEST_ID', requestId)
+
+    return this.$axios.post('/api/auth/getUsers', filters)
       .then((res) => {
+        if (ctx.state.requestId !== requestId) return
+
         const { data } = res
 
         if (data && !data.error) {
           ctx.commit('SET_USERS', data)
 
-          return res.data
+          return data
         }
 
         throw data
       })
       .catch((err) => {
-        throw err
+        if (ctx.state.requestId === requestId) throw err
       })
   },
   editUser (ctx, newUserData) {

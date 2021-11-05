@@ -1,6 +1,15 @@
 <template>
-  <div class="grid grid-cols-2 gap-4">
-    <template v-if="users">
+  <div>
+    <t-input
+      v-model="searchUsername"
+      class="mb-5 py-2 text-lg"
+      placeholder="Find user by username"
+      maxlength="15"
+      :variant="{ 'danger' : !isSearchValid }"
+    />
+    <t-alert v-if="!!searchUsername && !users.length" variant="warn" show :dismissible="false">No users found</t-alert>
+
+    <div v-if="users" class="grid grid-cols-2 gap-4">
       <div v-for="(user, index) in users" :key="index" class="updown__item" :class="getUserItemClass(user)">
         <div class="flex items-center">
           <img class="mr-5 rounded-full w-12 h-12 ring-4 ring-violet-300 object-cover shadow-xl" src="~/assets/img/avatar__default.jpg">
@@ -36,19 +45,20 @@
           </template>
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone } from 'lodash'
-import { isUsernameValid } from '@/helpers'
+import { clone, debounce } from 'lodash'
+import { isUsernameValid, generateSmallId } from '@/helpers'
 
 export default {
   name: 'Team',
   data () {
     return {
+      searchUsername : '',
       editingUserData: null,
     }
   },
@@ -58,12 +68,28 @@ export default {
       users      : 'team/getUsers',
     }),
 
+    queryData () {
+      const filters = { username: this.searchUsername || null }
+
+      return { filters, requestId: generateSmallId() }
+    },
     isNewUsernameValid () {
       return isUsernameValid(this.editingUserData.username)
     },
+    isSearchValid () {
+      return this.searchUsername.length === 0 || isUsernameValid(this.searchUsername)
+    },
   },
-  mounted () {
-    this.loadUsers()
+  watch: {
+    searchUsername () {
+      if (this.isSearchValid) this.loadUsersDebounced(this.queryData)
+    },
+  },
+  created () {
+    this.loadUsers(this.queryData)
+      .then((users) => {
+        this.$store.commit('SET_SIDEBAR_NOTIFICATION', { key: 'team', value: users.length })
+      })
       .catch(this.$handleError)
   },
   beforeDestroy () {
@@ -72,6 +98,9 @@ export default {
   methods: {
     ...mapActions('team', ['loadUsers', 'editUser', 'removeUser']),
 
+    loadUsersDebounced: debounce(function (searchFilters) {
+      this.loadUsers(searchFilters).catch(this.$handleError)
+    }, 700),
     getUserItemClass (user) {
       return {
         'ring-2 ring-purple-300': this.currentUser._id === user._id,

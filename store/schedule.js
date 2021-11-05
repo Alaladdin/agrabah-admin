@@ -26,10 +26,10 @@ export const actions = {
 
     return this.$axios.$get('/api/getSchedule', { params: { start, finish } })
       .then((data) => {
+        if (ctx.state.requestId !== requestId) return
         if (!data) throw (data)
 
-        if (ctx.state.requestId === requestId)
-          ctx.commit('SET_SCHEDULE', data.schedule)
+        ctx.commit('SET_SCHEDULE', data.schedule)
 
         return data.schedule
       })
