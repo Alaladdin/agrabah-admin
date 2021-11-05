@@ -35,10 +35,6 @@ export default {
       currentUser: 'getUserData',
       users      : 'team/getUsers',
     }),
-
-    isOwner () {
-      return this.$auth.hasScope('owner')
-    },
   },
   mounted () {
     this.loadUsers()
@@ -54,10 +50,10 @@ export default {
       return this.isOwner && user._id !== this.currentUser._id
     },
     confirmRemoveUser (user) {
-      const isConfirmed = confirm(`Remove ${user.username}?`)
+      const isRemoveConfirmed = confirm(`Remove "${user.username}"?`)
 
-      if (isConfirmed)
-        this.removeUser(user)
+      if (isRemoveConfirmed)
+        this.removeUser(user).catch(this.onFail)
     },
     onFail (error) {
       this.$store.commit('PUSH_ERROR', parseError(error))

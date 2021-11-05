@@ -1,4 +1,4 @@
-import { filter } from 'lodash'
+import { map, filter, assign } from 'lodash'
 
 export const state = () => ({
   users: null,
@@ -14,6 +14,13 @@ export const mutations = {
   },
   ADD_USER (state, user) {
     state.users.push(user)
+  },
+  PATCH_USER (state, newUserData) {
+    state.users = map(state.users, (user) => {
+      if (user._id !== newUserData._id) return user
+
+      return assign({}, user, newUserData)
+    })
   },
   REMOVE_USER (state, user) {
     state.users = filter(state.users, u => u._id !== user._id)
@@ -33,6 +40,23 @@ export const actions = {
           ctx.commit('SET_USERS', data)
 
           return res.data
+        }
+
+        throw data
+      })
+      .catch((err) => {
+        throw err
+      })
+  },
+  editUser (ctx, newUserData) {
+    return this.$axios.post('/api/auth/editUser', newUserData)
+      .then((res) => {
+        const { data } = res
+
+        if (data && !data.error) {
+          ctx.commit('PATCH_USER', newUserData)
+
+          return ctx.state.users
         }
 
         throw data

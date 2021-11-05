@@ -102,7 +102,7 @@ const VueTailwindSettings = {
     props    : {
       wrapped     : true,
       fixedClasses: {
-        label       : 'ml-2 text-sm text-gray-700',
+        label       : 'text-sm text-gray-700',
         inputWrapper: 'inline-flex items-center leading-none',
         wrapper     : 'flex items-center',
       },
