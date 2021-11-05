@@ -84,7 +84,7 @@ textarea, {
 
 .updown {
   &__item {
-    @apply flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white select-none;
+    @apply flex justify-between items-center p-3 rounded shadow-sm text-gray-600 bg-white transition duration-200 select-none;
   }
 
   &__online-indicator {
