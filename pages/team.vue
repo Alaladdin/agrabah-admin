@@ -88,7 +88,7 @@ export default {
   created () {
     this.loadUsers(this.queryData)
       .then((users) => {
-        this.$store.commit('SET_SIDEBAR_NOTIFICATION', { key: 'team', value: users.length })
+        this.$setSideBarNotifications('team', users.length)
       })
       .catch(this.$handleError)
   },

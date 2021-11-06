@@ -71,10 +71,7 @@ export default {
 
         const onlineHosts = filter(hosts, host => !host.error)
 
-        this.$store.commit('SET_SIDEBAR_NOTIFICATION', {
-          key  : 'home',
-          value: updownServices.length - onlineHosts.length,
-        })
+        this.$setSideBarNotifications('home', updownServices.length - onlineHosts.length)
       })
       .catch(this.onFail)
   },

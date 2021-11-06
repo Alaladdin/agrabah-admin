@@ -13,15 +13,8 @@
       <template v-if="isEditing">
         <t-input v-model="newUsername" maxlength="15" class="mb-2" :variant="{ 'danger' : !isNewUsernameValid }" placeholder="Username" />
         <div class="flex">
-          <t-button class="mr-2 w-full" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewUsername">
-            <span class="mr-2">Save</span>
-            <fa icon="save" />
-          </t-button>
-
-          <t-button class="w-full" variant="danger" @click="stopEditing">
-            <span class="mr-2">Cancel</span>
-            <fa icon="times" />
-          </t-button>
+          <t-button class="mr-2 w-full" variant="indigo" :disabled="!isNewUsernameValid" text="Save" @click="saveNewUsername" />
+          <t-button class="w-full" variant="danger" text="Cancel" @click="stopEditing" />
         </div>
       </template>
     </div>
@@ -90,6 +83,7 @@ export default {
     },
     stopEditing () {
       this.isEditing = false
+      this.newUsername = this.user.username
     },
     formatDate (date) {
       return moment(date).format('DD.MM.YYYY')

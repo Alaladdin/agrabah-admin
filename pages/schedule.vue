@@ -102,10 +102,7 @@ export default {
         return cellFormattedDate >= this.todayFormattedDate
       })
 
-      this.$store.commit('SET_SIDEBAR_NOTIFICATION', {
-        key  : 'schedule',
-        value: currentWeekRemainingSchedules.length,
-      })
+      this.$setSideBarNotifications('schedule', currentWeekRemainingSchedules.length)
     }),
     getScheduleForDate (date) {
       return filter(this.schedule, s => s.date === date)

@@ -12,7 +12,11 @@ export default {
   render: {
     asyncScripts: true,
   },
-  plugins     : ['~/plugins/vue-tailwind', '~/plugins/handleError'],
+  plugins: [
+    '~/plugins/vueTailwind',
+    '~/plugins/handleError',
+    '~/plugins/setSideBarNotifications',
+  ],
   components  : true,
   buildModules: [
     '@nuxtjs/eslint-module',
