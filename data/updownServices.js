@@ -30,4 +30,8 @@ export default [
     title   : 'VK Bot',
     isOnline: null,
   },
+  {
+    title   : 'VK Moderator Bot',
+    isOnline: null,
+  },
 ]

@@ -12,8 +12,7 @@
       <label class="flex flex-col w-full h-full">
         <div class="actuality__textarea-label relative">
           <span>Lazy</span>
-          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">
-            Unsaved changes</span>
+          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
         <t-textarea v-model="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
@@ -87,9 +86,9 @@ export default {
       this.actuality = clone(this.inActuality)
     },
     updateActuality () {
-      const { content, lazyContent } = this.actuality
-
       this.isUpdating = true
+
+      const { content, lazyContent } = this.actuality
 
       this.setActuality({ content, lazyContent })
         .then(this.loadActualityData)

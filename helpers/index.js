@@ -1,6 +1,6 @@
 import { isString } from 'lodash'
 import { nanoid } from 'nanoid'
-import { isUsernameValid } from './validators'
+import { validateUsername, validatePassword } from './validators'
 
 const generateSmallId = (size = 6) => {
   return nanoid(size)
@@ -17,7 +17,8 @@ const parseError = (e) => {
 }
 
 export {
-  isUsernameValid,
+  validateUsername,
+  validatePassword,
   generateSmallId,
   parseError
 }

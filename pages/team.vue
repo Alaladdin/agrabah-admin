@@ -99,7 +99,9 @@ export default {
     ...mapActions('team', ['loadUsers', 'editUser', 'removeUser']),
 
     loadUsersDebounced: debounce(function (searchFilters) {
-      this.loadUsers(searchFilters).catch(this.$handleError)
+      this.loadUsers(searchFilters)
+        .then(this.stopUserEditing)
+        .catch(this.$handleError)
     }, 700),
     getUserItemClass (user) {
       return {

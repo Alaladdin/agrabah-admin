@@ -13,8 +13,21 @@
             </div>
           </div>
 
-          <t-input v-model="userData.username" class="mb-3 w-full " :variant="isUsernameValid ? 'success' : 'danger'" placeholder="username" />
-          <t-input v-model="userData.password" class="mb-5 w-full " :variant="isPasswordValid ? 'success' : 'danger'" type="password" placeholder="password" />
+          <t-input
+            v-model="userData.username"
+            class="mb-3 w-full"
+            :variant="isUsernameValid ? 'success' : 'danger'"
+            maxlength="15"
+            placeholder="username"
+          />
+          <t-input
+            v-model="userData.password"
+            class="mb-5 w-full"
+            :variant="isPasswordValid ? 'success' : 'danger'"
+            type="password"
+            maxlength="20"
+            placeholder="password"
+          />
 
           <div class="flex justify-between gap-3">
             <t-button class="w-full py-1.5" text="Register" variant="indigo" :disabled="isButtonsDisabled" @click="register" />
@@ -30,6 +43,8 @@
   </div>
 </template>
 <script>
+import { validateUsername, validatePassword } from '@/helpers'
+
 export default {
   name  : 'Login',
   layout: 'single',
@@ -45,14 +60,10 @@ export default {
   },
   computed: {
     isUsernameValid () {
-      const usernameLength = this.userData.username.trim().length
-
-      return usernameLength >= 4 && usernameLength <= 15
+      return validateUsername(this.userData.username)
     },
     isPasswordValid () {
-      const passLength = this.userData.password.trim().length
-
-      return passLength >= 6 && passLength <= 20
+      return validatePassword(this.userData.password)
     },
     isButtonsDisabled () {
       return !this.isUsernameValid || !this.isPasswordValid || this.isSigning
