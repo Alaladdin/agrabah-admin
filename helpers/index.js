@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import { isArray, isObject, isString } from 'lodash'
 import { nanoid } from 'nanoid'
 import { validateUsername, validatePassword } from './validators'
 
@@ -16,7 +16,32 @@ const parseError = (e) => {
   return 'Unexpected error'
 }
 
+const isJson = (str) => {
+  try {
+    if (isString(str)) JSON.parse(str)
+    if (isObject(str) && !isArray(str)) JSON.stringify(str)
+  } catch (e) {
+    return false
+  }
+
+  return true
+}
+
+const setToLocalStorage = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+
+const getFromLocalStorage = (key, defaultValue) => {
+  let val = localStorage.getItem(key)
+
+  val = val && isJson(val) && JSON.parse(val)
+
+  return val || defaultValue
+}
+
 export {
+  setToLocalStorage,
+  getFromLocalStorage,
   validateUsername,
   validatePassword,
   generateSmallId,

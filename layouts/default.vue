@@ -62,21 +62,25 @@ export default {
     },
   },
   mounted () {
-    this.loadUpdownStatus()
-      .then((allHosts) => {
-        const hosts = filter(allHosts, (host) => {
-          return find(updownServices, service => service.url && host.url.includes(service.url))
-        })
-
-        const onlineHosts = filter(hosts, host => !host.error)
-
-        this.$setSideBarNotifications('home', updownServices.length - onlineHosts.length)
-      })
-      .catch(this.$handleError)
+    this.init()
   },
   methods: {
-    ...mapActions('updown', ['loadUpdownStatus']),
+    ...mapActions({ loadUpdownStatus: 'updown/loadUpdownStatus' }),
 
+    init () {
+      this.loadUpdownStatus()
+        .then(this.setHomeNavbarNotifications)
+        .catch(this.$handleError)
+    },
+    setHomeNavbarNotifications (allHosts) {
+      const hosts = filter(allHosts, (host) => {
+        return find(updownServices, service => service.url && host.url.includes(service.url))
+      })
+
+      const onlineHosts = filter(hosts, host => !host.error)
+
+      this.$setSideBarNotifications('home', updownServices.length - onlineHosts.length)
+    },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)
     },

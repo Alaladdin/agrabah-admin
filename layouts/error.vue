@@ -11,7 +11,7 @@
           </div>
         </div>
 
-        <NuxtLink class="flex justify-center mb-15" to="/">
+        <NuxtLink class="flex justify-center mb-15 !bg-transparent" to="/">
           <t-button v-if="error.statusCode !== 403" class="text-base">
             <fa class="mr-3" icon="long-arrow-alt-left" />
             <span>Get back</span>

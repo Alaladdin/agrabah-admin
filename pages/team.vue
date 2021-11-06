@@ -87,9 +87,6 @@ export default {
   },
   created () {
     this.loadUsers(this.queryData)
-      .then((users) => {
-        this.$setSideBarNotifications('team', users.length)
-      })
       .catch(this.$handleError)
   },
   beforeDestroy () {

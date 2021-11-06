@@ -31,7 +31,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { assign, filter, once } from 'lodash'
+import { assign, filter } from 'lodash'
 import { generateSmallId } from '@/helpers'
 
 const DEFAULT_DATE_FORMAT = 'DD.MM'
@@ -89,21 +89,11 @@ export default {
       this.isLoading = true
 
       this.loadSchedule(this.queryData)
-        .then(this.setNavbarNotifications)
         .catch(this.$handleError)
         .finally(() => {
           this.isLoading = false
         })
     },
-    setNavbarNotifications: once(function (schedule) {
-      const currentWeekRemainingSchedules = filter(schedule, (s) => {
-        const cellFormattedDate = moment(s.date, DEFAULT_DATE_FORMAT).format(COMPARE_DATE_FORMAT)
-
-        return cellFormattedDate >= this.todayFormattedDate
-      })
-
-      this.$setSideBarNotifications('schedule', currentWeekRemainingSchedules.length)
-    }),
     getScheduleForDate (date) {
       return filter(this.schedule, s => s.date === date)
     },
