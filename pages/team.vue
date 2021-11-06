@@ -7,10 +7,10 @@
       maxlength="15"
       :variant="{ 'danger' : !isSearchValid }"
     />
-    <t-alert v-if="!!searchUsername && !users.length" variant="warn" show :dismissible="false">No users found</t-alert>
+    <t-alert v-if="isSearchValid && users && !users.length" variant="warn" show :dismissible="false">No users found</t-alert>
 
     <div v-if="users" class="grid grid-cols-2 gap-4">
-      <div v-for="(user, index) in users" :key="index" class="updown__item" :class="getUserItemClass(user)">
+      <div v-for="user in users" :key="user._id" class="updown__item" :class="getUserItemClass(user)">
         <div class="flex items-center">
           <Avatar class="mr-5" :user="user" />
           <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
