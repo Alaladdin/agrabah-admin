@@ -36,7 +36,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { find, filter } from 'lodash'
-import { parseError } from '@/helpers'
 import { navItems, updownServices } from '@/data'
 
 export default {
@@ -73,16 +72,13 @@ export default {
 
         this.$setSideBarNotifications('home', updownServices.length - onlineHosts.length)
       })
-      .catch(this.onFail)
+      .catch(this.$handleError)
   },
   methods: {
     ...mapActions('updown', ['loadUpdownStatus']),
 
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)
-    },
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }

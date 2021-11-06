@@ -17,7 +17,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { parseError } from '@/helpers'
 
 export default {
   name    : 'Discord',
@@ -41,14 +40,10 @@ export default {
   },
   mounted () {
     this.loadBotConfig()
-      .catch(this.onFail)
+      .catch(this.$handleError)
   },
   methods: {
     ...mapActions('discord', ['loadBotConfig']),
-
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
-    },
   },
 }
 </script>

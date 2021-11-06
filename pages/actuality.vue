@@ -37,7 +37,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone, isEmpty } from 'lodash'
-import { parseError } from '@/helpers'
 
 export default {
   name: 'Actuality',
@@ -77,7 +76,7 @@ export default {
 
       this.loadActuality()
         .then(this.applyActualityData)
-        .catch(this.onFail)
+        .catch(this.$handleError)
         .finally(() => {
           this.isLoading = false
         })
@@ -92,7 +91,7 @@ export default {
 
       this.setActuality({ content, lazyContent })
         .then(this.loadActualityData)
-        .catch(this.onFail)
+        .catch(this.$handleError)
         .finally(() => {
           this.isUpdating = false
         })
@@ -101,9 +100,6 @@ export default {
       if (this.isLoading) return false
 
       return this.actuality[field] !== this.inActuality[field]
-    },
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }

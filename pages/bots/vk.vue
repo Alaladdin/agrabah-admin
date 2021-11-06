@@ -29,7 +29,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { map } from 'lodash'
-import { parseError } from '@/helpers'
 
 export default {
   name: 'Vk',
@@ -77,7 +76,7 @@ export default {
   mounted () {
     this.vkSendToChatId = this.vkChats[0].chatId
     this.loadBotConfig()
-      .catch(this.onFail)
+      .catch(this.$handleError)
   },
   methods: {
     ...mapActions('vk', ['sendMessage', 'loadBotConfig']),
@@ -89,13 +88,10 @@ export default {
         .then(() => {
           this.message = ''
         })
-        .catch(this.onFail)
+        .catch(this.$handleError)
         .finally(() => {
           this.isSending = false
         })
-    },
-    onFail (error) {
-      this.$store.commit('PUSH_ERROR', parseError(error))
     },
   },
 }
