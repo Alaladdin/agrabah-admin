@@ -58,16 +58,31 @@
       <t-modal name="default" header="Header" footer="Footer" @closed="$modal.hide('default')">Content</t-modal>
       <t-modal name="danger" header="Header" footer="Footer" variant="danger" @closed="$modal.hide('danger')">Content</t-modal>
     </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
+      <div class="flex">
+        <Avatar class="mr-5" :user="user" size="small" title="small" />
+        <Avatar class="mr-5" :user="user" size="medium" title="medium" />
+        <Avatar class="mr-5" :user="user" size="large" title="large" />
+        <Avatar :user="user" size="extraLarge" title="extraLarge" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Example',
   data () {
     return {
       isDisabled: false,
     }
+  },
+  computed: {
+    ...mapGetters({ user: 'getUserData' }),
   },
   methods: {
     toggleDisabled () {

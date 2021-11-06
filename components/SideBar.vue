@@ -26,7 +26,7 @@
         <div class="flex justify-center items-center p-3">
           <Avatar
             v-on-clickaway="closeProfileContext"
-            :class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
+            :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
             :user="user"
             size="medium"
             @click="openProfileContext"
