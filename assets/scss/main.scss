@@ -46,7 +46,7 @@ textarea, {
     @apply flex justify-between items-center text-indigo-100 bg-indigo-800;
 
     &-avatar {
-      @apply mr-8 rounded-full w-16 h-16 ring-4 ring-indigo-600 shadow-sm object-cover cursor-pointer;
+      @apply mr-8 ring-indigo-600;
     }
 
     &-button {

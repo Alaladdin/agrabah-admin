@@ -12,7 +12,7 @@
     <div v-if="users" class="grid grid-cols-2 gap-4">
       <div v-for="(user, index) in users" :key="index" class="updown__item" :class="getUserItemClass(user)">
         <div class="flex items-center">
-          <img class="mr-5 rounded-full w-12 h-12 ring-4 ring-violet-300 object-cover shadow-xl" src="~/assets/img/avatar__default.jpg">
+          <Avatar class="mr-5" :user="user" />
           <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
           <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
         </div>

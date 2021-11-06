@@ -1,10 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <img
-      class="m-x-7 rounded-full w-40 h-40 ring-8 ring-indigo-600 shadow-sm object-cover"
-      src="~assets/img/avatar__default.jpg"
-      :alt="user.username"
-    >
+    <Avatar class="m-x-7" :user="user" size="extraLarge" />
     <div class="mb-10">
       <h2 v-if="!isEditing" class="badge font-semibold !text-lg cursor-pointer" @click="startEditing">
         {{ user.username }}

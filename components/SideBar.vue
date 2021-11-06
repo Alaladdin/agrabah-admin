@@ -24,7 +24,13 @@
 
       <div class="sidebar__profile">
         <div class="flex justify-center items-center p-3">
-          <img v-on-clickaway="closeProfileContext" class="sidebar__profile-avatar" src="~/assets/img/avatar__default.jpg" :alt="user.username" @click="openProfileContext">
+          <Avatar
+            v-on-clickaway="closeProfileContext"
+            :class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
+            :user="user"
+            size="medium"
+            @click="openProfileContext"
+          />
 
           <div class="flex flex-col mr-5 select-none">
             <span class="text-md font-semibold">{{ user.username }}</span>
