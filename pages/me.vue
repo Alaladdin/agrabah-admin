@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <t-button variant="danger" disabled>Delete my profile</t-button>
+    <t-button variant="danger" @click="confirmRemoveProfile">Delete my profile</t-button>
   </div>
 </template>
 
@@ -62,7 +62,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['editUser']),
+    ...mapActions({
+      editUser  : 'editUser',
+      removeUser: 'team/removeUser',
+    }),
 
     saveNewUsername () {
       const data = {
@@ -80,6 +83,15 @@ export default {
     stopEditing () {
       this.isEditing = false
       this.newUsername = this.user.username
+    },
+    confirmRemoveProfile () {
+      const isRemoveConfirmed = confirm('Are u sure want to delete your profile?')
+
+      if (isRemoveConfirmed) {
+        this.removeUser(this.user)
+          .then(() => this.$auth.logout())
+          .catch(this.$handleError)
+      }
     },
     formatDate (date) {
       return moment(date).format('DD.MM.YYYY')
