@@ -52,7 +52,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone, debounce } from 'lodash'
-import { isUsernameValid, generateSmallId } from '@/helpers'
+import { validateUsername, generateSmallId } from '@/helpers'
 
 export default {
   name: 'Team',
@@ -74,10 +74,10 @@ export default {
       return { filters, requestId: generateSmallId() }
     },
     isNewUsernameValid () {
-      return isUsernameValid(this.editingUserData.username)
+      return validateUsername(this.editingUserData.username)
     },
     isSearchValid () {
-      return this.searchUsername.length === 0 || isUsernameValid(this.searchUsername)
+      return this.searchUsername.length === 0 || validateUsername(this.searchUsername)
     },
   },
   watch: {
