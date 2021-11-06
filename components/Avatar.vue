@@ -1,6 +1,6 @@
 <template>
   <figure class="flex flex-col items-center">
-    <img class="rounded-full ring-8 ring-violet-300 shadow-sm object-cover" :class="avatarClasses" :src="avatarUrl" :alt="user.username" @click="onClick">
+    <img class="rounded-full ring-8 ring-violet-300 shadow-sm object-cover" :class="[avatarClass, imageClass]" :src="avatarUrl" :alt="user.username" @click="onClick">
     <figcaption v-if="title" class="badge mt-5">{{ title }}</figcaption>
   </figure>
 </template>
@@ -22,13 +22,13 @@ export default {
       default: '',
     },
     imageClass: {
-      type   : String,
+      type   : [String, Array, Object],
       default: '',
     },
   },
   data () {
     return {
-      avatarClassesBySize: {
+      avatarClassBySize: {
         small     : ['w-12', 'h-12', 'ring-4'],
         medium    : ['w-16', 'h-16', 'ring-4'],
         large     : ['w-24', 'h-24', 'ring-5'],
@@ -37,10 +37,8 @@ export default {
     }
   },
   computed: {
-    avatarClasses () {
-      const classesBySize = this.avatarClassesBySize[this.size]
-
-      return [...classesBySize, this.imageClass]
+    avatarClass () {
+      return this.avatarClassBySize[this.size]
     },
     avatarUrl () {
       return this.user.avatar || require('~/assets/img/avatar__default.jpg')
