@@ -5,12 +5,28 @@
       src="~assets/img/avatar__default.jpg"
       :alt="user.username"
     >
+    <div class="mb-10">
+      <h2 v-if="!isEditing" class="badge font-semibold !text-lg cursor-pointer" @click="startEditing">
+        {{ user.username }}
+      </h2>
 
-    <h2 class="px-3 mb-10 rounded bg-white font-semibold text-xl text-gray-800 text-center shadow-sm">
-      {{ user.username }}
-    </h2>
+      <template v-if="isEditing">
+        <t-input v-model="newUsername" maxlength="15" class="mb-2" :variant="{ 'danger' : !isNewUsernameValid }" placeholder="Username" />
+        <div class="flex">
+          <t-button class="mr-2 w-full" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewUsername">
+            <span class="mr-2">Save</span>
+            <fa icon="save" />
+          </t-button>
 
-    <div class="flex justify-center">
+          <t-button class="w-full" variant="danger" @click="stopEditing">
+            <span class="mr-2">Cancel</span>
+            <fa icon="times" />
+          </t-button>
+        </div>
+      </template>
+    </div>
+
+    <div class="flex justify-center mb-5">
       <div class="bg-white rounded w-max text-sm shadow-sm">
         <p class="flex justify-between p-3 w-100 border-b-1 last:border-b-0">
           <span>Registered at</span>
@@ -23,19 +39,58 @@
         </p>
       </div>
     </div>
+
+    <t-button variant="danger" disabled>Delete my profile</t-button>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import { validateUsername } from '@/helpers'
 
 export default {
-  name    : 'Me',
+  name: 'Me',
+  data () {
+    return {
+      newUsername: '',
+      isEditing  : false,
+    }
+  },
   computed: {
     ...mapGetters({ user: 'getUserData' }),
+
+    isNewUsernameValid () {
+      return validateUsername(this.newUsername)
+    },
+  },
+  watch: {
+    'user.username': {
+      immediate: true,
+      handler (v) {
+        this.newUsername = v
+      },
+    },
   },
   methods: {
+    ...mapActions(['editUser']),
+
+    saveNewUsername () {
+      const data = {
+        _id     : this.user._id,
+        username: this.newUsername,
+      }
+
+      this.editUser(data)
+        .then(this.stopEditing)
+        .catch(this.$handleError)
+    },
+    startEditing () {
+      this.isEditing = true
+    },
+    stopEditing () {
+      this.isEditing = false
+    },
     formatDate (date) {
       return moment(date).format('DD.MM.YYYY')
     },

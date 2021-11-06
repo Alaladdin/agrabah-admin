@@ -58,17 +58,11 @@ export const actions = {
       })
   },
   editUser (ctx, newUserData) {
-    return this.$axios.post('/api/auth/editUser', newUserData)
-      .then((res) => {
-        const { data } = res
+    return ctx.dispatch('editUser', newUserData, { root: true })
+      .then((userData) => {
+        ctx.commit('PATCH_USER', userData)
 
-        if (data && !data.error) {
-          ctx.commit('PATCH_USER', newUserData)
-
-          return ctx.state.users
-        }
-
-        throw data
+        return ctx.state.users
       })
       .catch((err) => {
         throw err

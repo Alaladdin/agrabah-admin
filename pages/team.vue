@@ -22,7 +22,7 @@
 
           <template v-if="canEditUser(user)">
             <div v-if="!isEditingUser(user)" class="flex ml-3">
-              <t-button class="px-2 mr-2" variant="indigo" @click="enableUserEditing(user)">
+              <t-button class="px-2 mr-2" variant="indigo" @click="startUserEditing(user)">
                 <fa icon="pencil-alt" />
               </t-button>
               <t-button class="px-2" variant="danger" @click="confirmRemoveUser(user)">
@@ -114,13 +114,13 @@ export default {
 
       return isOwner && _id !== user._id
     },
-    enableUserEditing (user) {
-      this.editingUserData = clone(user)
-    },
     editUserData () {
       this.editUser(this.editingUserData)
         .then(this.stopUserEditing)
         .catch(this.$handleError)
+    },
+    startUserEditing (user) {
+      this.editingUserData = clone(user)
     },
     stopUserEditing () {
       this.editingUserData = null

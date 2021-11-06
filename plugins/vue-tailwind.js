@@ -9,6 +9,7 @@ const VueTailwindSettings = {
       fixedClasses: 'flex items-center justify-center px-4 py-1 rounded font-semibold text-sm font-sans shadow-sm transition duration-200 ease-in-out focus:outline-none active:ring disabled:pointer-events-none disabled:cursor-default disabled:opacity-60',
       classes     : 'text-white bg-gray-800 hover:bg-gray-900 active:ring-gray-400',
       variants    : {
+        icon  : '!p-0 text-gray-600 shadow-none',
         white : 'text-gray-800 bg-white hover:bg-light-400 active:ring-gray-300',
         indigo: 'text-white bg-indigo-500 hover:bg-indigo-600 active:ring-indigo-300',
         blue  : 'text-white bg-blue-500 hover:bg-blue-600 active:ring-blue-300',

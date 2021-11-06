@@ -1,5 +1,5 @@
 import vue from 'vue'
-import { filter } from 'lodash'
+import { assign, filter } from 'lodash'
 import { version } from '@/package.json'
 
 export const state = () => ({
@@ -33,6 +33,9 @@ export const getters = {
 }
 
 export const mutations = {
+  PATCH_CURRENT_USER (state, data) {
+    state.auth.user = assign({}, state.auth.user, data)
+  },
   SET_APP_VERSION (state, data) {
     state.appVersion = data
   },
@@ -50,5 +53,25 @@ export const mutations = {
 export const actions = {
   loadAppVersion (ctx) {
     ctx.commit('SET_APP_VERSION', version)
+  },
+  editUser (ctx, newUserData) {
+    return this.$axios.post('/api/auth/editUser', newUserData)
+      .then((res) => {
+        const { data } = res
+
+        if (data && !data.error) {
+          const currentUserId = ctx.state.auth.user._id
+
+          if (data._id === currentUserId)
+            ctx.commit('PATCH_CURRENT_USER', data)
+
+          return data
+        }
+
+        throw data
+      })
+      .catch((err) => {
+        throw err
+      })
   },
 }
