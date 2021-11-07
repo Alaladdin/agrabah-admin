@@ -1,6 +1,13 @@
 <template>
-  <figure class="flex flex-col items-center">
-    <img class="rounded-full ring-8 ring-violet-300 shadow-sm object-cover" :class="[avatarClass, imageClass]" :src="avatarUrl" :alt="user.username" @click="onClick">
+  <figure class="flex flex-col items-center" @click="onClick">
+    <NuxtImg
+      preset="default"
+      :class="[avatarClass, imageClass]"
+      :src="avatarUrl"
+      :width="avatarSize"
+      :height="avatarSize"
+      :alt="user.username"
+    />
     <figcaption v-if="title" class="badge mt-5">{{ title }}</figcaption>
   </figure>
 </template>
@@ -26,25 +33,40 @@ export default {
       default: '',
     },
   },
-  data () {
-    return {
-      avatarClassBySize: {
-        small     : ['w-12', 'h-12', 'ring-4'],
-        medium    : ['w-16', 'h-16', 'ring-4'],
-        large     : ['w-24', 'h-24', 'ring-5'],
-        extraLarge: ['w-40', 'h-40', 'ring-8'],
-      },
-    }
-  },
   computed: {
     avatarClass () {
-      return this.avatarClassBySize[this.size]
+      const fixedClasses = 'rounded-full ring-8 ring-violet-300 shadow-sm object-cover'
+
+      return [fixedClasses, ...this.avatarClassBySize[this.size]]
+    },
+    avatarSize () {
+      return this.avatarSizes[this.size] + 'px'
     },
     avatarUrl () {
-      return this.user.avatar || require('~/assets/img/avatar__default.jpg')
+      return this.user.avatar || 'avatar__default.jpg'
     },
   },
+  created () {
+    this.initStaticVariables()
+  },
   methods: {
+    initStaticVariables () {
+      const defaultSize = 16
+
+      this.avatarSizes = {
+        small     : defaultSize * 3,
+        medium    : defaultSize * 4,
+        large     : defaultSize * 6,
+        extraLarge: defaultSize * 10,
+      }
+
+      this.avatarClassBySize = {
+        small     : ['ring-4'],
+        medium    : ['ring-4'],
+        large     : ['ring-5'],
+        extraLarge: ['ring-8'],
+      }
+    },
     onClick (e) {
       this.$emit('click', e)
     },

@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col items-center">
-    <img
+    <NuxtImg
+      preset="default"
       class="mb-10 rounded-full ring-8 ring-white shadow-xl"
-      src="~/assets/img/oib__orig__square.png"
+      src="oib__orig__square.png"
       width="256"
       height="256"
-    >
-
+    />
     <t-tag class="mb-5" variant="title">Logging out</t-tag>
     <t-tag class="mb-10 text-2xl font-normal" variant="subtitle">
       <span class="text-gray-700">Are u sure?</span>

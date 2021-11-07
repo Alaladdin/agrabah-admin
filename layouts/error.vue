@@ -19,8 +19,8 @@
         </NuxtLink>
 
         <div class="flex">
-          <img class="animate-bounce" src="~/assets/img/middle_finger_right.png" width="200">
-          <img class="animate-bounce animate-bounce-reverse" src="~/assets/img/middle_finger_left.png" width="200">
+          <NuxtImg preset="default" class="animate-bounce" src="middle_finger_right.png" width="200" />
+          <NuxtImg preset="default" class="animate-bounce animate-bounce-reverse" src="middle_finger_left.png" width="200" />
         </div>
       </div>
     </div>

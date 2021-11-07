@@ -37,7 +37,7 @@
       </div>
 
       <div class="flex justify-center items-center w-4/6 h-full bg-indigo-600">
-        <img class="rounded-full ring-8 ring-white shadow-xl" src="~/assets/img/oib__orig__square.png" width="256">
+        <NuxtImg preset="default" class="rounded-full ring-8 ring-white shadow-xl" src="oib__orig__square.png" width="256" />
       </div>
     </div>
   </div>

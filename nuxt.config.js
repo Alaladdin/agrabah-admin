@@ -21,8 +21,8 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
+    '@nuxt/image',
     'nuxt-windicss',
-    '@aceforth/nuxt-optimized-images',
     'nuxt-build-optimisations',
   ],
   modules: [
@@ -41,6 +41,19 @@ export default {
       },
     }],
   ],
+  image: {
+    dir     : 'assets/img',
+    provider: 'static',
+    presets : {
+      default: {
+        modifiers: {
+          fit    : 'cover',
+          format : 'webp',
+          quality: 70,
+        },
+      },
+    },
+  },
   fontawesome: {
     component: 'fa',
     imports  : [
@@ -89,12 +102,5 @@ export default {
   loading: {
     color : '#4C4BE0',
     height: '5px',
-  },
-  optimizedImages: {
-    optimizeImages     : true,
-    optimizeImagesInDev: true,
-    optipng            : {
-      optimizationLevel: 7,
-    },
   },
 }
