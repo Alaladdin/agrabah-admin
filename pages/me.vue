@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-center items-center">
     <Avatar class="m-x-7" :user="user" size="extraLarge" />
-    <div class="mb-10">
-      <h2 v-if="!isEditing" class="badge font-semibold !text-lg cursor-pointer" @click="startEditing">
+    <div class="mb-5">
+      <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="startEditing">
         {{ user.username }}
       </h2>
 
@@ -17,14 +17,9 @@
 
     <div class="flex justify-center mb-5">
       <div class="bg-white rounded w-max text-sm shadow-sm">
-        <p class="flex justify-between p-3 w-100 border-b-1 last:border-b-0">
-          <span>Registered at</span>
-          <span>{{ formatDate(user.createdAt) }}</span>
-        </p>
-
-        <p class="flex justify-between p-3 w-100 border-b-1 last:border-b-0">
-          <span>Access level</span>
-          <span>{{ user.scope.join(', ') }}</span>
+        <p v-for="(field, index) in getProfileInfoFields()" :key="index" class="options">
+          <span>{{ field.title }}</span>
+          <span class="options__item">{{ field.value }}</span>
         </p>
       </div>
     </div>
@@ -67,6 +62,24 @@ export default {
       removeUser: 'team/removeUser',
     }),
 
+    getProfileInfoFields () {
+      const { lastLoggedAt, createdAt, scope } = this.user
+
+      return [
+        {
+          title: 'Last logged at',
+          value: this.formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY'),
+        },
+        {
+          title: 'Registered at',
+          value: this.formatDate(createdAt),
+        },
+        {
+          title: 'Access level',
+          value: scope.join(', '),
+        },
+      ]
+    },
     saveNewUsername () {
       const data = {
         _id     : this.user._id,
@@ -93,8 +106,8 @@ export default {
           .catch(this.$handleError)
       }
     },
-    formatDate (date) {
-      return moment(date).format('DD.MM.YYYY')
+    formatDate (date, format = 'DD.MM.YYYY') {
+      return moment(date).format(format)
     },
   },
 }

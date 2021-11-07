@@ -82,7 +82,8 @@ export default {
   },
   watch: {
     searchUsername () {
-      if (this.isSearchValid) this.loadUsersDebounced(this.queryData)
+      if (this.isSearchValid)
+        this.loadUsersDebounced(this.queryData)
     },
   },
   created () {
