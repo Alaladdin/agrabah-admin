@@ -67,6 +67,10 @@ export default {
 
       return [
         {
+          title: 'Account age',
+          value: moment().diff(createdAt, 'days') + ' days',
+        },
+        {
           title: 'Last logged at',
           value: this.formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY'),
         },
