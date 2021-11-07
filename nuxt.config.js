@@ -42,14 +42,13 @@ export default {
     }],
   ],
   image: {
-    dir     : 'assets/img',
-    provider: 'static',
-    presets : {
+    dir    : 'assets/img',
+    presets: {
       default: {
         modifiers: {
           fit    : 'cover',
           format : 'webp',
-          quality: 70,
+          quality: 80,
         },
       },
     },
