@@ -21,7 +21,6 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
-    '@nuxt/image',
     'nuxt-windicss',
     'nuxt-build-optimisations',
   ],
@@ -29,6 +28,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/component-cache',
+    '@nuxt/image',
     'nuxt-helmet',
     'nuxt-fontawesome',
     ['nuxt-tailvue', {
