@@ -29,7 +29,7 @@ export default {
       const { actualityChannel, actualityTime, savedShortId } = this.botConfig
 
       return [
-        { title: 'Channel ID', value: actualityChannel },
+        { title: 'Channel ID', value: actualityChannel || 'none' },
         { title: 'Time', value: actualityTime },
         { title: 'Last posted ID', value: savedShortId || 'none' },
       ]

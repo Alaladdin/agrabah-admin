@@ -97,7 +97,7 @@ export default {
         })
     },
     isUnsavedChanges (field) {
-      if (this.isLoading) return false
+      if (this.isLoading || !this.inActuality) return false
 
       return this.actuality[field] !== this.inActuality[field]
     },

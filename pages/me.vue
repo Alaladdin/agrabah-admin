@@ -24,7 +24,10 @@
       </div>
     </div>
 
-    <t-button variant="danger" @click="confirmRemoveProfile">Delete my profile</t-button>
+    <div class="flex gap-3">
+      <t-button variant="indigo" disabled @click="changePassword">Change password</t-button>
+      <t-button variant="danger" @click="confirmRemoveProfile">Delete my profile</t-button>
+    </div>
   </div>
 </template>
 
@@ -101,6 +104,7 @@ export default {
       this.isEditing = false
       this.newUsername = this.user.username
     },
+    changePassword () {},
     confirmRemoveProfile () {
       const isRemoveConfirmed = confirm('Are u sure want to delete your profile?')
 
