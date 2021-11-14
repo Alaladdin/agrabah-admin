@@ -4,7 +4,7 @@
       <label class="flex flex-col mr-3 w-full h-full">
         <div class="actuality__textarea-label relative">
           <span>Main</span>
-          <span v-show="isUnsavedChanges('content')" class="badge badge---warn absolute left-0 fade-in">Unsaved changes</span>
+          <span v-show="isUnsavedChanges('content')" class="badge badge--warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
         <t-textarea v-model="actuality.content" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
@@ -12,7 +12,7 @@
       <label class="flex flex-col w-full h-full">
         <div class="actuality__textarea-label relative">
           <span>Lazy</span>
-          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge---warn absolute right-0 fade-in">Unsaved changes</span>
+          <span v-show="isUnsavedChanges('lazyContent')" class="badge badge--warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
         <t-textarea v-model="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>

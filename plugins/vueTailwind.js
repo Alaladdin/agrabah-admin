@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TRadio, TCheckbox, TModal } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TInputGroup, TTextarea, TAlert, TSelect, TTag, TRadio, TCheckbox, TModal } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -87,6 +87,32 @@ const VueTailwindSettings = {
       },
     },
   },
+  't-input-group': {
+    component: TInputGroup,
+    props    : {
+      fixedClasses: {
+        label      : 'block mb-1',
+        feedback   : 'text-sm text-sm',
+        description: 'mt-1 text-sm',
+      },
+      classes: {
+        feedback   : 'text-gray-400',
+        description: 'text-gray-400',
+      },
+      variants: {
+        danger: {
+          label      : 'text-red-500',
+          feedback   : 'text-red-500',
+          description: 'text-red-400',
+        },
+        success: {
+          label      : 'text-green-500',
+          feedback   : 'text-green-500',
+          description: 'text-green-400',
+        },
+      },
+    },
+  },
   't-radio': {
     component: TRadio,
     props    : {
@@ -116,23 +142,23 @@ const VueTailwindSettings = {
         overlay  : 'fixed justify-center items-center flex z-40 inset-0 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm',
         wrapper  : 'relative mx-auto max-w-lg w-full z-50',
         modal    : 'relative rounded overflow-visible shadow',
-        header   : 'p-3 rounded-t font-semibold',
+        header   : 'p-3 border-b-1 rounded-t font-semibold',
         body     : 'p-3 py-7',
-        footer   : 'p-3 rounded-b',
+        footer   : 'p-3 border-t-1 rounded-b',
         close    : 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50',
         closeIcon: 'h-4 w-4',
       },
       classes: {
-        header: 'bg-dark-300 text-light-200',
-        modal : 'bg-dark-100 text-light-200',
-        footer: 'bg-dark-300 text-light-200',
+        header: 'border-b-1',
+        modal : 'bg-gray-50',
+        footer: 'border-t-1',
         close : 'bg-dark-100 text-light-800 hover:bg-dark-200 focus:ring-dark-600',
       },
       variants: {
         danger: {
-          header: 'bg-red-100 text-red-600',
+          header: 'border-red-100 text-red-600',
           modal : 'bg-red-50 text-red-500',
-          footer: 'bg-red-100 text-red-500',
+          footer: 'border-red-100 text-red-500',
           close : 'bg-red-200 text-red-700 hover:bg-red-300 focus:ring-red-500',
         },
       },

@@ -102,11 +102,11 @@ textarea, {
   &__item {
     @apply text-xs font-mono leading-loose;
 
-    &---success {
+    &--success {
       @apply text-green-400;
     }
 
-    &---danger {
+    &--danger {
       @apply text-red-400;
     }
   }
@@ -115,7 +115,7 @@ textarea, {
 .badge {
   @apply py-1 px-3 rounded shadow-sm bg-white text-gray-600 text-xs w-max;
 
-  &---warn {
+  &--warn {
     @apply bg-orange-100 text-orange-700;
   }
 }
@@ -133,6 +133,41 @@ textarea, {
 
   &__date {
     @apply mb-2 text-right text-xs text-gray-400 font-semibold select-none;
+  }
+}
+
+.progress {
+  position: relative;
+  margin-right: 10px;
+  border-radius: 4px;
+  width: 200px;
+  height: 8px;
+  overflow: hidden;
+  @apply bg-gray-300;
+
+  &__bar {
+    position: absolute;
+    border-radius: 4px;
+    width: 100%;
+    height: 100%;
+    transition: 200ms all ease-in-out;
+    transition-property: background, width;
+
+    &--low {
+      @apply bg-red-300;
+    }
+
+    &--medium {
+      @apply bg-orange-300;
+    }
+
+    &--high {
+      @apply bg-green-300;
+    }
+  }
+
+  &__text {
+    @apply text-xs font-mono;
   }
 }
 

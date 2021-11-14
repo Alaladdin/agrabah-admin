@@ -27,11 +27,10 @@ export default [
     scope: ['admin'],
   },
   {
-    path    : '/authenticator',
-    title   : '2FA',
-    icon    : 'fingerprint',
-    scope   : ['user'],
-    disabled: true,
+    path : '/tfa',
+    title: '2FA',
+    icon : 'fingerprint',
+    scope: ['user'],
   },
   {
     path    : '/short-url',

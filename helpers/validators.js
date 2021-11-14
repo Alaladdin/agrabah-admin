@@ -9,3 +9,9 @@ export const validatePassword = (password) => {
 
   return passLength >= 6 && passLength <= 20
 }
+
+export const validateTfaSecret = (secret) => {
+  const latinLettersPattern = /[^a-z ]/gim
+
+  return !secret.match(latinLettersPattern)
+}

@@ -21,6 +21,7 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
+    '@nuxtjs/google-analytics',
     'nuxt-windicss',
     'nuxt-build-optimisations',
   ],
@@ -101,5 +102,8 @@ export default {
   loading: {
     color : '#4C4BE0',
     height: '5px',
+  },
+  googleAnalytics: {
+    id: process.env.GOOGLE_ANALYTICS_ID,
   },
 }

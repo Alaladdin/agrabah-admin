@@ -16,7 +16,7 @@
         <div class="bg-white rounded w-max">
           <div v-for="(field, index) in botConfigFields" :key="index" class="options">
             <span>{{ field.title }}</span>
-            <span :class="['options__item', field.isEnabled ? 'options__item---success' : 'options__item---danger']">
+            <span :class="['options__item', field.isEnabled ? 'options__item--success' : 'options__item--danger']">
               {{ field.value }}
             </span>
           </div>
