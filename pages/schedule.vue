@@ -1,14 +1,19 @@
 <template>
   <div>
-    <div class="flex justify-end mb-5 text-sm">
-      <t-button class="mr-5" text="Current week" @click="applyInitialData" />
-      <t-button class="mr-3" variant="white" @click="changeWeek(false)">
-        <fa icon="chevron-left" />
-      </t-button>
-      <t-button variant="white" @click="changeWeek(true)">
-        <fa icon="chevron-right" />
-      </t-button>
+    <div class="flex justify-between mb-5 text-sm">
+      <t-checkbox v-model="isShowHiddenFields" class="select-none">Show hidden fields</t-checkbox>
+
+      <div class="flex">
+        <t-button class="mr-5" text="Current week" @click="applyInitialData" />
+        <t-button class="mr-3" variant="white" @click="changeWeek(false)">
+          <fa icon="chevron-left" />
+        </t-button>
+        <t-button variant="white" @click="changeWeek(true)">
+          <fa icon="chevron-right" />
+        </t-button>
+      </div>
     </div>
+
     <div class="schedule">
       <div v-for="(u, i) in 5" :key="i" class="schedule__item">
         <p class="schedule__header-item">{{ weekDays[i] }}</p>
@@ -18,7 +23,11 @@
             <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
             <div class="text-xs text-gray-500">
               <p>{{ s.kindOfWork }}</p>
-              <p v-if="s.group">{{ s.group }}</p>
+              <template v-if="isShowHiddenFields">
+                <p>{{ s.beginLesson }} - {{ s.endLesson }}</p>
+                <p>{{ s.lecturer }}</p>
+              </template>
+              <p v-if="s.group" class="font-medium">{{ s.group }}</p>
               <p v-if="s.building !== '-'">{{ s.auditorium }} · ({{ s.building }})</p>
             </div>
           </div>
@@ -32,18 +41,20 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { assign, filter } from 'lodash'
-import { generateSmallId } from '@/helpers'
+import { generateSmallId, getFromLocalStorage, setToLocalStorage } from '@/helpers'
 
 const DEFAULT_DATE_FORMAT = 'DD.MM'
 const COMPARE_DATE_FORMAT = 'MM.DD'
 const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
+const HIDDEN_LABELS_KEY = 'schedule__show_hidden_fields'
 
 export default {
   name: 'Schedule',
   data () {
     return {
-      scheduleOffset: { start: null, finish: null },
-      isLoading     : false,
+      scheduleOffset    : { start: null, finish: null },
+      isShowHiddenFields: false,
+      isLoading         : false,
     }
   },
   computed: {
@@ -69,6 +80,9 @@ export default {
     'scheduleOffset.start' (v) {
       if (v) this.loadScheduleData()
     },
+    isShowHiddenFields (v) {
+      setToLocalStorage(HIDDEN_LABELS_KEY, v)
+    },
   },
   created () {
     this.applyInitialData()
@@ -84,6 +98,7 @@ export default {
       this.weekDays = moment.weekdaysShort().splice(1)
       this.scheduleOffset.start = moment().add(2, 'days').startOf('isoWeek').format(SERVER_DATE_FORMAT)
       this.scheduleOffset.finish = moment().add(2, 'days').endOf('isoWeek').format(SERVER_DATE_FORMAT)
+      this.isShowHiddenFields = getFromLocalStorage(HIDDEN_LABELS_KEY, false)
     },
     loadScheduleData () {
       this.isLoading = true

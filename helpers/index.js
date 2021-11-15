@@ -28,10 +28,13 @@ const isJson = (str) => {
 }
 
 const setToLocalStorage = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  if (process.client)
+    localStorage.setItem(key, JSON.stringify(value))
 }
 
 const getFromLocalStorage = (key, defaultValue) => {
+  if (!process.client) return defaultValue
+
   let val = localStorage.getItem(key)
 
   val = val && isJson(val) && JSON.parse(val)
