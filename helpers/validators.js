@@ -11,7 +11,7 @@ export const validatePassword = (password) => {
 }
 
 export const validateTfaSecret = (secret) => {
-  const latinLettersPattern = /[^a-z ]/gim
+  const latinLettersPattern = /[^a-z0-9]/gim
 
   return !secret.match(latinLettersPattern)
 }

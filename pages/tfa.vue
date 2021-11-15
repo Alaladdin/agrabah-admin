@@ -4,10 +4,10 @@
       <ProgressBar class="justify-center bg-white p-3 rounded shadow" :value="tfaPercent" :text="timeRemaining + ' sec'" />
     </div>
 
-    <t-alert v-if="!currentTfas.length" dismissible="false" show>No any tfa here. Add something</t-alert>
+    <t-alert v-if="!currentTfas.length" class="flex self-center w-6/12" :dismissible="false" show>No any tfa here. Add something</t-alert>
 
-    <div class="grid grid-cols-2 gap-3 justify-center">
-      <div v-for="tfa in currentTfas" :key="tfa._id" class="updown__item" :class="getTfaItemClass(tfa)">
+    <div class="grid grid-cols-2 gap-3">
+      <div v-for="tfa in currentTfas" :key="tfa._id" :class="['updown__item', getTfaItemClass(tfa)]">
         <template v-if="!isEditingTfa(tfa)">
           <div class="text-sm select-text">
             <span>{{ tfa.name }}</span>
@@ -26,15 +26,13 @@
         </template>
 
         <template v-else>
-          <div class="text-sm select-text">
-            <t-input v-model="editingTfaData.name" class="!py-1.1" placeholder="Name" />
-            <span>:</span>
-            <t-input v-model="editingTfaData.secret" class="!py-1.1" placeholder="Secret" />
-          </div>
+          <t-input v-model="editingTfaData.name" class="!py-1.1" placeholder="Name" />
+          <span>:</span>
+          <t-input v-model="editingTfaData.secret" class="!py-1.1" placeholder="Secret" />
 
           <div class="flex gap-2">
             <t-button class="px-2 !text-sm" variant="indigo" :disabled="isSaveEditedTfaDisabled" @click="editTfaData">
-              <fa class="!text-sm" icon="save" />
+              <fa icon="save" />
             </t-button>
             <t-button class="px-2 !text-sm" variant="danger" @click="stopEditing">
               <fa icon="times" />
