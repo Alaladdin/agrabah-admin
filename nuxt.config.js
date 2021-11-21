@@ -107,6 +107,5 @@ export default {
     id      : process.env.YANDEX_METRICA_ID,
     webvisor: false,
     clickmap: false,
-    useCDN  : true,
   },
 }
