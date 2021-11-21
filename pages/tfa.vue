@@ -26,9 +26,9 @@
         </template>
 
         <template v-else>
-          <t-input v-model="editingTfaData.name" class="!py-1.1" placeholder="Name" />
+          <t-input v-model="editingTfaData.name" :variant="{ 'danger' : !editingTfaData.name }" class="!py-1.1" placeholder="Name" />
           <span>:</span>
-          <t-input v-model="editingTfaData.secret" class="!py-1.1" placeholder="Secret" />
+          <t-input v-model="editingTfaData.secret" :variant="{ 'danger' : !editingTfaData.secret }" class="!py-1.1" placeholder="Secret" />
 
           <div class="flex gap-2">
             <t-button class="px-2 !text-sm" variant="indigo" :disabled="isSaveEditedTfaDisabled" @click="editTfaData">
@@ -77,8 +77,12 @@ export default {
     },
   },
   watch: {
-    tfas (v) {
-      this.prepareTfas(v)
+    tfas: {
+      immediate: true,
+      handler (tfas) {
+        if (tfas)
+          this.prepareTfas(tfas)
+      },
     },
     tfaPercent (v) {
       if (v === '100')
@@ -92,11 +96,16 @@ export default {
     ...mapActions('tfa', ['loadTfas', 'addTfa', 'editTfa', 'removeTfa']),
 
     init () {
-      this.loadTfas()
-        .then(() => {
-          setInterval(() => this.setTfaVariables(), 1000)
-        })
-        .catch(this.$handleError)
+      if (this.tfas) {
+        this.afterInit()
+      } else {
+        this.loadTfas()
+          .then(this.afterInit)
+          .catch(this.$handleError)
+      }
+    },
+    afterInit () {
+      setInterval(() => this.setTfaVariables(), 1000)
     },
     setTfaVariables () {
       const timeRemaining = authenticator.timeRemaining()
