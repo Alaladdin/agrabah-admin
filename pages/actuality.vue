@@ -19,7 +19,7 @@
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
-      <div class="inline-block rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold">
+      <div class="rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold">
         <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
       </div>
 

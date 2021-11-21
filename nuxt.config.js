@@ -21,13 +21,13 @@ export default {
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
-    '@nuxtjs/google-analytics',
     'nuxt-windicss',
     'nuxt-build-optimisations',
   ],
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
+    '@nuxtjs/yandex-metrika',
     '@nuxtjs/component-cache',
     '@nuxt/image',
     'nuxt-helmet',
@@ -103,7 +103,10 @@ export default {
     color : '#4C4BE0',
     height: '5px',
   },
-  googleAnalytics: {
-    id: process.env.GOOGLE_ANALYTICS_ID,
+  yandexMetrika: {
+    id      : process.env.YANDEX_METRICA_ID,
+    webvisor: false,
+    clickmap: false,
+    useCDN  : true,
   },
 }

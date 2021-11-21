@@ -96,13 +96,18 @@ export default {
     ...mapActions('tfa', ['loadTfas', 'addTfa', 'editTfa', 'removeTfa']),
 
     init () {
-      if (this.tfas) {
-        this.afterInit()
-      } else {
+      this.beforeInit()
+
+      if (!this.tfas) {
         this.loadTfas()
           .then(this.afterInit)
           .catch(this.$handleError)
+      } else {
+        this.afterInit()
       }
+    },
+    beforeInit () {
+      this.setTfaVariables()
     },
     afterInit () {
       setInterval(() => this.setTfaVariables(), 1000)
