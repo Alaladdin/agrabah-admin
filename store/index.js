@@ -55,7 +55,7 @@ export const actions = {
     ctx.commit('SET_APP_VERSION', version)
   },
   editUser (ctx, newUserData) {
-    return this.$axios.post('/api/auth/editUser', newUserData)
+    return this.$axios.patch('/api/auth/editUser', newUserData)
       .then((res) => {
         const { data } = res
 
