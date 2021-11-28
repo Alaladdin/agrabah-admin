@@ -1,16 +1,7 @@
 <template>
   <div>
-    <div>
-      <t-textarea v-model="message" class="mb-3 w-full h-70" :variant="{ 'danger' : !message }" />
-
-      <div class="flex justify-end items-center">
-        <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
-        <t-button :disabled="isSendDisabled" @click="sendMess">Send</t-button>
-      </div>
-    </div>
-
-    <div v-if="botConfigFields.length">
-      <h3 class="my-6 text-xl font-semibold text-center">Bot Config</h3>
+    <div v-if="botConfigFields.length" class="mb-15">
+      <h3 class="mb-6 text-xl font-semibold text-center">Bot Config</h3>
 
       <div class="flex justify-center">
         <div class="bg-white rounded w-max">
@@ -21,6 +12,16 @@
             </span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center self-center pb-10 w-9/12">
+      <t-tag variant="subtitle" class="mb-3">Send message to the chat via bot</t-tag>
+      <t-textarea v-model="message" class="mb-3 w-full self-center h-40" :variant="{ 'danger' : !message }" />
+
+      <div class="flex self-end items-center">
+        <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
+        <t-button :disabled="isSendDisabled" @click="sendMess">Send</t-button>
       </div>
     </div>
   </div>
@@ -51,7 +52,7 @@ export default {
     botConfigFields () {
       if (!this.botConfig) return []
 
-      const { isBotActive, actualityAutoposting } = this.botConfig
+      const { isBotActive, isActualityAutopostingEnabled, isConcatActualities } = this.botConfig
 
       return [
         {
@@ -61,8 +62,13 @@ export default {
         },
         {
           title    : 'Actuality autoposting',
-          value    : actualityAutoposting.isEnabled ? 'enabled' : 'disabled',
-          isEnabled: actualityAutoposting.isEnabled,
+          value    : isActualityAutopostingEnabled ? 'enabled' : 'disabled',
+          isEnabled: isActualityAutopostingEnabled,
+        },
+        {
+          title    : 'Actuality concatenation',
+          value    : isConcatActualities ? 'enabled' : 'disabled',
+          isEnabled: isConcatActualities,
         },
       ]
     },
