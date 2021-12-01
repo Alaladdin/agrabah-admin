@@ -97,10 +97,10 @@ textarea, {
 }
 
 .options {
-  @apply flex justify-between p-3 w-100 border-b-1 last:border-b-0;
+  @apply flex justify-between items-center p-3 w-100 border-b-1 last:border-b-0 text-sm;
 
   &__item {
-    @apply text-xs font-mono leading-loose;
+    @apply text-xs font-mono;
 
     &--success {
       @apply text-green-400;

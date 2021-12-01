@@ -16,7 +16,7 @@
     </div>
 
     <div class="flex justify-center mb-5">
-      <div class="bg-white rounded w-max text-sm shadow-sm">
+      <div class="bg-white rounded w-max shadow-sm">
         <p v-for="(field, index) in getProfileInfoFields()" :key="index" class="options">
           <span>{{ field.title }}</span>
           <span class="options__item">{{ field.value }}</span>
