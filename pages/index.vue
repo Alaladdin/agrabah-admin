@@ -9,13 +9,13 @@
       </div>
 
       <div class="flex justify-between items-center">
-        <p :class="['mr-3', getIndicatorTextClass(service.isOnline)]">
+        <p :class="['mr-3', getTextOnlineClass(service.isOnline)]">
           {{ getIndicatorText(service.isOnline) }}
         </p>
 
         <span class="relative flex h-2.5 w-2.5">
-          <span :class="['updown__online-indicator', getIndicatorBgClass(service.isOnline)]" />
-          <span v-if="service.isOnline !== null" :class="getPulseClass(service.isOnline)" />
+          <span :class="['updown__online-indicator', getBgOnlineClass(service.isOnline)]" />
+          <span v-if="service.isOnline" class="updown__online-pulse animate-ping bg-green-400" />
         </span>
       </div>
     </div>
@@ -36,20 +36,15 @@ export default {
 
       return isOnline ? 'online' : 'offline'
     },
-    getIndicatorTextClass (isOnline) {
-      if (isOnline === null) return 'text-gray-400'
-
-      return isOnline ? 'text-green-400' : 'text-red-400'
-    },
-    getPulseClass (isOnline) {
-      if (isOnline === null) return ''
-
-      return ['updown__online-pulse', 'animate-ping', this.getIndicatorBgClass(isOnline)]
-    },
-    getIndicatorBgClass (isOnline) {
+    getBgOnlineClass (isOnline, isText = false) {
       if (isOnline === null) return 'bg-gray-400'
 
-      return isOnline ? 'bg-green-400' : 'bg-red-400'
+      return (isOnline ? 'bg-green-400' : 'bg-red-400')
+    },
+    getTextOnlineClass (isOnline, isText = false) {
+      if (isOnline === null) return 'text-gray-400'
+
+      return (isOnline ? 'text-green-400' : 'text-red-400')
     },
   },
 }

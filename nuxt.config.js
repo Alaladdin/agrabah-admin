@@ -27,7 +27,6 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/yandex-metrika',
     '@nuxtjs/component-cache',
     '@nuxt/image',
     'nuxt-helmet',
@@ -102,11 +101,5 @@ export default {
   loading: {
     color : '#4C4BE0',
     height: '5px',
-  },
-  yandexMetrika: {
-    id      : process.env.YANDEX_METRICA_ID,
-    webvisor: false,
-    clickmap: false,
-    useCDN  : true,
   },
 }

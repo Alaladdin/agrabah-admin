@@ -1,12 +1,12 @@
 <template>
   <div class="flex w-full">
-    <div class="flex justify-between mb-3 w-full h-85">
+    <div class="flex justify-between mb-3 w-full max-h-120">
       <label class="flex flex-col mr-3 w-full h-full">
         <div class="actuality__textarea-label relative">
           <span>Main</span>
           <span v-show="isUnsavedChanges('content')" class="badge badge--warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="actuality.content" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="actuality.content" class="w-full h-full min-h-85 !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
 
       <label class="flex flex-col w-full h-full">
@@ -14,7 +14,7 @@
           <span>Lazy</span>
           <span v-show="isUnsavedChanges('lazyContent')" class="badge badge--warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="actuality.lazyContent" class="w-full h-full" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="actuality.lazyContent" class="w-full h-full min-h-85 !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
     </div>
 
