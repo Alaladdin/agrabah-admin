@@ -34,7 +34,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { validateUsername } from '@/helpers'
+import { formatDate, validateUsername } from '@/helpers'
 
 export default {
   name: 'Me',
@@ -75,11 +75,11 @@ export default {
         },
         {
           title: 'Last logged at',
-          value: this.formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY'),
+          value: formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY'),
         },
         {
           title: 'Registered at',
-          value: this.formatDate(createdAt),
+          value: formatDate(createdAt),
         },
         {
           title: 'Access level',
@@ -113,9 +113,6 @@ export default {
           .then(() => this.$auth.logout())
           .catch(this.$handleError)
       }
-    },
-    formatDate (date, format = 'DD.MM.YYYY') {
-      return moment(date).format(format)
     },
   },
 }

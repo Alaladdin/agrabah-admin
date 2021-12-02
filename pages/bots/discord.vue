@@ -17,6 +17,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { parseExpression } from 'cron-parser'
+import { formatDate } from '@/helpers'
 
 export default {
   name    : 'Discord',
@@ -30,7 +32,7 @@ export default {
 
       return [
         { title: 'Channel ID', value: actualityChannel || 'none' },
-        { title: 'Time', value: actualityTime },
+        { title: 'Next publish', value: this.getParsedCronDate(actualityTime) },
         { title: 'Last posted ID', value: savedShortId || 'none' },
       ]
     },
@@ -44,6 +46,12 @@ export default {
   },
   methods: {
     ...mapActions('discord', ['loadBotConfig']),
+
+    getParsedCronDate (cronExpression) {
+      const cronDate = parseExpression(cronExpression).next().toString()
+
+      return formatDate(cronDate, 'DD.MM HH:mm:ss')
+    },
   },
 }
 </script>

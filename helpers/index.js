@@ -1,5 +1,6 @@
 import { isArray, isObject, isString } from 'lodash'
 import { nanoid } from 'nanoid'
+import moment from 'moment'
 import { validateUsername, validatePassword, validateTfaSecret } from './validators'
 
 const generateSmallId = (size = 6) => {
@@ -42,7 +43,12 @@ const getFromLocalStorage = (key, defaultValue) => {
   return val || defaultValue
 }
 
+const formatDate = (date, format = 'DD.MM.YYYY') => {
+  return moment(date).format(format)
+}
+
 export {
+  formatDate,
   setToLocalStorage,
   getFromLocalStorage,
   validateUsername,
