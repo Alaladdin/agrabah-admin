@@ -19,8 +19,14 @@
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
-      <div class="rounded leading-normal shadow-sm bg-indigo-200 text-indigo-600 text-sm font-semibold">
-        <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
+      <div class="flex font-semibold text-sm gap-2 text-indigo-600 leading-normal">
+        <div class="rounded shadow-sm bg-indigo-200">
+          <p v-if="updatedAtText" class="px-4 py-1">{{ updatedAtText }}</p>
+        </div>
+
+        <div v-if="user.isAdmin" class="rounded shadow-sm bg-indigo-200">
+          <p v-if="actuality.shortId" class="px-4 py-1">ShortId: {{ actuality.shortId }}</p>
+        </div>
       </div>
 
       <div class="flex">
