@@ -30,10 +30,7 @@
       </div>
 
       <div class="flex">
-        <t-button variant="white" :disabled="isEditDisabled" @click="loadActualityData">
-          <fa icon="sync-alt" />
-        </t-button>
-
+        <t-button variant="white" text="Refresh" :disabled="isEditDisabled" @click="loadActualityData" />
         <t-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isEditDisabled" @click="updateActuality" />
       </div>
     </div>
@@ -68,11 +65,17 @@ export default {
       return this.isLoading || this.isUpdating
     },
   },
+  watch: {
+    inActuality: {
+      immediate: true,
+      handler (v) {
+        this.actuality = clone(v)
+      },
+    },
+  },
   created () {
     if (isEmpty(this.inActuality))
       this.loadActualityData()
-    else
-      this.applyActualityData()
   },
   methods: {
     ...mapActions('actuality', ['loadActuality', 'setActuality']),
@@ -81,22 +84,15 @@ export default {
       this.isLoading = true
 
       this.loadActuality()
-        .then(this.applyActualityData)
         .catch(this.$handleError)
         .finally(() => {
           this.isLoading = false
         })
     },
-    applyActualityData () {
-      this.actuality = clone(this.inActuality)
-    },
     updateActuality () {
       this.isUpdating = true
 
-      const { content, lazyContent } = this.actuality
-
-      this.setActuality({ content, lazyContent })
-        .then(this.loadActualityData)
+      this.setActuality(this.actuality)
         .catch(this.$handleError)
         .finally(() => {
           this.isUpdating = false
