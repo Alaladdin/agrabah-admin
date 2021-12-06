@@ -36,7 +36,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { find, filter } from 'lodash'
-import { navItems, updownServices } from '@/data'
+import { navItems } from '@/data'
 
 export default {
   name: 'Default',
@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ errors: 'getErrors' }),
+    ...mapGetters({ errors: 'getErrors', updownServices: 'updown/getUpdownServices' }),
 
     pageTitle () {
       const { path } = this.$route
@@ -55,7 +55,7 @@ export default {
       if (!user || path !== '/') {
         const currentRouteData = find(navItems, navItem => navItem.path === path)
 
-        return currentRouteData ? currentRouteData.title : ''
+        return currentRouteData?.title || ''
       }
 
       return `Hi, ${user.username}`
@@ -72,14 +72,10 @@ export default {
         .then(this.setHomeNavbarNotifications)
         .catch(this.$handleError)
     },
-    setHomeNavbarNotifications (allHosts) {
-      const hosts = filter(allHosts, (host) => {
-        return find(updownServices, service => service.url && host.url.includes(service.url))
-      })
+    setHomeNavbarNotifications () {
+      const onlineHosts = filter(this.updownServices, { isOnline: true })
 
-      const onlineHosts = filter(hosts, host => !host.error)
-
-      this.$setSideBarNotifications('home', updownServices.length - onlineHosts.length)
+      this.$setSideBarNotifications('home', this.updownServices.length - onlineHosts.length)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)

@@ -1,9 +1,8 @@
-import { map, find } from 'lodash'
+import { map, find, assign } from 'lodash'
 import { updownServices } from '@/data'
 
 export const state = () => ({
   updownServices,
-  updownStatus: null,
 })
 
 export const getters = {
@@ -11,20 +10,12 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_UPDOWN_STATUS (state, newData) {
-    state.updownStatus = newData
-  },
   UPDATE_UPDOWN_SERVICES (state, updownStatus) {
-    state.updownServices = map(state.updownServices, (service) => {
+    state.updownServices = map(updownServices, (service) => {
       const status = find(updownStatus, s => service.url && s.url.includes(service.url))
+      const isOnline = status ? !status.error : null
 
-      if (status) {
-        const { down, last_status: lastStatus } = status
-
-        service.isOnline = !down && lastStatus === 200
-      }
-
-      return service
+      return assign({}, service, { isOnline })
     })
   },
 }
@@ -35,7 +26,6 @@ export const actions = {
       .then((data) => {
         if (!data) throw (data)
 
-        ctx.commit('SET_UPDOWN_STATUS', data.updownStatus)
         ctx.commit('UPDATE_UPDOWN_SERVICES', data.updownStatus)
 
         return data.updownStatus
