@@ -40,6 +40,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone, isEmpty } from 'lodash'
+import { formatDate } from '@/helpers'
 
 export default {
   name: 'Actuality',
@@ -59,7 +60,7 @@ export default {
     updatedAtText () {
       const { updatedAt } = this.actuality
 
-      return updatedAt && `Updated at ${updatedAt}`
+      return updatedAt && `Updated at ${formatDate(updatedAt, 'DD.MM HH:mm')}`
     },
     isEditDisabled () {
       return this.isLoading || this.isUpdating

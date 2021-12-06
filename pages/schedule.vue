@@ -15,7 +15,7 @@
     </div>
 
     <div class="schedule">
-      <div v-for="(u, i) in 5" :key="i" class="schedule__item">
+      <div v-for="(_, i) in 5" :key="i" class="schedule__item">
         <p class="schedule__header-item">{{ weekDays[i] }}</p>
         <div :class="getCellClasses(weekDates[i])">
           <p class="schedule__date">{{ weekDates[i] }}</p>
@@ -40,8 +40,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { assign, filter } from 'lodash'
-import { generateSmallId, getFromLocalStorage, setToLocalStorage } from '@/helpers'
+import { filter } from 'lodash'
+import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 
 const DEFAULT_DATE_FORMAT = 'DD.MM'
 const COMPARE_DATE_FORMAT = 'MM.DD'
@@ -60,9 +60,6 @@ export default {
   computed: {
     ...mapGetters('schedule', { schedule: 'getSchedule' }),
 
-    queryData () {
-      return assign({}, this.scheduleOffset, { requestId: generateSmallId() })
-    },
     weekDates () {
       const { start } = this.scheduleOffset
       const dates = []
@@ -103,14 +100,14 @@ export default {
     loadScheduleData () {
       this.isLoading = true
 
-      this.loadSchedule(this.queryData)
+      this.loadSchedule(this.scheduleOffset)
         .catch(this.$handleError)
         .finally(() => {
           this.isLoading = false
         })
     },
     getScheduleForDate (date) {
-      return filter(this.schedule, s => s.date === date)
+      return filter(this.schedule, { date })
     },
     changeWeek (isNext = true) {
       const { start, finish } = this.scheduleOffset
