@@ -35,7 +35,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { find, filter } from 'lodash'
+import { find, reject } from 'lodash'
 import { navItems } from '@/data'
 
 export default {
@@ -73,9 +73,9 @@ export default {
         .catch(this.$handleError)
     },
     setHomeNavbarNotifications () {
-      const onlineHosts = filter(this.updownServices, { isOnline: true })
+      const notOnlineHosts = reject(this.updownServices, { isOnline: true })
 
-      this.$setSideBarNotifications('home', this.updownServices.length - onlineHosts.length)
+      this.$setSideBarNotifications('home', notOnlineHosts.length)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)
