@@ -13,9 +13,10 @@ export default {
     asyncScripts: true,
   },
   plugins: [
-    '~/plugins/vueTailwind',
-    '~/plugins/handleError',
-    '~/plugins/setSideBarNotifications',
+    '~/plugins/v-tooltip',
+    '~/plugins/vue-tailwind',
+    '~/plugins/handle-error',
+    '~/plugins/set-sidebar-notification',
   ],
   components  : true,
   buildModules: [
@@ -31,15 +32,15 @@ export default {
     '@nuxt/image',
     'nuxt-helmet',
     'nuxt-fontawesome',
-    ['nuxt-tailvue', {
-      toast: {
-        defaultProps: {
-          classToast  : 'v-toast bg-white',
-          classMessage: 'whitespace-pre-line',
-          timeout     : 3,
-        },
-      },
-    }],
+    // ['nuxt-tailvue', {
+    //   toast: {
+    //     defaultProps: {
+    //       classToast  : 'v-toast bg-white',
+    //       classMessage: 'whitespace-pre-line',
+    //       timeout     : 3,
+    //     },
+    //   },
+    // }],
   ],
   image: {
     dir    : 'assets/img',

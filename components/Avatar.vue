@@ -17,12 +17,14 @@ export default {
   name : 'Avatar',
   props: {
     user: {
-      type   : Object,
-      default: () => ({}),
+      type    : Object,
+      default : () => ({}),
+      required: true,
     },
     size: {
-      type   : String,
-      default: 'small',
+      type     : String,
+      default  : 'small',
+      validator: v => ['small', 'medium', 'large', 'extraLarge'].includes(v),
     },
     title: {
       type   : String,
