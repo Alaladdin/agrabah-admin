@@ -20,9 +20,13 @@
 
     <div class="flex justify-between items-center rounded select-none">
       <div class="flex font-semibold text-sm gap-2 text-indigo-600 leading-normal">
-        <UserPopup v-if="updatedAtText" class="rounded shadow-sm bg-indigo-200" :user="actuality.updatedBy" :disabled="!user.isAdmin">
+        <VMenu v-if="updatedAtText" class="rounded shadow-sm bg-indigo-200" :disabled="!user.isAdmin">
           <p class="px-4 py-1">{{ updatedAtText }}</p>
-        </UserPopup>
+
+          <template #popper>
+            <UserInfo :user="actuality.updatedBy" />
+          </template>
+        </VMenu>
 
         <div v-if="user.isAdmin && actuality.shortId" class="rounded shadow-sm bg-indigo-200">
           <p class="px-4 py-1">ID: {{ actuality.shortId }}</p>

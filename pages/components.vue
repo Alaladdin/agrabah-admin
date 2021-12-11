@@ -68,6 +68,22 @@
         <Avatar :user="user" size="extraLarge" title="extraLarge" />
       </div>
     </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Progress bar</h2>
+      <ProgressBar value="0" />
+      <ProgressBar value="30" />
+      <ProgressBar value="60" />
+      <ProgressBar value="100" />
+      <ProgressBar value="100" text="hundred percent" />
+    </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># User info</h2>
+      <div class="p-4 rounded bg-white max-w-2/10">
+        <UserInfo :user="$auth.$state.user" />
+      </div>
+    </div>
   </div>
 </template>
 

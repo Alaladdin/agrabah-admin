@@ -60,7 +60,7 @@ export default [
     disabled: true,
   },
   {
-    path : '/components/example',
+    path : '/components',
     title: 'Components Example',
     icon : 'cubes',
     scope: ['admin'],

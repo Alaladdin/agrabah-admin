@@ -13,6 +13,10 @@ textarea {
   display: flex;
 }
 
+.v-popper__inner {
+  padding: 15px 18px !important;
+}
+
 body,
 textarea, {
   overflow: auto;
