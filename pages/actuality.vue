@@ -24,7 +24,7 @@
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
-            <UserInfo :user="actuality.updatedBy" />
+            <UserInfo :user="actuality.updatedBy" class="gap-2" />
           </template>
         </VMenu>
 

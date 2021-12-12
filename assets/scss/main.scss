@@ -15,6 +15,8 @@ textarea {
 
 .v-popper__inner {
   padding: 15px 18px !important;
+
+  @apply max-w-xl;
 }
 
 body,
@@ -56,6 +58,12 @@ textarea, {
     &-button {
       @apply flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-150;
     }
+  }
+}
+
+.alert {
+  &---bordered {
+    @apply self-center '!border' w-1/2 text-center;
   }
 }
 
@@ -112,6 +120,18 @@ textarea, {
 
     &--danger {
       @apply text-red-400;
+    }
+  }
+}
+
+.changes {
+  @apply mb-10 rounded overflow-hidden;
+
+  &__item {
+    @apply flex items-center p-4 border-b last:border-b-0 bg-white shadow-sm transition duration-20 hover:bg-purple-50;
+
+    &-description {
+      @apply flex items-center text-sm;
     }
   }
 }

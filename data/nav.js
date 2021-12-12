@@ -46,11 +46,10 @@ export default [
     icon : 'users',
   },
   {
-    path    : '/audit',
-    title   : 'Audit',
-    icon    : 'history',
-    scope   : ['admin'],
-    disabled: true,
+    path : '/audit',
+    title: 'Audit',
+    icon : 'history',
+    scope: ['admin'],
   },
   {
     path    : '/metrics',

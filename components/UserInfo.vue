@@ -1,22 +1,31 @@
 <template>
-  <div class="flex justify-between items-center">
-    <Avatar class="mr-5" :user="user" size="small" />
+  <div class="flex justify-between items-center w-min-content">
+    <Avatar class="mr-4" :user="user" :size="avatarSize" />
 
     <div>
       <p class="font-semibold">{{ user.username }}</p>
-      <p class="text-xs text-gray-600">{{ user.scope[user.scope.length - 1] }}</p>
+      <p class="text-xs text-gray-600">{{ last(user.scope) }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { last } from 'lodash'
+
 export default {
   name : 'UserInfo',
   props: {
     user: {
-      type   : Object,
-      default: () => ({}),
+      type    : Object,
+      required: true,
     },
+    avatarSize: {
+      type   : String,
+      default: 'small',
+    },
+  },
+  methods: {
+    last,
   },
 }
 </script>

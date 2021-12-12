@@ -8,7 +8,6 @@
       :height="avatarSize"
       :alt="user.username"
     />
-    <figcaption v-if="title" class="badge mt-5">{{ title }}</figcaption>
   </figure>
 </template>
 
@@ -24,11 +23,7 @@ export default {
     size: {
       type     : String,
       default  : 'small',
-      validator: v => ['small', 'medium', 'large', 'extraLarge'].includes(v),
-    },
-    title: {
-      type   : String,
-      default: '',
+      validator: v => ['extraSmall', 'small', 'medium', 'large', 'extraLarge'].includes(v),
     },
     imageClass: {
       type   : [String, Array, Object],
@@ -56,6 +51,7 @@ export default {
       const defaultSize = 16
 
       this.avatarSizes = {
+        extraSmall: defaultSize * 2.5,
         small     : defaultSize * 3,
         medium    : defaultSize * 4,
         large     : defaultSize * 6,
@@ -63,6 +59,7 @@ export default {
       }
 
       this.avatarClassBySize = {
+        extraSmall: ['ring-3'],
         small     : ['ring-4'],
         medium    : ['ring-4'],
         large     : ['ring-5'],

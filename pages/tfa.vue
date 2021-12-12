@@ -4,7 +4,7 @@
       <ProgressBar class="justify-center bg-white p-3 rounded shadow" :value="tfaPercent" :text="timeRemaining + ' sec'" />
     </div>
 
-    <t-alert v-if="!currentTfas.length" class="flex self-center w-6/12" :dismissible="false" show>No any tfa here. Add something</t-alert>
+    <t-alert v-if="!currentTfas.length" class="alert---bordered" :dismissible="false" show>No any tfa here. Add something</t-alert>
 
     <div class="grid grid-cols-2 gap-3">
       <div v-for="tfa in currentTfas" :key="tfa._id" :class="['updown__item', getTfaItemClass(tfa)]">

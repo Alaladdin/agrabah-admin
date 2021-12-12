@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex">
-          <div v-if="!isEditingUser(user)" class="text-sm">{{ user.scope.join(', ') }}</div>
+          <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
 
           <template v-if="canEditUser(user)">
             <div v-if="!isEditingUser(user)" class="flex ml-3">
@@ -51,7 +51,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone, debounce } from 'lodash'
+import { clone, debounce, last } from 'lodash'
 import { validateUsername, generateSmallId } from '@/helpers'
 
 export default {
@@ -96,6 +96,7 @@ export default {
   methods: {
     ...mapActions('team', ['loadUsers', 'editUser', 'removeUser']),
 
+    last,
     loadUsersDebounced: debounce(function (searchFilters) {
       this.loadUsers(searchFilters)
         .then(this.stopUserEditing)

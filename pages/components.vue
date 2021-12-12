@@ -6,8 +6,8 @@
         <t-button class="mr-3" :disabled="isDisabled" @click="toggleDisabled">Default button</t-button>
         <t-button class="mr-3" variant="white" :disabled="isDisabled" @click="toggleDisabled">White button</t-button>
         <t-button class="mr-3" variant="indigo" :disabled="isDisabled" @click="toggleDisabled">Indigo button</t-button>
-        <t-button class="mr-3" variant="blue" :disabled="isDisabled" @click="toggleDisabled">Blue button</t-button>
-        <t-button variant="danger" :disabled="isDisabled" @click="toggleDisabled">Danger button</t-button>
+        <t-button class="mr-3" variant="danger" :disabled="isDisabled" @click="toggleDisabled">Danger button</t-button>
+        <t-button variant="link" :disabled="isDisabled" @click="toggleDisabled">Link button</t-button>
       </div>
     </div>
 
@@ -62,10 +62,10 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex">
-        <Avatar class="mr-5" :user="user" size="small" title="small" />
-        <Avatar class="mr-5" :user="user" size="medium" title="medium" />
-        <Avatar class="mr-5" :user="user" size="large" title="large" />
-        <Avatar :user="user" size="extraLarge" title="extraLarge" />
+        <Avatar class="mr-5" :user="user" size="small" />
+        <Avatar class="mr-5" :user="user" size="medium" />
+        <Avatar class="mr-5" :user="user" size="large" />
+        <Avatar :user="user" size="extraLarge" />
       </div>
     </div>
 
@@ -80,7 +80,7 @@
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># User info</h2>
-      <div class="p-4 rounded bg-white max-w-2/10">
+      <div class="p-4 rounded bg-white w-1/7">
         <UserInfo :user="$auth.$state.user" />
       </div>
     </div>

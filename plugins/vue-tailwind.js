@@ -6,14 +6,14 @@ const VueTailwindSettings = {
   't-button': {
     component: TButton,
     props    : {
-      fixedClasses: 'flex items-center justify-center px-4 py-1 rounded font-semibold text-sm font-sans shadow-sm transition duration-200 ease-in-out focus:outline-none active:ring disabled:pointer-events-none disabled:cursor-default disabled:opacity-60',
+      fixedClasses: 'flex items-center justify-center px-4 py-1 rounded font-semibold text-sm font-sans shadow-sm select-none transition duration-200 ease-in-out focus:outline-none active:ring disabled:pointer-events-none disabled:cursor-default disabled:opacity-60',
       classes     : 'text-white bg-gray-800 hover:bg-gray-900 active:ring-gray-400',
       variants    : {
         icon  : '!p-0 text-gray-600 shadow-none',
         white : 'text-gray-800 bg-white hover:bg-light-400 active:ring-gray-300',
         indigo: 'text-white bg-indigo-500 hover:bg-indigo-600 active:ring-indigo-300',
-        blue  : 'text-white bg-blue-500 hover:bg-blue-600 active:ring-blue-300',
         danger: 'text-white bg-red-500 hover:bg-red-600 active:ring-red-300',
+        link  : '!p-0 text-indigo-500 shadow-none hover:text-indigo-600 active:text-indigo-300 bg-none',
       },
     },
   },
@@ -45,12 +45,12 @@ const VueTailwindSettings = {
         warn: {
           wrapper: 'bg-orange-50 border-orange-500',
           body   : 'text-orange-700',
-          close  : 'text-orange-500  bg-orange-100 hover:bg-orange-200 focus:ring-orange-500',
+          close  : 'text-orange-500 bg-orange-100 hover:bg-orange-200 focus:ring-orange-500',
         },
         danger: {
           wrapper: 'bg-red-50 border-red-500',
           body   : 'text-red-700',
-          close  : 'text-red-500  bg-red-100 hover:bg-red-200 focus:ring-red-500',
+          close  : 'text-red-500 bg-red-100 hover:bg-red-200 focus:ring-red-500',
         },
         success: {
           wrapper: 'bg-green-50 border-green-500',
@@ -140,10 +140,10 @@ const VueTailwindSettings = {
     props    : {
       fixedClasses: {
         overlay  : 'fixed justify-center items-center flex z-40 inset-0 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm',
-        wrapper  : 'relative mx-auto max-w-lg w-full z-50',
+        wrapper  : 'relative mx-auto max-w-1/2 w-full z-50',
         modal    : 'relative rounded overflow-visible shadow',
         header   : 'p-3 border-b-1 rounded-t font-semibold',
-        body     : 'p-3 py-7',
+        body     : 'px-5 py-7',
         footer   : 'p-3 border-t-1 rounded-b',
         close    : 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50',
         closeIcon: 'h-4 w-4',
