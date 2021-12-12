@@ -35,7 +35,7 @@ export const actions = {
   setActuality (ctx, actuality) {
     const data = pick(actuality, ['content', 'lazyContent'])
 
-    return this.$axios.$post('/api/setActuality', { actuality: data })
+    return this.$axios.$post('/api/setActuality', { actuality: data }, { updateChanges: true })
       .then((data) => {
         if (!data) throw (data)
 

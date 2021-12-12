@@ -17,13 +17,14 @@ export const mutations = {
 
 export const actions = {
   loadChanges (ctx) {
-    return this.$axios.$get('/api/changes')
+    return this.$axios.$get('/api/getChanges')
       .then((data) => {
-        if (!data) throw (data)
+        const { changes } = data
 
-        ctx.commit('SET_CHANGES', data.changes)
+        ctx.commit('SET_CHANGES', changes)
+        this.$setSideBarNotifications('audit', changes.length)
 
-        return data.changes
+        return changes
       })
       .catch((err) => {
         throw err

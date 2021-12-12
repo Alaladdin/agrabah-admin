@@ -13,6 +13,7 @@ export default {
     asyncScripts: true,
   },
   plugins: [
+    '~/plugins/axios',
     '~/plugins/v-tooltip',
     '~/plugins/vue-tailwind',
     '~/plugins/handle-error',

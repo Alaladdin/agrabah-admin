@@ -61,7 +61,6 @@ export default {
   watch: {
     inChanges (changes) {
       this.changes = this.prepareChanges(changes)
-      this.$setSideBarNotifications('audit', changes.length)
     },
   },
   beforeDestroy () {
