@@ -1,3 +1,5 @@
+import { pick } from 'lodash'
+
 export const state = () => ({
   actuality: {},
 })
@@ -31,7 +33,9 @@ export const actions = {
       })
   },
   setActuality (ctx, actuality) {
-    return this.$axios.$post('/api/setActuality', { actuality })
+    const data = pick(actuality, ['content', 'lazyContent'])
+
+    return this.$axios.$post('/api/setActuality', { actuality: data })
       .then((data) => {
         if (!data) throw (data)
 

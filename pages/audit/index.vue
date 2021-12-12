@@ -4,7 +4,7 @@
       <t-alert class="alert---bordered" :dismissible="false" show>No changes</t-alert>
     </template>
 
-    <t-modal v-if="changeModalData" v-model="showChangeModal" :header="changeModalData.title" @closed="onCloseChangeModal">
+    <t-modal v-if="changeModalData" v-model="showChangeModal" :header="capitalize(changeModalData.title)" @closed="onCloseChangeModal">
       <ChangeInfoPlain :change="changeModalData" type="modal" />
     </t-modal>
 
@@ -41,7 +41,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { assign, map } from 'lodash'
+import { assign, map, capitalize } from 'lodash'
 import localMetadata from './metadata'
 import { formatDate } from '@/helpers'
 
@@ -72,6 +72,7 @@ export default {
   methods: {
     ...mapActions('audit', ['loadChanges']),
 
+    capitalize,
     prepareChanges (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')

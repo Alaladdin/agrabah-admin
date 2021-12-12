@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'flex' : !isPopupType }">
+  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType }">
     <div v-if="change.value.old" :class="getOldChangeWrapperClass()">
       <p class="font-semibold font-mono"># Before</p>
       <p class="text-red-400" :class="getChangeItemClass()">
@@ -7,8 +7,8 @@
       </p>
     </div>
 
-    <div v-if="change.value.new">
-      <p class="font-semibold font-mono"># After</p>
+    <div v-if="change.value.new" :class="{ 'ml-4' : !isPopupType }">
+      <p class="font-semibold font-mono" :class="{ 'text-right' : !isPopupType }"># After</p>
       <p class="text-green-400" :class="getChangeItemClass()">
         {{ change.value.new }}
       </p>
@@ -41,10 +41,10 @@ export default {
 
       if (!newChange) return ''
 
-      return this.isPopupType ? 'mb-5' : 'mr-5 border-r'
+      return this.isPopupType ? 'mb-5' : 'pr-4 border-r'
     },
     getChangeItemClass () {
-      return this.isPopupType ? 'truncate' : 'whitespace-pre-line'
+      return this.isPopupType ? 'truncate' : 'break-words whitespace-pre-line'
     },
   },
 }

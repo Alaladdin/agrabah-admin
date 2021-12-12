@@ -62,6 +62,7 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex">
+        <Avatar class="mr-5" :user="user" size="extraSmall" />
         <Avatar class="mr-5" :user="user" size="small" />
         <Avatar class="mr-5" :user="user" size="medium" />
         <Avatar class="mr-5" :user="user" size="large" />
