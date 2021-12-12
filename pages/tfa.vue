@@ -1,13 +1,13 @@
 <template>
-  <div v-if="currentTfas">
-    <div v-if="currentTfas.length" class="flex justify-center items-center mb-7">
+  <div v-if="data">
+    <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>No any tfa here. Add something</t-alert>
+
+    <div v-if="data.length" class="flex justify-center items-center mb-7">
       <ProgressBar class="justify-center bg-white p-3 rounded shadow" :value="tfaPercent" :text="timeRemaining + ' sec'" />
     </div>
 
-    <t-alert v-if="!currentTfas.length" class="alert---bordered" :dismissible="false" show>No any tfa here. Add something</t-alert>
-
     <div class="grid grid-cols-2 gap-3">
-      <div v-for="tfa in currentTfas" :key="tfa._id" :class="['updown__item', getTfaItemClass(tfa)]">
+      <div v-for="tfa in data" :key="tfa._id" :class="['updown__item', getTfaItemClass(tfa)]">
         <template v-if="!isEditingTfa(tfa)">
           <div class="text-sm select-text">
             <span>{{ tfa.name }}</span>
@@ -28,7 +28,7 @@
         <template v-else>
           <t-input v-model="editingTfaData.name" :variant="{ 'danger' : !editingTfaData.name }" class="!py-1.1" placeholder="Name" />
           <span>:</span>
-          <t-input v-model="editingTfaData.secret" :variant="{ 'danger' : !editingTfaData.secret }" class="!py-1.1" placeholder="Secret" />
+          <t-input v-model="editingTfaData.secret" :variant="{ 'danger' : !validateTfaSecret(editingTfaData.secret) }" class="!py-1.1" placeholder="Secret" />
 
           <div class="flex gap-2">
             <t-button class="px-2 !text-sm" variant="indigo" :disabled="isSaveEditedTfaDisabled" @click="editTfaData">
@@ -42,75 +42,64 @@
       </div>
     </div>
 
-    <t-button class="fixed !p-4 right-10 bottom-10 !rounded-full" variant="indigo" @click="openModal('showAddingTfaModal')">
+    <t-button class="fixed !p-4 right-10 bottom-10 !rounded-full" variant="indigo" @click="openModal('showAddTfaModal')">
       <fa icon="plus" />
     </t-button>
 
-    <AddTfaModal :value="showAddingTfaModal" @save="addNewTfa" @close="closeModal('showAddingTfaModal')" />
+    <AddTfaModal :value="showAddTfaModal" @save="addNewTfa" @close="closeModal('showAddTfaModal')" />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { authenticator } from 'otplib'
 import { assign, clone, map, some } from 'lodash'
 import { validateTfaSecret } from '@/helpers'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name: 'Tfa',
+  name  : 'Tfa',
+  mixins: [PageDefaultMixin('tfa')],
   data () {
     return {
-      currentTfas       : null,
       editingTfaData    : null,
       timeRemaining     : 0,
       tfaPercent        : 0,
-      showAddingTfaModal: false,
+      clearDataOnDestroy: false,
+      showAddTfaModal   : false,
     }
   },
   computed: {
-    ...mapGetters('tfa', { tfas: 'getTfas' }),
-
     isSaveEditedTfaDisabled () {
       const { name, secret } = this.editingTfaData
 
-      return !validateTfaSecret(secret) || !name || !secret
+      return !name || !this.validateTfaSecret(secret)
     },
   },
   watch: {
-    tfas: {
-      immediate: true,
-      handler (tfas) {
-        if (tfas)
-          this.prepareTfas(tfas)
-      },
-    },
     tfaPercent (v) {
       if (v === '100')
-        this.prepareTfas(this.currentTfas)
+        this.data = this.getPreparedData(this.data)
     },
   },
   created () {
-    this.init()
+    this.setTfaVariables()
+    this.startTimers()
+  },
+  destroyed () {
+    clearInterval(this.tfasInterval)
   },
   methods: {
-    ...mapActions('tfa', ['loadTfas', 'addTfa', 'editTfa', 'removeTfa']),
+    ...mapActions('tfa', ['addTfa', 'editTfa', 'removeTfa']),
 
-    init () {
-      this.beforeInit()
-
-      if (!this.tfas) {
-        this.loadTfas()
-          .then(this.afterInit)
-          .catch(this.$handleError)
-      } else {
-        this.afterInit()
-      }
+    validateTfaSecret,
+    getPreparedData (tfas) {
+      return map(tfas, (tfa) => {
+        return assign({}, tfa, { code: authenticator.generate(tfa.secret) })
+      })
     },
-    beforeInit () {
-      this.setTfaVariables()
-    },
-    afterInit () {
-      setInterval(() => this.setTfaVariables(), 1000)
+    startTimers () {
+      this.tfasInterval = setInterval(this.setTfaVariables, 1000)
     },
     setTfaVariables () {
       const timeRemaining = authenticator.timeRemaining()
@@ -119,11 +108,6 @@ export default {
       this.tfaPercent = percent.toFixed()
       this.timeRemaining = timeRemaining
     },
-    prepareTfas (tfas) {
-      this.currentTfas = map(tfas, (tfa) => {
-        return assign({}, tfa, { code: authenticator.generate(tfa.secret) })
-      })
-    },
     getTfaItemClass (tfa) {
       return {
         'opacity-20': this.editingTfaData && !this.isEditingTfa(tfa),
@@ -131,10 +115,10 @@ export default {
       }
     },
     addNewTfa (tfa) {
-      const isTfaAlreadyExists = some(this.currentTfas, i => i.secret === this.secret)
+      const isSecretAlreadyExists = some(this.data, { secret: tfa.secret })
 
-      if (isTfaAlreadyExists)
-        this.$handleError('TFA with provided secret already exists')
+      if (isSecretAlreadyExists)
+        this.$handleError('TFA with provided "secret" already exists')
       else
         this.addTfa(tfa).catch(this.$handleError)
     },
@@ -157,12 +141,6 @@ export default {
     },
     isEditingTfa (tfa) {
       return this.editingTfaData && this.editingTfaData._id === tfa._id
-    },
-    openModal (field) {
-      this[field] = true
-    },
-    closeModal (field) {
-      this[field] = false
     },
   },
 }

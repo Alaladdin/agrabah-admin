@@ -6,7 +6,7 @@
           <span>Main</span>
           <span v-show="hasUnsavedChanges('content')" class="badge badge--warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="actuality.content" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="data.content" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
 
       <label class="flex flex-col w-full h-full">
@@ -14,7 +14,7 @@
           <span>Lazy</span>
           <span v-show="hasUnsavedChanges('lazyContent')" class="badge badge--warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="actuality.lazyContent" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea v-model="data.lazyContent" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
       </label>
     </div>
 
@@ -24,18 +24,18 @@
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
-            <UserInfo :user="actuality.updatedBy" class="gap-2" />
+            <UserInfo :user="data.updatedBy" class="gap-2" />
           </template>
         </VMenu>
 
-        <div v-if="user.isAdmin && actuality.shortId" class="rounded shadow-sm bg-indigo-200">
-          <p class="px-4 py-1">ID: {{ actuality.shortId }}</p>
+        <div v-if="user.isAdmin && data.shortId" class="rounded shadow-sm bg-indigo-200">
+          <p class="px-4 py-1">ID: {{ data.shortId }}</p>
         </div>
       </div>
 
       <div class="flex">
-        <t-button variant="white" text="Refresh" :disabled="isEditDisabled" @click="loadActualityData" />
-        <t-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isEditDisabled" @click="updateActuality" />
+        <t-button variant="white" text="Refresh" :disabled="isEditDisabled" @click="refresh" />
+        <t-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
       </div>
     </div>
   </div>
@@ -43,70 +43,53 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone, isEmpty } from 'lodash'
 import { formatDate } from '@/helpers'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name: 'Actuality',
+  name  : 'Actuality',
+  mixins: [PageDefaultMixin('actuality')],
   data () {
     return {
-      actuality : {},
-      isLoading : false,
-      isUpdating: false,
+      data              : {}, // to avoid cannot get 'field' of null while loading
+      isUpdating        : false,
+      clearDataOnDestroy: false,
     }
   },
   computed: {
-    ...mapGetters({
-      user       : 'getUserData',
-      inActuality: 'actuality/getActuality',
-    }),
+    ...mapGetters({ user: 'getUserData' }),
 
     updatedAtText () {
-      const { updatedAt } = this.actuality
+      const { updatedAt } = this.data
 
       return updatedAt && `Updated at ${formatDate(updatedAt, 'DD.MM HH:mm')}`
+    },
+    isUpdateDisabled () {
+      const hasChanges = this.hasUnsavedChanges('content') || this.hasUnsavedChanges('lazyContent')
+
+      return this.isEditDisabled || !hasChanges
     },
     isEditDisabled () {
       return this.isLoading || this.isUpdating
     },
   },
-  watch: {
-    inActuality: {
-      immediate: true,
-      handler (v) {
-        this.actuality = clone(v)
-      },
-    },
-  },
-  created () {
-    if (isEmpty(this.inActuality))
-      this.loadActualityData()
-  },
   methods: {
-    ...mapActions('actuality', ['loadActuality', 'setActuality']),
+    ...mapActions('actuality', ['updateData']),
 
-    loadActualityData () {
-      this.isLoading = true
-
-      this.loadActuality()
-        .catch(this.$handleError)
-        .finally(() => {
-          this.isLoading = false
-        })
-    },
     updateActuality () {
       this.isUpdating = true
 
-      this.setActuality(this.actuality)
+      this.updateData(this.data)
         .catch(this.$handleError)
         .finally(() => {
           this.isUpdating = false
         })
     },
     hasUnsavedChanges (field) {
-      if (this.isLoading || !this.inActuality) return false
+      if (this.isLoading || !this.inData)
+        return false
 
-      return this.actuality[field] !== this.inActuality[field]
+      return this.data[field] !== this.inData[field]
     },
   },
 }

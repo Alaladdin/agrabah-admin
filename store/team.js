@@ -1,68 +1,28 @@
-import { map, filter, assign } from 'lodash'
-
-export const state = () => ({
-  users    : null,
-  requestId: null,
-})
-
-export const getters = {
-  getUsers: state => state.users,
-}
-
-export const mutations = {
-  SET_REQUEST_ID (state, requestId) {
-    state.requestId = requestId
-  },
-  SET_USERS (state, users) {
-    state.users = users
-  },
-  ADD_USER (state, user) {
-    state.users.push(user)
-  },
-  PATCH_USER (state, newUserData) {
-    state.users = map(state.users, (user) => {
-      if (user._id !== newUserData._id) return user
-
-      return assign({}, user, newUserData)
-    })
-  },
-  REMOVE_USER (state, user) {
-    state.users = filter(state.users, u => u._id !== user._id)
-  },
-  CLEAR_DATA (state) {
-    state.users = null
-    state.requestId = null
-  },
-}
+export * from '@/mixins/m-store-default'
 
 export const actions = {
-  loadUsers (ctx, { requestId, filters }) {
-    ctx.commit('SET_REQUEST_ID', requestId)
+  init (ctx, queryData) {
+    ctx.commit('SET_REQUEST_ID', queryData.requestId)
 
-    return this.$axios.post('/api/auth/getUsers', filters)
+    return this.$axios.post('/api/auth/getUsers', queryData.filters)
       .then((res) => {
-        if (ctx.state.requestId !== requestId) return
+        if (ctx.state.requestId === queryData.requestId) {
+          ctx.commit('SET_DATA', res.data)
 
-        const { data } = res
-
-        if (data && !data.error) {
-          ctx.commit('SET_USERS', data)
-
-          return data
+          return res.data
         }
-
-        throw data
       })
       .catch((err) => {
-        if (ctx.state.requestId === requestId) throw err
+        if (ctx.state.requestId === queryData.requestId)
+          throw err
       })
   },
   editUser (ctx, newUserData) {
     return ctx.dispatch('editUser', newUserData, { root: true })
       .then((userData) => {
-        ctx.commit('PATCH_USER', userData)
+        ctx.commit('PATCH_ITEM', userData)
 
-        return ctx.state.users
+        return userData
       })
       .catch((err) => {
         throw err
@@ -73,15 +33,9 @@ export const actions = {
 
     return this.$axios.delete('/api/auth/removeUser', { data })
       .then((res) => {
-        const { data } = res
+        ctx.commit('REMOVE_ITEM', user)
 
-        if (data && !data.error) {
-          ctx.commit('REMOVE_USER', user)
-
-          return ctx.state.users
-        }
-
-        throw data
+        return res.data
       })
       .catch((err) => {
         throw err

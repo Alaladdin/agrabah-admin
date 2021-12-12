@@ -1,8 +1,8 @@
 <template>
   <t-modal class="flex flex-col items-center mb-15" :value="value" header="Adding new TFA" @closed="close">
     <div class="flex flex-col items-center gap-3 py-3">
-      <t-input-group label="Name" class="w-10/12 mb-2">
-        <t-input v-model="name" class="w-full" placeholder="Wubba Lubba dub-dub" />
+      <t-input-group label="Name" class="w-10/12 mb-2" :variant="{ 'danger' : !name.trim() }">
+        <t-input v-model="name" class="w-full" :variant="{ 'danger' : !name.trim() }" placeholder="Wubba Lubba dub-dub" />
       </t-input-group>
 
       <t-input-group label="Secret" class="w-10/12" :variant="{ 'danger' : !validateSecret() }" description="Only latin letters">
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     isAddNewTfaDisabled () {
-      return !this.validateSecret() || !this.name || !this.secret
+      return !this.validateSecret() || !this.name
     },
   },
   watch: {

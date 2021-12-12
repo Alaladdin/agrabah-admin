@@ -28,65 +28,50 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import { map } from 'lodash'
+import { vkChats } from '@/data'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name: 'Vk',
+  name  : 'Vk',
+  mixins: [PageDefaultMixin('vk')],
   data () {
     return {
-      vkSendToChatId: null,
+      vkSendToChatId: vkChats[0].chatId,
       message       : '',
       isSending     : false,
     }
   },
   computed: {
-    ...mapGetters('vk', { vkChats: 'getVKChats', botConfig: 'getBotConfig' }),
-
     chatSelectOptions () {
-      return map(this.vkChats, chat => ({
-        label: chat.title,
-        value: chat.chatId,
-      }))
+      return map(vkChats, chat => ({ label: chat.title, value: chat.chatId }))
     },
     botConfigFields () {
-      if (!this.botConfig) return []
+      if (!this.data) return []
 
-      const { isBotActive, isActualityAutopostingEnabled, isConcatActualities } = this.botConfig
+      const { isBotActive, isActualityAutopostingEnabled, isConcatActualities } = this.data
 
       return [
-        {
-          title    : 'Bot',
-          value    : isBotActive ? 'enabled' : 'disabled',
-          isEnabled: isBotActive,
-        },
-        {
-          title    : 'Actuality autoposting',
-          value    : isActualityAutopostingEnabled ? 'enabled' : 'disabled',
-          isEnabled: isActualityAutopostingEnabled,
-        },
-        {
-          title    : 'Actuality concatenation',
-          value    : isConcatActualities ? 'enabled' : 'disabled',
-          isEnabled: isConcatActualities,
-        },
+        this.getConfigField(isBotActive, 'Bot'),
+        this.getConfigField(isActualityAutopostingEnabled, 'Actuality autoposting'),
+        this.getConfigField(isConcatActualities, 'Actuality concatenation'),
       ]
     },
     isSendDisabled () {
-      return !this.message.length || this.isSending
+      return !this.message.trim() || this.isSending
     },
   },
-  beforeDestroy () {
-    this.$store.commit('vk/CLEAR_DATA')
-  },
-  mounted () {
-    this.vkSendToChatId = this.vkChats[0].chatId
-    this.loadBotConfig()
-      .catch(this.$handleError)
-  },
   methods: {
-    ...mapActions('vk', ['sendMessage', 'loadBotConfig']),
+    ...mapActions('vk', ['sendMessage']),
 
+    getConfigField (field, title) {
+      return {
+        title,
+        value    : field ? 'enabled' : 'disabled',
+        isEnabled: field,
+      }
+    },
     sendMess () {
       this.isSending = true
 

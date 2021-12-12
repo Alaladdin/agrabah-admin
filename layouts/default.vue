@@ -53,7 +53,7 @@ export default {
       const { user } = this.$auth.$state
 
       if (!user || path !== '/') {
-        const currentRouteData = find(navItems, navItem => navItem.path === path)
+        const currentRouteData = find(navItems, { path })
 
         return currentRouteData?.title || ''
       }
@@ -61,15 +61,22 @@ export default {
       return `Hi, ${user.username}`
     },
   },
-  mounted () {
+  created () {
     this.init()
   },
   methods: {
-    ...mapActions({ loadUpdownStatus: 'updown/loadUpdownStatus' }),
+    ...mapActions({
+      loadUpdownStatus: 'updown/loadUpdownStatus',
+      loadChanges     : 'audit/init',
+    }),
 
     init () {
       this.loadUpdownStatus()
         .then(this.setHomeNavbarNotifications)
+        .then(() => {
+          if (this.$route.name !== 'audit')
+            this.loadChanges()
+        })
         .catch(this.$handleError)
     },
     setHomeNavbarNotifications () {

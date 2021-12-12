@@ -36,12 +36,12 @@ export default {
 
       return isOnline ? 'online' : 'offline'
     },
-    getBgOnlineClass (isOnline, isText = false) {
+    getBgOnlineClass (isOnline) {
       if (isOnline === null) return 'bg-gray-400'
 
       return (isOnline ? 'bg-green-400' : 'bg-red-400')
     },
-    getTextOnlineClass (isOnline, isText = false) {
+    getTextOnlineClass (isOnline) {
       if (isOnline === null) return 'text-gray-400'
 
       return (isOnline ? 'text-green-400' : 'text-red-400')

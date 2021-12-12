@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div v-if="botConfigFields.length">
-      <h3 class="my-6 text-xl font-semibold text-center">Actuality autoposting config</h3>
+  <div v-if="botConfigFields.length">
+    <h3 class="my-6 text-xl font-semibold text-center">Actuality autoposting config</h3>
 
-      <div class="flex justify-center">
-        <div class="bg-white rounded w-max">
-          <div v-for="(field, index) in botConfigFields" :key="index" class="options">
-            <span>{{ field.title }}</span>
-            <span class="options__item">{{ field.value }}</span>
-          </div>
+    <div class="flex justify-center">
+      <div class="bg-white rounded w-max">
+        <div v-for="(field, index) in botConfigFields" :key="index" class="options">
+          <span>{{ field.title }}</span>
+          <span class="options__item">{{ field.value }}</span>
         </div>
       </div>
     </div>
@@ -16,19 +14,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import { parseExpression } from 'cron-parser'
 import { formatDate } from '@/helpers'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
   name    : 'Discord',
+  mixins  : [PageDefaultMixin('discord')],
   computed: {
-    ...mapGetters('discord', { botConfig: 'getBotConfig' }),
-
     botConfigFields () {
-      if (!this.botConfig) return []
+      if (!this.data) return []
 
-      const { actualityChannel, actualityTime, savedShortId } = this.botConfig
+      const { actualityChannel, actualityTime, savedShortId } = this.data
 
       return [
         { title: 'Channel ID', value: actualityChannel || 'none' },
@@ -37,16 +34,7 @@ export default {
       ]
     },
   },
-  beforeDestroy () {
-    this.$store.commit('discord/CLEAR_DATA')
-  },
-  mounted () {
-    this.loadBotConfig()
-      .catch(this.$handleError)
-  },
   methods: {
-    ...mapActions('discord', ['loadBotConfig']),
-
     getParsedCronDate (cronExpression) {
       const cronDate = parseExpression(cronExpression).next().toString()
 

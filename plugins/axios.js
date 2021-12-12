@@ -7,6 +7,6 @@ export default function ({ $axios, store, ...a }) {
 
   $axios.onResponse(() => {
     if (needGetChanges)
-      store.dispatch('audit/loadChanges')
+      store.dispatch('audit/init')
   })
 }

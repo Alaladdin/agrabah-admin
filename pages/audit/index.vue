@@ -1,6 +1,6 @@
 <template>
   <div class="changes">
-    <template v-if="changes && !changes.length">
+    <template v-if="data && !data.length">
       <t-alert class="alert---bordered" :dismissible="false" show>No changes</t-alert>
     </template>
 
@@ -8,7 +8,7 @@
       <ChangeInfoPlain :change="changeModalData" type="modal" />
     </t-modal>
 
-    <div v-for="change in changes" :key="change._id" class="changes__item">
+    <div v-for="change in data" :key="change._id" class="changes__item">
       <UserInfo class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
 
       <div class="changes__item-description">
@@ -40,40 +40,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import { assign, map, capitalize } from 'lodash'
 import localMetadata from './metadata'
 import { formatDate } from '@/helpers'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name: 'Audit',
+  name  : 'Audit',
+  mixins: [PageDefaultMixin('audit')],
   data () {
     return {
-      fieldsInfo     : localMetadata.fieldsInfo,
-      changes        : null,
-      changeModalData: null,
-      showChangeModal: false,
+      fieldsInfo        : localMetadata.fieldsInfo,
+      changeModalData   : null,
+      showChangeModal   : false,
+      clearDataOnDestroy: false,
     }
   },
-  computed: {
-    ...mapGetters('audit', { inChanges: 'getChanges' }),
-  },
-  watch: {
-    inChanges (changes) {
-      this.changes = this.prepareChanges(changes)
-    },
-  },
-  beforeDestroy () {
-    this.$store.commit('audit/CLEAR_DATA')
-  },
-  created () {
-    this.loadChanges()
-  },
   methods: {
-    ...mapActions('audit', ['loadChanges']),
-
     capitalize,
-    prepareChanges (changes) {
+    getPreparedData (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')
         const diffs = map(change.diffs, this.getFieldInfo)
@@ -91,7 +76,11 @@ export default {
         if (!fieldInfo.valueGetter)
           return fieldInfo
 
-        return { title: fieldInfo.title, html: !!fieldInfo.html, value: fieldInfo.valueGetter(field) }
+        return {
+          title: fieldInfo.title,
+          html : !!fieldInfo.html,
+          value: fieldInfo.valueGetter(field),
+        }
       }
 
       return { title: field.id }
@@ -104,7 +93,7 @@ export default {
     },
     openChangeModal (change) {
       this.changeModalData = change
-      this.showChangeModal = true
+      this.openModal('showChangeModal')
     },
     onCloseChangeModal () {
       this.changeModalData = null

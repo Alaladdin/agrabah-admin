@@ -39,7 +39,8 @@ export default {
   },
   computed: {
     errorMessage () {
-      if (this.error.statusCode !== 403) return this.error.message
+      if (this.error.statusCode !== 403)
+        return this.error.message
 
       return 'It\'s seems, u have no access to this super-duper page'
     },

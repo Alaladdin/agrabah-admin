@@ -1,51 +1,54 @@
 <template>
   <div>
     <t-input
-      v-model="searchUsername"
+      v-model="search"
       class="mb-5 py-2 text-lg"
       placeholder="Find user by username"
       maxlength="15"
       :variant="{ 'danger' : !isSearchValid }"
     />
-    <t-alert v-if="isSearchValid && users && !users.length" variant="warn" show :dismissible="false">No users found</t-alert>
 
-    <div v-if="users" class="grid grid-cols-2 gap-4">
-      <div v-for="user in users" :key="user._id" class="updown__item" :class="getUserItemClass(user)">
-        <div class="flex items-center">
-          <Avatar class="mr-5" :user="user" />
-          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
-          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
-        </div>
+    <template v-if="data">
+      <t-alert v-if="isSearchValid && !data.length" variant="warn" show :dismissible="false">No users found</t-alert>
 
-        <div class="flex">
-          <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
+      <div v-else class="grid grid-cols-2 gap-4">
+        <div v-for="user in data" :key="user._id" class="updown__item" :class="getUserItemClass(user)">
+          <div class="flex items-center">
+            <Avatar class="mr-5" :user="user" />
+            <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
+            <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
+          </div>
 
-          <template v-if="canEditUser(user)">
-            <div v-if="!isEditingUser(user)" class="flex ml-3">
-              <t-button class="px-2 mr-2" variant="indigo" @click="startUserEditing(user)">
-                <fa icon="pencil-alt" />
-              </t-button>
-              <t-button class="px-2" variant="danger" @click="confirmRemoveUser(user)">
-                <fa :icon="['far', 'trash-alt']" />
-              </t-button>
-            </div>
+          <div class="flex">
+            <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
 
-            <template v-else>
-              <div class="flex text-sm mr-3">
-                <t-checkbox label="user" checked disabled />
-                <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
+            <template v-if="canEditUser(user)">
+              <div v-if="!isEditingUser(user)" class="flex ml-3">
+                <t-button class="px-2 mr-2" variant="indigo" @click="startUserEditing(user)">
+                  <fa icon="pencil-alt" />
+                </t-button>
+                <t-button class="px-2" variant="danger" @click="confirmRemoveUser(user)">
+                  <fa :icon="['far', 'trash-alt']" />
+                </t-button>
               </div>
-              <t-button class="px-2 mr-2" variant="indigo" :disabled="!isNewUsernameValid" @click="editUserData">
-                <fa icon="save" />
-              </t-button>
-              <t-button class="px-2" variant="danger" @click="stopUserEditing">
-                <fa icon="times" />
-              </t-button>
+
+              <template v-else>
+                <div class="flex text-sm mr-3">
+                  <t-checkbox label="user" checked disabled />
+                  <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
+                </div>
+                <t-button class="px-2 mr-2" variant="indigo" :disabled="!isNewUsernameValid" @click="editUserData">
+                  <fa icon="save" />
+                </t-button>
+                <t-button class="px-2" variant="danger" @click="stopUserEditing">
+                  <fa icon="times" />
+                </t-button>
+              </template>
             </template>
-          </template>
+          </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -53,23 +56,22 @@
 import { mapActions, mapGetters } from 'vuex'
 import { clone, debounce, last } from 'lodash'
 import { validateUsername, generateSmallId } from '@/helpers'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name: 'Team',
+  name  : 'Team',
+  mixins: [PageDefaultMixin('team')],
   data () {
     return {
-      searchUsername : '',
+      search         : '',
       editingUserData: null,
     }
   },
   computed: {
-    ...mapGetters({
-      currentUser: 'getUserData',
-      users      : 'team/getUsers',
-    }),
+    ...mapGetters({ currentUser: 'getUserData' }),
 
     queryData () {
-      const filters = { username: this.searchUsername || null }
+      const filters = { username: this.search || null }
 
       return { filters, requestId: generateSmallId() }
     },
@@ -77,31 +79,28 @@ export default {
       return validateUsername(this.editingUserData.username)
     },
     isSearchValid () {
-      return this.searchUsername.length === 0 || validateUsername(this.searchUsername)
+      return !this.search.trim() || validateUsername(this.search)
     },
   },
   watch: {
-    searchUsername () {
+    search () {
       if (this.isSearchValid)
-        this.loadUsersDebounced(this.queryData)
+        this.searchDebounced()
     },
   },
-  created () {
-    this.loadUsers(this.queryData)
-      .catch(this.$handleError)
-  },
-  beforeDestroy () {
-    this.$store.commit('team/CLEAR_DATA')
-  },
   methods: {
-    ...mapActions('team', ['loadUsers', 'editUser', 'removeUser']),
+    ...mapActions('team', ['editUser', 'removeUser']),
 
     last,
-    loadUsersDebounced: debounce(function (searchFilters) {
-      this.loadUsers(searchFilters)
-        .then(this.stopUserEditing)
-        .catch(this.$handleError)
+    searchDebounced: debounce(function (searchFilters) {
+      this.initData(searchFilters)
     }, 700),
+    getInitData () {
+      return this.queryData
+    },
+    afterInit () {
+      this.stopUserEditing()
+    },
     getUserItemClass (user) {
       return {
         'ring-2 ring-purple-300': this.currentUser._id === user._id,
