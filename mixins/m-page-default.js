@@ -7,7 +7,7 @@ export default (storeName) => {
       return {
         data              : null,
         clearDataOnDestroy: true,
-        isLoading         : true,
+        isLoading         : false,
       }
     },
     computed: {
@@ -24,6 +24,9 @@ export default (storeName) => {
         },
       },
     },
+    created () {
+      this.applyInitialData()
+    },
     destroyed () {
       if (this.clearDataOnDestroy)
         this.clearData()
@@ -31,13 +34,17 @@ export default (storeName) => {
     methods: {
       ...mapActions(storeName, ['init']),
 
+      applyInitialData () {},
       initData () {
         this.beforeInit()
-        this.isLoading = true // bad?
+        this.isLoading = true
 
         this.init(this.getInitData())
           .then(this.afterInit)
           .catch(this.$handleError)
+          .finally(() => {
+            this.isLoading = false
+          })
       },
       beforeInit () {},
       getInitData () {
@@ -49,7 +56,6 @@ export default (storeName) => {
       },
       applyData (data) {
         this.data = this.getPreparedData(data)
-        this.isLoading = false
       },
       getPreparedData (data) {
         return clone(data)
