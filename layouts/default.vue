@@ -73,11 +73,12 @@ export default {
     init () {
       this.loadUpdownStatus()
         .then(this.setHomeNavbarNotifications)
-        .then(() => {
-          if (this.$route.name !== 'audit')
-            this.loadChanges()
-        })
         .catch(this.$handleError)
+
+      if (this.$route.name !== 'audit') {
+        this.loadChanges()
+          .catch(this.$handleError)
+      }
     },
     setHomeNavbarNotifications () {
       const notOnlineHosts = reject(this.updownServices, { isOnline: true })
