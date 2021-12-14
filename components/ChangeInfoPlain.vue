@@ -1,22 +1,20 @@
 <template>
-  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType }">
+  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType && hasNewChange }">
     <div v-if="change.value.old" :class="getOldChangeWrapperClass()">
       <p class="font-semibold font-mono"># Before</p>
-      <p class="text-red-400" :class="getChangeItemClass()">
-        {{ change.value.old }}
-      </p>
+      <p :class="getChangeItemClass()" v-html="changesData.before" />
     </div>
 
     <div v-if="change.value.new" :class="{ 'ml-4' : !isPopupType }">
-      <p class="font-semibold font-mono" :class="{ 'text-right' : !isPopupType }"># After</p>
-      <p class="text-green-400" :class="getChangeItemClass()">
-        {{ change.value.new }}
-      </p>
+      <p class="font-semibold font-mono" :class="{ 'text-right' : !isPopupType && !hasNewChange }"># After</p>
+      <p :class="getChangeItemClass()" v-html="changesData.after" />
     </div>
   </div>
 </template>
 
 <script>
+import diff from 'simple-text-diff'
+
 export default {
   name : 'ChangeInfoPlain',
   props: {
@@ -31,15 +29,25 @@ export default {
     },
   },
   computed: {
+    changesData () {
+      const { old: oldChange, new: newChange } = this.change.value
+      const diffs = diff.diffPatchBySeparator(oldChange, newChange, '\n')
+
+      return {
+        before: diffs.before,
+        after : diffs.after,
+      }
+    },
+    hasNewChange () {
+      return !!this.change.value.new
+    },
     isPopupType () {
       return this.type === 'popup'
     },
   },
   methods: {
     getOldChangeWrapperClass () {
-      const { new : newChange } = this.change.value
-
-      if (!newChange) return ''
+      if (!this.hasNewChange) return ''
 
       return this.isPopupType ? 'mb-5' : 'pr-4 border-r'
     },
@@ -49,3 +57,13 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+ins {
+  @apply text-green-400 no-underline;
+}
+
+del {
+  @apply text-red-400 no-underline;
+}
+</style>
