@@ -17,7 +17,7 @@
         <div class="bg-white rounded w-max">
           <div v-for="(field, index) in botConfigFields" :key="index" class="options">
             <span>{{ field.title }}</span>
-            <span :class="['options__item', field.isEnabled ? 'options__item--success' : 'options__item--danger']">
+            <span class="options__item" :class="getOptionClass(field)">
               {{ field.value }}
             </span>
           </div>
@@ -29,7 +29,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { map } from 'lodash'
+import { map, keys } from 'lodash'
 import { vkChats } from '@/data'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
@@ -53,9 +53,10 @@ export default {
       const { isBotActive, isActualityAutopostingEnabled, isConcatActualities } = this.data
 
       return [
-        this.getConfigField(isBotActive, 'Bot'),
-        this.getConfigField(isActualityAutopostingEnabled, 'Actuality autoposting'),
-        this.getConfigField(isConcatActualities, 'Actuality concatenation'),
+        this.getBooleanConfigField(isBotActive, 'Bot'),
+        this.getBooleanConfigField(isActualityAutopostingEnabled, 'Actuality autoposting'),
+        this.getBooleanConfigField(isConcatActualities, 'Actuality concatenation'),
+        { title: 'Admins', value: keys(this.data.admins).join(', '), isEnabled: null },
       ]
     },
     isSendDisabled () {
@@ -65,12 +66,17 @@ export default {
   methods: {
     ...mapActions('vk', ['sendMessage']),
 
-    getConfigField (field, title) {
+    getBooleanConfigField (field, title) {
       return {
         title,
         value    : field ? 'enabled' : 'disabled',
         isEnabled: field,
       }
+    },
+    getOptionClass (field) {
+      if (field.isEnabled === null) return ''
+
+      return field.isEnabled ? 'options__item--success' : 'options__item--danger'
     },
     sendMess () {
       this.isSending = true
