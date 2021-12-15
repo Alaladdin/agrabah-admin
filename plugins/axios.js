@@ -1,13 +1,17 @@
-export default function ({ $axios, store }) {
-  let needGetChanges = false
+export default function ({ $axios, store, ...aaaaa }) {
+  let needUpdateChanges = false
 
   $axios.onRequest((config) => {
-    needGetChanges = !!config.updateChanges
+    needUpdateChanges = !!config.updateChanges
   })
 
   $axios.onResponse(() => {
-    if (needGetChanges)
+    if (needUpdateChanges) {
       store.dispatch('audit/init')
+        .then((changes) => {
+          store.$setSideBarNotifications('audit', changes.length)
+        })
+    }
   })
 
   $axios.onError((error) => {
