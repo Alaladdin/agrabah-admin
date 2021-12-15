@@ -14,6 +14,7 @@
 
 <script>
 import diff from 'simple-text-diff'
+import { escape } from 'lodash'
 
 export default {
   name : 'ChangeInfoPlain',
@@ -31,7 +32,7 @@ export default {
   computed: {
     changesData () {
       const { old: oldChange, new: newChange } = this.change.value
-      const diffs = diff.diffPatchBySeparator(oldChange, newChange, '\n')
+      const diffs = diff.diffPatchBySeparator(escape(oldChange), escape(newChange), '\n')
 
       return {
         before: diffs.before,

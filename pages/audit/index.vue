@@ -65,6 +65,9 @@ export default {
   },
   methods: {
     capitalize,
+    afterInit (changes) {
+      this.$setSideBarNotifications('audit', changes.length)
+    },
     getPreparedData (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')
@@ -72,9 +75,6 @@ export default {
 
         return assign({}, change, { diffs, changedAt: changedAtDate })
       })
-    },
-    afterInit (changes) {
-      this.$setSideBarNotifications('audit', changes.length)
     },
     getFieldInfo (field) {
       const fieldInfo = this.fieldsInfo[field.id]
