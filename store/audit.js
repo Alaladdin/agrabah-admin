@@ -8,7 +8,6 @@ export const actions = {
         const changes = reverse(data.changes)
 
         ctx.commit('SET_DATA', changes)
-        this.$setSideBarNotifications('audit', changes.length)
 
         return changes
       })

@@ -73,6 +73,9 @@ export default {
         return assign({}, change, { diffs, changedAt: changedAtDate })
       })
     },
+    afterInit (changes) {
+      this.$setSideBarNotifications('audit', changes.length)
+    },
     getFieldInfo (field) {
       const fieldInfo = this.fieldsInfo[field.id]
 

@@ -15,7 +15,7 @@ export const mutations = {
     state.cancelTokenSource = cancelToken
   },
   CLEAR_DATA (state) {
-    state.data = []
+    state.data = null
     state.cancelTokenSource = null
   },
 }
@@ -35,8 +35,6 @@ export const actions = {
 
     return this.$axios.$get('/api/getSchedule', { params, cancelToken: source.token })
       .then((data) => {
-        if (!data) throw (data)
-
         ctx.commit('SET_SCHEDULE', data.schedule)
 
         return data.schedule

@@ -24,8 +24,6 @@ export const actions = {
   loadUpdownStatus (ctx) {
     return this.$axios.$get('/api/getUpdownStatus')
       .then((data) => {
-        if (!data) throw (data)
-
         ctx.commit('UPDATE_UPDOWN_SERVICES', data.updownStatus)
 
         return data.updownStatus

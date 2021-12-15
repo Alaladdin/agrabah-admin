@@ -77,6 +77,9 @@ export default {
 
       if (this.$route.name !== 'audit') {
         this.loadChanges()
+          .then((changes) => {
+            this.$setSideBarNotifications('audit', changes.length)
+          })
           .catch(this.$handleError)
       }
     },
