@@ -4,7 +4,14 @@
       <t-alert class="alert---bordered" :dismissible="false" show>No changes</t-alert>
     </template>
 
-    <t-modal v-if="changeModalData" v-model="showChangeModal" :header="capitalize(changeModalData.title)" @closed="onCloseChangeModal">
+    <t-modal v-if="changeModalData" v-model="showChangeModal" @closed="onCloseChangeModal">
+      <template #header>
+        <div class="flex items-center">
+          <p class="mr-3">{{ capitalize(changeModalData.title) }}</p>
+          <p class="text-xs text-gray-400">{{ changeModalData.changedAt }}</p>
+        </div>
+      </template>
+
       <ChangeInfoPlain :change="changeModalData" type="modal" />
     </t-modal>
 
@@ -17,7 +24,7 @@
         <div v-for="(diff, i) in change.diffs" :key="i" class="mr-1">
           <p v-if="!diff.value" class="text-sm">{{ getDiffTitle(change, i) }}</p>
           <VMenu v-else :delay="{ show: 100, hide: 100 }">
-            <t-button v-if="diff.plain" variant="link" :text="getDiffTitle(change, i)" @click="openChangeModal(diff)" />
+            <t-button v-if="diff.plain" variant="link" :text="getDiffTitle(change, i)" @click="openChangeModal(diff, change.changedAt)" />
             <p v-else class="font-semibold text-purple-400">{{ getDiffTitle(change, i) }}</p>
 
             <template #popper>
@@ -91,8 +98,8 @@ export default {
 
       return diff.title + (needComma ? ',' : '')
     },
-    openChangeModal (change) {
-      this.changeModalData = change
+    openChangeModal (change, changedAt) {
+      this.changeModalData = assign({}, change, { changedAt })
       this.openModal('showChangeModal')
     },
     onCloseChangeModal () {
