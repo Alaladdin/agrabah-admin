@@ -89,7 +89,7 @@ export default {
       if (this.isLoading || !this.inData)
         return false
 
-      return this.data[field] !== this.inData[field]
+      return this.data[field].trim() !== this.inData[field].trim()
     },
   },
 }

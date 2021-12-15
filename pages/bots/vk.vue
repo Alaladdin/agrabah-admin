@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-col items-center self-center pb-20 w-5/12">
       <t-tag variant="subtitle" class="mb-6">Send message to the chat via bot</t-tag>
-      <t-textarea v-model="message" class="mb-3 w-full min-h-40 max-h-60 self-center" :variant="{ 'danger' : !message.trim() }" />
+      <t-textarea v-model="message" class="mb-3 w-full min-h-40 max-h-60 self-center !resize-y" :variant="{ 'danger' : !message.trim() }" />
 
       <div class="flex self-end items-center">
         <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
