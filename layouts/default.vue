@@ -46,19 +46,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ errors: 'getErrors', updownServices: 'updown/getUpdownServices' }),
+    ...mapGetters({
+      errors        : 'getErrors',
+      user          : 'getUserData',
+      updownServices: 'updown/getUpdownServices',
+    }),
 
     pageTitle () {
       const { path } = this.$route
-      const { user } = this.$auth.$state
+      const { username, loggedIn } = this.user
 
-      if (!user || path !== '/') {
+      if (!loggedIn || path !== '/') {
         const currentRouteData = find(navItems, { path })
 
         return currentRouteData?.title || ''
       }
 
-      return `Hi, ${user.username}`
+      return `Hi, ${username}`
     },
   },
   created () {
@@ -75,7 +79,7 @@ export default {
         .then(this.setHomeNavbarNotifications)
         .catch(this.$handleError)
 
-      if (this.$route.name !== 'audit') {
+      if (this.user.isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()
           .then((changes) => {
             this.$setSideBarNotifications('audit', changes.length)
