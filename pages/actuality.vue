@@ -6,7 +6,13 @@
           <span>Main</span>
           <span v-show="hasUnsavedChanges('content')" class="badge badge--warn absolute left-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="data.content" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea
+          v-model="data.content"
+          class="w-full h-full min-h-85 text-sm !resize-y"
+          :disabled="isEditDisabled"
+          :readonly="!user.isAdmin"
+          @keydown.enter.ctrl="onEnter"
+        />
       </label>
 
       <label class="flex flex-col w-full h-full">
@@ -14,7 +20,13 @@
           <span>Lazy</span>
           <span v-show="hasUnsavedChanges('lazyContent')" class="badge badge--warn absolute right-0 fade-in">Unsaved changes</span>
         </div>
-        <t-textarea v-model="data.lazyContent" class="w-full h-full min-h-85 text-sm !resize-y" :disabled="isEditDisabled" :readonly="!user.isAdmin" />
+        <t-textarea
+          v-model="data.lazyContent"
+          class="w-full h-full min-h-85 text-sm !resize-y"
+          :disabled="isEditDisabled"
+          :readonly="!user.isAdmin"
+          @keydown.enter.ctrl="onEnter"
+        />
       </label>
     </div>
 
@@ -76,6 +88,10 @@ export default {
   methods: {
     ...mapActions('actuality', ['updateData']),
 
+    onEnter () {
+      if (!this.isUpdateDisabled && this.user.isAdmin)
+        this.updateActuality()
+    },
     updateActuality () {
       this.isUpdating = true
 

@@ -63,6 +63,9 @@ export default (storeName) => {
       openModal (field) {
         this[field] = true
       },
+      closeModal (field) {
+        this[field] = false
+      },
       clearData () {
         this.$store.commit(`${storeName}/CLEAR_DATA`)
       },

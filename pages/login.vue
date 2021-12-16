@@ -19,6 +19,7 @@
             :variant="isUsernameValid ? 'success' : 'danger'"
             maxlength="15"
             placeholder="username"
+            @keydown.enter="onEnter"
           />
           <t-input
             v-model="userData.password"
@@ -27,11 +28,12 @@
             type="password"
             maxlength="20"
             placeholder="password"
+            @keydown.enter="onEnter"
           />
 
           <div class="flex justify-between gap-3">
-            <t-button class="w-full py-1.5" text="Register" variant="indigo" :disabled="isButtonsDisabled" @click="register" />
-            <t-button class="w-full py-1.5" text="Log in" :disabled="isButtonsDisabled" @click="login" />
+            <t-button class="w-full py-1.5" text="Register" :disabled="isButtonsDisabled" @click="register" />
+            <t-button class="w-full py-1.5" text="Log in" variant="indigo" :disabled="isButtonsDisabled" @click="login" />
           </div>
         </div>
       </div>
@@ -59,19 +61,23 @@ export default {
     }
   },
   computed: {
+    isButtonsDisabled () {
+      return !this.isUsernameValid || !this.isPasswordValid || this.isSigning
+    },
     isUsernameValid () {
       return validateUsername(this.userData.username)
     },
     isPasswordValid () {
       return validatePassword(this.userData.password)
     },
-    isButtonsDisabled () {
-      return !this.isUsernameValid || !this.isPasswordValid || this.isSigning
-    },
   },
   methods: {
+    onEnter () {
+      if (!this.isButtonsDisabled)
+        this.login()
+    },
     register () {
-      this.handleSinging()
+      this.beforeRequest()
 
       this.$axios.$post('/api/auth/register', this.userData)
         .then(({ user }) => {
@@ -84,7 +90,7 @@ export default {
         })
     },
     login () {
-      this.handleSinging()
+      this.beforeRequest()
 
       this.$auth.loginWith('local', { data: this.userData })
         .catch(this.onFail)
@@ -92,14 +98,12 @@ export default {
           this.isSigning = false
         })
     },
-    handleSinging () {
+    beforeRequest () {
       this.isSigning = true
       this.error = ''
     },
-    onFail (error) {
-      const { data: errorData } = error.response
-
-      this.error = errorData ? errorData.error : error
+    onFail (res) {
+      this.error = res.error
     },
   },
 }

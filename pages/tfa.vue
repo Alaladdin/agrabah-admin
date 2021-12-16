@@ -26,7 +26,7 @@
         </template>
 
         <template v-else>
-          <t-input v-model="editingTfaData.name" :variant="{ 'danger' : !editingTfaData.name }" class="!py-1.1" placeholder="Name" />
+          <t-input v-model="editingTfaData.name" :variant="{ 'danger' : !editingTfaData.name.trim() }" class="!py-1.1" placeholder="Name" />
           <span>:</span>
           <t-input v-model="editingTfaData.secret" :variant="{ 'danger' : !validateTfaSecret(editingTfaData.secret) }" class="!py-1.1" placeholder="Secret" />
 
@@ -82,10 +82,6 @@ export default {
         this.data = this.getPreparedData(this.data)
     },
   },
-  created () {
-    this.setTfaVariables()
-    this.startTimers()
-  },
   destroyed () {
     clearInterval(this.tfasInterval)
   },
@@ -93,6 +89,10 @@ export default {
     ...mapActions('tfa', ['addTfa', 'editTfa', 'removeTfa']),
 
     validateTfaSecret,
+    applyInitialData () {
+      this.setTfaVariables()
+      this.startTimers()
+    },
     getPreparedData (tfas) {
       return map(tfas, (tfa) => {
         return assign({}, tfa, { code: authenticator.generate(tfa.secret) })
