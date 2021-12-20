@@ -25,6 +25,18 @@ textarea, {
   @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
 }
 
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.1s;
+  transition-property: opacity, transform;
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
 .sidebar {
   @apply fixed inline-flex flex-row min-h-screen bg-indigo-700;
 

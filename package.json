@@ -1,6 +1,6 @@
 {
   "name": "mpei-admin-nuxt",
-  "version": "1.7.15",
+  "version": "1.7.16",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -10,6 +10,7 @@
     "generate": "nuxt generate",
     "lint": "npm run lint:js",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+    "analysis": "windicss-analysis",
     "deploy:setup": "pm2 deploy production setup",
     "deploy:prod": "pm2 deploy ecosystem.config.js production --force"
   },
@@ -58,6 +59,7 @@
     "lint-staged": "^10.5.4",
     "nuxt-windicss": "^1.1.1",
     "sass": "^1.45.0",
-    "sass-loader": "^10.2.0"
+    "sass-loader": "^10.2.0",
+    "windicss-analysis": "^0.3.5"
   }
 }
