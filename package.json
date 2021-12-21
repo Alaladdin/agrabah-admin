@@ -1,6 +1,6 @@
 {
   "name": "mpei-admin-nuxt",
-  "version": "1.7.16",
+  "version": "1.7.17",
   "private": true,
   "scripts": {
     "prepare": "husky install",

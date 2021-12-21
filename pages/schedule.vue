@@ -85,10 +85,11 @@ export default {
     this.applyInitialData()
   },
   beforeDestroy () {
+    this.cancelLoading()
     this.$store.commit('schedule/CLEAR_DATA')
   },
   methods: {
-    ...mapActions('schedule', ['loadSchedule']),
+    ...mapActions('schedule', ['loadSchedule', 'cancelLoading']),
 
     applyInitialData () {
       this.todayFormattedDate = moment().format(COMPARE_DATE_FORMAT)
