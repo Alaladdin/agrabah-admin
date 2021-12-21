@@ -33,7 +33,7 @@ export const actions = {
     ctx.dispatch('cancelLoading')
     ctx.commit('SET_CANCEL_TOKEN_SOURCE', source)
 
-    return this.$axios.$get('/api/getSchedule', { params, cancelToken: source.token })
+    return this.$axios.$get('/api/getSchedule', { params, cancelToken: source.token, progress: false })
       .then((data) => {
         ctx.commit('SET_SCHEDULE', data.schedule)
 
