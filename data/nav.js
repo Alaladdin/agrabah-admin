@@ -27,12 +27,6 @@ export default [
     scope: ['admin'],
   },
   {
-    path : '/tfa',
-    title: '2FA',
-    icon : 'fingerprint',
-    scope: ['user'],
-  },
-  {
     path    : '/short-url',
     title   : 'Short URL',
     icon    : 'link',
