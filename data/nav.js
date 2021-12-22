@@ -53,6 +53,13 @@ export default [
     disabled: true,
   },
   {
+    path    : '/juice-rating',
+    title   : 'Orange juice rating',
+    icon    : 'star',
+    scope   : ['user'],
+    disabled: true,
+  },
+  {
     path : '/components',
     title: 'Components Example',
     icon : 'cubes',

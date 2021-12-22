@@ -1,6 +1,6 @@
 {
   "name": "mpei-admin-nuxt",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -36,7 +36,6 @@
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-helmet": "^2.0.1",
     "nuxt-tailvue": "^1.0.95",
-    "otplib": "^12.0.1",
     "simple-text-diff": "^1.7.0",
     "v-tooltip": "^3.0.0-beta.1",
     "vue-clickaway": "^2.2.2",
