@@ -61,7 +61,7 @@ export default [
   },
   {
     path : '/components',
-    title: 'Components Example',
+    title: 'Components',
     icon : 'cubes',
     scope: ['admin'],
   },

@@ -1,33 +1,16 @@
 <template>
   <div>
     <div class="block mb-25">
+      <t-button class="mb-10" @click="toggleDisabled">Toggle disabled state</t-button>
+
       <h2 class="mb-4 font-bold text-4xl"># Buttons</h2>
       <div class="flex">
-        <t-button class="mr-3" :disabled="isDisabled" @click="toggleDisabled">Default button</t-button>
-        <t-button class="mr-3" variant="white" :disabled="isDisabled" @click="toggleDisabled">White button</t-button>
-        <t-button class="mr-3" variant="indigo" :disabled="isDisabled" @click="toggleDisabled">Indigo button</t-button>
-        <t-button class="mr-3" variant="danger" :disabled="isDisabled" @click="toggleDisabled">Danger button</t-button>
-        <t-button variant="link" :disabled="isDisabled" @click="toggleDisabled">Link button</t-button>
+        <t-button class="mr-3" :disabled="isDisabled">Default button</t-button>
+        <t-button class="mr-3" variant="white" :disabled="isDisabled">White button</t-button>
+        <t-button class="mr-3" variant="indigo" :disabled="isDisabled">Indigo button</t-button>
+        <t-button class="mr-3" variant="danger" :disabled="isDisabled">Danger button</t-button>
+        <t-button variant="link" :disabled="isDisabled">Link button</t-button>
       </div>
-    </div>
-
-    <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Textarea</h2>
-      <t-textarea placeholder="textarea" :disabled="isDisabled" />
-    </div>
-
-    <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Alert</h2>
-      <t-alert class="mb-3" :dismissible="false" show>Not dismissible</t-alert>
-      <t-alert class="mb-3" show>Default alert</t-alert>
-      <t-alert class="mb-3" variant="warn" show>Warn alert</t-alert>
-      <t-alert class="mb-3" variant="danger" show>Danger alert</t-alert>
-      <t-alert variant="success" show>Success alert</t-alert>
-    </div>
-
-    <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Select</h2>
-      <t-select :options="['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']" :disabled="isDisabled">Choose...</t-select>
     </div>
 
     <div class="block mb-25">
@@ -38,15 +21,31 @@
     </div>
 
     <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
-      <t-checkbox class="block">Like</t-checkbox>
-      <t-checkbox class="block">Super like</t-checkbox>
+      <h2 class="mb-4 font-bold text-4xl"># Textarea</h2>
+      <div>
+        <t-textarea placeholder="textarea" :disabled="isDisabled" />
+        <t-textarea placeholder="danger" :disabled="isDisabled" variant="danger" />
+      </div>
     </div>
 
     <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Radio</h2>
-      <t-radio class="block" name="radio">Like</t-radio>
-      <t-radio class="block" name="radio">Dislike</t-radio>
+      <h2 class="mb-4 font-bold text-4xl"># Select</h2>
+      <t-select :options="['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']" :disabled="isDisabled">Choose...</t-select>
+    </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
+      <t-checkbox class="block" :disabled="isDisabled">Like</t-checkbox>
+      <t-checkbox class="block" :disabled="isDisabled">Super like</t-checkbox>
+    </div>
+
+    <div class="block mb-25">
+      <h2 class="mb-4 font-bold text-4xl"># Alert</h2>
+      <t-alert class="mb-3" :dismissible="false" show>Not dismissible</t-alert>
+      <t-alert class="mb-3" show>Default alert</t-alert>
+      <t-alert class="mb-3" variant="warn" show>Warn alert</t-alert>
+      <t-alert class="mb-3" variant="danger" show>Danger alert</t-alert>
+      <t-alert variant="success" show>Success alert</t-alert>
     </div>
 
     <div class="block mb-25">
@@ -103,11 +102,7 @@ export default {
   },
   methods: {
     toggleDisabled () {
-      this.isDisabled = true
-
-      setTimeout(() => {
-        this.isDisabled = false
-      }, 7000)
+      this.isDisabled = !this.isDisabled
     },
   },
 }
