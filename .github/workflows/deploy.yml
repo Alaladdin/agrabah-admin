@@ -15,5 +15,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_PUBLIC_KEY: ${{ secrets.DEPLOY_PUBLIC_KEY }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
       - run: npm install pm2
       - run: npm run deploy:prod
