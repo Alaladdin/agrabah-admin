@@ -16,6 +16,9 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Install pm2
+        run: npm install pm2
+
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
@@ -26,9 +29,6 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
-
-      - name: Install pm2
-        run: npm install pm2
 
       - name: Deploy
         run: npm run deploy:prod
