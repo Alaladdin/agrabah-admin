@@ -23,12 +23,12 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p $HOME/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ./deploy.key
-          sudo chmod 600 ./deploy.key
+          echo "$SSH_PUBLIC_KEY" > ./deploy.pub
+          sudo chmod 600 ./deploy.pub
           echo "$SSH_KNOWN_HOSTS" > $HOME/.ssh/known_hosts
         shell: bash
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
       - name: Deploy
