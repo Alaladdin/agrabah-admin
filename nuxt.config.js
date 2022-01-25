@@ -33,15 +33,6 @@ export default {
     '@nuxt/image',
     'nuxt-helmet',
     'nuxt-fontawesome',
-    // ['nuxt-tailvue', {
-    //   toast: {
-    //     defaultProps: {
-    //       classToast  : 'v-toast bg-white',
-    //       classMessage: 'whitespace-pre-line',
-    //       timeout     : 3,
-    //     },
-    //   },
-    // }],
   ],
   image: {
     dir    : 'assets/img',
