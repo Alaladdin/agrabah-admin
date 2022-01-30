@@ -6,7 +6,7 @@
       :src="avatarUrl"
       :width="avatarSize"
       :height="avatarSize"
-      :alt="user.username"
+      :alt="user ? user.username : ''"
     />
   </figure>
 </template>
@@ -40,7 +40,7 @@ export default {
       return this.avatarSizes[this.size] + 'px'
     },
     avatarUrl () {
-      return this.user.avatar || 'avatar__default.jpg'
+      return (this.user && this.user.avatar) || 'avatar__default.jpg'
     },
   },
   created () {

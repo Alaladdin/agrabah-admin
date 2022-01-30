@@ -3,8 +3,8 @@
     <Avatar class="mr-4" :user="user" :size="avatarSize" />
 
     <div>
-      <p class="font-semibold">{{ user.username }}</p>
-      <p class="text-xs text-gray-600">{{ last(user.scope) }}</p>
+      <p class="font-semibold">{{ user ? user.username : 'DELETED' }}</p>
+      <p class="text-xs text-gray-600">{{ last(user ? user.scope : []) }}</p>
     </div>
   </div>
 </template>
