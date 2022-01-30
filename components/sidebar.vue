@@ -24,7 +24,7 @@
 
       <div class="sidebar__profile">
         <div class="flex justify-center items-center p-3">
-          <Avatar
+          <avatar
             v-on-clickaway="closeProfileContext"
             :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
             :user="user"
@@ -52,7 +52,7 @@ import { find, filter, keys, some } from 'lodash'
 import { navItems } from '@/data'
 
 export default {
-  name  : 'SideBar',
+  name  : 'sidebar',
   mixins: [clickaway],
   data () {
     return {

@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name  : 'Error',
+  name  : 'error',
   layout: 'single',
   props : {
     error: {

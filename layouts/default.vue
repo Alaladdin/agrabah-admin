@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex bg-gray-200">
-    <SideBar />
+    <sidebar />
 
     <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -9,7 +9,7 @@
 
           <Nuxt class="flex flex-col" />
 
-          <AppVersion />
+          <app-version />
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@ import { find, reject } from 'lodash'
 import { navItems } from '@/data'
 
 export default {
-  name: 'Default',
+  name: 'default',
   data () {
     return {
       navItems,

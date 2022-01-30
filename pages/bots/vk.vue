@@ -39,7 +39,7 @@ import { vkChats } from '@/data'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name  : 'Vk',
+  name  : 'vk',
   mixins: [PageDefaultMixin('vk')],
   data () {
     return {

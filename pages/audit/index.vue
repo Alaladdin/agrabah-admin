@@ -13,7 +13,7 @@
           </div>
         </template>
 
-        <ChangeInfoPlain :change="changeModalData" type="modal" />
+        <change-info-plain :change="changeModalData" type="modal" />
       </t-modal>
 
       <div v-if="user.isOwner" class="flex justify-end mb-5">
@@ -21,7 +21,7 @@
       </div>
 
       <div v-for="change in data" :key="change._id" class="changes__item">
-        <UserInfo class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
+        <user-info class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
 
         <div class="changes__item-description">
           <p class="mr-2 font-semibold">Modified:</p>
@@ -33,7 +33,7 @@
               <p v-else class="font-semibold text-purple-400">{{ getDiffTitle(change, i) }}</p>
 
               <template #popper>
-                <ChangeInfoPlain v-if="diff.plain" :change="diff" />
+                <change-info-plain v-if="diff.plain" :change="diff" />
                 <template v-else>
                   <p v-if="diff.html" class="font-mono text-sm" v-html="diff.value" />
                   <p v-else class="font-mono text-sm">{{ diff.value }}</p>
@@ -60,7 +60,7 @@ import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name  : 'Audit',
+  name  : 'audit',
   mixins: [PageDefaultMixin('audit')],
   data () {
     return {

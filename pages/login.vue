@@ -48,7 +48,7 @@
 import { validateUsername, validatePassword } from '@/helpers'
 
 export default {
-  name  : 'Login',
+  name  : 'login',
   layout: 'single',
   data () {
     return {

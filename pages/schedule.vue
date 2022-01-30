@@ -49,7 +49,7 @@ const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
 const HIDDEN_LABELS_KEY = 'schedule__show_hidden_fields'
 
 export default {
-  name: 'Schedule',
+  name: 'schedule',
   data () {
     return {
       scheduleOffset    : { start: null, finish: null },

@@ -14,7 +14,7 @@
       <div v-else class="grid grid-cols-2 gap-4">
         <div v-for="user in data" :key="user._id" class="updown__item" :class="getUserItemClass(user)">
           <div class="flex items-center">
-            <Avatar class="mr-5" :user="user" />
+            <avatar class="mr-5" :user="user" />
             <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
             <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
           </div>
@@ -59,7 +59,7 @@ import { validateUsername, generateSmallId } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name  : 'Team',
+  name  : 'team',
   mixins: [PageDefaultMixin('team')],
   data () {
     return {

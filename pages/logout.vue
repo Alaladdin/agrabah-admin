@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name   : 'Logout',
+  name   : 'logout',
   layout : 'single',
   methods: {
     logout () {

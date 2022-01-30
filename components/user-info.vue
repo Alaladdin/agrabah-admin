@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center w-min-content">
-    <Avatar class="mr-4" :user="user" :size="avatarSize" />
+    <avatar class="mr-4" :user="user" :size="avatarSize" />
 
     <div>
       <p class="font-semibold">{{ user ? user.username : 'DELETED' }}</p>
@@ -13,7 +13,7 @@
 import { last } from 'lodash'
 
 export default {
-  name : 'UserInfo',
+  name : 'user-info',
   props: {
     user: {
       type    : Object,

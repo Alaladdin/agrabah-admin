@@ -19,7 +19,7 @@ import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name    : 'Discord',
+  name    : 'discord',
   mixins  : [PageDefaultMixin('discord')],
   computed: {
     botConfigFields () {

@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <Avatar class="m-x-7" :user="user" size="extraLarge" />
+    <avatar class="m-x-7" :user="user" size="extraLarge" />
     <div class="mb-5">
       <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="startEditing">
         {{ user.username }}
@@ -37,7 +37,7 @@ import moment from 'moment'
 import { formatDate, validateUsername } from '@/helpers'
 
 export default {
-  name: 'Me',
+  name: 'me',
   data () {
     return {
       newUsername: '',

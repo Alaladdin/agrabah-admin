@@ -36,7 +36,7 @@
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
-            <UserInfo :user="data.updatedBy" class="gap-2" />
+            <user-info :user="data.updatedBy" class="gap-2" />
           </template>
         </VMenu>
 
@@ -59,11 +59,11 @@ import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
-  name  : 'Actuality',
+  name  : 'actuality',
   mixins: [PageDefaultMixin('actuality')],
   data () {
     return {
-      data              : {}, // to avoid cannot get 'field' of null while loading
+      data              : {},
       isUpdating        : false,
       clearDataOnDestroy: false,
     }

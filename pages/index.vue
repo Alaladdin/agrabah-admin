@@ -26,7 +26,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name    : 'Home',
+  name    : 'home',
   computed: {
     ...mapGetters('updown', { updownServices: 'getUpdownServices' }),
   },

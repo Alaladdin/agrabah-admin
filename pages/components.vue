@@ -3,7 +3,7 @@
     <div class="block mb-25">
       <t-button class="mb-10" @click="toggleDisabled">Toggle disabled state</t-button>
 
-      <h2 class="mb-4 font-bold text-4xl"># Buttons</h2>
+      <h2 class="mb-4 font-bold text-4xl"># Button</h2>
       <div class="flex">
         <t-button class="mr-3" :disabled="isDisabled">Default button</t-button>
         <t-button class="mr-3" variant="white" :disabled="isDisabled">White button</t-button>
@@ -61,27 +61,27 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex">
-        <Avatar class="mr-5" :user="user" size="extraSmall" />
-        <Avatar class="mr-5" :user="user" size="small" />
-        <Avatar class="mr-5" :user="user" size="medium" />
-        <Avatar class="mr-5" :user="user" size="large" />
-        <Avatar :user="user" size="extraLarge" />
+        <avatar class="mr-5" :user="user" size="extraSmall" />
+        <avatar class="mr-5" :user="user" size="small" />
+        <avatar class="mr-5" :user="user" size="medium" />
+        <avatar class="mr-5" :user="user" size="large" />
+        <avatar :user="user" size="extraLarge" />
       </div>
     </div>
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Progress bar</h2>
-      <ProgressBar value="0" />
-      <ProgressBar value="30" />
-      <ProgressBar value="60" />
-      <ProgressBar value="100" />
-      <ProgressBar value="100" text="hundred percent" />
+      <progress-bar value="0" />
+      <progress-bar value="30" />
+      <progress-bar value="60" />
+      <progress-bar value="100" />
+      <progress-bar value="100" text="hundred percent" />
     </div>
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># User info</h2>
       <div class="p-4 rounded bg-white w-1/7">
-        <UserInfo :user="$auth.$state.user" />
+        <user-info :user="$auth.$state.user" />
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Example',
+  name: 'example',
   data () {
     return {
       isDisabled: false,

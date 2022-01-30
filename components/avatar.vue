@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name : 'Avatar',
+  name : 'avatar',
   props: {
     user: {
       type    : Object,

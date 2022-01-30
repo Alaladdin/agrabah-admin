@@ -13,6 +13,7 @@ module.exports = {
     'plugin:nuxt/recommended',
   ],
   rules: {
+    'vue/component-definition-name-casing'       : ['error', 'kebab-case'],
     'vue/singleline-html-element-content-newline': [0],
     'key-spacing'                                : [1, {
       singleLine: {
