@@ -65,4 +65,11 @@ export default [
     icon : 'cubes',
     scope: ['admin'],
   },
+  {
+    path  : '/me',
+    title : 'Profile',
+    icon  : 'cubes',
+    scope : ['user'],
+    hidden: true,
+  },
 ]

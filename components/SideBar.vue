@@ -74,6 +74,7 @@ export default {
 
       return filter(navItems, (navItem) => {
         if (!navItem.scope) return true
+        if (navItem.hidden) return false
 
         return some(navItem.scope, navSingleScope => userScope.includes(navSingleScope))
       })
