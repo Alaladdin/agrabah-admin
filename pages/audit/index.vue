@@ -4,50 +4,57 @@
       <t-alert class="alert---bordered" :dismissible="false" show>No changes</t-alert>
     </template>
 
-    <t-modal v-if="changeModalData" v-model="showChangeModal" @closed="onCloseChangeModal">
-      <template #header>
-        <div class="flex items-center">
-          <p class="mr-3">{{ capitalize(changeModalData.title) }}</p>
-          <p class="text-xs text-gray-400">{{ changeModalData.changedAt }}</p>
-        </div>
-      </template>
+    <template v-if="data && data.length">
+      <t-modal v-if="changeModalData" v-model="showChangeModal" @closed="onCloseChangeModal">
+        <template #header>
+          <div class="flex items-center">
+            <p class="mr-3">{{ capitalize(changeModalData.title) }}</p>
+            <p class="text-xs text-gray-400">{{ changeModalData.changedAt }}</p>
+          </div>
+        </template>
 
-      <ChangeInfoPlain :change="changeModalData" type="modal" />
-    </t-modal>
+        <ChangeInfoPlain :change="changeModalData" type="modal" />
+      </t-modal>
 
-    <div v-for="change in data" :key="change._id" class="changes__item">
-      <UserInfo class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
+      <div v-if="user.isOwner" class="flex justify-end mb-5">
+        <t-button text="Clear history" variant="indigo" @click="clearChanges" />
+      </div>
 
-      <div class="changes__item-description">
-        <p class="mr-2 font-semibold">Modified:</p>
+      <div v-for="change in data" :key="change._id" class="changes__item">
+        <UserInfo class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
 
-        <div v-for="(diff, i) in change.diffs" :key="i" class="mr-1">
-          <p v-if="!diff.value" class="text-sm">{{ getDiffTitle(change, i) }}</p>
-          <VMenu v-else :delay="{ show: 100, hide: 100 }">
-            <t-button v-if="diff.plain" variant="link" :text="getDiffTitle(change, i)" @click="openChangeModal(diff, change.changedAt)" />
-            <p v-else class="font-semibold text-purple-400">{{ getDiffTitle(change, i) }}</p>
+        <div class="changes__item-description">
+          <p class="mr-2 font-semibold">Modified:</p>
 
-            <template #popper>
-              <ChangeInfoPlain v-if="diff.plain" :change="diff" />
-              <template v-else>
-                <p v-if="diff.html" class="font-mono text-sm" v-html="diff.value" />
-                <p v-else class="font-mono text-sm">{{ diff.value }}</p>
+          <div v-for="(diff, i) in change.diffs" :key="i" class="mr-1">
+            <p v-if="!diff.value" class="text-sm">{{ getDiffTitle(change, i) }}</p>
+            <VMenu v-else :delay="{ show: 100, hide: 100 }">
+              <t-button v-if="diff.plain" variant="link" :text="getDiffTitle(change, i)" @click="openChangeModal(diff, change.changedAt)" />
+              <p v-else class="font-semibold text-purple-400">{{ getDiffTitle(change, i) }}</p>
+
+              <template #popper>
+                <ChangeInfoPlain v-if="diff.plain" :change="diff" />
+                <template v-else>
+                  <p v-if="diff.html" class="font-mono text-sm" v-html="diff.value" />
+                  <p v-else class="font-mono text-sm">{{ diff.value }}</p>
+                </template>
               </template>
-            </template>
-          </VMenu>
+            </VMenu>
+          </div>
+        </div>
+
+        <div class="flex items-center ml-auto">
+          <t-button class="mr-5" text="rollback" variant="link" disabled />
+          <div class="text-xs font-mono text-gray-400">{{ change.changedAt }}</div>
         </div>
       </div>
-
-      <div class="flex items-center ml-auto">
-        <t-button class="mr-5" text="rollback" variant="link" disabled />
-        <div class="text-xs font-mono text-gray-400">{{ change.changedAt }}</div>
-      </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import { assign, map, capitalize } from 'lodash'
+import { mapActions, mapGetters } from 'vuex'
 import localMetadata from './metadata'
 import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
@@ -63,11 +70,19 @@ export default {
       clearDataOnDestroy: false,
     }
   },
-  methods: {
-    capitalize,
-    afterInit (changes) {
-      this.$setSideBarNotifications('audit', changes.length)
+  computed: {
+    ...mapGetters({ user: 'getUserData' }),
+  },
+  watch: {
+    data (changes) {
+      if (changes)
+        this.$setSideBarNotifications('audit', changes.length)
     },
+  },
+  methods: {
+    ...mapActions('audit', ['clearChanges']),
+
+    capitalize,
     getPreparedData (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')

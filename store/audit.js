@@ -15,4 +15,15 @@ export const actions = {
         throw err
       })
   },
+  clearChanges (ctx) {
+    return this.$axios.$post('/api/clearChanges')
+      .then(() => {
+        ctx.commit('SET_DATA', [])
+
+        return []
+      })
+      .catch((err) => {
+        throw err
+      })
+  },
 }
