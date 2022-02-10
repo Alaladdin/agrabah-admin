@@ -22,7 +22,8 @@ module.exports = {
       ref          : 'origin/main',
       repo         : 'https://github.com/Alaladdin/mpei-admin-nuxt',
       path         : process.env.DEPLOY_PATH,
-      'post-deploy': 'pm2 stop ./ecosystem.config.js; npm install; npm run build && pm2 restart ./ecosystem.config.js --env production --update-env',
+      'pre-deploy' : 'pm2 stop ./ecosystem.config.js',
+      'post-deploy': 'npm install; npm run build && pm2 restart ./ecosystem.config.js --env production --update-env',
     },
   },
 }

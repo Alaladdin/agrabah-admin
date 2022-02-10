@@ -1,8 +1,5 @@
-import { map, find, assign } from 'lodash'
-import { updownServices } from '@/data'
-
 export const state = () => ({
-  updownServices,
+  updownServices: null,
 })
 
 export const getters = {
@@ -11,12 +8,7 @@ export const getters = {
 
 export const mutations = {
   UPDATE_UPDOWN_SERVICES (state, updownStatus) {
-    state.updownServices = map(updownServices, (service) => {
-      const status = find(updownStatus, s => service.url && s.url.includes(service.url))
-      const isOnline = status ? !status.error : null
-
-      return assign({}, service, { isOnline })
-    })
+    state.updownServices = updownStatus
   },
 }
 
