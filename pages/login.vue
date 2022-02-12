@@ -6,7 +6,7 @@
           <NuxtLink to="/">MPEI ADMIN</NuxtLink>
         </h1>
 
-        <div class="w-8/10 min-w-70">
+        <form class="w-8/10 min-w-70" @submit="login">
           <div v-if="error" class="mb-5">
             <div class="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
               <p>{{ error }}</p>
@@ -19,7 +19,6 @@
             :variant="isUsernameValid ? 'success' : 'danger'"
             maxlength="15"
             placeholder="username"
-            @keydown.enter="onEnter"
           />
           <t-input
             v-model="userData.password"
@@ -28,14 +27,26 @@
             type="password"
             maxlength="20"
             placeholder="password"
-            @keydown.enter="onEnter"
           />
 
           <div class="flex justify-between gap-3">
-            <t-button class="w-full py-1.5" text="Register" :disabled="isButtonsDisabled" @click="register" />
-            <t-button class="w-full py-1.5" text="Log in" variant="indigo" :disabled="isButtonsDisabled" @click="login" />
+            <t-button
+              class="w-full py-1.5"
+              text="Register"
+              type="button"
+              :disabled="isButtonsDisabled"
+              @click="register"
+            />
+            <t-button
+              class="w-full py-1.5"
+              text="Log in"
+              variant="indigo"
+              type="submit"
+              :disabled="isButtonsDisabled"
+              @click="login"
+            />
           </div>
-        </div>
+        </form>
       </div>
 
       <div class="flex justify-center items-center w-4/6 h-full bg-indigo-600">
@@ -72,10 +83,6 @@ export default {
     },
   },
   methods: {
-    onEnter () {
-      if (!this.isButtonsDisabled)
-        this.login()
-    },
     register () {
       this.beforeRequest()
 
