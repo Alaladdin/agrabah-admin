@@ -26,17 +26,17 @@
         <div class="changes__item-description">
           <p class="mr-2 font-semibold">Modified:</p>
 
-          <div v-for="(diff, i) in change.diffs" :key="i" class="mr-1">
-            <p v-if="!diff.value" class="text-sm">{{ getDiffTitle(change, i) }}</p>
+          <div v-for="(description, i) in change.descriptions" :key="i" class="mr-1">
+            <p v-if="!description.value" class="text-sm">{{ getChangeTitle(change, i) }}</p>
             <VMenu v-else :delay="{ show: 100, hide: 100 }">
-              <t-button v-if="diff.plain" variant="link" :text="getDiffTitle(change, i)" @click="openChangeModal(diff, change.changedAt)" />
-              <p v-else class="font-semibold text-purple-400">{{ getDiffTitle(change, i) }}</p>
+              <t-button v-if="description.plain" variant="link" :text="getChangeTitle(change, i)" @click="openChangeModal(description, change.changedAt)" />
+              <p v-else class="font-semibold text-purple-400">{{ getChangeTitle(change, i) }}</p>
 
               <template #popper>
-                <change-info-plain v-if="diff.plain" :change="diff" />
+                <change-info-plain v-if="description.plain" :change="description" />
                 <template v-else>
-                  <p v-if="diff.html" class="font-mono text-sm" v-html="diff.value" />
-                  <p v-else class="font-mono text-sm">{{ diff.value }}</p>
+                  <p v-if="description.html" class="font-mono text-sm" v-html="description.value" />
+                  <p v-else class="font-mono text-sm">{{ description.value }}</p>
                 </template>
               </template>
             </VMenu>
@@ -86,9 +86,9 @@ export default {
     getPreparedData (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')
-        const diffs = map(change.diffs, this.getFieldInfo)
+        const descriptions = map(change.descriptions, this.getFieldInfo)
 
-        return assign({}, change, { diffs, changedAt: changedAtDate })
+        return assign({}, change, { descriptions, changedAt: changedAtDate })
       })
     },
     getFieldInfo (field) {
@@ -110,11 +110,11 @@ export default {
 
       return { title: field.id }
     },
-    getDiffTitle (change, index) {
-      const diff = change.diffs[index]
-      const needComma = index + 1 !== change.diffs.length
+    getChangeTitle (change, index) {
+      const description = change.descriptions[index]
+      const needComma = index + 1 !== change.descriptions.length
 
-      return diff.title + (needComma ? ',' : '')
+      return description.title + (needComma ? ',' : '')
     },
     openChangeModal (change, changedAt) {
       this.changeModalData = assign({}, change, { changedAt })

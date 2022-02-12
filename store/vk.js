@@ -13,6 +13,6 @@ export const actions = {
       })
   },
   sendMessage (ctx, { message, chatId, parseLinks = false }) {
-    return this.$axios.$post('/api/vk/sendMessage', { message, chatId, parseLinks })
+    return this.$axios.$post('/api/vk/sendMessage', { message, chatId, parseLinks }, { updateChanges: true })
   },
 }

@@ -6,8 +6,12 @@
  * no key - render field key as title
  *
  * # NOTES
- * don't use plain: true with html: true
+ * don't use "plain: true" with "html: true"
  */
+
+import { find } from 'lodash'
+import { vkChats } from '../../data'
+
 export default {
   fieldsInfo: {
     content: {
@@ -17,6 +21,20 @@ export default {
     lazyContent: {
       title: 'lazy actuality',
       plain: true,
+    },
+    vkMessage: {
+      title      : '[VK]: sent message',
+      html       : true,
+      valueGetter: (data) => {
+        const chat = find(vkChats, { chatId: data.chatId }) || {}
+
+        return `
+        <div>
+          <div><strong>Chat:</strong>${chat.title || 'unknown'}</div>
+          <div><strong>Message:</strong>${data.message}</div>
+        </div>
+        `
+      },
     },
   },
 }
