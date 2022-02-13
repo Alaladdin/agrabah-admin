@@ -6,7 +6,7 @@
     </div>
 
     <span v-if="notificationsCount" class="sidebar__nav-title">
-      <span>{{ notificationsCount }}</span>
+      {{ notificationsCount }}
     </span>
   </nuxt-link>
 </template>

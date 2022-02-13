@@ -27,9 +27,12 @@
           </div>
         </div>
 
-        <NuxtLink :to="user.loggedIn ? '/logout' : '/login'" class="sidebar__profile-button">
-          <fa :icon="user.loggedIn ? 'sign-out-alt' : 'sign-in-alt'" />
-        </NuxtLink>
+        <b-button
+          class="sidebar__profile-button"
+          :to="user.loggedIn ? '/logout' : '/login'"
+          :after-icon="user.loggedIn ? 'sign-out-alt' : 'sign-in-alt'"
+          variant="indigo"
+        />
       </div>
     </div>
   </div>
