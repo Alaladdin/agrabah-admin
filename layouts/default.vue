@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex bg-gray-200">
-    <sidebar />
+    <b-sidebar :nav-items="navItems" />
 
     <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -90,7 +90,7 @@ export default {
     setHomeNavbarNotifications () {
       const notOnlineHosts = reject(this.updownServices, { isOnline: true })
 
-      this.$setSideBarNotifications('home', notOnlineHosts.length)
+      this.$setSideBarNotifications('index', notOnlineHosts.length)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)

@@ -3,7 +3,7 @@
     <div class="flex gap-5 justify-center items-center rounded overflow-hidden w-full h-full bg-white shadow-2xl">
       <div class="flex flex-col justify-center items-center w-2/6 text-center">
         <h1 class="mb-20 font-bold text-3xl text-gray-800">
-          <NuxtLink to="/">MPEI ADMIN</NuxtLink>
+          <NuxtLink to="/">AGRABAH ADMIN</NuxtLink>
         </h1>
 
         <form class="w-8/10 min-w-70" @submit="login">

@@ -77,14 +77,6 @@ textarea, {
   }
 }
 
-.options-popup {
-  @apply p-2 rounded-t-lg shadow text-indigo-100 bg-indigo-900;
-
-  &__item {
-    @apply p-2 rounded duration-50 cursor-pointer hover:bg-indigo-800
-  }
-}
-
 .actuality__textarea-label {
   @apply mb-2 font-semibold text-center text-gray-700 text-lg;
 }

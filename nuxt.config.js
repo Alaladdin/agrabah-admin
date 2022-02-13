@@ -1,10 +1,10 @@
 export default {
   head: {
-    title: 'MPEI ADMIN',
+    title: 'AGRABAH ADMIN',
     meta : [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'MPEI ADMIN SIDE' },
+      { hid: 'description', name: 'description', content: 'AGRABAH ADMIN SIDE' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
