@@ -17,7 +17,7 @@
       </t-modal>
 
       <div v-if="user.isOwner" class="flex justify-end mb-5">
-        <t-button text="Clear history" variant="indigo" @click="clearChanges" />
+        <b-button text="Clear history" variant="indigo" @click="clearChanges" />
       </div>
 
       <div v-for="change in data" :key="change._id" class="changes__item">
@@ -29,7 +29,7 @@
           <div v-for="(description, i) in change.descriptions" :key="i" class="mr-1">
             <p v-if="!description.value" class="text-sm">{{ getChangeTitle(change, i) }}</p>
             <VMenu v-else :delay="{ show: 100, hide: 100 }">
-              <t-button v-if="description.plain" variant="link" :text="getChangeTitle(change, i)" @click="openChangeModal(description, change.changedAt)" />
+              <b-button v-if="description.plain" :text="getChangeTitle(change, i)" variant="link" @click="openChangeModal(description, change.changedAt)" />
               <p v-else class="font-semibold text-purple-400">{{ getChangeTitle(change, i) }}</p>
 
               <template #popper>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="flex items-center ml-auto">
-          <t-button class="mr-5" text="rollback" variant="link" disabled />
+          <b-button class="mr-5" text="rollback" variant="link" disabled />
           <div class="text-xs font-mono text-gray-400">{{ change.changedAt }}</div>
         </div>
       </div>

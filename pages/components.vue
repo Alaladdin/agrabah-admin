@@ -1,15 +1,17 @@
 <template>
   <div>
     <div class="block mb-25">
-      <t-button class="mb-10" @click="toggleDisabled">Toggle disabled state</t-button>
+      <b-button class="mb-10" text="Toggle disabled state" @click="toggleDisabled" />
 
       <h2 class="mb-4 font-bold text-4xl"># Button</h2>
       <div class="flex">
-        <t-button class="mr-3" :disabled="isDisabled">Default button</t-button>
-        <t-button class="mr-3" variant="white" :disabled="isDisabled">White button</t-button>
-        <t-button class="mr-3" variant="indigo" :disabled="isDisabled">Indigo button</t-button>
-        <t-button class="mr-3" variant="danger" :disabled="isDisabled">Danger button</t-button>
-        <t-button variant="link" :disabled="isDisabled">Link button</t-button>
+        <b-button class="mr-3" text="Default button" :disabled="isDisabled" />
+        <b-button class="mr-3" text="Before icon" before-icon="dragon" :disabled="isDisabled" />
+        <b-button class="mr-3" text="After icon" after-icon="dragon" :disabled="isDisabled" />
+        <b-button class="mr-3" text="White button" variant="white" :disabled="isDisabled" />
+        <b-button class="mr-3" text="Indigo button" variant="indigo" :disabled="isDisabled" />
+        <b-button class="mr-3" text="Danger button" variant="danger" :disabled="isDisabled" />
+        <b-button text="Link button" variant="link" :disabled="isDisabled" />
       </div>
     </div>
 
@@ -51,8 +53,8 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Modal</h2>
       <div class="flex">
-        <t-button class="mr-2" @click="$modal.show('default')">Default modal</t-button>
-        <t-button variant="danger" @click="$modal.show('danger')">Danger modal</t-button>
+        <b-button class="mr-2" @click="$modal.show('default')">Default modal</b-button>
+        <b-button variant="danger" @click="$modal.show('danger')">Danger modal</b-button>
       </div>
       <t-modal name="default" header="Header" footer="Footer" @closed="$modal.hide('default')">Content</t-modal>
       <t-modal name="danger" header="Header" footer="Footer" variant="danger" @closed="$modal.hide('danger')">Content</t-modal>

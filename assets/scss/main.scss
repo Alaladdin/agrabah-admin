@@ -7,10 +7,8 @@ textarea {
   @apply font-sans text-base;
 }
 
-// VERY BAD
-// Fix icon style
-.v-toast .flex-shrink-0 > div {
-  display: flex;
+.b-button > *:not(:last-child) {
+  @apply mr-3;
 }
 
 .v-popper__inner {

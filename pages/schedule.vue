@@ -4,13 +4,9 @@
       <t-checkbox v-model="isShowHiddenFields" class="select-none">Show hidden fields</t-checkbox>
 
       <div class="flex">
-        <t-button class="mr-5" text="Current week" @click="applyInitialData" />
-        <t-button class="mr-3" variant="white" @click="changeWeek(false)">
-          <fa icon="chevron-left" />
-        </t-button>
-        <t-button variant="white" @click="changeWeek(true)">
-          <fa icon="chevron-right" />
-        </t-button>
+        <b-button class="mr-5" text="Current week" @click="applyInitialData" />
+        <b-button class="mr-3" before-icon="chevron-left" variant="white" @click="changeWeek(false)" />
+        <b-button variant="white" before-icon="chevron-right" @click="changeWeek(true)" />
       </div>
     </div>
 

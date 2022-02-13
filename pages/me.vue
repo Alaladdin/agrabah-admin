@@ -9,8 +9,8 @@
       <template v-if="isEditing">
         <t-input v-model="newUsername" maxlength="15" class="mb-2" :variant="{ 'danger' : !isNewUsernameValid }" placeholder="Username" />
         <div class="flex">
-          <t-button class="mr-2 w-full" variant="indigo" :disabled="!isNewUsernameValid" text="Save" @click="saveNewUsername" />
-          <t-button class="w-full" variant="danger" text="Cancel" @click="stopEditing" />
+          <b-button class="mr-2 w-full" text="Save" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewUsername" />
+          <b-button class="w-full" text="Cancel" variant="danger" @click="stopEditing" />
         </div>
       </template>
     </div>
@@ -25,8 +25,8 @@
     </div>
 
     <div class="flex gap-3">
-      <t-button variant="indigo" disabled @click="changePassword">Change password</t-button>
-      <t-button variant="danger" @click="confirmRemoveProfile">Delete my profile</t-button>
+      <b-button variant="indigo" disabled @click="changePassword">Change password</b-button>
+      <b-button variant="danger" @click="confirmRemoveProfile">Delete my profile</b-button>
     </div>
   </div>
 </template>

@@ -11,7 +11,7 @@
 
       <div class="flex self-end items-center">
         <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
-        <t-button :disabled="isSendDisabled" @click="sendMess">Send</t-button>
+        <b-button text="Send" :disabled="isSendDisabled" @click="sendMess" />
       </div>
     </div>
 

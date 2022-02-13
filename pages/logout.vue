@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <NuxtImg
+    <nuxt-img
       preset="default"
       class="mb-10 rounded-full ring-8 ring-white shadow-xl"
       src="oib__orig__square.png"
@@ -13,15 +13,8 @@
     </t-tag>
 
     <div class="flex justify-between">
-      <t-button class="mr-7" to="/">
-        <fa class="mr-4" icon="long-arrow-alt-left" />
-        <span>Get back</span>
-      </t-button>
-
-      <t-button variant="white" @click="logout">
-        <span class="mr-4">Logout</span>
-        <fa icon="sign-out-alt" />
-      </t-button>
+      <b-button class="mr-5" text="Get back" before-icon="long-arrow-alt-left" @click="goBack" />
+      <b-button text="Logout" after-icon="sign-out-alt" variant="white" @click="logout" />
     </div>
   </div>
 </template>
@@ -31,6 +24,9 @@ export default {
   name   : 'logout',
   layout : 'single',
   methods: {
+    goBack () {
+      this.$router.go(-1)
+    },
     logout () {
       this.$auth.logout()
     },

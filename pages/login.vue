@@ -30,14 +30,14 @@
           />
 
           <div class="flex justify-between gap-3">
-            <t-button
+            <b-button
               class="w-full py-1.5"
               text="Register"
               type="button"
               :disabled="isButtonsDisabled"
               @click="register"
             />
-            <t-button
+            <b-button
               class="w-full py-1.5"
               text="Log in"
               variant="indigo"
@@ -50,7 +50,7 @@
       </div>
 
       <div class="flex justify-center items-center w-4/6 h-full bg-indigo-600">
-        <NuxtImg preset="default" class="rounded-full ring-8 ring-white shadow-xl" src="oib__orig__square.png" width="256" />
+        <nuxt-img preset="default" class="rounded-full ring-8 ring-white shadow-xl" src="oib__orig__square.png" width="256" />
       </div>
     </div>
   </div>

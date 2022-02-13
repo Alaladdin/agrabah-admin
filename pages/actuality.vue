@@ -46,8 +46,8 @@
       </div>
 
       <div class="flex">
-        <t-button variant="white" text="Refresh" :disabled="isEditDisabled" @click="refresh" />
-        <t-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
+        <b-button text="Refresh" variant="white" :disabled="isEditDisabled" @click="refresh" />
+        <b-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
       </div>
     </div>
   </div>

@@ -24,12 +24,8 @@
 
             <template v-if="canEditUser(user)">
               <div v-if="!isEditingUser(user)" class="flex ml-3">
-                <t-button class="px-2 mr-2" variant="indigo" @click="startUserEditing(user)">
-                  <fa icon="pencil-alt" />
-                </t-button>
-                <t-button class="px-2" variant="danger" @click="confirmRemoveUser(user)">
-                  <fa :icon="['far', 'trash-alt']" />
-                </t-button>
+                <b-button class="px-2 mr-2" variant="indigo" before-icon="pencil-alt" @click="startUserEditing(user)" />
+                <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="confirmRemoveUser(user)" />
               </div>
 
               <template v-else>
@@ -37,12 +33,9 @@
                   <t-checkbox label="user" checked disabled />
                   <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
                 </div>
-                <t-button class="px-2 mr-2" variant="indigo" :disabled="!isNewUsernameValid" @click="editUserData">
-                  <fa icon="save" />
-                </t-button>
-                <t-button class="px-2" variant="danger" @click="stopUserEditing">
-                  <fa icon="times" />
-                </t-button>
+
+                <b-button class="px-2 mr-2" variant="indigo" before-icon="save" :disabled="!isNewUsernameValid" @click="editUserData" />
+                <b-button class="px-2" variant="danger" before-icon="times" @click="stopUserEditing" />
               </template>
             </template>
           </div>
@@ -76,7 +69,7 @@ export default {
       return { filters, requestId: generateSmallId() }
     },
     isNewUsernameValid () {
-      return validateUsername(this.editingUserData.username)
+      return !!this.editingUserData && validateUsername(this.editingUserData.username)
     },
     isSearchValid () {
       return !this.search.trim() || validateUsername(this.search)

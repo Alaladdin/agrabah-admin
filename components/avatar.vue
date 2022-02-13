@@ -1,6 +1,6 @@
 <template>
   <figure class="flex flex-col items-center" @click="onClick">
-    <NuxtImg
+    <nuxt-img
       preset="default"
       :class="[avatarClass, imageClass]"
       :src="avatarUrl"
