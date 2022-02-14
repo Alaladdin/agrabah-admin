@@ -1,20 +1,15 @@
 export * from '@/mixins/m-store-default'
 
 export const actions = {
-  init (ctx, queryData) {
-    ctx.commit('SET_REQUEST_ID', queryData.requestId)
-
-    return this.$axios.post('/api/auth/getUsers', queryData.filters)
+  init (ctx) {
+    return this.$axios.post('/api/auth/getUsers')
       .then((res) => {
-        if (ctx.state.requestId === queryData.requestId) {
-          ctx.commit('SET_DATA', res.data)
+        ctx.commit('SET_DATA', res.data)
 
-          return res.data
-        }
+        return res.data
       })
       .catch((err) => {
-        if (ctx.state.requestId === queryData.requestId)
-          throw err
+        throw err
       })
   },
   editUser (ctx, newUserData) {

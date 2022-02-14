@@ -8,7 +8,7 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name    : 'app-version',
+  name    : 'b-app-version',
   computed: {
     ...mapGetters({ appVersion: 'getAppVersion' }),
   },

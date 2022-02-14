@@ -1,99 +1,72 @@
 <template>
   <div>
-    <t-input
-      v-model="search"
-      class="mb-5 py-2 text-lg"
-      placeholder="Find user by username"
-      maxlength="15"
-      :variant="{ 'danger' : !isSearchValid }"
-    />
+    <div v-if="data" class="grid grid-cols-2 gap-4">
+      <div
+        v-for="user in data"
+        :key="user._id"
+        class="updown__item"
+        :class="getUserItemClass(user)"
+      >
+        <div class="flex items-center">
+          <b-avatar class="mr-5" :user="user" />
+          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
+          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
+        </div>
 
-    <template v-if="data">
-      <t-alert v-if="isSearchValid && !data.length" variant="warn" show :dismissible="false">No users found</t-alert>
+        <div class="flex">
+          <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
 
-      <div v-else class="grid grid-cols-2 gap-4">
-        <div v-for="user in data" :key="user._id" class="updown__item" :class="getUserItemClass(user)">
-          <div class="flex items-center">
-            <avatar class="mr-5" :user="user" />
-            <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
-            <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
-          </div>
+          <template v-if="canEditUser(user)">
+            <div v-if="!isEditingUser(user)" class="flex ml-3">
+              <b-button class="px-2 mr-2" variant="indigo" before-icon="pencil-alt" @click="startUserEditing(user)" />
+              <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="confirmRemoveUser(user)" />
+            </div>
 
-          <div class="flex">
-            <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
-
-            <template v-if="canEditUser(user)">
-              <div v-if="!isEditingUser(user)" class="flex ml-3">
-                <b-button class="px-2 mr-2" variant="indigo" before-icon="pencil-alt" @click="startUserEditing(user)" />
-                <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="confirmRemoveUser(user)" />
+            <template v-else>
+              <div class="flex text-sm mr-3">
+                <t-checkbox label="user" checked disabled />
+                <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
               </div>
 
-              <template v-else>
-                <div class="flex text-sm mr-3">
-                  <t-checkbox label="user" checked disabled />
-                  <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
-                </div>
-
-                <b-button class="px-2 mr-2" variant="indigo" before-icon="save" :disabled="!isNewUsernameValid" @click="editUserData" />
-                <b-button class="px-2" variant="danger" before-icon="times" @click="stopUserEditing" />
-              </template>
+              <b-button class="px-2 mr-2" variant="indigo" before-icon="save" :disabled="!isNewUsernameValid" @click="editUserData" />
+              <b-button class="px-2" variant="danger" before-icon="times" @click="stopUserEditing" />
             </template>
-          </div>
+          </template>
         </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { clone, debounce, last } from 'lodash'
-import { validateUsername, generateSmallId } from '@/helpers'
+import { clone, last } from 'lodash'
+import { validateUsername } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
+import BButton from '@/components/b-button'
 
 export default {
-  name  : 'team',
+  name      : 'team',
+  components: {
+    'b-button': BButton,
+  },
   mixins: [PageDefaultMixin('team')],
   data () {
     return {
-      search         : '',
       editingUserData: null,
     }
   },
   computed: {
     ...mapGetters({ currentUser: 'getUserData' }),
 
-    queryData () {
-      const filters = { username: this.search || null }
-
-      return { filters, requestId: generateSmallId() }
-    },
     isNewUsernameValid () {
       return !!this.editingUserData && validateUsername(this.editingUserData.username)
-    },
-    isSearchValid () {
-      return !this.search.trim() || validateUsername(this.search)
-    },
-  },
-  watch: {
-    search () {
-      if (this.isSearchValid)
-        this.searchDebounced()
     },
   },
   methods: {
     ...mapActions('team', ['editUser', 'removeUser']),
 
     last,
-    searchDebounced: debounce(function (searchFilters) {
-      this.initData(searchFilters)
-    }, 700),
-    getInitData () {
-      return this.queryData
-    },
-    afterInit () {
-      this.stopUserEditing()
-    },
     getUserItemClass (user) {
       return {
         'ring-2 ring-purple-300': this.currentUser._id === user._id,

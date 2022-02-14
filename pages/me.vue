@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <avatar class="m-x-7" :user="user" size="extraLarge" />
+    <b-avatar class="m-x-7" :user="user" size="extraLarge" />
     <div class="mb-5">
       <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="startEditing">
         {{ user.username }}

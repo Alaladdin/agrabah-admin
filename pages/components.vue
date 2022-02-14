@@ -63,21 +63,21 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex">
-        <avatar class="mr-5" :user="user" size="extraSmall" />
-        <avatar class="mr-5" :user="user" size="small" />
-        <avatar class="mr-5" :user="user" size="medium" />
-        <avatar class="mr-5" :user="user" size="large" />
-        <avatar :user="user" size="extraLarge" />
+        <b-avatar class="mr-5" :user="user" size="extraSmall" />
+        <b-avatar class="mr-5" :user="user" size="small" />
+        <b-avatar class="mr-5" :user="user" size="medium" />
+        <b-avatar class="mr-5" :user="user" size="large" />
+        <b-avatar :user="user" size="extraLarge" />
       </div>
     </div>
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Progress bar</h2>
-      <progress-bar value="0" />
-      <progress-bar value="30" />
-      <progress-bar value="60" />
-      <progress-bar value="100" />
-      <progress-bar value="100" text="hundred percent" />
+      <b-progress-bar value="0" />
+      <b-progress-bar value="30" />
+      <b-progress-bar value="60" />
+      <b-progress-bar value="100" />
+      <b-progress-bar value="100" text="hundred percent" />
     </div>
 
     <div class="block mb-25">

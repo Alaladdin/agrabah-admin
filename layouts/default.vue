@@ -7,29 +7,19 @@
         <div class="flex flex-col h-full">
           <t-tag v-if="pageTitle" class="mb-10" variant="title" tag-name="h1">{{ pageTitle }}</t-tag>
 
-          <Nuxt class="flex flex-col" />
+          <nuxt class="flex flex-col" />
 
-          <app-version />
+          <b-app-version />
         </div>
       </div>
     </div>
 
-    <t-modal
+    <b-error-modal
       v-for="(error, index) in errors"
       :key="index"
-      :value="!!error"
-      header="Error"
-      variant="danger"
+      :error="error"
       @closed="closeErrorModal(error)"
-    >
-      <div class="flex items-center">
-        <div class="flex items-center justify-center rounded-full h-10 w-10 bg-red-200 text-lg">
-          <fa icon="exclamation-triangle" />
-        </div>
-
-        <p class="ml-4 whitespace-pre-line">{{ error }}</p>
-      </div>
-    </t-modal>
+    />
   </div>
 </template>
 
@@ -37,9 +27,17 @@
 import { mapActions, mapGetters } from 'vuex'
 import { find, reject } from 'lodash'
 import { navItems } from '@/data'
+import BAppVersion from '@/components/b-app-version'
+import BSidebar from '@/components/b-sidebar'
+import BErrorModal from '@/components/b-error-modal'
 
 export default {
-  name: 'default',
+  name      : 'default',
+  components: {
+    'b-app-version': BAppVersion,
+    'b-sidebar'    : BSidebar,
+    'b-error-modal': BErrorModal,
+  },
   data () {
     return {
       navItems,

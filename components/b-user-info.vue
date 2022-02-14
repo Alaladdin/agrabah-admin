@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between items-center w-min-content">
-    <avatar class="mr-4" :user="user" :size="avatarSize" />
+    <b-avatar class="mr-4" :user="user" :size="avatarSize" />
 
     <div>
       <p class="font-semibold">{{ user ? user.username : 'DELETED' }}</p>

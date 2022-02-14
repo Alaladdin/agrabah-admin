@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name : 'progress-bar',
+  name : 'b-progress-bar',
   props: {
     value: {
       type     : [Number, String],

@@ -15,7 +15,7 @@
 
       <div class="sidebar__profile">
         <div class="flex justify-center items-center p-3">
-          <avatar
+          <b-avatar
             :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
             :user="user"
             size="medium"
