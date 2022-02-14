@@ -17,7 +17,7 @@ import diff from 'simple-text-diff'
 import { escape } from 'lodash'
 
 export default {
-  name : 'change-info-plain',
+  name : 'b-change-info-plain',
   props: {
     change: {
       type    : Object,

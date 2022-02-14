@@ -13,7 +13,7 @@
 import { last } from 'lodash'
 
 export default {
-  name : 'user-info',
+  name : 'b-user-info',
   props: {
     user: {
       type    : Object,

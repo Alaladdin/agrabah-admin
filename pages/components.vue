@@ -83,7 +83,7 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># User info</h2>
       <div class="p-4 rounded bg-white w-1/7">
-        <user-info :user="$auth.$state.user" />
+        <b-user-info :user="$auth.$state.user" />
       </div>
     </div>
   </div>

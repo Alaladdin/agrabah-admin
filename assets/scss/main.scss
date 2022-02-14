@@ -127,7 +127,9 @@ textarea, {
 }
 
 .changes {
-  @apply mb-10 rounded overflow-hidden;
+  &__body {
+    @apply mb-10 rounded overflow-hidden;
+  }
 
   &__item {
     @apply flex items-center p-4 border-b last:border-b-0 bg-white shadow-sm transition duration-20 hover:bg-purple-50;

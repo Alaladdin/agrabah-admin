@@ -10,7 +10,7 @@
  */
 
 import { find } from 'lodash'
-import { vkChats } from '../../data'
+import { vkChats } from '@/data'
 
 export default {
   fieldsInfo: {
@@ -23,7 +23,7 @@ export default {
       plain: true,
     },
     vkMessage: {
-      title      : '[VK]: sent message',
+      title      : 'Message sent via VK bot',
       html       : true,
       valueGetter: (data) => {
         const chat = find(vkChats, { chatId: data.chatId }) || {}
