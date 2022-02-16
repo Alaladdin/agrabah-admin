@@ -41,9 +41,17 @@
 <script>
 import { mapGetters } from 'vuex'
 import { filter, some } from 'lodash'
+import BSidebarItem from './b-sidebar-item'
+import BAvatar from '@/components/b-avatar'
+import BButton from '@/components/b-button'
 
 export default {
-  name : 'b-sidebar',
+  name      : 'b-sidebar',
+  components: {
+    'b-avatar'      : BAvatar,
+    'b-button'      : BButton,
+    'b-sidebar-item': BSidebarItem,
+  },
   props: {
     navItems: {
       type   : Array,

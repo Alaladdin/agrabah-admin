@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TInputGroup, TTextarea, TAlert, TSelect, TTag, TCheckbox, TModal } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TCheckbox, TTable, TModal } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -87,32 +87,6 @@ const VueTailwindSettings = {
       },
     },
   },
-  't-input-group': {
-    component: TInputGroup,
-    props    : {
-      fixedClasses: {
-        label      : 'block mb-1',
-        feedback   : 'text-sm text-sm',
-        description: 'mt-1 text-sm',
-      },
-      classes: {
-        feedback   : 'text-gray-400',
-        description: 'text-gray-400',
-      },
-      variants: {
-        danger: {
-          label      : 'text-red-500',
-          feedback   : 'text-red-500',
-          description: 'text-red-400',
-        },
-        success: {
-          label      : 'text-green-500',
-          feedback   : 'text-green-500',
-          description: 'text-green-400',
-        },
-      },
-    },
-  },
   't-checkbox': {
     component: TCheckbox,
     props    : {
@@ -121,6 +95,23 @@ const VueTailwindSettings = {
         label       : 'ml-1 text-sm text-gray-700',
         inputWrapper: 'inline-flex items-center leading-none',
         wrapper     : 'flex items-center',
+      },
+    },
+  },
+  't-table': {
+    component: TTable,
+    props    : {
+      classes: {
+        table  : 'border-collapse border-0 rounded-lg min-w-full overflow-hidden shadow-sm',
+        thead  : 'bg-purple-200 text-purple-600 select-none',
+        theadTr: '',
+        theadTh: 'py-3 font-normal',
+        tbody  : 'bg-white text-sm',
+        tr     : 'border-b last:border-b-0 border-purple-200 text-center',
+        td     : 'p-3 border-r last:border-r-0 border-purple-200',
+        tfoot  : '',
+        tfootTr: '',
+        tfootTd: '',
       },
     },
   },

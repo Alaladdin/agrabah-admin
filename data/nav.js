@@ -46,11 +46,10 @@ export default [
     scope: ['admin'],
   },
   {
-    path    : '/metrics',
-    title   : 'Metrics',
-    icon    : 'chart-bar',
-    scope   : ['admin'],
-    disabled: true,
+    path : '/metrics',
+    title: 'Metrics',
+    icon : 'chart-bar',
+    scope: ['admin'],
   },
   {
     path    : '/juice-rating',
