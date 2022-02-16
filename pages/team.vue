@@ -44,10 +44,12 @@ import { clone, last } from 'lodash'
 import { validateUsername } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
+import BAvatar from '@/components/b-avatar'
 
 export default {
   name      : 'team',
   components: {
+    'b-avatar': BAvatar,
     'b-button': BButton,
   },
   mixins: [PageDefaultMixin('team')],

@@ -15,11 +15,11 @@ export default {
   name : 'b-button',
   props: {
     text: {
-      type   : String,
+      type   : [String, Array],
       default: '',
     },
     beforeIcon: {
-      type   : String,
+      type   : [String, Array],
       default: '',
     },
     afterIcon: {
