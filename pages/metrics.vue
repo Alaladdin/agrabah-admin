@@ -4,24 +4,49 @@
       Loading...
     </t-alert>
 
-    <t-table
-      v-if="!isLoading"
-      :headers="tableHeader"
-      :data="data"
-    />
+    <template v-if="!isLoading">
+      <t-alert
+        class="alert---bordered mb-7"
+        :show="showCachedAlert"
+        @hidden="onAlertClose('cached')"
+      >
+        Results are cached for an hour
+      </t-alert>
+
+      <t-table :headers="tableHeader" :data="data" />
+    </template>
   </div>
 </template>
 
 <script>
 import { keys } from 'lodash'
 import PageDefaultMixin from '@/mixins/m-page-default'
+import { setToLocalStorage, getFromLocalStorage } from '@/helpers'
 
 export default {
   name  : 'metrics',
   mixins: [PageDefaultMixin('metrics')],
+  data  : () => ({
+    showCachedAlert: true,
+  }),
   computed: {
     tableHeader () {
       return this.data ? keys(this.data[0]) : []
+    },
+  },
+  created () {
+    const key = this.getPrefixedAlertId('cached')
+
+    this.showCachedAlert = !getFromLocalStorage(key)
+  },
+  methods: {
+    onAlertClose (id) {
+      const key = this.getPrefixedAlertId(id)
+
+      setToLocalStorage(key, true)
+    },
+    getPrefixedAlertId (id) {
+      return `metrics_alert_closed:${id}`
     },
   },
 }
