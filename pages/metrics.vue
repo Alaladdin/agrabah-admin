@@ -10,7 +10,7 @@
         :show="showCachedAlert"
         @hidden="onAlertClose('cached')"
       >
-        Results are cached for an hour
+        Results are cached for 30 mins
       </t-alert>
 
       <t-table :headers="tableHeader" :data="data" />
