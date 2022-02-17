@@ -26,8 +26,14 @@
 
     <div class="flex gap-3">
       <b-button variant="indigo" disabled @click="changePassword">Change password</b-button>
-      <b-button variant="danger" @click="confirmRemoveProfile">Delete my profile</b-button>
+      <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete my profile</b-button>
     </div>
+
+    <b-confirm-action-modal
+      v-model="showConfirmActionModal"
+      title="Are u sure want to delete your profile?"
+      :on-confirm="confirmRemoveProfile"
+    />
   </div>
 </template>
 
@@ -35,13 +41,22 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { formatDate, validateUsername } from '@/helpers'
+import BButton from '@/components/b-button'
+import BAvatar from '@/components/b-avatar'
+import BConfirmActionModal from '@/components/b-confirm-action-modal'
 
 export default {
-  name: 'me',
+  name      : 'me',
+  components: {
+    'b-avatar'              : BAvatar,
+    'b-button'              : BButton,
+    'b-confirm-action-modal': BConfirmActionModal,
+  },
   data () {
     return {
-      newUsername: '',
-      isEditing  : false,
+      newUsername           : '',
+      isEditing             : false,
+      showConfirmActionModal: true,
     }
   },
   computed: {
@@ -106,13 +121,12 @@ export default {
     },
     changePassword () {},
     confirmRemoveProfile () {
-      const isRemoveConfirmed = confirm('Are u sure want to delete your profile?')
-
-      if (isRemoveConfirmed) {
-        this.removeUser(this.user)
-          .then(() => this.$auth.logout())
-          .catch(this.$handleError)
-      }
+      this.removeUser(this.user)
+        .then(() => this.$auth.logout())
+        .catch(this.$handleError)
+    },
+    openModal (field) {
+      this[field] = true
     },
   },
 }

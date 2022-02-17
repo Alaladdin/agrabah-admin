@@ -14,7 +14,7 @@
       </nav>
 
       <div class="sidebar__profile">
-        <div class="flex justify-center items-center p-3">
+        <div class="flex justify-between items-center p-3">
           <b-avatar
             :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
             :user="user"
@@ -22,8 +22,10 @@
             @click="goToProfile"
           />
 
-          <div class="flex flex-col mr-5 select-none">
-            <span class="text-md font-semibold">{{ user.username }}</span>
+          <div class="flex flex-col select-none">
+            <span class="text-md font-semibold truncate overflow-hidden max-w-25">
+              {{ user.username }}
+            </span>
           </div>
         </div>
 

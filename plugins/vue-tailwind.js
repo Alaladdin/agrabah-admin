@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TCheckbox, TTable, TModal } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TCheckbox, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -119,7 +119,7 @@ const VueTailwindSettings = {
     component: TModal,
     props    : {
       fixedClasses: {
-        overlay  : 'fixed justify-center items-center flex z-40 inset-0 overflow-auto scrolling-touch left-0 top-0 bottom-0 right-0 w-full h-full bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm',
+        overlay  : 'fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-40 backdrop-filter backdrop-blur-sm',
         wrapper  : 'relative mx-auto max-w-1/2 w-full z-50',
         modal    : 'relative rounded overflow-visible shadow',
         header   : 'p-3 border-b-1 rounded-t font-semibold',
@@ -141,6 +141,43 @@ const VueTailwindSettings = {
           footer: 'border-red-100 text-red-500',
           close : 'bg-red-200 text-red-700 hover:bg-red-300 focus:ring-red-500',
         },
+      },
+    },
+  },
+  't-dialog': {
+    component: TDialog,
+    props    : {
+      fixedClasses: {
+        overlay     : 'fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-40 backdrop-filter backdrop-blur-sm',
+        wrapper     : 'relative m-auto w-full max-w-1/4 z-50',
+        modal       : '',
+        dialog      : 'rounded',
+        body        : 'p-5',
+        content     : 'flex justify-center flex-col w-full',
+        iconWrapper : 'flex items-center justify-center mx-auto mb-5 rounded-full w-12 h-12',
+        icon        : 'w-6 h-6',
+        titleWrapper: '',
+        title       : 'text-lg font-semibold text-center',
+        textWrapper : '',
+        text        : '',
+        buttons     : 'p-3 flex flex-row-reverse border-t rounded-b',
+        okButton    : 'px-4 py-2 mr-2 rounded w-full shadow-sm',
+        cancelButton: 'px-4 py-2 rounded w-full shadow-sm',
+
+        overlayEnterActiveClass: 'transition ease-out duration-200',
+        overlayEnterClass      : 'opacity-0',
+        overlayEnterToClass    : 'opacity-100',
+        enterActiveClass       : 'transition ease-out duration-100 transform',
+        enterClass             : 'opacity-0 scale-95',
+        enterToClass           : 'opacity-100 scale-100',
+      },
+      classes: {
+        dialog      : 'bg-purple-50',
+        iconWrapper : 'bg-purple-100',
+        icon        : 'text-purple-400',
+        buttons     : 'border-purple-100',
+        okButton    : 'bg-indigo-500 text-white',
+        cancelButton: 'bg-white',
       },
     },
   },
