@@ -56,7 +56,7 @@ export default {
     return {
       newUsername           : '',
       isEditing             : false,
-      showConfirmActionModal: true,
+      showConfirmActionModal: false,
     }
   },
   computed: {

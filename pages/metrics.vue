@@ -5,15 +5,21 @@
     </t-alert>
 
     <template v-if="!isLoading">
-      <t-alert
-        class="alert---bordered mb-7"
-        :show="showCachedAlert"
-        @hidden="onAlertClose('cached')"
-      >
-        Results are cached for 30 mins
+      <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>
+        No available data to show
       </t-alert>
 
-      <t-table :headers="tableHeader" :data="data" />
+      <template v-if="data.length">
+        <t-alert
+          class="alert---bordered mb-7"
+          :show="showCachedAlert"
+          @hidden="onAlertClose('cached')"
+        >
+          Results are cached for 30 mins
+        </t-alert>
+
+        <t-table :headers="tableHeader" :data="data" />
+      </template>
     </template>
   </div>
 </template>
