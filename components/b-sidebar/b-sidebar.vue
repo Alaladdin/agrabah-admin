@@ -7,10 +7,22 @@
 
       <nav class="sidebar__nav">
         <b-sidebar-item
-          v-for="navItem in currentNavItems"
-          :key="navItem.path"
-          :nav-item="navItem"
-        />
+          v-for="item in navItems"
+          :key="item.path || item.title"
+          :item="item"
+          :item-clicked="itemClicked"
+          :is-active="item.path === $route.path"
+        >
+          <template #nested-items>
+            <b-sidebar-item
+              v-for="childItem in item.children"
+              :key="childItem.path"
+              :item="childItem"
+              :item-clicked="itemClicked"
+              :is-active="childItem.path === $route.path"
+            />
+          </template>
+        </b-sidebar-item>
       </nav>
 
       <div class="sidebar__profile">
@@ -42,7 +54,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { filter, some } from 'lodash'
 import BSidebarItem from './b-sidebar-item'
 import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
@@ -61,26 +72,25 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      user               : 'getUserData',
-      navbarNotifications: 'getNavbarNotifications',
-    }),
-
-    currentNavItems () {
-      const { scope: userScope } = this.user
-
-      return filter(this.navItems, (navItem) => {
-        if (!navItem.scope) return true
-        if (navItem.hidden) return false
-
-        return some(navItem.scope, navScopeItem => userScope.includes(navScopeItem))
-      })
-    },
+    ...mapGetters({ user: 'getUserData' }),
   },
   methods: {
     goToProfile () {
       if (this.user.loggedIn)
-        this.$router.push('/me')
+        this.goToPage({ path: '/me' })
+    },
+    itemClicked (item) {
+      item.children
+        ? this.toggleFolder(item)
+        : this.goToPage(item)
+    },
+    goToPage (item) {
+      this.$emit('item-clicked', item)
+    },
+    toggleFolder (folder) {
+      folder.isOpen = !folder.isOpen
+
+      this.$emit('folder-toggled', folder)
     },
   },
 }

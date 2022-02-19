@@ -1,6 +1,10 @@
 <template>
   <div class="min-h-screen flex bg-gray-200">
-    <b-sidebar :nav-items="navItems" />
+    <b-sidebar
+      :nav-items="currentNavItems"
+      @item-clicked="goToPage"
+      @folder-toggled="onFolderToggle"
+    />
 
     <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -25,11 +29,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { find, reject } from 'lodash'
+import { assign, each, filter, map, reject, some } from 'lodash'
 import { navItems } from '@/data'
 import BAppVersion from '@/components/b-app-version'
 import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
+import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
+
+const SIDEBAR_STORE_KEY = 'sidebar__opened_folders'
 
 export default {
   name      : 'default',
@@ -41,26 +48,32 @@ export default {
   data () {
     return {
       navItems,
+      openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
     }
   },
   computed: {
     ...mapGetters({
-      errors        : 'getErrors',
       user          : 'getUserData',
+      errors        : 'getErrors',
       updownServices: 'updown/getUpdownServices',
     }),
 
+    currentNavItems () {
+      return this.prepareNavItems(this.navItems)
+    },
     pageTitle () {
-      const { path } = this.$route
       const { username, loggedIn } = this.user
+      const { path } = this.$route
 
-      if (!loggedIn || path !== '/') {
-        const currentRouteData = find(navItems, { path })
-
-        return currentRouteData?.title || ''
-      }
+      if (!loggedIn || path !== '/')
+        return this.getCurrentPageTitle(this.navItems)
 
       return `Hi, ${username}`
+    },
+  },
+  watch: {
+    'openedFolders.length' () {
+      setToLocalStorage(SIDEBAR_STORE_KEY, this.openedFolders)
     },
   },
   created () {
@@ -89,6 +102,49 @@ export default {
       const notOnlineHosts = reject(this.updownServices, { isOnline: true })
 
       this.$setSideBarNotifications('index', notOnlineHosts.length)
+    },
+    getCurrentPageTitle (navItems) {
+      let title = ''
+
+      each(navItems, (item) => {
+        if (title) return false
+
+        if (item.path === this.$route.path)
+          title = item.title
+        else if (item.children)
+          title = this.getCurrentPageTitle(item.children)
+      })
+
+      return title
+    },
+    prepareNavItems (navItems) {
+      const { scope: userScope } = this.user
+      const currentNavItems = filter(navItems, (navItem) => {
+        if (!navItem.scope) return true
+        if (navItem.hidden) return false
+
+        return some(navItem.scope, navScopeItem => userScope.includes(navScopeItem))
+      })
+
+      return map(currentNavItems, (item) => {
+        if (!item.children)
+          return item
+
+        const isOpen = this.openedFolders.includes(item.title)
+
+        return assign({ isOpen }, item)
+      })
+    },
+    goToPage (item) {
+      this.$router.push(item.path)
+    },
+    onFolderToggle (folder) {
+      const folderId = folder.title
+
+      if (folder.isOpen)
+        this.openedFolders.push(folderId)
+      else
+        this.openedFolders = reject(this.openedFolders, openedId => openedId === folderId)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)

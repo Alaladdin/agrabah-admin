@@ -1,14 +1,22 @@
 <template>
-  <nuxt-link class="nuxt-link" :class="{ 'disabled': navItem.disabled }" :to="navItem.path">
-    <div>
-      <fa class="mr-3 text-indigo-100" :icon="navItem.icon" />
-      <span class="mr-1">{{ navItem.title }}</span>
-    </div>
+  <div>
+    <a class="nuxt-link w-full" :class="{ 'active': isActive, 'disabled': item.disabled }" @click="itemClicked(item)">
+      <div>
+        <fa class="mr-3 !w-4 text-indigo-100" :icon="navIcon" />
+        <span class="mr-1">{{ item.title }}</span>
+      </div>
 
-    <span v-if="notificationsCount" class="sidebar__nav-title">
-      {{ notificationsCount }}
-    </span>
-  </nuxt-link>
+      <span v-if="notificationsCount" class="sidebar__nav-badge">
+        {{ notificationsCount }}
+      </span>
+    </a>
+
+    <client-only>
+      <div v-if="item.isOpen" class="pl-4">
+        <slot name="nested-items" />
+      </div>
+    </client-only>
+  </div>
 </template>
 
 <script>
@@ -17,19 +25,39 @@ import { mapGetters } from 'vuex'
 export default {
   name : 'b-sidebar-item',
   props: {
-    navItem: {
+    item: {
       type   : Object,
       default: () => ({}),
+    },
+    itemClicked: {
+      type   : Function,
+      default: () => {},
+    },
+    isActive: {
+      type   : Boolean,
+      default: false,
     },
   },
   computed: {
     ...mapGetters({ navbarNotifications: 'getNavbarNotifications' }),
 
     notificationsCount () {
-      const navRouterData = this.$router.resolve(this.navItem.path)
+      if (this.isFolder) return 0
+
+      const navRouterData = this.$router.resolve(this.item.path)
       const { name: navRouterName } = navRouterData.route
 
       return this.navbarNotifications[navRouterName] || 0
+    },
+    navIcon () {
+      const { icon, isOpen } = this.item
+
+      if (icon) return icon
+
+      return isOpen ? 'folder-open' : 'folder'
+    },
+    isFolder () {
+      return this.item.children
     },
   },
 }

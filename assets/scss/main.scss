@@ -53,7 +53,7 @@ textarea, {
   &__nav {
     @apply flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto;
 
-    &-title {
+    &-badge {
       @apply inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600;
     }
   }
@@ -87,7 +87,7 @@ textarea, {
   @apply active:bg-indigo-900;
   @apply focus:outline-none;
 
-  &-exact-active {
+  &.active {
     @apply bg-indigo-900 hover:bg-indigo-900 text-indigo-100;
   }
 

@@ -15,16 +15,22 @@ export default [
     icon : 'calendar-alt',
   },
   {
-    path : '/bots/vk',
-    title: 'VK Bot',
-    icon : ['fab', 'vk'],
-    scope: ['admin'],
-  },
-  {
-    path : '/bots/discord',
-    title: 'DIS Bot',
-    icon : ['fab', 'discord'],
-    scope: ['admin'],
+    title   : 'Bots',
+    scope   : ['admin'],
+    children: [
+      {
+        path : '/bots/vk',
+        title: 'VK Bot',
+        icon : ['fab', 'vk'],
+        scope: ['admin'],
+      },
+      {
+        path : '/bots/discord',
+        title: 'DIS Bot',
+        icon : ['fab', 'discord'],
+        scope: ['admin'],
+      },
+    ],
   },
   {
     path    : '/short-url',
@@ -67,7 +73,7 @@ export default [
   {
     path  : '/me',
     title : 'Profile',
-    icon  : 'cubes',
+    icon  : 'user-circle',
     scope : ['user'],
     hidden: true,
   },
