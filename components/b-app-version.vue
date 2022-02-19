@@ -1,5 +1,5 @@
 <template>
-  <a class="badge fixed top-3 right-3" href="https://github.com/Alaladdin/mpei-admin-nuxt" target="_blank">
+  <a class="badge fixed top-3 right-3" href="https://github.com/Alaladdin/agrabah-admin" target="_blank">
     v {{ appVersion }}
   </a>
 </template>

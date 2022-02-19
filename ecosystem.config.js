@@ -20,7 +20,7 @@ module.exports = {
       user         : process.env.DEPLOY_USER,
       host         : [{ host: process.env.DEPLOY_HOST, port: process.env.DEPLOY_PORT }],
       ref          : 'origin/main',
-      repo         : 'https://github.com/Alaladdin/mpei-admin-nuxt',
+      repo         : 'https://github.com/Alaladdin/agrabah-admin',
       path         : process.env.DEPLOY_PATH,
       'pre-deploy' : 'pm2 stop ./ecosystem.config.js',
       'post-deploy': 'npm install; npm run build && pm2 start ./ecosystem.config.js --env production --update-env',

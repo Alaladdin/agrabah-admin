@@ -1,7 +1,7 @@
-# mpei-admin-nuxt
+# agrabah-admin
 
-[![Deploy](https://github.com/Alaladdin/mpei-admin-nuxt/actions/workflows/deploy.yml/badge.svg)](https://github.com/Alaladdin/mpei-admin-nuxt/actions/workflows/deploy.yml)
-![GitHub package.json version](https://img.shields.io/github/package-json/v/Alaladdin/mpei-admin-nuxt?color=%23BE97F5)
+[![Deploy](https://github.com/Alaladdin/agrabah-admin/actions/workflows/deploy.yml/badge.svg)](https://github.com/Alaladdin/mpei-admin-nuxt/actions/workflows/deploy.yml)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/Alaladdin/agrabah-admin?color=%23BE97F5)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/Alaladdin/mpei-server?color=%23BE97F5&label=api%20version)
 
 ## Build Setup
