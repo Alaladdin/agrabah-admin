@@ -32,7 +32,7 @@
     <b-confirm-action-modal
       v-model="showConfirmActionModal"
       title="Are u sure want to delete your profile?"
-      :on-confirm="confirmRemoveProfile"
+      :on-confirm="removeProfile"
     />
   </div>
 </template>
@@ -120,7 +120,7 @@ export default {
       this.newUsername = this.user.username
     },
     changePassword () {},
-    confirmRemoveProfile () {
+    removeProfile () {
       this.removeUser(this.user)
         .then(() => this.$auth.logout())
         .catch(this.$handleError)

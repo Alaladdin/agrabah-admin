@@ -19,7 +19,7 @@
           <template v-if="canEditUser(user)">
             <div v-if="!isEditingUser(user)" class="flex ml-3">
               <b-button class="px-2 mr-2" variant="indigo" before-icon="pencil-alt" @click="startUserEditing(user)" />
-              <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="confirmRemoveUser(user)" />
+              <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="openConfirmRemoveUserModal(user)" />
             </div>
 
             <template v-else>
@@ -35,6 +35,12 @@
         </div>
       </div>
     </div>
+
+    <b-confirm-action-modal
+      v-model="showConfirmActionModal"
+      :title="confirmRemoveUserModalTitle"
+      :on-confirm="removeUserProfile"
+    />
   </div>
 </template>
 
@@ -45,22 +51,32 @@ import { validateUsername } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
+import BConfirmActionModal from '@/components/b-confirm-action-modal'
 
 export default {
   name      : 'team',
   components: {
-    'b-avatar': BAvatar,
-    'b-button': BButton,
+    'b-avatar'              : BAvatar,
+    'b-button'              : BButton,
+    'b-confirm-action-modal': BConfirmActionModal,
   },
   mixins: [PageDefaultMixin('team')],
   data () {
     return {
-      editingUserData: null,
+      editingUserData       : null,
+      removingUser          : null,
+      showConfirmActionModal: false,
     }
   },
   computed: {
     ...mapGetters({ currentUser: 'getUserData' }),
 
+    confirmRemoveUserModalTitle () {
+      if (!this.removingUser)
+        return ''
+
+      return `Remove user "${this.removingUser.username}"?`
+    },
     isNewUsernameValid () {
       return !!this.editingUserData && validateUsername(this.editingUserData.username)
     },
@@ -94,11 +110,16 @@ export default {
     isEditingUser (user) {
       return this.editingUserData && this.editingUserData._id === user._id
     },
-    confirmRemoveUser (user) {
-      const isRemoveConfirmed = confirm(`Remove user "${user.username}"?`)
-
-      if (isRemoveConfirmed)
-        this.removeUser(user).catch(this.$handleError)
+    openConfirmRemoveUserModal (user) {
+      this.removingUser = user
+      this.openModal('showConfirmActionModal')
+    },
+    removeUserProfile () {
+      this.removeUser(this.removingUser)
+        .catch(this.$handleError)
+        .finally(() => {
+          this.removingUser = null
+        })
     },
   },
 }
