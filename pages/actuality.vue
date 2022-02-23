@@ -9,6 +9,7 @@
         <t-textarea
           v-model="data.content"
           class="w-full h-full min-h-85 text-sm !resize-y"
+          placeholder="Urgent things"
           :disabled="isEditDisabled"
           :readonly="!user.isAdmin"
           @keydown.enter.ctrl="onEnter"
@@ -23,6 +24,7 @@
         <t-textarea
           v-model="data.lazyContent"
           class="w-full h-full min-h-85 text-sm !resize-y"
+          placeholder="Non-urgent things"
           :disabled="isEditDisabled"
           :readonly="!user.isAdmin"
           @keydown.enter.ctrl="onEnter"

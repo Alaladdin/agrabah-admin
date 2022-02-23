@@ -19,6 +19,13 @@ export default [
     scope   : ['admin'],
     children: [
       {
+        path    : '/bots/tg',
+        title   : 'TG Bot',
+        icon    : ['fab', 'telegram-plane'],
+        scope   : ['admin'],
+        disabled: true,
+      },
+      {
         path : '/bots/vk',
         title: 'VK Bot',
         icon : ['fab', 'vk'],
