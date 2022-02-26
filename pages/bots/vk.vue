@@ -34,7 +34,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { map, keys } from 'lodash'
+import { map, keys, isBoolean } from 'lodash'
 import { vkChats } from '@/data'
 import PageDefaultMixin from '@/mixins/m-page-default'
 
@@ -55,13 +55,13 @@ export default {
     botConfigFields () {
       if (!this.data) return []
 
-      const { isBotActive, isActualityAutopostingEnabled, isConcatActualities } = this.data
+      const { isActualityAutopostingEnabled, isConcatActualities, admins, scheduleSubscribers } = this.data
 
       return [
-        this.getBooleanConfigField(isBotActive, 'Bot'),
         this.getBooleanConfigField(isActualityAutopostingEnabled, 'Actuality autoposting'),
         this.getBooleanConfigField(isConcatActualities, 'Actuality concatenation'),
-        { title: 'Admins', value: keys(this.data.admins).join(', '), isEnabled: null },
+        { title: 'Admins', value: keys(admins).join(', ') },
+        { title: 'Schedule subscribers ', value: scheduleSubscribers.join(', ') },
       ]
     },
     isSendDisabled () {
@@ -79,7 +79,7 @@ export default {
       }
     },
     getOptionClass (field) {
-      if (field.isEnabled === null) return ''
+      if (!isBoolean(field.isEnabled)) return ''
 
       return field.isEnabled ? 'options__item--success' : 'options__item--danger'
     },
