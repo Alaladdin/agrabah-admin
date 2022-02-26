@@ -17,14 +17,22 @@ const VueTailwindSettings = {
       },
     },
   },
+  't-input': {
+    component: TInput,
+    props    : {
+      fixedClasses: 'px-3 py-2 border rounded shadow-sm transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
+      classes     : 'border-indigo-300 text-gray-800 placeholder-gray-400 bg-white focus:ring-indigo-400',
+      variants    : {
+        danger : 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:ring-red-400',
+        success: 'border-green-300 text-green-900 bg-green-50 placeholder-green-400 focus:ring-green-400',
+      },
+    },
+  },
   't-textarea': {
     component: TTextarea,
     props    : {
-      fixedClasses: 'px-3 py-2 rounded shadow-sm transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-indigo-400 focus:ring-opacity-50 disabled:bg-gray-100',
-      classes     : 'text-gray-800 placeholder-gray-400 bg-white',
-      variants    : {
-        danger: 'placeholder-red-400 focus:ring-red-400',
-      },
+      fixedClasses: 'px-3 py-2 border rounded shadow-sm transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
+      classes     : 'border-indigo-300 text-gray-800 placeholder-gray-400 bg-white focus:ring-indigo-400',
     },
   },
   't-alert': {
@@ -63,7 +71,7 @@ const VueTailwindSettings = {
   't-select': {
     component: TSelect,
     props    : {
-      fixedClasses: 'block px-3 py-1.5 transition duration-100 ease-in-out rounded shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-50',
+      fixedClasses: 'block px-3 py-1.5 transition duration-100 ease-in-out rounded shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
       classes     : 'bg-white focus:ring-indigo-400',
     },
   },
@@ -73,17 +81,6 @@ const VueTailwindSettings = {
       variants: {
         title   : 'text-3xl leading-8 font-bold text-gray-800 text-center',
         subtitle: 'text-lg leading-6 font-medium text-gray-900',
-      },
-    },
-  },
-  't-input': {
-    component: TInput,
-    props    : {
-      fixedClasses: 'px-4 py-2 transition duration-100 ease-in-out border rounded shadow-sm focus:ring focus:outline-none focus:ring-opacity-50 disabled:opacity-50',
-      classes     : 'bg-white focus:ring-gray-400',
-      variants    : {
-        danger : 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:ring-red-400',
-        success: 'border-green-300 text-green-900 bg-green-50 placeholder-green-400 focus:ring-green-400',
       },
     },
   },

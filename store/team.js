@@ -2,11 +2,11 @@ export * from '@/mixins/m-store-default'
 
 export const actions = {
   init (ctx) {
-    return this.$axios.post('/api/auth/getUsers')
-      .then((res) => {
-        ctx.commit('SET_DATA', res.data)
+    return this.$axios.$post('/api/auth/getUsers')
+      .then((users) => {
+        ctx.commit('SET_DATA', users)
 
-        return res.data
+        return users
       })
       .catch((err) => {
         throw err
@@ -26,11 +26,11 @@ export const actions = {
   removeUser (ctx, user) {
     const data = { _id: user._id }
 
-    return this.$axios.delete('/api/auth/removeUser', { data })
+    return this.$axios.$delete('/api/auth/removeUser', { data })
       .then((res) => {
         ctx.commit('REMOVE_ITEM', user)
 
-        return res.data
+        return res
       })
       .catch((err) => {
         throw err

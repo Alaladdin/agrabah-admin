@@ -5,7 +5,6 @@
       <t-textarea
         v-model="message"
         class="mb-3 w-full min-h-40 max-h-60 self-center !resize-y"
-        :variant="{ 'danger' : !message.trim() }"
         @keydown.enter.ctrl="!isSendDisabled && sendMess()"
       />
 

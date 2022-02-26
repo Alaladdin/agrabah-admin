@@ -26,7 +26,6 @@
       <h2 class="mb-4 font-bold text-4xl"># Textarea</h2>
       <div>
         <t-textarea placeholder="textarea" :disabled="isDisabled" />
-        <t-textarea placeholder="danger" :disabled="isDisabled" variant="danger" />
       </div>
     </div>
 
