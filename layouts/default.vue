@@ -11,7 +11,7 @@
         <div class="flex flex-col h-full">
           <t-tag v-if="pageTitle" class="mb-10" variant="title" tag-name="h1">{{ pageTitle }}</t-tag>
 
-          <nuxt class="flex flex-col" />
+          <nuxt-child class="flex flex-col" />
 
           <b-app-version />
         </div>

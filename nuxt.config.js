@@ -19,7 +19,10 @@ export default {
     '~/plugins/handle-error',
     '~/plugins/set-sidebar-notification',
   ],
-  components  : true,
+  components: [
+    { path: '~/components', pattern: '*.vue' },
+    { path: '~/components', pattern: '**/*.js' },
+  ],
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',

@@ -39,7 +39,7 @@
 import { assign, map } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import localMetadata from './metadata'
-import BChangeItem from './b-change-item'
+import BChangeItem from './components/b-change-item'
 import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'

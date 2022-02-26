@@ -1,0 +1,3 @@
+# ignore non-pages
+pages/*/components
+pages/*/*.js
