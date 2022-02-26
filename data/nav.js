@@ -15,29 +15,10 @@ export default [
     icon : 'calendar-alt',
   },
   {
-    title   : 'Bots',
-    scope   : ['admin'],
-    children: [
-      {
-        path    : '/bots/tg',
-        title   : 'TG Bot',
-        icon    : ['fab', 'telegram-plane'],
-        scope   : ['admin'],
-        disabled: true,
-      },
-      {
-        path : '/bots/vk',
-        title: 'VK Bot',
-        icon : ['fab', 'vk'],
-        scope: ['admin'],
-      },
-      {
-        path : '/bots/discord',
-        title: 'DIS Bot',
-        icon : ['fab', 'discord'],
-        scope: ['admin'],
-      },
-    ],
+    path : '/bots/vk',
+    title: 'VK Bot',
+    icon : ['fab', 'vk'],
+    scope: ['admin'],
   },
   {
     path    : '/short-url',
