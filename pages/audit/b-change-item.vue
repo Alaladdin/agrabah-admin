@@ -34,7 +34,6 @@
     </div>
 
     <div class="flex items-center ml-auto">
-      <b-button class="mr-5" text="rollback" variant="link" disabled />
       <div class="text-xs font-mono text-gray-400">{{ change.changedAt }}</div>
     </div>
   </div>

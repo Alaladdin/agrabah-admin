@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between mb-5 text-sm">
-      <t-checkbox v-model="isShowHiddenFields" class="select-none">Show hidden fields</t-checkbox>
+      <b-checkbox v-model="isShowHiddenFields" class="select-none" text="Show hidden fields" />
 
       <div class="flex">
         <b-button class="mr-5" text="Current week" @click="applyInitialData" />
@@ -38,6 +38,8 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { filter } from 'lodash'
 import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
+import BButton from '@/components/b-button'
+import BCheckbox from '@/components/b-checkbox'
 
 const DEFAULT_DATE_FORMAT = 'DD.MM'
 const COMPARE_DATE_FORMAT = 'MM.DD'
@@ -45,7 +47,11 @@ const SERVER_DATE_FORMAT = 'YYYY.MM.DD'
 const HIDDEN_LABELS_KEY = 'schedule__show_hidden_fields'
 
 export default {
-  name: 'schedule',
+  name      : 'schedule',
+  components: {
+    'b-button'  : BButton,
+    'b-checkbox': BCheckbox,
+  },
   data () {
     return {
       scheduleOffset    : { start: null, finish: null },

@@ -17,19 +17,19 @@
           <div v-if="!isEditingUser(user)" class="text-sm">{{ last(user.scope) }}</div>
 
           <template v-if="canEditUser(user)">
-            <div v-if="!isEditingUser(user)" class="flex ml-3">
-              <b-button class="px-2 mr-2" variant="indigo" before-icon="pencil-alt" @click="startUserEditing(user)" />
-              <b-button class="px-2" variant="danger" :before-icon="['far', 'trash-alt']" @click="openConfirmRemoveUserModal(user)" />
+            <div v-if="!isEditingUser(user)" class="flex ml-3 space-x-2">
+              <b-button class="px-2" variant="indigo" before-icon="pencil" @click="startUserEditing(user)" />
+              <b-button class="px-2" variant="danger" before-icon="trash-can" @click="openConfirmRemoveUserModal(user)" />
             </div>
 
             <template v-else>
-              <div class="flex text-sm mr-3">
-                <t-checkbox label="user" checked disabled />
-                <t-checkbox v-model="editingUserData.scope" value="admin" label="admin" />
+              <div class="flex mr-3 space-x-3 text-sm">
+                <b-checkbox checked disabled>user</b-checkbox>
+                <b-checkbox v-model="editingUserData.scope" value="admin">admin</b-checkbox>
               </div>
 
-              <b-button class="px-2 mr-2" variant="indigo" before-icon="save" :disabled="!isNewUsernameValid" @click="editUserData" />
-              <b-button class="px-2" variant="danger" before-icon="times" @click="stopUserEditing" />
+              <b-button class="px-2 mr-2" variant="indigo" before-icon="floppy-disk" :disabled="!isNewUsernameValid" @click="editUserData" />
+              <b-button class="px-2" variant="danger" before-icon="xmark" @click="stopUserEditing" />
             </template>
           </template>
         </div>
@@ -52,12 +52,14 @@ import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
+import BCheckbox from '@/components/b-checkbox'
 
 export default {
   name      : 'team',
   components: {
     'b-avatar'              : BAvatar,
     'b-button'              : BButton,
+    'b-checkbox'            : BCheckbox,
     'b-confirm-action-modal': BConfirmActionModal,
   },
   mixins: [PageDefaultMixin('team')],

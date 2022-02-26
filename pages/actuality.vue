@@ -59,9 +59,15 @@
 import { mapActions, mapGetters } from 'vuex'
 import { formatDate } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
+import BButton from '@/components/b-button'
+import BUserInfo from '@/components/b-user-info'
 
 export default {
-  name  : 'actuality',
+  name      : 'actuality',
+  components: {
+    'b-button'   : BButton,
+    'b-user-info': BUserInfo,
+  },
   mixins: [PageDefaultMixin('actuality')],
   data () {
     return {

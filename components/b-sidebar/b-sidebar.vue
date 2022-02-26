@@ -44,7 +44,7 @@
         <b-button
           class="sidebar__profile-button"
           :to="user.loggedIn ? '/logout' : '/login'"
-          :after-icon="user.loggedIn ? 'sign-out-alt' : 'sign-in-alt'"
+          :after-icon="user.loggedIn ? 'right-from-bracket' : 'right-to-bracket'"
           variant="indigo"
         />
       </div>

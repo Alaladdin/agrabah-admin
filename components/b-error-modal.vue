@@ -7,7 +7,7 @@
   >
     <div class="flex items-center">
       <div class="flex items-center justify-center rounded-full h-10 w-10 bg-red-200 text-lg">
-        <fa icon="exclamation-triangle" />
+        <fa icon="triangle-exclamation" />
       </div>
 
       <p class="ml-4 whitespace-pre-line">{{ error }}</p>

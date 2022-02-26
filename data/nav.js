@@ -2,17 +2,17 @@ export default [
   {
     path : '/',
     title: 'Home',
-    icon : 'home',
+    icon : 'house',
   },
   {
     path : '/actuality',
     title: 'Actuality',
-    icon : 'bell',
+    icon : 'newspaper',
   },
   {
     path : '/schedule',
     title: 'Schedule',
-    icon : 'calendar-alt',
+    icon : 'calendar-days',
   },
   {
     path : '/bots/vk',
@@ -28,24 +28,6 @@ export default [
     disabled: true,
   },
   {
-    path : '/team',
-    title: 'Team',
-    scope: ['admin'],
-    icon : 'users',
-  },
-  {
-    path : '/audit',
-    title: 'Audit',
-    icon : 'history',
-    scope: ['admin'],
-  },
-  {
-    path : '/metrics',
-    title: 'Metrics',
-    icon : 'chart-bar',
-    scope: ['admin'],
-  },
-  {
     path    : '/juice-rating',
     title   : 'Orange juice rating',
     icon    : 'star',
@@ -53,15 +35,49 @@ export default [
     disabled: true,
   },
   {
-    path : '/components',
-    title: 'Components',
-    icon : 'cubes',
-    scope: ['admin'],
+    title   : 'Options',
+    scope   : ['admin'],
+    children: [
+      {
+        path : '/team',
+        title: 'Team',
+        scope: ['admin'],
+        icon : 'user-group',
+      },
+      {
+        path : '/audit',
+        title: 'Audit',
+        icon : 'clock-rotate-left',
+        scope: ['admin'],
+      },
+      {
+        path : '/metrics',
+        title: 'Metrics',
+        icon : 'chart-line',
+        scope: ['admin'],
+      },
+    ],
+  },
+  {
+    title   : 'Dev',
+    scope   : ['admin'],
+    children: [
+      {
+        path    : '/changelog',
+        title   : 'Changelog',
+        icon    : 'list-ul',
+        disabled: true,
+      },
+      {
+        path : '/components',
+        title: 'Components',
+        icon : 'cubes',
+      },
+    ],
   },
   {
     path  : '/me',
     title : 'Profile',
-    icon  : 'user-circle',
     scope : ['user'],
     hidden: true,
   },

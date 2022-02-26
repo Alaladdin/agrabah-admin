@@ -37,8 +37,8 @@
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
-      <t-checkbox class="block" :disabled="isDisabled">Like</t-checkbox>
-      <t-checkbox class="block" :disabled="isDisabled">Super like</t-checkbox>
+      <b-checkbox class="block" :disabled="isDisabled">Like</b-checkbox>
+      <b-checkbox class="block" checked :disabled="isDisabled">Super like</b-checkbox>
     </div>
 
     <div class="block mb-25">

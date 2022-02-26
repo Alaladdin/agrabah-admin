@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TCheckbox, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -84,17 +84,6 @@ const VueTailwindSettings = {
       variants    : {
         danger : 'border-red-300 bg-red-50 text-red-900 placeholder-red-400 focus:ring-red-400',
         success: 'border-green-300 text-green-900 bg-green-50 placeholder-green-400 focus:ring-green-400',
-      },
-    },
-  },
-  't-checkbox': {
-    component: TCheckbox,
-    props    : {
-      wrapped     : true,
-      fixedClasses: {
-        label       : 'ml-1 text-sm text-gray-700',
-        inputWrapper: 'inline-flex items-center leading-none',
-        wrapper     : 'flex items-center',
       },
     },
   },
