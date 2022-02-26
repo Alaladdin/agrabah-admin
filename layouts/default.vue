@@ -29,7 +29,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { assign, each, filter, map, reject, some } from 'lodash'
+import { assign, each, filter, map, reject } from 'lodash'
 import { navItems } from '@/data'
 import BAppVersion from '@/components/b-app-version'
 import BSidebar from '@/components/b-sidebar'
@@ -119,11 +119,11 @@ export default {
     },
     prepareNavItems (navItems) {
       const { scope: userScope } = this.user
-      const currentNavItems = filter(navItems, (navItem) => {
-        if (!navItem.scope) return true
-        if (navItem.hidden) return false
+      const currentNavItems = filter(navItems, (item) => {
+        if (!item.scope) return true
+        if (item.hidden) return false
 
-        return some(navItem.scope, navScopeItem => userScope.includes(navScopeItem))
+        return userScope.includes(item.scope)
       })
 
       return map(currentNavItems, (item) => {

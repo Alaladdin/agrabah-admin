@@ -18,49 +18,46 @@ export default [
     path : '/bots/vk',
     title: 'VK Bot',
     icon : ['fab', 'vk'],
-    scope: ['admin'],
+    scope: 'admin',
   },
   {
     path    : '/short-url',
     title   : 'Short URL',
     icon    : 'link',
-    scope   : ['user'],
+    scope   : 'user',
     disabled: true,
   },
   {
     path    : '/juice-rating',
     title   : 'Orange juice rating',
     icon    : 'star',
-    scope   : ['user'],
+    scope   : 'user',
     disabled: true,
   },
   {
     title   : 'Options',
-    scope   : ['admin'],
+    scope   : 'admin',
     children: [
       {
         path : '/team',
         title: 'Team',
-        scope: ['admin'],
         icon : 'user-group',
       },
       {
         path : '/audit',
         title: 'Audit',
         icon : 'clock-rotate-left',
-        scope: ['admin'],
       },
       {
         path : '/metrics',
         title: 'Metrics',
         icon : 'chart-line',
-        scope: ['admin'],
       },
     ],
   },
   {
     title   : 'Dev',
-    scope   : ['admin'],
+    scope   : 'admin',
     children: [
       {
         path    : '/changelog',
@@ -78,7 +75,7 @@ export default [
   {
     path  : '/me',
     title : 'Profile',
-    scope : ['user'],
+    scope : 'user',
     hidden: true,
   },
 ]
