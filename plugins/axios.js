@@ -1,4 +1,4 @@
-export default function ({ $axios, store, ...aaaaa }) {
+export default function ({ $axios, store }) {
   let needUpdateChanges = false
 
   $axios.onRequest((config) => {

@@ -116,6 +116,13 @@ const VueTailwindSettings = {
         footer   : 'p-3 border-t-1 rounded-b',
         close    : 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50',
         closeIcon: 'h-4 w-4',
+
+        overlayEnterActiveClass: 'transition ease-out duration-200',
+        overlayEnterClass      : 'opacity-0',
+        overlayEnterToClass    : 'opacity-100',
+        enterActiveClass       : 'transition ease-out duration-100 transform',
+        enterClass             : 'opacity-0 scale-95',
+        enterToClass           : 'opacity-100 scale-100',
       },
       classes: {
         header: 'border-b-1',

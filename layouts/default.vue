@@ -19,9 +19,9 @@
     </div>
 
     <b-error-modal
-      v-for="(error, index) in errors"
-      :key="index"
-      :error="error"
+      v-for="error in errors"
+      :key="error.id"
+      :text="error.text"
       @closed="closeErrorModal(error)"
     />
   </div>

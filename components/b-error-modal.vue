@@ -1,6 +1,6 @@
 <template>
   <t-modal
-    :value="!!error"
+    :value="!!text"
     header="Error"
     variant="danger"
     @closed="onCloseModal"
@@ -10,7 +10,7 @@
         <fa icon="triangle-exclamation" />
       </div>
 
-      <p class="ml-4 whitespace-pre-line">{{ error }}</p>
+      <p class="ml-4 whitespace-pre-line">{{ text }}</p>
     </div>
   </t-modal>
 </template>
@@ -19,14 +19,14 @@
 export default {
   name : 'b-error-modal',
   props: {
-    error: {
+    text: {
       type   : String,
       default: '',
     },
   },
   methods: {
     onCloseModal () {
-      this.$emit('closed', this.error)
+      this.$emit('closed')
     },
   },
 }

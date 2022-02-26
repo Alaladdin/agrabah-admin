@@ -1,5 +1,5 @@
 import vue from 'vue'
-import { assign, filter } from 'lodash'
+import { assign, reject } from 'lodash'
 import { version } from '@/package.json'
 
 export const state = () => ({
@@ -46,7 +46,7 @@ export const mutations = {
     state.errors.push(error)
   },
   REMOVE_ERROR (state, error) {
-    state.errors = filter(state.errors, err => err !== error)
+    state.errors = reject(state.errors, { id: error.id })
   },
 }
 
