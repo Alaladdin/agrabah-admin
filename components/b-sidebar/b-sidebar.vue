@@ -29,7 +29,7 @@
         <div class="flex justify-between items-center p-3">
           <b-avatar
             :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
-            :user="user"
+            :url="user.avatar"
             size="medium"
             @click="goToProfile"
           />

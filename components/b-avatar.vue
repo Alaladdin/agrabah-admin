@@ -1,12 +1,15 @@
 <template>
   <figure class="flex flex-col items-center" @click="onClick">
     <nuxt-img
-      preset="default"
+      provider="cloudinary"
+      preset="avatar"
       :class="[avatarClass, imageClass]"
       :src="avatarUrl"
       :width="avatarSize"
       :height="avatarSize"
-      :alt="user ? user.username : ''"
+      crossorigin="anonymous"
+      preload
+      @error.native="onImageLoadError"
     />
   </figure>
 </template>
@@ -15,10 +18,9 @@
 export default {
   name : 'b-avatar',
   props: {
-    user: {
-      type    : Object,
-      default : () => ({}),
-      required: true,
+    url: {
+      type   : String,
+      default: '',
     },
     size: {
       type     : String,
@@ -30,6 +32,11 @@ export default {
       default: '',
     },
   },
+  data () {
+    return {
+      avatarUrl: this.url || process.env.DEFAULT_AVATAR_IMAGE,
+    }
+  },
   computed: {
     avatarClass () {
       const fixedClasses = 'rounded-full ring-8 ring-violet-300 shadow-sm object-cover'
@@ -39,8 +46,10 @@ export default {
     avatarSize () {
       return this.avatarSizes[this.size] + 'px'
     },
-    avatarUrl () {
-      return (this.user && this.user.avatar) || 'avatar__default.jpg'
+  },
+  watch: {
+    url (newUrl) {
+      this.avatarUrl = newUrl
     },
   },
   created () {
@@ -66,8 +75,11 @@ export default {
         extraLarge: ['ring-8'],
       }
     },
-    onClick (e) {
-      this.$emit('click', e)
+    onImageLoadError () {
+      this.avatarUrl = process.env.ERROR_AVATAR_IMAGE
+    },
+    onClick () {
+      this.$emit('click')
     },
   },
 }

@@ -1,3 +1,5 @@
+const { SERVER_ADDRESS, AUTH_TOKEN, CLOUDINARY_CLOUD_NAME } = process.env
+
 export default {
   head: {
     title: 'AGRABAH ADMIN',
@@ -38,13 +40,23 @@ export default {
     'nuxt-fontawesome',
   ],
   image: {
-    dir    : 'assets/img',
+    dir       : 'assets/img',
+    cloudinary: {
+      baseURL: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`,
+    },
     presets: {
       default: {
         modifiers: {
-          fit    : 'cover',
           format : 'webp',
           quality: 80,
+        },
+      },
+      avatar: {
+        modifiers: {
+          fit        : 'fill',
+          format     : 'webp',
+          roundCorner: 'max',
+          quality    : 100,
         },
       },
     },
@@ -62,10 +74,10 @@ export default {
   },
   proxy: {
     '/api': {
-      target     : process.env.SERVER_ADDRESS,
+      target     : SERVER_ADDRESS,
       pathRewrite: { '^/api/': '/' },
       headers    : {
-        AuthToken: process.env.AUTH_TOKEN,
+        AuthToken: AUTH_TOKEN,
       },
     },
   },

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <b-user-info class="mr-10 text-sm" :user="change.changedBy" avatar-size="extraSmall" />
+    <b-user-info
+      class="mr-10 text-sm"
+      :user="change.changedBy"
+      avatar-size="extraSmall"
+    />
 
     <div class="changes__item-description">
       <p class="mr-2 font-semibold">Modified:</p>

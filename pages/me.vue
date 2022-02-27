@@ -1,33 +1,43 @@
 <template>
   <div class="flex justify-center items-center">
-    <b-avatar class="m-x-7" :user="user" size="extraLarge" />
+    <b-avatar class="m-x-7 cursor-pointer" :url="user.avatar" size="extraLarge" @click="selectAvatar" />
+    <b-image-upload
+      ref="imageUploader"
+      v-model="newUserData.avatar"
+      :folder-name="user.username"
+      @input="saveNewData"
+    />
+
     <div class="mb-5">
-      <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="startEditing">
+      <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="setEditing(true)">
         {{ user.username }}
       </h2>
 
       <template v-if="isEditing">
-        <t-input v-model="newUsername" maxlength="15" class="mb-2" :variant="{ 'danger' : !isNewUsernameValid }" placeholder="Username" />
+        <t-input
+          v-model="newUserData.username"
+          class="mb-2"
+          maxlength="15"
+          placeholder="Username"
+          :variant="{ 'danger' : !isNewUsernameValid }"
+        />
         <div class="flex">
-          <b-button class="mr-2 w-full" text="Save" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewUsername" />
-          <b-button class="w-full" text="Cancel" variant="danger" @click="stopEditing" />
+          <b-button class="mr-2 w-full" text="Save" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewData" />
+          <b-button class="w-full" text="Cancel" variant="danger" @click="setEditing(false)" />
         </div>
       </template>
     </div>
 
     <div class="flex justify-center mb-5">
       <div class="bg-white rounded w-max shadow-sm">
-        <p v-for="(field, index) in getProfileInfoFields()" :key="index" class="options">
+        <p v-for="(field, index) in profileInfoFields" :key="index" class="options">
           <span>{{ field.title }}</span>
           <span class="options__item">{{ field.value }}</span>
         </p>
       </div>
     </div>
 
-    <div class="flex gap-3">
-      <b-button variant="indigo" disabled @click="changePassword">Change password</b-button>
-      <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete my profile</b-button>
-    </div>
+    <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete my profile</b-button>
 
     <b-confirm-action-modal
       v-model="showConfirmActionModal"
@@ -40,21 +50,27 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import { pickBy } from 'lodash'
 import { formatDate, validateUsername } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
+import BImageUpload from '@/components/b-image-upload'
 
 export default {
   name      : 'me',
   components: {
     'b-avatar'              : BAvatar,
     'b-button'              : BButton,
+    'b-image-upload'        : BImageUpload,
     'b-confirm-action-modal': BConfirmActionModal,
   },
   data () {
     return {
-      newUsername           : '',
+      newUserData: {
+        username: '',
+        avatar  : '',
+      },
       isEditing             : false,
       showConfirmActionModal: false,
     }
@@ -62,25 +78,7 @@ export default {
   computed: {
     ...mapGetters({ user: 'getUserData' }),
 
-    isNewUsernameValid () {
-      return validateUsername(this.newUsername)
-    },
-  },
-  watch: {
-    'user.username': {
-      immediate: true,
-      handler (v) {
-        this.newUsername = v
-      },
-    },
-  },
-  methods: {
-    ...mapActions({
-      editUser  : 'editUser',
-      removeUser: 'team/removeUser',
-    }),
-
-    getProfileInfoFields () {
+    profileInfoFields () {
       const { lastLoggedAt, createdAt, scope } = this.user
 
       return [
@@ -102,24 +100,38 @@ export default {
         },
       ]
     },
-    saveNewUsername () {
+    isNewUsernameValid () {
+      return validateUsername(this.newUserData.username)
+    },
+  },
+  watch: {
+    isEditing () {
+      this.newUserData.username = this.user.username
+    },
+  },
+  methods: {
+    ...mapActions({
+      editUser  : 'editUser',
+      removeUser: 'team/removeUser',
+    }),
+
+    saveNewData () {
       const data = {
-        _id     : this.user._id,
-        username: this.newUsername,
+        ...pickBy(this.newUserData, v => !!v),
+        _id: this.user._id,
       }
 
       this.editUser(data)
-        .then(this.stopEditing)
+        .then(() => this.setEditing(false))
         .catch(this.$handleError)
     },
-    startEditing () {
-      this.isEditing = true
+    selectAvatar () {
+      this.$refs.imageUploader.selectFile()
+      this.setEditing(false)
     },
-    stopEditing () {
-      this.isEditing = false
-      this.newUsername = this.user.username
+    setEditing (isEditing) {
+      this.isEditing = isEditing
     },
-    changePassword () {},
     removeProfile () {
       this.removeUser(this.user)
         .then(() => this.$auth.logout())

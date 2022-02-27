@@ -62,11 +62,11 @@
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex">
-        <b-avatar class="mr-5" :user="user" size="extraSmall" />
-        <b-avatar class="mr-5" :user="user" size="small" />
-        <b-avatar class="mr-5" :user="user" size="medium" />
-        <b-avatar class="mr-5" :user="user" size="large" />
-        <b-avatar :user="user" size="extraLarge" />
+        <b-avatar class="mr-5" :url="user.avatar" size="extraSmall" />
+        <b-avatar class="mr-5" :url="user.avatar" size="small" />
+        <b-avatar class="mr-5" :url="user.avatar" size="medium" />
+        <b-avatar class="mr-5" :url="user.avatar" size="large" />
+        <b-avatar :url="user.avatar" size="extraLarge" />
       </div>
     </div>
 

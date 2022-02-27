@@ -8,7 +8,7 @@
         :class="getUserItemClass(user)"
       >
         <div class="flex items-center">
-          <b-avatar class="mr-5" :user="user" />
+          <b-avatar class="mr-5" :url="user.avatar" />
           <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
           <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
         </div>
