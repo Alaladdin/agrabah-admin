@@ -110,10 +110,10 @@ export default {
         })
     },
     hasUnsavedChanges (field) {
-      if (this.isLoading || !this.inData)
+      if (this.isLoading || !this.rawData)
         return false
 
-      return this.data[field].trim() !== this.inData[field].trim()
+      return this.data[field].trim() !== this.rawData[field].trim()
     },
   },
 }

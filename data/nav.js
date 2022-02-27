@@ -60,12 +60,6 @@ export default [
     scope   : 'admin',
     children: [
       {
-        path    : '/changelog',
-        title   : 'Changelog',
-        icon    : 'list-ul',
-        disabled: true,
-      },
-      {
         path : '/components',
         title: 'Components',
         icon : 'cubes',
