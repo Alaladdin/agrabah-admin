@@ -36,8 +36,10 @@
 
     <div class="block mb-25">
       <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
-      <b-checkbox class="block" :disabled="isDisabled">Like</b-checkbox>
-      <b-checkbox class="block" checked :disabled="isDisabled">Super like</b-checkbox>
+      <b-checkbox v-model="checkbox1Value" class="block">Like</b-checkbox>
+      <b-checkbox v-model="checkbox2Value" class="block">Super like</b-checkbox>
+      <b-checkbox class="block" checked disabled>Disabled checked</b-checkbox>
+      <b-checkbox class="block" disabled>Disabled unchecked</b-checkbox>
     </div>
 
     <div class="block mb-25">
@@ -95,7 +97,9 @@ export default {
   name: 'example',
   data () {
     return {
-      isDisabled: false,
+      checkbox1Value: true,
+      checkbox2Value: false,
+      isDisabled    : false,
     }
   },
   computed: {

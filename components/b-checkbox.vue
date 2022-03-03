@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer" :class="additionalClasses" @click="onInput">
+  <div class="cursor-pointer select-none" :class="additionalClasses" @click="onInput">
     <fa :icon="checkboxIcon" />
 
     <slot>
