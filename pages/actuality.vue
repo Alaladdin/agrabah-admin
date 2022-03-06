@@ -33,23 +33,23 @@
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
-      <div class="flex font-semibold text-sm gap-2 text-indigo-600 leading-normal">
-        <VMenu v-if="updatedAtText" class="rounded shadow-sm bg-indigo-200" :disabled="!user.isAdmin">
+      <div class="flex font-semibold text-sm space-x-2 text-indigo-600 leading-normal">
+        <v-menu v-if="updatedAtText" class="rounded shadow-sm bg-indigo-200" :disabled="!user.isAdmin">
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
-            <b-user-info :user="data.updatedBy" class="gap-2" />
+            <b-user-info :user="data.updatedBy" class="space-x-2" />
           </template>
-        </VMenu>
+        </v-menu>
 
-        <div v-if="user.isAdmin && data.shortId" class="rounded shadow-sm bg-indigo-200">
-          <p class="px-4 py-1">ID: {{ data.shortId }}</p>
+        <div v-if="user.isAdmin" class="rounded shadow-sm bg-indigo-200">
+          <p class="px-4 py-1">ID: {{ data.shortId || 'none' }}</p>
         </div>
       </div>
 
       <div class="flex">
         <b-button text="Refresh" variant="white" :disabled="isEditDisabled" @click="refresh" />
-        <b-button v-if="user.isAdmin" class="ml-2" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
+        <b-button v-if="user.isAdmin" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
       </div>
     </div>
   </div>

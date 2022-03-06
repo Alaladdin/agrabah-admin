@@ -14,7 +14,7 @@
           {{ getChangeTitle(change, i) }}
         </p>
 
-        <VMenu v-else :delay="{ show: 100, hide: 100 }">
+        <v-menu v-else :delay="{ show: 100, hide: 100 }">
           <b-button
             v-if="description.plain"
             :text="getChangeTitle(change, i)"
@@ -33,7 +33,7 @@
               <p v-else class="font-mono text-sm">{{ description.value }}</p>
             </template>
           </template>
-        </VMenu>
+        </v-menu>
       </div>
     </div>
 

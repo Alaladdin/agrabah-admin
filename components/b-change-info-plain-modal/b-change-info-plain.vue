@@ -1,20 +1,20 @@
 <template>
-  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType && hasNewChange }">
-    <div v-if="change.value.old" :class="getOldChangeWrapperClass()">
+  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType }">
+    <div :class="oldChangeWrapperClass">
       <p class="font-semibold font-mono"># Before</p>
-      <p :class="getChangeItemClass()" v-html="changesData.before" />
+      <p :class="changeItemClass" v-html="changesData.before" />
     </div>
 
-    <div v-if="change.value.new" :class="{ 'ml-4' : !isPopupType }">
-      <p class="font-semibold font-mono" :class="{ 'text-right' : !isPopupType && !hasNewChange }"># After</p>
-      <p :class="getChangeItemClass()" v-html="changesData.after" />
+    <div :class="{ 'ml-4' : !isPopupType }">
+      <p class="font-semibold font-mono"># After</p>
+      <p :class="changeItemClass" v-html="changesData.after" />
     </div>
   </div>
 </template>
 
 <script>
-import diff from 'simple-text-diff'
 import { escape } from 'lodash'
+import diff from 'simple-text-diff'
 
 export default {
   name : 'b-change-info-plain',
@@ -31,28 +31,23 @@ export default {
   },
   computed: {
     changesData () {
-      const { old: oldChange, new: newChange } = this.change.value
-      const diffs = diff.diffPatchBySeparator(escape(oldChange), escape(newChange), '\n')
+      const { value } = this.change
+      const oldChange = escape(value.old)
+      const newChange = escape(value.new)
+      const diffs = diff.diffPatchBySeparator(oldChange, newChange, '\n')
 
       return {
         before: diffs.before,
         after : diffs.after,
       }
     },
-    hasNewChange () {
-      return !!this.change.value.new
-    },
     isPopupType () {
       return this.type === 'popup'
     },
-  },
-  methods: {
-    getOldChangeWrapperClass () {
-      if (!this.hasNewChange) return ''
-
+    oldChangeWrapperClass () {
       return this.isPopupType ? 'mb-5' : 'pr-4 border-r'
     },
-    getChangeItemClass () {
+    changeItemClass () {
       return this.isPopupType ? 'truncate' : 'break-words whitespace-pre-line'
     },
   },
@@ -60,11 +55,7 @@ export default {
 </script>
 
 <style lang='scss'>
-ins {
-  @apply text-green-400 no-underline;
-}
-
-del {
-  @apply text-red-400 no-underline;
-}
+ins, del { @apply text-white no-underline }
+ins { @apply bg-green-400 }
+del { @apply bg-red-400 }
 </style>
