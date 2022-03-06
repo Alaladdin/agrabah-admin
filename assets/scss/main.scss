@@ -17,6 +17,22 @@ textarea {
   @apply max-w-xl;
 }
 
+.v-md-editor {
+  @apply h-120;
+
+  textarea,
+  .vuepress-markdown-body {
+    @apply bg-transparent;
+  }
+
+  &.disabled {
+    .v-md-editor__editor-wrapper,
+    .v-md-editor__preview-wrapper {
+      @apply pointer-events-none bg-gray-100 transition duration-150;
+    }
+  }
+}
+
 body,
 textarea, {
   overflow: auto;
@@ -75,10 +91,6 @@ textarea, {
   &---bordered {
     @apply self-center '!border' w-1/2 text-center;
   }
-}
-
-.actuality__textarea-label {
-  @apply mb-2 font-semibold text-center text-gray-700 text-lg;
 }
 
 .nuxt-link {

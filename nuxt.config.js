@@ -17,6 +17,7 @@ export default {
   plugins: [
     '~/plugins/axios',
     '~/plugins/v-tooltip',
+    '~/plugins/v-md-editor',
     '~/plugins/vue-tailwind',
     '~/plugins/handle-error',
     '~/plugins/set-sidebar-notification',

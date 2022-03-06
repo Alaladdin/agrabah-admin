@@ -1,16 +1,16 @@
 <template>
   <div class="flex justify-between items-center w-min-content">
-    <b-avatar class="mr-4" :url="user.avatar" :size="avatarSize" />
+    <b-avatar class="mr-4" :url="userData.avatar" :size="avatarSize" />
 
     <div>
-      <p class="font-semibold">{{ user ? user.username : 'DELETED' }}</p>
-      <p class="text-xs text-gray-600">{{ last(user ? user.scope : []) }}</p>
+      <p class="font-semibold">{{ userData.username }}</p>
+      <p class="text-xs text-gray-600">{{ last(userData.scope) }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { last } from 'lodash'
+import { last, pick } from 'lodash'
 import BAvatar from '@/components/b-avatar'
 
 export default {
@@ -26,6 +26,18 @@ export default {
     avatarSize: {
       type   : String,
       default: 'small',
+    },
+  },
+  computed: {
+    userData () {
+      if (this.user)
+        return pick(this.user, ['username', 'scope', 'avatar'])
+
+      return {
+        username: 'DELETED',
+        scope   : [],
+        avatar  : 'no-user-avatar',
+      }
     },
   },
   methods: {

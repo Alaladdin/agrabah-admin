@@ -1,40 +1,23 @@
 <template>
   <div class="flex w-full">
-    <div class="flex justify-between mb-3 w-full max-h-120">
-      <label class="flex flex-col mr-3 w-full h-full">
-        <div class="actuality__textarea-label relative">
-          <span>Main</span>
-          <span v-show="hasUnsavedChanges('content')" class="badge badge--warn absolute left-0 fade-in">Unsaved changes</span>
-        </div>
-        <t-textarea
-          v-model="data.content"
-          class="w-full h-full min-h-85 text-sm !resize-y"
-          placeholder="Urgent things"
-          :disabled="isEditDisabled"
-          :readonly="!user.isAdmin"
-          @keydown.enter.ctrl="onEnter"
-        />
-      </label>
-
-      <label class="flex flex-col w-full h-full">
-        <div class="actuality__textarea-label relative">
-          <span>Lazy</span>
-          <span v-show="hasUnsavedChanges('lazyContent')" class="badge badge--warn absolute right-0 fade-in">Unsaved changes</span>
-        </div>
-        <t-textarea
-          v-model="data.lazyContent"
-          class="w-full h-full min-h-85 text-sm !resize-y"
-          placeholder="Non-urgent things"
-          :disabled="isEditDisabled"
-          :readonly="!user.isAdmin"
-          @keydown.enter.ctrl="onEnter"
-        />
-      </label>
+    <div class="flex justify-between mb-3 w-full">
+      <v-md-editor
+        v-model="data[currentActualityType]"
+        class="w-full text-sm !resize-y bg-red-200"
+        :class="{ 'disabled' : isEditDisabled }"
+        :mode="user.isAdmin ? 'editable' : 'preview'"
+        :toolbar="editorToolbar"
+        left-toolbar="code bold link italic"
+        right-toolbar="switchActualityType | preview sync-scroll fullscreen"
+        placeholder="Urgent things"
+        autofocus
+        @keydown.native.enter.ctrl="onEnter"
+      />
     </div>
 
     <div class="flex justify-between items-center rounded select-none">
       <div class="flex font-semibold text-sm space-x-2 text-indigo-600 leading-normal">
-        <v-menu v-if="updatedAtText" class="rounded shadow-sm bg-indigo-200" :disabled="!user.isAdmin">
+        <v-menu v-if="data.updatedAt" class="rounded shadow-sm bg-indigo-200" :disabled="!data.updatedBy">
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
@@ -42,12 +25,13 @@
           </template>
         </v-menu>
 
-        <div v-if="user.isAdmin" class="rounded shadow-sm bg-indigo-200">
-          <p class="px-4 py-1">ID: {{ data.shortId || 'none' }}</p>
+        <div class="rounded shadow-sm bg-indigo-200">
+          <p class="px-4 py-1">Type: {{ currentActualityTypeText }}</p>
         </div>
       </div>
 
-      <div class="flex">
+      <div class="flex space-x-2">
+        <b-button v-if="!user.isAdmin" text="Switch type" variant="white" @click="changeCurrentActualityType" />
         <b-button text="Refresh" variant="white" :disabled="isEditDisabled" @click="refresh" />
         <b-button v-if="user.isAdmin" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
       </div>
@@ -71,23 +55,36 @@ export default {
   mixins: [PageDefaultMixin('actuality')],
   data () {
     return {
-      data              : {},
-      isUpdating        : false,
-      clearDataOnDestroy: false,
+      data                : {},
+      currentActualityType: 'content',
+      isUpdating          : false,
+      clearDataOnDestroy  : false,
     }
   },
   computed: {
     ...mapGetters({ user: 'getUserData' }),
 
+    editorToolbar () {
+      return {
+        switchActualityType: {
+          text  : 'switch type',
+          title : 'Switch actuality type',
+          action: this.changeCurrentActualityType,
+        },
+      }
+    },
+    currentActualityTypeText () {
+      return this.currentActualityType === 'content' ? 'main' : 'lazy'
+    },
     updatedAtText () {
-      const { updatedAt } = this.data
+      const updatedAt = formatDate(this.data.updatedAt, 'DD.MM HH:mm')
 
-      return updatedAt && `Updated at ${formatDate(updatedAt, 'DD.MM HH:mm')}`
+      return `Updated at ${updatedAt}`
     },
     isUpdateDisabled () {
       const hasChanges = this.hasUnsavedChanges('content') || this.hasUnsavedChanges('lazyContent')
 
-      return this.isEditDisabled || !hasChanges
+      return !hasChanges || this.isEditDisabled
     },
     isEditDisabled () {
       return this.isLoading || this.isUpdating
@@ -108,6 +105,9 @@ export default {
         .finally(() => {
           this.isUpdating = false
         })
+    },
+    changeCurrentActualityType () {
+      this.currentActualityType = this.currentActualityType === 'content' ? 'lazyContent' : 'content'
     },
     hasUnsavedChanges (field) {
       if (this.isLoading || !this.rawData)

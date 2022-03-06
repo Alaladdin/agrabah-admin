@@ -32,11 +32,9 @@ export default {
       default: '',
     },
   },
-  data () {
-    return {
-      avatarUrl: this.url || process.env.DEFAULT_AVATAR_IMAGE,
-    }
-  },
+  data: () => ({
+    avatarUrl: '',
+  }),
   computed: {
     avatarClass () {
       const fixedClasses = 'rounded-full ring-8 ring-violet-300 shadow-sm object-cover'
@@ -48,8 +46,11 @@ export default {
     },
   },
   watch: {
-    url (newUrl) {
-      this.avatarUrl = newUrl
+    url: {
+      immediate: true,
+      handler (newUrl) {
+        this.avatarUrl = newUrl || process.env.DEFAULT_AVATAR_IMAGE
+      },
     },
   },
   created () {
