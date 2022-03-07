@@ -65,7 +65,9 @@ export default (storeName) => {
       },
       clearData () {
         this.$store.commit(`${storeName}/CLEAR_DATA`)
+        this.clearAdditionalData()
       },
+      clearAdditionalData () {},
     },
   }
 }

@@ -33,7 +33,7 @@ const setToLocalStorage = (key, value) => {
     localStorage.setItem(key, JSON.stringify(value))
 }
 
-const getFromLocalStorage = (key, defaultValue) => {
+const getFromLocalStorage = (key, defaultValue = {}) => {
   if (!process.client) return defaultValue
 
   let val = localStorage.getItem(key)

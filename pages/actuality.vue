@@ -28,6 +28,10 @@
         <div class="rounded shadow-sm bg-indigo-200">
           <p class="px-4 py-1">Type: {{ currentActualityTypeText }}</p>
         </div>
+
+        <div v-if="hasAnyChanges" class="badge badge--warn !text-sm">
+          {{ unsavedChangesText }}
+        </div>
       </div>
 
       <div class="flex space-x-2">
@@ -41,10 +45,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { formatDate } from '@/helpers'
+import { assign, pick } from 'lodash'
+import { formatDate, getFromLocalStorage, setToLocalStorage } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BUserInfo from '@/components/b-user-info'
+
+const ACTUALITY_STORE_KEY = 'actuality__unsaved'
 
 export default {
   name      : 'actuality',
@@ -81,18 +88,43 @@ export default {
 
       return `Updated at ${updatedAt}`
     },
-    isUpdateDisabled () {
-      const hasChanges = this.hasUnsavedChanges('content') || this.hasUnsavedChanges('lazyContent')
+    unsavedChangesText () {
+      const unsavedChangesText = 'Unsaved changes'
+      const isContentUnsaved = this.hasUnsavedChanges('content')
+      const isLazyContentUnsaved = this.hasUnsavedChanges('lazyContent')
 
-      return !hasChanges || this.isEditDisabled
+      if (isContentUnsaved && isLazyContentUnsaved)
+        return unsavedChangesText
+
+      if (isContentUnsaved)
+        return unsavedChangesText + ': main'
+
+      return unsavedChangesText + ': lazy'
+    },
+    hasAnyChanges () {
+      return this.hasUnsavedChanges('content') || this.hasUnsavedChanges('lazyContent')
+    },
+    isUpdateDisabled () {
+      return !this.hasAnyChanges || this.isEditDisabled
     },
     isEditDisabled () {
       return this.isLoading || this.isUpdating
     },
   },
+  watch: {
+    'data.content' () {
+      this.handleActualityChange()
+    },
+    'data.lazyContent' () {
+      this.handleActualityChange()
+    },
+  },
   methods: {
     ...mapActions('actuality', ['updateData']),
 
+    getPreparedData (data) {
+      return assign({}, data, getFromLocalStorage(ACTUALITY_STORE_KEY))
+    },
     onEnter () {
       if (!this.isUpdateDisabled && this.user.isAdmin)
         this.updateActuality()
@@ -114,6 +146,18 @@ export default {
         return false
 
       return this.data[field].trim() !== this.rawData[field].trim()
+    },
+    handleActualityChange () {
+      if (!this.hasAnyChanges)
+        return this.clearLocalActuality()
+
+      setToLocalStorage(ACTUALITY_STORE_KEY, pick(this.data, ['content', 'lazyContent']))
+    },
+    clearAdditionalData () {
+      this.clearLocalActuality()
+    },
+    clearLocalActuality () {
+      setToLocalStorage(ACTUALITY_STORE_KEY, {})
     },
   },
 }
