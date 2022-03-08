@@ -49,26 +49,34 @@
         />
       </div>
     </div>
+
+    <b-sidebar-loader v-if="isLoading" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import BSidebarItem from './b-sidebar-item'
+import BSidebarLoader from './b-sidebar-loader'
 import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
 
 export default {
   name      : 'b-sidebar',
   components: {
-    'b-avatar'      : BAvatar,
-    'b-button'      : BButton,
-    'b-sidebar-item': BSidebarItem,
+    'b-avatar'        : BAvatar,
+    'b-button'        : BButton,
+    'b-sidebar-item'  : BSidebarItem,
+    'b-sidebar-loader': BSidebarLoader,
   },
   props: {
     navItems: {
       type   : Array,
       default: () => ([]),
+    },
+    isLoading: {
+      type   : Boolean,
+      default: false,
     },
   },
   computed: {

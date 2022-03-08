@@ -55,7 +55,16 @@ export default {
 </script>
 
 <style lang='scss'>
-ins, del { @apply text-white no-underline }
-ins { @apply bg-green-400 }
-del { @apply bg-red-400 }
+ins, del {
+  padding: 2px 0;
+  @apply text-white no-underline
+}
+
+ins {
+  @apply bg-green-400
+}
+
+del {
+  @apply bg-red-400
+}
 </style>
