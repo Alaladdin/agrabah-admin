@@ -5,52 +5,56 @@
         <h1 class="sidebar__title">AGRABAH ADMIN</h1>
       </div>
 
-      <nav class="sidebar__nav">
-        <b-sidebar-item
-          v-for="item in navItems"
-          :key="item.path || item.title"
-          :item="item"
-          :item-clicked="itemClicked"
-          :is-active="item.path === $route.path"
-        >
-          <template #nested-items>
-            <b-sidebar-item
-              v-for="childItem in item.children"
-              :key="childItem.path"
-              :item="childItem"
-              :item-clicked="itemClicked"
-              :is-active="childItem.path === $route.path"
+      <client-only>
+        <nav class="sidebar__nav">
+          <b-sidebar-item
+            v-for="item in navItems"
+            :key="item.path || item.title"
+            :item="item"
+            :item-clicked="itemClicked"
+            :is-active="item.path === $route.path"
+          >
+            <template #nested-items>
+              <b-sidebar-item
+                v-for="childItem in item.children"
+                :key="childItem.path"
+                :item="childItem"
+                :item-clicked="itemClicked"
+                :is-active="childItem.path === $route.path"
+              />
+            </template>
+          </b-sidebar-item>
+        </nav>
+
+        <div class="sidebar__profile">
+          <div class="flex justify-between items-center p-3">
+            <b-avatar
+              :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
+              :url="user.avatar"
+              size="medium"
+              @click="goToProfile"
             />
-          </template>
-        </b-sidebar-item>
-      </nav>
 
-      <div class="sidebar__profile">
-        <div class="flex justify-between items-center p-3">
-          <b-avatar
-            :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
-            :url="user.avatar"
-            size="medium"
-            @click="goToProfile"
-          />
-
-          <div class="flex flex-col select-none">
-            <span class="text-md font-semibold truncate overflow-hidden max-w-25">
-              {{ user.username }}
-            </span>
+            <div class="flex flex-col select-none">
+              <span class="text-md font-semibold truncate overflow-hidden max-w-25">
+                {{ user.username }}
+              </span>
+            </div>
           </div>
+
+          <b-button
+            class="sidebar__profile-button"
+            :to="user.loggedIn ? '/logout' : '/login'"
+            :after-icon="user.loggedIn ? 'right-from-bracket' : 'right-to-bracket'"
+            variant="indigo"
+          />
         </div>
 
-        <b-button
-          class="sidebar__profile-button"
-          :to="user.loggedIn ? '/logout' : '/login'"
-          :after-icon="user.loggedIn ? 'right-from-bracket' : 'right-to-bracket'"
-          variant="indigo"
-        />
-      </div>
+        <template #placeholder>
+          <b-sidebar-loader />
+        </template>
+      </client-only>
     </div>
-
-    <b-sidebar-loader v-if="isLoading" />
   </div>
 </template>
 
@@ -73,10 +77,6 @@ export default {
     navItems: {
       type   : Array,
       default: () => ([]),
-    },
-    isLoading: {
-      type   : Boolean,
-      default: false,
     },
   },
   computed: {

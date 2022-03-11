@@ -2,7 +2,6 @@
   <div class="min-h-screen flex bg-gray-200">
     <b-sidebar
       :nav-items="currentNavItems"
-      :is-loading="isLoading"
       @item-clicked="goToPage"
       @folder-toggled="onFolderToggle"
     />
@@ -50,7 +49,6 @@ export default {
     return {
       navItems,
       openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
-      isLoading    : true,
     }
   },
   computed: {
@@ -91,9 +89,6 @@ export default {
       this.loadUpdownStatus()
         .then(this.setHomeNavbarNotifications)
         .catch(this.$handleError)
-        .finally(() => {
-          this.isLoading = false
-        })
 
       if (this.user.isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()

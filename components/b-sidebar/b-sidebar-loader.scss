@@ -1,12 +1,12 @@
 .b-sidebar-loader {
   height: calc(100% - (0.25rem * 15));
-  @apply absolute mt-15 w-full bg-indigo-700;
+  @apply absolute w-full bg-indigo-700;
 
   &__nav-item {
     @apply h-9 w-full;
   }
 
   &__username {
-    @apply mr-10 rounded-md w-25 h-2.5 bg-white;
+    @apply mr-12 rounded-md w-25 h-2.5 bg-white;
   }
 }
