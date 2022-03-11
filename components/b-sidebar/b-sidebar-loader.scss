@@ -3,14 +3,10 @@
   @apply absolute mt-15 w-full bg-indigo-700;
 
   &__nav-item {
-    @apply h-9 w-full bg-indigo-900;
-  }
-
-  &__avatar {
-    @apply rounded-full h-16 w-16 bg-indigo-900 animate-pulse;
+    @apply h-9 w-full;
   }
 
   &__username {
-    @apply mr-5 rounded-md w-30 h-5 bg-indigo-900 animate-pulse;
+    @apply mr-10 rounded-md w-25 h-2.5 bg-white;
   }
 }

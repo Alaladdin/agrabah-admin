@@ -43,11 +43,19 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
   return val || defaultValue
 }
 
+const getRandomInt = (min, max) => {
+  const minRange = Math.ceil(min)
+  const maxRange = Math.floor(max)
+
+  return Math.floor(Math.random() * (maxRange - minRange + 1) + minRange)
+}
+
 const formatDate = (date, format = 'DD.MM.YYYY') => {
   return moment(date).format(format)
 }
 
 export {
+  getRandomInt,
   formatDate,
   setToLocalStorage,
   getFromLocalStorage,
