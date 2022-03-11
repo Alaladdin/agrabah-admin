@@ -12,10 +12,10 @@
         </div>
 
         <NuxtLink class="flex justify-center mb-15 !bg-transparent" to="/">
-          <b-button v-if="error.statusCode !== 403" class="text-base" text="Go home" />
+          <b-button class="text-base" text="Go home" />
         </NuxtLink>
 
-        <div class="flex">
+        <div class="flex justify-center">
           <nuxt-img preset="default" class="animate-bounce" src="middle_finger_right.png" width="200" />
           <nuxt-img preset="default" class="animate-bounce animate-bounce-reverse" src="middle_finger_left.png" width="200" />
         </div>

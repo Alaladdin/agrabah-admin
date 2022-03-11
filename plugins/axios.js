@@ -1,4 +1,4 @@
-export default ({ $axios, store }) => {
+export default ({ $axios, store, error: goToErrorPage }) => {
   let needUpdateChanges = false
 
   $axios.onRequest((config) => {
@@ -15,6 +15,11 @@ export default ({ $axios, store }) => {
   })
 
   $axios.onError((error) => {
-    throw error?.response?.data || error
+    const { response } = error
+
+    if (response.status === 403)
+      goToErrorPage({ statusCode: 403 })
+
+    throw response.data || error
   })
 }
