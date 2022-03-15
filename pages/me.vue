@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center">
-    <b-avatar class="m-x-7" :url="user.avatar" size="extraLarge" />
+    <b-avatar class="m-x-7" :url="newUserData.avatar || user.avatar" size="extraLarge" />
 
     <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-10">
       <b-button text="Select avatar" @click="selectAvatar" />
@@ -8,22 +8,22 @@
       <div class="flex flex-col justify-start space-y-5">
         <b-input
           v-model="newUserData.username"
+          :variant="{ 'danger' : !isNewUsernameValid }"
           label="Username"
           maxlength="15"
-          :variant="{ 'danger' : !isNewUsernameValid }"
         />
 
         <b-input
           v-model="newUserData.displayName"
+          :variant="{ 'danger' : !isNewDisplayNameValid }"
           label="Display name"
           maxlength="15"
-          :variant="{ 'danger' : !isNewDisplayNameValid }"
         />
       </div>
 
       <div class="flex space-x-2">
         <b-button text="Save" variant="indigo" :disabled="isSaveDisabled" @click="saveNewData" />
-        <b-button text="Cancel" variant="danger" @click="setEditing(false)" />
+        <b-button text="Cancel" variant="danger" @click="stopEditing" />
       </div>
     </div>
 
@@ -32,18 +32,16 @@
         {{ user.username }}
       </h2>
 
-      <div class="flex justify-center mb-5">
-        <div class="bg-white rounded w-max shadow-sm">
-          <p v-for="(field, index) in profileInfoFields" :key="index" class="options">
-            <span>{{ field.title }}</span>
-            <span class="options__item">{{ field.value }}</span>
-          </p>
-        </div>
+      <div class="mb-5 rounded shadow-sm bg-white">
+        <p v-for="(field, index) in profileInfoFields" :key="index" class="options">
+          <span>{{ field.title }}</span>
+          <span class="options__item">{{ field.value }}</span>
+        </p>
       </div>
 
       <div class="flex space-x-2">
-        <b-button variant="indigo" @click="setEditing(true)">Edit profile</b-button>
-        <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete profile</b-button>
+        <b-button variant="indigo" :disabled="isSaving" @click="startEditing">Edit profile</b-button>
+        <b-button variant="danger" :disabled="isSaving" @click="openModal('showConfirmActionModal')">Delete profile</b-button>
       </div>
     </template>
 
@@ -51,8 +49,6 @@
       ref="imageUploader"
       v-model="newUserData.avatar"
       :folder-name="user.username"
-      @file-selected="setEditing(false)"
-      @input="saveNewData"
     />
 
     <b-confirm-action-modal
@@ -66,14 +62,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
-import { pickBy } from 'lodash'
-import { formatDate, validateUsername } from '@/helpers'
+import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
 import BImageUpload from '@/components/b-image-upload'
 import BInput from '@/components/b-input'
-import { validateDisplayName } from '@/helpers/validators'
 
 export default {
   name      : 'me',
@@ -92,6 +86,7 @@ export default {
         avatar     : '',
       },
       isEditing             : false,
+      isSaving              : false,
       showConfirmActionModal: false,
     }
   },
@@ -100,24 +95,14 @@ export default {
 
     profileInfoFields () {
       const { lastLoggedAt, createdAt, scope } = this.user
+      const accountAge = moment().diff(createdAt, 'days') + ' days'
+      const lastLoggedDate = formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY')
 
       return [
-        {
-          title: 'Account age',
-          value: moment().diff(createdAt, 'days') + ' days',
-        },
-        {
-          title: 'Last logged at',
-          value: formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY'),
-        },
-        {
-          title: 'Registered at',
-          value: formatDate(createdAt),
-        },
-        {
-          title: 'Access level',
-          value: scope.join(', '),
-        },
+        { title: 'Account age', value: accountAge },
+        { title: 'Last logged at', value: lastLoggedDate },
+        { title: 'Registered at', value: formatDate(createdAt) },
+        { title: 'Access level', value: scope.join(', ') },
       ]
     },
     isSaveDisabled () {
@@ -130,33 +115,37 @@ export default {
       return validateDisplayName(this.newUserData.displayName)
     },
   },
-  watch: {
-    isEditing () {
-      this.newUserData.username = this.user.username
-      this.newUserData.displayName = this.user.displayName
-    },
-  },
   methods: {
     ...mapActions({
       editUser  : 'editUser',
       removeUser: 'team/removeUser',
     }),
 
-    saveNewData () {
-      const data = {
-        ...pickBy(this.newUserData, v => !!v),
-        _id: this.user._id,
-      }
-
-      this.editUser(data)
-        .then(() => this.setEditing(false))
-        .catch(this.$handleError)
-    },
     selectAvatar () {
       this.$refs.imageUploader.selectFile()
     },
-    setEditing (isEditing) {
-      this.isEditing = isEditing
+    saveNewData () {
+      const newUserData = { ...this.newUserData, _id: this.user._id }
+
+      this.isSaving = true
+
+      this.editUser(newUserData)
+        .then(this.stopEditing)
+        .catch(this.$handleError)
+        .finally(() => {
+          this.isSaving = false
+        })
+    },
+    startEditing () {
+      const { username, displayName, avatar } = this.user
+
+      this.newUserData.username = username
+      this.newUserData.displayName = displayName
+      this.newUserData.avatar = avatar
+      this.isEditing = true
+    },
+    stopEditing () {
+      this.isEditing = false
     },
     removeProfile () {
       this.removeUser(this.user)

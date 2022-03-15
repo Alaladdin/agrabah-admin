@@ -32,8 +32,6 @@ export default {
 
       if (!file) return
 
-      this.$emit('file-selected')
-
       this.getFileAsDataUrl(file)
         .then(this.uploadImage)
         .then((img) => {

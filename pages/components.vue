@@ -15,11 +15,12 @@
       </div>
     </div>
 
-    <div class="block mb-25">
-      <h2 class="mb-4 font-bold text-4xl"># Input</h2>
-      <t-input class="w-full mb-3" value="Default" placeholder="Default" :disabled="isDisabled" />
-      <t-input class="w-full mb-3" value="Danger" placeholder="Danger" variant="danger" :disabled="isDisabled" />
-      <t-input class="w-full" value="Success" placeholder="Success" variant="success" :disabled="isDisabled" />
+    <div class="block mb-25 space-y-4">
+      <h2 class="font-bold text-4xl"># Input</h2>
+      <b-input class="w-full" value="Default" placeholder="Default" :disabled="isDisabled" />
+      <b-input class="w-full" value="Danger" placeholder="Danger" variant="danger" :disabled="isDisabled" />
+      <b-input class="w-full" value="Success" placeholder="Success" variant="success" :disabled="isDisabled" />
+      <b-input class="w-full" value="Label" label="Label" :disabled="isDisabled" />
     </div>
 
     <div class="block mb-25">

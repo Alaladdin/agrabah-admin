@@ -1,6 +1,15 @@
 <template>
   <figure class="flex flex-col items-center" @click="onClick">
+    <div v-if="isLoading" class="bg-purple-300 rounded-full">
+      <div
+        class="animate-pulse bg-purple-400"
+        :class="[avatarClass, imageClass]"
+        :style="{ width: avatarSize, height: avatarSize }"
+      />
+    </div>
+
     <nuxt-img
+      v-show="!isLoading"
       provider="cloudinary"
       preset="avatar"
       :class="[avatarClass, imageClass]"
@@ -9,7 +18,8 @@
       :height="avatarSize"
       crossorigin="anonymous"
       preload
-      @error.native="onImageLoadError"
+      @load.native="onLoad"
+      @error.native="onLoadError"
     />
   </figure>
 </template>
@@ -34,6 +44,7 @@ export default {
   },
   data: () => ({
     avatarUrl: '',
+    isLoading: true,
   }),
   computed: {
     avatarClass () {
@@ -49,7 +60,7 @@ export default {
     url: {
       immediate: true,
       handler (newUrl) {
-        this.avatarUrl = newUrl || process.env.DEFAULT_AVATAR_IMAGE
+        this.handleUrlChange(newUrl)
       },
     },
   },
@@ -76,7 +87,14 @@ export default {
         extraLarge: ['ring-8'],
       }
     },
-    onImageLoadError () {
+    handleUrlChange (newUrl) {
+      this.avatarUrl = newUrl || process.env.DEFAULT_AVATAR_IMAGE
+      this.isLoading = true
+    },
+    onLoad () {
+      this.isLoading = false
+    },
+    onLoadError () {
       this.avatarUrl = process.env.ERROR_AVATAR_IMAGE
     },
     onClick () {
