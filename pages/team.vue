@@ -9,7 +9,7 @@
       >
         <div class="flex items-center">
           <b-avatar class="mr-5" :url="user.avatar" />
-          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.username }}</span>
+          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
           <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
         </div>
 

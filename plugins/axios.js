@@ -17,6 +17,9 @@ export default ({ $axios, store, error: goToErrorPage }) => {
   $axios.onError((error) => {
     const { response } = error
 
+    if ($axios.isCancel(error))
+      return
+
     if (response.status === 403)
       goToErrorPage({ statusCode: 403 })
 

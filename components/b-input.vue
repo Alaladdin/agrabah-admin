@@ -4,7 +4,7 @@
       v-if="label"
       class="mb-1.5 text-sm font-semibold text-gray-700 transition duration-100 ease-in-out"
       :class="{
-        'opacity-60'  : $attrs.disabled !== undefined,
+        'opacity-60' : $attrs.disabled !== undefined,
         'text-red-900': $attrs.variant.danger
       }"
     >

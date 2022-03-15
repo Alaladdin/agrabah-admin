@@ -37,7 +37,7 @@
 
             <div class="flex flex-col select-none">
               <span class="text-md font-semibold truncate overflow-hidden max-w-25">
-                {{ user.username }}
+                {{ user.displayName || user.username }}
               </span>
             </div>
           </div>
