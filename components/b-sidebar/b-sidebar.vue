@@ -36,7 +36,7 @@
             />
 
             <div class="flex flex-col select-none">
-              <span class="text-md font-semibold truncate overflow-hidden max-w-25">
+              <span class="ml-5 text-md font-semibold truncate overflow-hidden max-w-25">
                 {{ user.displayName || user.username }}
               </span>
             </div>
