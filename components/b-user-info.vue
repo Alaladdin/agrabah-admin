@@ -3,7 +3,7 @@
     <b-avatar class="mr-4" :url="userData.avatar" :size="avatarSize" />
 
     <div>
-      <p class="font-semibold">{{ userData.username }}</p>
+      <p class="font-semibold">{{ userData.displayName || userData.username }}</p>
       <p class="text-xs text-gray-600">{{ last(userData.scope) }}</p>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
   computed: {
     userData () {
       if (this.user)
-        return pick(this.user, ['username', 'scope', 'avatar'])
+        return pick(this.user, ['username', 'displayName', 'scope', 'avatar'])
 
       return {
         username: 'DELETED',

@@ -1,43 +1,59 @@
 <template>
   <div class="flex justify-center items-center">
-    <b-avatar class="m-x-7 cursor-pointer" :url="user.avatar" size="extraLarge" @click="selectAvatar" />
+    <b-avatar class="m-x-7" :url="user.avatar" size="extraLarge" />
+
+    <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-10">
+      <b-button text="Select avatar" @click="selectAvatar" />
+
+      <div class="flex flex-col justify-start space-y-5">
+        <b-input
+          v-model="newUserData.username"
+          label="Username"
+          maxlength="15"
+          :variant="{ 'danger' : !isNewUsernameValid }"
+        />
+
+        <b-input
+          v-model="newUserData.displayName"
+          label="Display name"
+          maxlength="15"
+          :variant="{ 'danger' : !isNewDisplayNameValid }"
+        />
+      </div>
+
+      <div class="flex space-x-2">
+        <b-button text="Save" variant="indigo" :disabled="isSaveDisabled" @click="saveNewData" />
+        <b-button text="Cancel" variant="danger" @click="setEditing(false)" />
+      </div>
+    </div>
+
+    <template v-if="!isEditing">
+      <h2 class="badge !py-0 mb-5 font-semibold !text-lg">
+        {{ user.username }}
+      </h2>
+
+      <div class="flex justify-center mb-5">
+        <div class="bg-white rounded w-max shadow-sm">
+          <p v-for="(field, index) in profileInfoFields" :key="index" class="options">
+            <span>{{ field.title }}</span>
+            <span class="options__item">{{ field.value }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="flex space-x-2">
+        <b-button variant="indigo" @click="setEditing(true)">Edit profile</b-button>
+        <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete profile</b-button>
+      </div>
+    </template>
+
     <b-image-upload
       ref="imageUploader"
       v-model="newUserData.avatar"
       :folder-name="user.username"
+      @file-selected="setEditing(false)"
       @input="saveNewData"
     />
-
-    <div class="mb-5">
-      <h2 v-if="!isEditing" class="badge !py-0 font-semibold !text-lg cursor-pointer" @click="setEditing(true)">
-        {{ user.username }}
-      </h2>
-
-      <template v-if="isEditing">
-        <t-input
-          v-model="newUserData.username"
-          class="mb-2"
-          maxlength="15"
-          placeholder="Username"
-          :variant="{ 'danger' : !isNewUsernameValid }"
-        />
-        <div class="flex">
-          <b-button class="mr-2 w-full" text="Save" variant="indigo" :disabled="!isNewUsernameValid" @click="saveNewData" />
-          <b-button class="w-full" text="Cancel" variant="danger" @click="setEditing(false)" />
-        </div>
-      </template>
-    </div>
-
-    <div class="flex justify-center mb-5">
-      <div class="bg-white rounded w-max shadow-sm">
-        <p v-for="(field, index) in profileInfoFields" :key="index" class="options">
-          <span>{{ field.title }}</span>
-          <span class="options__item">{{ field.value }}</span>
-        </p>
-      </div>
-    </div>
-
-    <b-button variant="danger" @click="openModal('showConfirmActionModal')">Delete my profile</b-button>
 
     <b-confirm-action-modal
       v-model="showConfirmActionModal"
@@ -56,11 +72,14 @@ import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
 import BImageUpload from '@/components/b-image-upload'
+import BInput from '@/components/b-input'
+import { validateDisplayName } from '@/helpers/validators'
 
 export default {
   name      : 'me',
   components: {
     'b-avatar'              : BAvatar,
+    'b-input'               : BInput,
     'b-button'              : BButton,
     'b-image-upload'        : BImageUpload,
     'b-confirm-action-modal': BConfirmActionModal,
@@ -68,8 +87,9 @@ export default {
   data () {
     return {
       newUserData: {
-        username: '',
-        avatar  : '',
+        username   : '',
+        displayName: '',
+        avatar     : '',
       },
       isEditing             : false,
       showConfirmActionModal: false,
@@ -100,13 +120,20 @@ export default {
         },
       ]
     },
+    isSaveDisabled () {
+      return !this.isNewUsernameValid || !this.isNewDisplayNameValid
+    },
     isNewUsernameValid () {
       return validateUsername(this.newUserData.username)
+    },
+    isNewDisplayNameValid () {
+      return validateDisplayName(this.newUserData.displayName)
     },
   },
   watch: {
     isEditing () {
       this.newUserData.username = this.user.username
+      this.newUserData.displayName = this.user.displayName
     },
   },
   methods: {
@@ -127,7 +154,6 @@ export default {
     },
     selectAvatar () {
       this.$refs.imageUploader.selectFile()
-      this.setEditing(false)
     },
     setEditing (isEditing) {
       this.isEditing = isEditing

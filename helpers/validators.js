@@ -4,6 +4,12 @@ export const validateUsername = (username) => {
   return usernameLength >= 4 && usernameLength <= 15
 }
 
+export const validateDisplayName = (displayName) => {
+  const displayNameLength = displayName.trim().length
+
+  return !displayNameLength || (displayNameLength >= 4 && displayNameLength <= 15)
+}
+
 export const validatePassword = (password) => {
   const passLength = password.trim().length
 
