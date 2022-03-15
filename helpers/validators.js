@@ -5,9 +5,13 @@ export const validateUsername = (username) => {
 }
 
 export const validateDisplayName = (displayName) => {
-  const displayNameLength = displayName?.trim().length || 0
+  if (displayName !== undefined) {
+    const displayNameLength = displayName.trim().length
 
-  return !displayNameLength || (displayNameLength >= 4 && displayNameLength <= 15)
+    return displayNameLength >= 4 && displayNameLength <= 15
+  }
+
+  return true
 }
 
 export const validatePassword = (password) => {

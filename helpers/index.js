@@ -1,7 +1,7 @@
 import { isArray, isObject, isString } from 'lodash'
 import { nanoid } from 'nanoid'
 import moment from 'moment'
-import { validateUsername, validatePassword } from './validators'
+import { validateUsername, validateDisplayName, validatePassword } from './validators'
 
 const generateSmallId = (size = 6) => {
   return nanoid(size)
@@ -60,6 +60,7 @@ export {
   setToLocalStorage,
   getFromLocalStorage,
   validateUsername,
+  validateDisplayName,
   validatePassword,
   generateSmallId,
   parseError
