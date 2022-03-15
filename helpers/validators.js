@@ -5,7 +5,7 @@ export const validateUsername = (username) => {
 }
 
 export const validateDisplayName = (displayName) => {
-  const displayNameLength = displayName.trim().length
+  const displayNameLength = displayName?.trim().length || 0
 
   return !displayNameLength || (displayNameLength >= 4 && displayNameLength <= 15)
 }
