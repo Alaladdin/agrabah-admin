@@ -55,7 +55,7 @@ export const actions = {
     ctx.commit('SET_APP_VERSION', version)
   },
   editUser (ctx, newUserData) {
-    return this.$axios.$patch('/api/auth/editUser', newUserData)
+    return this.$axios.$patch('/api/auth/editUser', newUserData, { updateChanges: true })
       .then((user) => {
         const currentUserId = ctx.state.auth.user._id
 

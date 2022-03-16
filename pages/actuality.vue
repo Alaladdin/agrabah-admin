@@ -21,7 +21,7 @@
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
-            <b-user-info :user="data.updatedBy" class="space-x-2" />
+            <b-user-info :user="data.updatedBy" />
           </template>
         </v-menu>
 

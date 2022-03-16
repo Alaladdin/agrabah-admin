@@ -57,7 +57,7 @@ export default {
           fit        : 'fill',
           format     : 'webp',
           roundCorner: 'max',
-          quality    : 100,
+          quality    : 80,
         },
       },
     },

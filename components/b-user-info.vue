@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-between items-center w-min-content">
-    <b-avatar class="mr-4" :url="userData.avatar" :size="avatarSize" />
+  <div class="grid grid-cols-2 gap-4 justify-between items-center">
+    <b-avatar :url="userData.avatar" :size="avatarSize" />
 
     <div>
       <p class="font-semibold">{{ userData.displayName || userData.username }}</p>
