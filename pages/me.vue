@@ -148,15 +148,19 @@ export default {
         })
     },
     startEditing () {
+      this.setInitialNewUserData()
+      this.isEditing = true
+    },
+    stopEditing () {
+      this.setInitialNewUserData()
+      this.isEditing = false
+    },
+    setInitialNewUserData () {
       const { username, displayName, avatar } = this.user
 
       this.newUserData.username = username
       this.newUserData.displayName = displayName
       this.newUserData.avatar = avatar
-      this.isEditing = true
-    },
-    stopEditing () {
-      this.isEditing = false
     },
     removeProfile () {
       this.removeUser(this.user)

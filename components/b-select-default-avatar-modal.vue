@@ -9,13 +9,13 @@
     @change="onInput"
   >
     <div class="grid grid-cols-4">
-      <div v-for="defaultImage in defaultAvatars" :key="defaultImage">
+      <div v-for="avatarUrl in defaultAvatars" :key="avatarUrl">
         <b-avatar
-          :url="defaultImage"
+          :url="avatarUrl"
           class="cursor-pointer"
-          :image-class="{ 'ring-0': defaultImage !== selectedAvatar }"
+          :image-class="getAvatarClass(avatarUrl)"
           size="large"
-          @click="onAvatarSelect(defaultImage)"
+          @click="onAvatarSelect(avatarUrl)"
         />
       </div>
     </div>
@@ -59,6 +59,14 @@ export default {
     },
   },
   methods: {
+    getAvatarClass (avatarUrl) {
+      const classList = ['transition', 'duration-70', 'ease-in']
+
+      if (avatarUrl !== this.selectedAvatar)
+        classList.push('ring-0')
+
+      return classList
+    },
     onAvatarSelect (avatar) {
       this.selectedAvatar = avatar
     },
