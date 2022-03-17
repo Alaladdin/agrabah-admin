@@ -122,7 +122,6 @@ const VueTailwindSettings = {
         enterToClass           : 'opacity-100 scale-100',
       },
       classes: {
-        header: 'border-b-1',
         modal : 'bg-gray-50',
         footer: 'border-t-1',
         close : 'bg-dark-100 text-light-800 hover:bg-dark-200 focus:ring-dark-600',
@@ -142,7 +141,7 @@ const VueTailwindSettings = {
     props    : {
       fixedClasses: {
         overlay     : 'fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-40 backdrop-filter backdrop-blur-sm',
-        wrapper     : 'relative m-auto w-full max-w-1/4 z-50',
+        wrapper     : 'relative m-auto w-full z-50',
         modal       : '',
         dialog      : 'rounded',
         body        : 'p-5',
@@ -150,8 +149,8 @@ const VueTailwindSettings = {
         iconWrapper : 'flex items-center justify-center mx-auto mb-5 rounded-full w-12 h-12',
         icon        : 'w-6 h-6',
         titleWrapper: '',
-        title       : 'text-lg font-semibold text-center',
-        textWrapper : '',
+        title       : 'font-semibold text-center',
+        textWrapper : 'mt-10',
         text        : '',
         buttons     : 'p-3 flex flex-row-reverse border-t rounded-b',
         okButton    : 'px-4 py-2 mr-2 rounded w-full shadow-sm',
@@ -165,12 +164,20 @@ const VueTailwindSettings = {
         enterToClass           : 'opacity-100 scale-100',
       },
       classes: {
+        wrapper     : 'max-w-1/4',
         dialog      : 'bg-purple-50',
         iconWrapper : 'bg-purple-100',
         icon        : 'text-purple-400',
+        title       : 'text-lg',
         buttons     : 'border-purple-100',
         okButton    : 'bg-indigo-500 text-white',
         cancelButton: 'bg-white',
+      },
+      variants: {
+        large: {
+          title  : 'text-xl',
+          wrapper: 'max-w-1/2',
+        },
       },
     },
   },

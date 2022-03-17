@@ -3,7 +3,10 @@
     <b-avatar class="m-x-7" :url="newUserData.avatar || user.avatar" size="extraLarge" />
 
     <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-10">
-      <b-button text="Select avatar" @click="selectAvatar" />
+      <div class="flex flex-col space-y-2">
+        <b-button text="Select default avatar" after-icon="bolt" @click="openModal('showSelectDefaultAvatarModal')" />
+        <b-button text="Upload local file" after-icon="upload" @click="selectAvatar" />
+      </div>
 
       <div class="flex flex-col justify-start space-y-5">
         <b-input
@@ -45,11 +48,18 @@
       </div>
     </template>
 
-    <b-image-upload
-      ref="imageUploader"
-      v-model="newUserData.avatar"
-      :folder-name="user.username"
-    />
+    <template v-if="isEditing">
+      <b-image-upload
+        ref="imageUploader"
+        v-model="newUserData.avatar"
+        :folder-name="user.username"
+      />
+      <b-select-default-avatar-modal
+        v-model="showSelectDefaultAvatarModal"
+        :selected-avatar-initial="newUserData.avatar"
+        @avatar-selected="onAvatarSelected"
+      />
+    </template>
 
     <b-confirm-action-modal
       v-model="showConfirmActionModal"
@@ -66,30 +76,28 @@ import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
-import BImageUpload from '@/components/b-image-upload'
-import BInput from '@/components/b-input'
 
 export default {
   name      : 'me',
   components: {
-    'b-avatar'              : BAvatar,
-    'b-input'               : BInput,
-    'b-button'              : BButton,
-    'b-image-upload'        : BImageUpload,
-    'b-confirm-action-modal': BConfirmActionModal,
+    'b-avatar'                     : BAvatar,
+    'b-button'                     : BButton,
+    'b-confirm-action-modal'       : BConfirmActionModal,
+    'b-input'                      : () => import('@/components/b-input'),
+    'b-image-upload'               : () => import('@/components/b-image-upload'),
+    'b-select-default-avatar-modal': () => import('@/components/b-select-default-avatar-modal'),
   },
-  data () {
-    return {
-      newUserData: {
-        username   : '',
-        displayName: '',
-        avatar     : '',
-      },
-      isEditing             : false,
-      isSaving              : false,
-      showConfirmActionModal: false,
-    }
-  },
+  data: () => ({
+    newUserData: {
+      username   : '',
+      displayName: '',
+      avatar     : '',
+    },
+    isEditing                   : false,
+    isSaving                    : false,
+    showSelectDefaultAvatarModal: false,
+    showConfirmActionModal      : false,
+  }),
   computed: {
     ...mapGetters({ user: 'getUserData' }),
 
@@ -123,6 +131,9 @@ export default {
 
     selectAvatar () {
       this.$refs.imageUploader.selectFile()
+    },
+    onAvatarSelected (avatar) {
+      this.newUserData.avatar = avatar
     },
     saveNewData () {
       const newUserData = { ...this.newUserData, _id: this.user._id }
