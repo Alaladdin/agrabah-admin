@@ -55,10 +55,11 @@ export const actions = {
     ctx.commit('SET_APP_VERSION', version)
   },
   editUser (ctx, newUserData) {
-    return this.$axios.$patch('/api/auth/editUser', newUserData, { updateChanges: true })
-      .then((user) => {
-        const currentUserId = ctx.state.auth.user._id
+    const { _id : currentUserId, scope: userScope } = ctx.state.auth.user
+    const canUpdateChanges = userScope.includes('admin')
 
+    return this.$axios.$patch('/api/auth/editUser', newUserData, { updateChanges: canUpdateChanges })
+      .then((user) => {
         if (user._id === currentUserId)
           ctx.commit('PATCH_CURRENT_USER', user)
 

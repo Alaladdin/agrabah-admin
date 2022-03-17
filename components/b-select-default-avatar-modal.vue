@@ -19,17 +19,30 @@
         />
       </div>
     </div>
+
+    <div class="block mt-10 text-center text-sm">
+      <b-button
+        class="!inline-block !px-3 !py-2 !rounded font-semibold bg-white shadow-sm"
+        href="https://t.me/minibich_room"
+        target="_blank"
+        variant="link"
+      >
+        Аватарки любезно предоставлены @minibich_room
+      </b-button>
+    </div>
   </t-dialog>
 </template>
 
 <script>
 
 import BAvatar from '@/components/b-avatar'
+import BButton from '@/components/b-button'
 
 export default {
   name      : 'b-select-default-avatar-modal',
   components: {
     'b-avatar': BAvatar,
+    'b-button': BButton,
   },
   props: {
     value: {
