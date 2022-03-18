@@ -2,7 +2,7 @@ import { find, map } from 'lodash'
 import { navItems } from '@/data'
 
 export default ({ route, store, redirect }) => {
-  const { getUserData: user } = store.getters
+  const user = store.getters['user/getUserData']
   const page = find(navItems, (item) => {
     if (item.children) {
       const childrenRoutes = map(item.children, 'path')

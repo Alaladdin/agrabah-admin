@@ -32,6 +32,34 @@
       <t-select :options="['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']" :disabled="isDisabled">Choose...</t-select>
     </div>
 
+    <div class="space-y-4 space-x-2">
+      <h2 class="font-bold text-4xl"># Dropdown</h2>
+      <b-dropdown text="Choose..." :disabled="isDisabled">
+        <div>Item 1</div>
+        <div>Item 2</div>
+      </b-dropdown>
+
+      <b-dropdown text="Choose..." variant="white" :disabled="isDisabled">
+        <div>Item 1</div>
+        <div>Item 2</div>
+      </b-dropdown>
+
+      <b-dropdown text="Choose..." variant="indigo" :disabled="isDisabled">
+        <div>Item 1</div>
+        <div>Item 2</div>
+      </b-dropdown>
+
+      <b-dropdown text="Choose..." variant="danger" :disabled="isDisabled">
+        <div>Item 1</div>
+        <div>Item 2</div>
+      </b-dropdown>
+
+      <b-dropdown text="Choose..." variant="link" :disabled="isDisabled">
+        <div>Item 1</div>
+        <div>Item 2</div>
+      </b-dropdown>
+    </div>
+
     <div>
       <h2 class="mb-4 font-bold text-4xl"># Checkbox</h2>
       <b-checkbox v-model="checkbox1Value" class="block">Like</b-checkbox>
@@ -92,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ user: 'getUserData' }),
+    ...mapGetters({ user: 'user/getUserData' }),
   },
   methods: {
     toggleDisabled () {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TSelect, TTag, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TSelect, TDropdown, TTag, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -73,6 +73,23 @@ const VueTailwindSettings = {
     props    : {
       fixedClasses: 'block px-3 py-1.5 transition duration-100 ease-in-out rounded shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
       classes     : 'bg-white focus:ring-indigo-400',
+    },
+  },
+  't-dropdown': {
+    component: TDropdown,
+    props    : {
+      fixedClasses: {
+        wrapper        : 'inline-flex flex-col',
+        dropdownWrapper: 'relative z-10',
+        dropdown       : 'dropdown__body absolute left-0 mt-1 rounded origin-top-left w-56 shadow bg-white overflow-hidden',
+
+        enterClass      : 'opacity-0 -translate-y-2 scale-90',
+        enterActiveClass: 'transition transform ease-out duration-100',
+        enterToClass    : '',
+        leaveClass      : '',
+        leaveActiveClass: 'transition transform ease-in duration-75',
+        leaveToClass    : 'opacity-0 -translate-y-2 scale-90',
+      },
     },
   },
   't-tag': {

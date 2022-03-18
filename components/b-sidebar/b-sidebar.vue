@@ -80,7 +80,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ user: 'getUserData' }),
+    ...mapGetters({ user: 'user/getUserData' }),
   },
   methods: {
     goToProfile () {

@@ -15,7 +15,7 @@ export const actions = {
       })
   },
   editUser (ctx, newUserData) {
-    return ctx.dispatch('editUser', newUserData, { root: true })
+    return ctx.dispatch('user/editUser', newUserData, { root: true })
       .then((userData) => {
         ctx.commit('PATCH_ITEM', userData)
 

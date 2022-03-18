@@ -53,9 +53,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user          : 'getUserData',
-      errors        : 'getErrors',
+      user          : 'user/getUserData',
       updownServices: 'updown/getUpdownServices',
+      errors        : 'getErrors',
     }),
 
     currentNavItems () {
