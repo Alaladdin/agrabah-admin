@@ -6,7 +6,7 @@
           <NuxtLink to="/">AGRABAH ADMIN</NuxtLink>
         </h1>
 
-        <form class="w-8/10 min-w-70" @submit="login">
+        <form class="w-8/10 min-w-70" @submit.prevent="login">
           <div v-if="error" class="mb-5">
             <div class="border border-red-400 rounded bg-red-100 px-4 py-3 text-red-700">
               <p>{{ error }}</p>
@@ -35,7 +35,7 @@
               text="Register"
               type="button"
               :disabled="isButtonsDisabled"
-              @click="register"
+              @click.prevent="register"
             />
             <b-button
               class="w-full py-1.5"
@@ -43,7 +43,7 @@
               variant="indigo"
               type="submit"
               :disabled="isButtonsDisabled"
-              @click="login"
+              @click.prevent="login"
             />
           </div>
         </form>
