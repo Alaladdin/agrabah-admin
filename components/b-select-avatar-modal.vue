@@ -3,13 +3,13 @@
     :value="value"
     type="confirm"
     class="w-full"
-    title="Select default avatar"
+    title="Select avatar"
     variant="large"
     :pre-confirm="onConfirm"
     @change="onInput"
   >
-    <div class="grid grid-cols-4">
-      <div v-for="avatarUrl in defaultAvatars" :key="avatarUrl">
+    <div class="grid grid-cols-8 gap-y-4">
+      <div v-for="avatarUrl in avatarsList" :key="avatarUrl">
         <b-avatar
           :url="avatarUrl"
           class="cursor-pointer"
@@ -34,12 +34,13 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
+import { concat } from 'lodash/array'
 import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
 
 export default {
-  name      : 'b-select-default-avatar-modal',
+  name      : 'b-select-avatar-modal',
   components: {
     'b-avatar': BAvatar,
     'b-button': BButton,
@@ -65,6 +66,15 @@ export default {
       ],
     }
   },
+  computed: {
+    ...mapGetters({ currentUser: 'getUserData' }),
+
+    avatarsList () {
+      const userAvatars = this.currentUser.avatarsList
+
+      return concat(this.defaultAvatars, userAvatars)
+    },
+  },
   watch: {
     value (isShown) {
       if (isShown)
@@ -76,7 +86,7 @@ export default {
       const classList = ['transition', 'duration-70', 'ease-in']
 
       if (avatarUrl !== this.selectedAvatar)
-        classList.push('ring-0')
+        classList.push('ring-2 opacity-40')
 
       return classList
     },
