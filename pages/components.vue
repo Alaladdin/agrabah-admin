@@ -120,7 +120,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ user: 'user/getUserData' }),
+    ...mapGetters({ user: 'getUserData' }),
   },
   methods: {
     toggleDisabled () {

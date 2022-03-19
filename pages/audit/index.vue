@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ user: 'user/getUserData' }),
+    ...mapGetters({ user: 'getUserData' }),
   },
   watch: {
     data (changes) {

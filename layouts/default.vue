@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user          : 'user/getUserData',
+      user          : 'getUserData',
       updownServices: 'updown/getUpdownServices',
       errors        : 'getErrors',
     }),

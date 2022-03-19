@@ -71,7 +71,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ currentUser: 'user/getUserData' }),
+    ...mapGetters({ currentUser: 'getUserData' }),
 
     confirmRemoveUserModalTitle () {
       if (!this.removingUser)
