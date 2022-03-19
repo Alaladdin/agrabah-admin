@@ -16,6 +16,7 @@
       :src="avatarUrl"
       :width="avatarSize"
       :height="avatarSize"
+      style="user-drag: none"
       crossorigin="anonymous"
       preload
       @load.native="onLoad"
