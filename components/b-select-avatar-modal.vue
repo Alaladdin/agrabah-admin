@@ -27,7 +27,7 @@
         target="_blank"
         variant="link"
       >
-        Аватарки любезно предоставлены @minibich_room
+        Предустановленные аватарки любезно предоставлены @minibich_room
       </b-button>
     </div>
   </t-dialog>
