@@ -88,6 +88,9 @@ export default {
       if (avatarUrl !== this.selectedAvatar)
         classList.push('ring-2 opacity-40')
 
+      if (this.defaultAvatars.includes(avatarUrl))
+        classList.push('ring-yellow-400')
+
       return classList
     },
     onAvatarSelect (avatar) {
