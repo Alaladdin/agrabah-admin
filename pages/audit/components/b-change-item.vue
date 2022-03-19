@@ -1,39 +1,41 @@
 <template>
-  <div>
-    <b-user-info
-      class="mr-10 text-sm"
-      :user="change.changedBy"
-      avatar-size="extraSmall"
-    />
+  <div class="changes__item">
+    <div class="changes__item-content">
+      <b-user-info
+        class="mr-10 text-sm"
+        :user="change.changedBy"
+        avatar-size="extraSmall"
+      />
 
-    <div class="changes__item-description">
-      <p class="mr-2 font-semibold">Modified:</p>
+      <div class="changes__item-description">
+        <p class="mr-2 font-semibold">Modified:</p>
 
-      <div v-for="(description, i) in change.descriptions" :key="i" class="mr-1">
-        <p v-if="!description.value" class="text-sm">
-          {{ getChangeTitle(change, i) }}
-        </p>
-
-        <v-menu v-else :delay="{ show: 100, hide: 100 }">
-          <b-button
-            v-if="description.plain"
-            :text="getChangeTitle(change, i)"
-            variant="link"
-            @click="openChangeModal(description, change.changedAt)"
-          />
-
-          <p v-else class="font-semibold text-purple-400">
+        <div v-for="(description, i) in change.descriptions" :key="i" class="mr-1">
+          <p v-if="!description.value" class="text-sm">
             {{ getChangeTitle(change, i) }}
           </p>
 
-          <template #popper>
-            <b-change-info-plain v-if="description.plain" :change="description" />
-            <template v-else>
-              <p v-if="description.html" class="font-mono text-sm" v-html="description.value" />
-              <p v-else class="font-mono text-sm">{{ description.value }}</p>
+          <v-menu v-else :delay="{ show: 100, hide: 100 }">
+            <b-button
+              v-if="description.plain"
+              :text="getChangeTitle(change, i)"
+              variant="link"
+              @click="openChangeModal(description, change.changedAt)"
+            />
+
+            <p v-else class="font-semibold text-purple-400">
+              {{ getChangeTitle(change, i) }}
+            </p>
+
+            <template #popper>
+              <b-change-info-plain v-if="description.plain" :change="description" />
+              <template v-else>
+                <p v-if="description.html" class="font-mono text-sm" v-html="description.value" />
+                <p v-else class="font-mono text-sm">{{ description.value }}</p>
+              </template>
             </template>
-          </template>
-        </v-menu>
+          </v-menu>
+        </div>
       </div>
     </div>
 

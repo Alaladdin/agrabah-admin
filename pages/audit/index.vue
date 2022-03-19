@@ -6,13 +6,6 @@
       </t-alert>
 
       <template v-if="data.length">
-        <b-change-info-plain-modal
-          v-if="changeModalData"
-          v-model="showChangeModal"
-          :change="changeModalData"
-          @closed="onCloseChangeModal"
-        />
-
         <b-button
           v-if="user.isOwner"
           class="self-end mb-5"
@@ -25,11 +18,17 @@
           <b-change-item
             v-for="change in data"
             :key="change._id"
-            class="changes__item"
             :change="change"
             @open-change-modal="openChangeModal"
           />
         </div>
+
+        <b-change-info-plain-modal
+          v-if="changeModalData"
+          v-model="showChangeModal"
+          :change="changeModalData"
+          @closed="onCloseChangeModal"
+        />
       </template>
     </template>
   </div>
@@ -53,14 +52,12 @@ export default {
     'b-change-info-plain-modal': BChangeInfoPlainModal,
   },
   mixins: [PageDefaultMixin('audit')],
-  data () {
-    return {
-      fieldsInfo        : localMetadata.fieldsInfo,
-      changeModalData   : null,
-      showChangeModal   : false,
-      clearDataOnDestroy: false,
-    }
-  },
+  data  : () => ({
+    fieldsInfo        : localMetadata.fieldsInfo,
+    changeModalData   : null,
+    showChangeModal   : false,
+    clearDataOnDestroy: false,
+  }),
   computed: {
     ...mapGetters({ user: 'getUserData' }),
   },

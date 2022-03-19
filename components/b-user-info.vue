@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 gap-4 justify-between items-center">
+  <div class="flex space-x-4 items-center">
     <b-avatar :url="userData.avatar" :size="avatarSize" />
 
     <div>

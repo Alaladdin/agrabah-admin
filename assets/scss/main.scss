@@ -148,6 +148,11 @@ textarea, {
   &__item {
     @apply flex items-center p-4 border-b last:border-b-0 bg-white shadow-sm transition duration-20 hover:bg-purple-50;
 
+    &-content {
+      @apply grid max-w-8/10 w-full;
+      grid-template-columns: 1fr 2.5fr;
+    }
+
     &-description {
       @apply flex items-center text-sm;
     }
@@ -175,41 +180,6 @@ textarea, {
 
   &__date {
     @apply mb-2 text-right text-xs text-gray-400 font-semibold select-none;
-  }
-}
-
-.progress {
-  position: relative;
-  margin-right: 10px;
-  border-radius: 4px;
-  width: 200px;
-  height: 8px;
-  overflow: hidden;
-  @apply bg-gray-300;
-
-  &__bar {
-    position: absolute;
-    border-radius: 4px;
-    width: 100%;
-    height: 100%;
-    transition: 200ms all ease-in-out;
-    transition-property: background, width;
-
-    &--low {
-      @apply bg-red-300;
-    }
-
-    &--medium {
-      @apply bg-orange-300;
-    }
-
-    &--high {
-      @apply bg-green-300;
-    }
-  }
-
-  &__text {
-    @apply text-xs font-mono;
   }
 }
 
