@@ -87,18 +87,16 @@ textarea, {
   }
 }
 
-.alert {
-  &---bordered {
-    @apply self-center '!border' w-1/2 text-center;
-  }
+.alert---bordered {
+  @apply self-center '!border' w-1/2 text-center;
 }
 
 .dropdown__body > * {
-  @apply px-3 py-2 text-gray-700 cursor-pointer transition duration-150 ease-in-out select-none hover:bg-gray-100 active:bg-gray-200
+  @apply block px-3 py-2 text-gray-700 cursor-pointer transition duration-150 ease-in-out select-none hover:bg-gray-100 active:bg-gray-200
 }
 
 .nuxt-link {
-  @apply flex flex-row justify-between px-4 py-2 mt-2 text-sm font-semibold text-indigo-200 rounded-lg transition duration-75 ease-in-out cursor-pointer select-none;
+  @apply flex flex-row justify-between items-center px-4 py-2 mt-2 text-sm font-semibold text-indigo-200 rounded-lg transition duration-75 ease-in-out cursor-pointer select-none;
   @apply hover:bg-indigo-800;
   @apply active:bg-indigo-900;
   @apply focus:outline-none;

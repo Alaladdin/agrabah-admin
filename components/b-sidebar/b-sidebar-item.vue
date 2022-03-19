@@ -9,6 +9,8 @@
       <span v-if="notificationsCount" class="sidebar__nav-badge">
         {{ notificationsCount }}
       </span>
+
+      <fa v-if="item.children" :icon="item.isOpen ? 'caret-up' : 'caret-down'" />
     </a>
 
     <client-only>

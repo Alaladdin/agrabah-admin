@@ -81,7 +81,7 @@ const VueTailwindSettings = {
       fixedClasses: {
         wrapper        : 'inline-flex flex-col',
         dropdownWrapper: 'relative z-10',
-        dropdown       : 'dropdown__body absolute left-0 mt-1 rounded origin-top-left w-56 shadow bg-white overflow-hidden',
+        dropdown       : 'dropdown__body absolute left-0 mt-1 rounded origin-top-left min-w-30 w-max shadow text-sm bg-white overflow-hidden',
 
         enterClass      : 'opacity-0 -translate-y-2 scale-90',
         enterActiveClass: 'transition transform ease-out duration-100',
