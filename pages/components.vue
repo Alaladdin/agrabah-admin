@@ -29,35 +29,33 @@
 
     <div class="space-y-4">
       <h2 class="font-bold text-4xl"># Select</h2>
-      <t-select :options="['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']" :disabled="isDisabled">Choose...</t-select>
+      <t-select :options="winxOptions" :disabled="isDisabled" />
     </div>
 
-    <div class="space-y-4 space-x-2">
+    <div class="space-y-4">
       <h2 class="font-bold text-4xl"># Dropdown</h2>
-      <b-dropdown text="Choose..." :disabled="isDisabled">
-        <div>Item 1</div>
-        <div>Item 2</div>
-      </b-dropdown>
 
-      <b-dropdown text="Choose..." variant="white" :disabled="isDisabled">
-        <div>Item 1</div>
-        <div>Item 2</div>
-      </b-dropdown>
+      <div class="flex items-center space-x-4">
+        <b-dropdown text="Choose" :disabled="isDisabled">
+          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
+        </b-dropdown>
 
-      <b-dropdown text="Choose..." variant="indigo" :disabled="isDisabled">
-        <div>Item 1</div>
-        <div>Item 2</div>
-      </b-dropdown>
+        <b-dropdown text="Choose" variant="white" :disabled="isDisabled">
+          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
+        </b-dropdown>
 
-      <b-dropdown text="Choose..." variant="danger" :disabled="isDisabled">
-        <div>Item 1</div>
-        <div>Item 2</div>
-      </b-dropdown>
+        <b-dropdown text="Choose" variant="indigo" :disabled="isDisabled">
+          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
+        </b-dropdown>
 
-      <b-dropdown text="Choose..." variant="link" :disabled="isDisabled">
-        <div>Item 1</div>
-        <div>Item 2</div>
-      </b-dropdown>
+        <b-dropdown text="Choose" variant="danger" :disabled="isDisabled">
+          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
+        </b-dropdown>
+
+        <b-dropdown text="Choose" variant="link" :disabled="isDisabled">
+          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
+        </b-dropdown>
+      </div>
     </div>
 
     <div>
@@ -109,16 +107,29 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import BUserInfo from '@/components/b-user-info'
+import BAvatar from '@/components/b-avatar'
+import BButton from '@/components/b-button'
+import BCheckbox from '@/components/b-checkbox'
+import BDropdown from '@/components/b-dropdown'
+import BInput from '@/components/b-input'
 
 export default {
-  name: 'example',
-  data () {
-    return {
-      checkbox1Value: true,
-      checkbox2Value: false,
-      isDisabled    : false,
-    }
+  name      : 'example',
+  components: {
+    'b-input'    : BInput,
+    'b-dropdown' : BDropdown,
+    'b-checkbox' : BCheckbox,
+    'b-button'   : BButton,
+    'b-avatar'   : BAvatar,
+    'b-user-info': BUserInfo,
   },
+  data: () => ({
+    winxOptions   : ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy'],
+    checkbox1Value: true,
+    checkbox2Value: false,
+    isDisabled    : false,
+  }),
   computed: {
     ...mapGetters({ user: 'getUserData' }),
   },

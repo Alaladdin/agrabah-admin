@@ -29,7 +29,7 @@
           <p class="px-4 py-1">Type: {{ currentActualityTypeText }}</p>
         </div>
 
-        <div v-if="hasAnyChanges" class="badge badge--warn !text-sm">
+        <div v-if="hasAnyChanges" class="badge badge--warn fade-in !text-sm">
           {{ unsavedChangesText }}
         </div>
       </div>

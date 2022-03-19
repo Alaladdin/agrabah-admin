@@ -9,8 +9,7 @@
       >
         <div class="flex items-center">
           <b-avatar class="mr-5" :url="user.avatar" />
-          <span v-if="!isEditingUser(user)" class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
-          <t-input v-else v-model="editingUserData.username" :variant="{ 'danger' : !isNewUsernameValid }" />
+          <span class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
         </div>
 
         <div class="flex">
@@ -28,7 +27,7 @@
                 <b-checkbox v-model="editingUserData.scope" value="admin">admin</b-checkbox>
               </div>
 
-              <b-button class="px-2 mr-2" variant="indigo" before-icon="floppy-disk" :disabled="!isNewUsernameValid" @click="editUserData" />
+              <b-button class="px-2 mr-2" variant="indigo" before-icon="floppy-disk" @click="editUserData" />
               <b-button class="px-2" variant="danger" before-icon="xmark" @click="stopUserEditing" />
             </template>
           </template>
@@ -47,7 +46,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone, last } from 'lodash'
-import { validateUsername } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
@@ -79,9 +77,6 @@ export default {
 
       return `Remove user "${this.removingUser.username}"?`
     },
-    isNewUsernameValid () {
-      return !!this.editingUserData && validateUsername(this.editingUserData.username)
-    },
   },
   methods: {
     ...mapActions('team', ['editUser', 'removeUser']),
@@ -90,7 +85,7 @@ export default {
     getUserItemClass (user) {
       return {
         'ring-2 ring-purple-300': this.currentUser._id === user._id,
-        'opacity-20'            : this.editingUserData && !this.isEditingUser(user),
+        'opacity-40'            : this.editingUserData && !this.isEditingUser(user),
       }
     },
     canEditUser (user) {

@@ -1,17 +1,23 @@
 <template>
-  <t-dropdown v-bind="$attrs">
-    <slot />
+  <client-only>
+    <t-dropdown v-bind="$attrs">
+      <slot />
 
-    <template #trigger="{ mousedownHandler, blurHandler }">
-      <b-button
-        class="z-20"
-        v-bind="buttonProps"
-        after-icon="caret-down"
-        @mousedown="mousedownHandler"
-        @blur="blurHandler"
-      />
+      <template #trigger="{ mousedownHandler, blurHandler }">
+        <b-button
+          class="z-20"
+          v-bind="buttonProps"
+          after-icon="caret-down"
+          @mousedown="mousedownHandler"
+          @blur="blurHandler"
+        />
+      </template>
+    </t-dropdown>
+
+    <template #placeholder>
+      <b-button v-bind="buttonProps" after-icon="caret-down" />
     </template>
-  </t-dropdown>
+  </client-only>
 </template>
 
 <script>
