@@ -187,6 +187,27 @@ textarea, {
   animation: fadeIn 150ms forwards;
 }
 
+.short-url {
+  &__body {
+    @apply flex flex-col self-center p-4 rounded-xl bg-white text-sm shadow-sm w-8/10;
+  }
+
+  &__item {
+    @apply flex justify-between items-center px-5 py-4 rounded-xl tranition duration-50 hover:bg-gray-100;
+
+
+    .show-on-hover {
+      @apply tranition duration-50 opacity-0;
+    }
+
+    &:hover {
+      .show-on-hover {
+        @apply opacity-100;
+      }
+    }
+  }
+}
+
 .animate {
   &-bounce {
     animation: bounce 2s infinite ease-in-out;

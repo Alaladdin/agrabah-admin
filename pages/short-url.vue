@@ -18,25 +18,25 @@
 
       <b-button class="self-end w-full" variant="indigo" :disabled="isAddButtonDisabled">Add</b-button>
     </form>
-    <template v-if="data">
-      <div v-if="data.length" class="flex flex-col p-4 rounded-xl bg-dark-200 text-white text-sm shadow-sm">
-        <div v-for="urlData in data" :key="urlData._id" class="flex justify-between items-center px-5 py-4 rounded-xl hover:bg-dark-700">
-          <div class="flex flex-col space-y-1">
-            <div class="flex space-x-2">
-              <span class="font-semibold">{{ urlData.description }}</span>
-              <span class="select-none">—</span>
-              <span class="cursor-pointer select-none" @click="copyToClipboard(urlData.shortUrl)">{{ urlData.shortId }}</span>
-            </div>
 
-            <a :href="urlData.url" class="opacity-60">{{ urlData.url }}</a>
+    <div v-if="data && data.length" class="short-url__body">
+      <div v-for="urlData in data" :key="urlData._id" class="short-url__item">
+        <div class="flex flex-col space-y-1">
+          <div class="flex space-x-2">
+            <span class="font-semibold">{{ urlData.description }}</span>
+            <span class="select-none">—</span>
+            <span class="text-purple-700 cursor-pointer select-none" @click="copyToClipboard(urlData.shortUrl)">{{ urlData.shortId }}</span>
           </div>
 
-          <b-button class="!px-1.5" after-icon="xmark" variant="danger" :disabled="isRemoving" @click="removeExistingUrl(urlData)" />
+          <a :href="urlData.url" class="text-gray-400">{{ urlData.url }}</a>
+        </div>
+
+        <div class="flex space-x-2">
+          <!-- <b-button class="show-on-hover !px-1.5" after-icon="pencil" variant="indigo" :disabled="isRemoving" @click="startEditing(urlData)" />-->
+          <b-button class="show-on-hover !px-1.5" after-icon="xmark" variant="danger" :disabled="isRemoving" @click="removeExistingUrl(urlData)" />
         </div>
       </div>
-
-      <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>No changes</t-alert>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -55,9 +55,11 @@ export default {
   },
   mixins: [PageDefaultMixin('short-url')],
   data  : () => ({
-    url        : '',
-    description: '',
-    isRemoving : false,
+    url               : '',
+    description       : '',
+    editingUrl        : {},
+    isRemoving        : false,
+    clearDataOnDestroy: false,
   }),
   computed: {
     isUrlValid () {
@@ -93,6 +95,12 @@ export default {
         .finally(() => {
           this.isRemoving = false
         })
+    },
+    startEditing (url) {
+      this.editingUrl = url
+    },
+    stopEditing () {
+      this.editingUrl = {}
     },
     copyToClipboard (url) {
       navigator.clipboard.writeText(url)
