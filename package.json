@@ -1,6 +1,6 @@
 {
   "name": "agrabah-admin",
-  "version": "1.14.10",
+  "version": "1.15.0",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -36,6 +36,7 @@
     "nuxt-helmet": "^3.0.0",
     "simple-text-diff": "^1.7.0",
     "v-tooltip": "^3.0.0-beta.1",
+    "valid-url": "^1.0.9",
     "vue-tailwind": "^2.5.0"
   },
   "devDependencies": {

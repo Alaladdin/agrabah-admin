@@ -21,18 +21,10 @@ export default [
     scope: 'admin',
   },
   {
-    path    : '/short-url',
-    title   : 'Short URL',
-    icon    : 'link',
-    scope   : 'user',
-    disabled: true,
-  },
-  {
-    path    : '/juice-rating',
-    title   : 'Orange juice rating',
-    icon    : 'star',
-    scope   : 'user',
-    disabled: true,
+    path : '/short-url',
+    title: 'Short URL',
+    icon : 'link',
+    scope: 'user',
   },
   {
     title   : 'Options',

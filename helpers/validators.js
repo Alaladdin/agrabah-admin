@@ -1,3 +1,5 @@
+import validUrl from 'valid-url'
+
 export const validateUsername = (username) => {
   const usernameLength = username.trim().length
 
@@ -19,3 +21,5 @@ export const validatePassword = (password) => {
 
   return passLength >= 6 && passLength <= 20
 }
+
+export const validateUrl = url => validUrl.isWebUri(url)
