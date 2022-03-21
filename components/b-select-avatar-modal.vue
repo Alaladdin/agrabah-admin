@@ -22,7 +22,7 @@
 
     <div class="block mt-10 text-center text-sm">
       <b-button
-        class="!inline-block !px-3 !py-2 !rounded font-semibold bg-white shadow-sm"
+        class="!inline-block !px-3 !py-2 !rounded font-semibold bg-white shadow"
         href="https://t.me/minibich_room"
         target="_blank"
         variant="link"
@@ -63,6 +63,7 @@ export default {
         'avatar/default__1',
         'avatar/default__2',
         'avatar/default__3',
+        'avatar/default__4',
       ],
     }
   },

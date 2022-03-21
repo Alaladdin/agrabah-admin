@@ -28,7 +28,7 @@
             <span class="text-purple-700 cursor-pointer select-none" @click="copyToClipboard(urlData.shortUrl)">{{ urlData.shortId }}</span>
           </div>
 
-          <a :href="urlData.url" class="text-gray-400">{{ urlData.url }}</a>
+          <a :href="urlData.url" class="text-gray-400" target="_blank">{{ urlData.url }}</a>
         </div>
 
         <div class="flex space-x-2">
