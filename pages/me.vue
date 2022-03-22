@@ -2,8 +2,8 @@
   <div class="flex justify-center items-center">
     <b-avatar class="m-x-7" :url="newUserData.avatar || user.avatar" size="extraLarge" />
 
-    <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-10">
-      <b-dropdown text="Avatar" variant="indigo">
+    <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-5">
+      <b-dropdown text="Edit avatar" variant="indigo">
         <div @click="openModal('showSelectDefaultAvatarModal')">Select avatar</div>
         <div @click="selectAvatar">Upload image</div>
       </b-dropdown>
@@ -84,6 +84,7 @@ export default {
     'b-avatar'              : BAvatar,
     'b-button'              : BButton,
     'b-confirm-action-modal': BConfirmActionModal,
+    'b-dropdown'            : () => import('@/components/b-dropdown'),
     'b-input'               : () => import('@/components/b-input'),
     'b-image-upload'        : () => import('@/components/b-image-upload'),
     'b-select-avatar-modal' : () => import('@/components/b-select-avatar-modal'),

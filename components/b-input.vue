@@ -13,6 +13,7 @@
 
     <t-input
       :value="value"
+      :class="inputClass"
       :placeholder="$attrs.placeholder || $props.label"
       v-bind="allowedAttrs"
       @input="onInput"
@@ -31,6 +32,10 @@ export default {
       default: '',
     },
     label: {
+      type   : String,
+      default: '',
+    },
+    inputClass: {
       type   : String,
       default: '',
     },

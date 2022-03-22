@@ -4,19 +4,23 @@
       <div class="space-y-3">
         <b-input
           v-model="description"
-          label="Description"
+          input-class="!py-1.6 text-sm"
           placeholder="Description"
-          :variant="{ 'danger' : !isDescriptionValid }"
         />
-        <b-input
-          v-model="url"
-          label="Url"
-          placeholder="https://"
-          :variant="{ 'danger' : !isUrlValid }"
-        />
+
+        <div class="flex items-center space-x-2 w-full">
+          <t-select v-model="protocol" class="!py-2" :options="protocols" />
+          <b-input
+            v-model="url"
+            class="w-full"
+            input-class="!py-1.6 text-sm"
+            placeholder="Link"
+            @input="afterUrlChange"
+          />
+        </div>
       </div>
 
-      <b-button class="self-end w-full" variant="indigo" :disabled="isAddButtonDisabled">Add</b-button>
+      <b-button class="self-end w-full" variant="indigo" :disabled="isFormInvalid">Add</b-button>
     </form>
 
     <div v-if="data && data.length" class="short-url__body">
@@ -57,34 +61,34 @@ export default {
   data  : () => ({
     url               : '',
     description       : '',
+    protocol          : 'https://',
+    protocols         : ['https://', 'http://'],
     editingUrl        : {},
     isRemoving        : false,
     clearDataOnDestroy: false,
   }),
   computed: {
-    isUrlValid () {
-      return validateUrl(this.url)
+    fullUrl () {
+      return this.protocol + this.url
     },
-    isDescriptionValid () {
-      return this.description.trim().length
-    },
-    isAddButtonDisabled () {
-      return !this.isUrlValid || !this.isDescriptionValid
+    isFormInvalid () {
+      return !validateUrl(this.fullUrl) || !this.description.trim().length
     },
   },
   methods: {
     ...mapActions('short-url', ['addUrl', 'editUrl', 'removeUrl']),
 
-    applyInitialData () {
-      this.url = 'https://'
-      this.description = ''
-    },
     addNewUrl () {
-      this.addUrl({
-        url        : this.url,
+      const urlData = {
+        url        : this.fullUrl,
         description: this.description,
-      })
-        .then(this.applyInitialData)
+      }
+
+      this.addUrl(urlData)
+        .then(() => {
+          this.url = ''
+          this.description = ''
+        })
         .catch(this.$handleError)
     },
     removeExistingUrl (url) {
@@ -95,6 +99,9 @@ export default {
         .finally(() => {
           this.isRemoving = false
         })
+    },
+    afterUrlChange (newValue) {
+      this.url = newValue.replaceAll(/(^\w+:|^)\/\//gim, '')
     },
     startEditing (url) {
       this.editingUrl = url

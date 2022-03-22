@@ -8,6 +8,7 @@
           class="z-20"
           v-bind="buttonProps"
           after-icon="caret-down"
+          type="button"
           @mousedown="mousedownHandler"
           @blur="blurHandler"
         />

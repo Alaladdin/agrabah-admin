@@ -35,13 +35,12 @@ export const actions = {
       })
   },
   removeUrl (ctx, url) {
-    return this.$axios.$delete('/api/removeUrl', { data: url })
-      .then(() => {
-        ctx.commit('REMOVE_ITEM', url)
+    ctx.commit('REMOVE_ITEM', url)
 
-        return url
-      })
+    return this.$axios.$delete('/api/removeUrl', { data: url })
       .catch((err) => {
+        ctx.dispatch('init')
+
         throw err
       })
   },
