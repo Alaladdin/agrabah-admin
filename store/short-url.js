@@ -4,7 +4,7 @@ export const actions = {
   init (ctx) {
     return this.$axios.$get('/api/getUrls')
       .then((data) => {
-        ctx.commit('SET_DATA', data.urls)
+        ctx.commit('SET_DATA', data.urls.reverse())
 
         return data.urls
       })
@@ -15,7 +15,7 @@ export const actions = {
   addUrl (ctx, url) {
     return this.$axios.$post('/api/addUrl', { url })
       .then((data) => {
-        ctx.commit('ADD_ITEM', data.url)
+        ctx.commit('ADD_ITEM_BEGIN', data.url)
 
         return data.url
       })

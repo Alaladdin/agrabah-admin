@@ -188,6 +188,10 @@ textarea, {
 .badge {
   @apply py-1 px-3 rounded shadow-sm bg-white text-gray-600 text-xs w-max;
 
+  &--indigo {
+    @apply bg-indigo-100 text-indigo-500;
+  }
+
   &--warn {
     @apply bg-orange-100 text-orange-700;
   }
@@ -225,8 +229,14 @@ textarea, {
       @apply opacity-0;
     }
 
-    &:hover .show-on-hover {
-      @apply opacity-100;
+    &:hover {
+      .show-on-hover {
+        @apply opacity-100;
+      }
+
+      .hide-on-hover {
+        @apply opacity-0 hidden;
+      }
     }
   }
 }

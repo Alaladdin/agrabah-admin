@@ -19,6 +19,9 @@ export const mutations = {
   ADD_ITEM (state, data) {
     state.data.push(data)
   },
+  ADD_ITEM_BEGIN (state, data) {
+    state.data.unshift(data)
+  },
   PATCH_ITEM (state, newItem) {
     state.data = map(state.data, (item) => {
       if (item._id !== newItem._id)
