@@ -219,17 +219,14 @@ textarea, {
   }
 
   &__item {
-    @apply flex justify-between items-center px-5 py-4 rounded-xl tranition duration-50 hover:bg-gray-100;
-
+    @apply flex justify-between items-center px-5 py-4 rounded-xl hover:bg-gray-100;
 
     .show-on-hover {
-      @apply tranition duration-50 opacity-0;
+      @apply opacity-0;
     }
 
-    &:hover {
-      .show-on-hover {
-        @apply opacity-100;
-      }
+    &:hover .show-on-hover {
+      @apply opacity-100;
     }
   }
 }

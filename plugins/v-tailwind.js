@@ -71,8 +71,8 @@ const VueTailwindSettings = {
   't-select': {
     component: TSelect,
     props    : {
-      fixedClasses: 'block px-2 py-1.5 font-sans transition duration-100 ease-in-out rounded shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
-      classes     : 'bg-white focus:ring-indigo-400',
+      fixedClasses: 'block px-2 py-1.5 border font-sans transition duration-100 ease-in-out rounded shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 disabled:opacity-60',
+      classes     : 'border-indigo-300 bg-white focus:ring-indigo-400',
     },
   },
   't-dropdown': {

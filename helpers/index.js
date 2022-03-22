@@ -1,7 +1,10 @@
-import { isArray, isObject, isString } from 'lodash'
+import { cloneDeep, isArray, isObject, isString, random } from 'lodash'
 import { nanoid } from 'nanoid'
 import moment from 'moment'
 import { validateUsername, validateDisplayName, validatePassword, validateUrl } from './validators'
+
+const clone = (...args) => cloneDeep(...args)
+const getRandomNumber = (...args) => random(...args)
 
 const generateSmallId = (size = 6) => {
   return nanoid(size)
@@ -43,19 +46,13 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
   return val || defaultValue
 }
 
-const getRandomInt = (min, max) => {
-  const minRange = Math.ceil(min)
-  const maxRange = Math.floor(max)
-
-  return Math.floor(Math.random() * (maxRange - minRange + 1) + minRange)
-}
-
 const formatDate = (date, format = 'DD.MM.YYYY') => {
   return moment(date).format(format)
 }
 
 export {
-  getRandomInt,
+  clone,
+  getRandomNumber,
   formatDate,
   setToLocalStorage,
   getFromLocalStorage,

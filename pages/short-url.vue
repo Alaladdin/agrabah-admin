@@ -4,16 +4,16 @@
       <div class="space-y-3">
         <b-input
           v-model="description"
-          input-class="!py-1.6 text-sm"
+          input-class="!py-1.5 text-sm"
           placeholder="Description"
         />
 
         <div class="flex items-center space-x-2 w-full">
-          <t-select v-model="protocol" class="!py-2" :options="protocols" />
+          <t-select v-model="protocol" class="!py-1.5" :options="protocols" />
           <b-input
             v-model="url"
             class="w-full"
-            input-class="!py-1.6 text-sm"
+            input-class="!py-1.5 text-sm"
             placeholder="Link"
             @input="afterUrlChange"
           />
@@ -26,18 +26,26 @@
     <div v-if="data && data.length" class="short-url__body">
       <div v-for="urlData in data" :key="urlData._id" class="short-url__item">
         <div class="flex flex-col space-y-1">
-          <div class="flex space-x-2">
-            <span class="font-semibold">{{ urlData.description }}</span>
+          <div class="flex items-center space-x-2">
+            <b-input v-if="isItemEditing(urlData)" v-model="editingUrl.description" input-class="!py-1.2 text-sm" placeholder="Description" />
+            <span v-else class="font-semibold">{{ urlData.description }}</span>
             <span class="select-none">—</span>
-            <span class="text-purple-700 cursor-pointer select-none" @click="copyToClipboard(urlData.shortUrl)">{{ urlData.shortId }}</span>
+            <span class="text-indigo-500 text-xs cursor-pointer select-none" @click="copyToClipboard(urlData.shortUrl)">{{ urlData.shortId }}</span>
           </div>
 
           <a :href="urlData.url" class="text-gray-400" target="_blank">{{ urlData.url }}</a>
         </div>
 
-        <div class="flex space-x-2">
-          <!-- <b-button class="show-on-hover !px-1.5" after-icon="pencil" variant="indigo" :disabled="isRemoving" @click="startEditing(urlData)" />-->
-          <b-button class="show-on-hover !px-1.5" after-icon="xmark" variant="danger" :disabled="isRemoving" @click="removeExistingUrl(urlData)" />
+        <div class="flex space-x-2 show-on-hover">
+          <template v-if="isItemEditing(urlData)">
+            <b-button class="!px-1.5" after-icon="floppy-disk" variant="indigo" :disabled="isEditingFormInvalid" @click="editExistingUrl" />
+            <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click="stopEditing" />
+          </template>
+
+          <template v-else>
+            <b-button class="!px-1.5" after-icon="pencil" variant="indigo" @click="startEditing(urlData)" />
+            <b-button class="!px-1.5" after-icon="trash-can" variant="danger" @click="removeExistingUrl(urlData)" />
+          </template>
         </div>
       </div>
     </div>
@@ -49,7 +57,7 @@ import { mapActions } from 'vuex'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BInput from '@/components/b-input'
 import BButton from '@/components/b-button'
-import { validateUrl } from '@/helpers'
+import { clone, validateUrl } from '@/helpers'
 
 export default {
   name      : 'short-url',
@@ -64,7 +72,6 @@ export default {
     protocol          : 'https://',
     protocols         : ['https://', 'http://'],
     editingUrl        : {},
-    isRemoving        : false,
     clearDataOnDestroy: false,
   }),
   computed: {
@@ -72,7 +79,10 @@ export default {
       return this.protocol + this.url
     },
     isFormInvalid () {
-      return !validateUrl(this.fullUrl) || !this.description.trim().length
+      return !validateUrl(this.fullUrl) || !this.description.trim()
+    },
+    isEditingFormInvalid () {
+      return !this.editingUrl.description.trim()
     },
   },
   methods: {
@@ -91,23 +101,26 @@ export default {
         })
         .catch(this.$handleError)
     },
+    editExistingUrl () {
+      this.editUrl(this.editingUrl)
+        .then(this.stopEditing)
+        .catch(this.$handleError)
+    },
     removeExistingUrl (url) {
-      this.isRemoving = true
-
       this.removeUrl(url)
         .catch(this.$handleError)
-        .finally(() => {
-          this.isRemoving = false
-        })
     },
     afterUrlChange (newValue) {
       this.url = newValue.replaceAll(/(^\w+:|^)\/\//gim, '')
     },
     startEditing (url) {
-      this.editingUrl = url
+      this.editingUrl = clone(url)
     },
     stopEditing () {
       this.editingUrl = {}
+    },
+    isItemEditing (url) {
+      return this.editingUrl._id === url._id
     },
     copyToClipboard (url) {
       navigator.clipboard.writeText(url)

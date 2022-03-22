@@ -19,7 +19,7 @@
 
 <script>
 import { reduce, reject } from 'lodash'
-import { getRandomInt } from '@/helpers'
+import { getRandomNumber } from '@/helpers'
 import BAvatar from '@/components/b-avatar'
 import { navItems } from '@/data'
 
@@ -38,7 +38,7 @@ export default {
       const widthsStyles = []
 
       for (let i = 0; i < this.navItemsCount; i++) {
-        const width = getRandomInt(30, 80)
+        const width = getRandomNumber(30, 80)
 
         widthsStyles.push({ width: width + '%' })
       }
