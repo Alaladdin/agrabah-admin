@@ -51,6 +51,32 @@ textarea, {
   transform: translateY(-5px);
 }
 
+.v-toast {
+  @apply '!p-3';
+
+  &__item {
+    &--default {
+      @apply '!bg-indigo-400';
+    }
+
+    &--success {
+      @apply '!bg-green-400';
+    }
+
+    &--info {
+      @apply '!bg-blue-400';
+    }
+
+    &--warning {
+      @apply '!bg-orange-400';
+    }
+
+    &--error {
+      @apply '!bg-red-400';
+    }
+  }
+}
+
 .sidebar {
   @apply fixed inline-flex flex-row min-h-screen bg-indigo-700;
 

@@ -111,6 +111,7 @@ export default {
     },
     copyToClipboard (url) {
       navigator.clipboard.writeText(url)
+      this.$toast.default(`Copied: "${url}"`)
     },
   },
 }
