@@ -83,6 +83,42 @@ textarea, {
   }
 }
 
+.b-select-avatar-modal {
+  @apply w-full;
+
+  &__upload-btn {
+    @apply border-2 border-dashed rounded-full text-3xl opacity-60 transition-all duration-50 cursor-pointer;
+    @apply bg-indigo-200 border-indigo-400 text-indigo-400;
+
+    &.uploading {
+      @apply pointer-events-none;
+    }
+
+    &:hover,
+    &:active,
+    &.uploading {
+      @apply border-solid opacity-100;
+    }
+
+    &:hover,
+    &.uploading {
+      @apply border-3;
+    }
+
+    &:active {
+      @apply border-5;
+
+      & > svg {
+        transform: translateY(-2px);
+      }
+    }
+
+    svg {
+      @apply transition duration-100;
+    }
+  }
+}
+
 .sidebar {
   @apply fixed inline-flex flex-row min-h-screen bg-indigo-700;
 

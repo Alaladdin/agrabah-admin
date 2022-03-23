@@ -131,9 +131,10 @@ export default {
       this.isUploading = true
     },
     onFileUploaded (avatar) {
-      const newAvatarsList = concat(this.currentUser.avatarsList, [avatar])
+      this.commitPatchUser({
+        avatarsList: concat(this.currentUser.avatarsList, [avatar]),
+      })
 
-      this.commitPatchUser({ avatarsList: newAvatarsList })
       this.onAvatarSelect(avatar)
       this.isUploading = false
     },

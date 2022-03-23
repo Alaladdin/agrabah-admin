@@ -3,7 +3,7 @@
     <b-avatar class="m-x-7" :url="newUserData.avatar || user.avatar" size="extraLarge" />
 
     <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-5">
-      <b-button text="Edit avatar" @click="openModal('showSelectDefaultAvatarModal')" />
+      <b-button text="Edit avatar" variant="white" @click="openModal('showSelectDefaultAvatarModal')" />
 
       <div class="flex flex-col justify-start space-y-5">
         <b-input
@@ -64,6 +64,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
+import { assign, pick } from 'lodash/object'
 import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
@@ -79,11 +80,7 @@ export default {
     'b-select-avatar-modal' : () => import('@/components/b-select-avatar-modal'),
   },
   data: () => ({
-    newUserData: {
-      username   : '',
-      displayName: '',
-      avatar     : '',
-    },
+    newUserData                 : {},
     isEditing                   : false,
     isSaving                    : false,
     showSelectDefaultAvatarModal: false,
@@ -121,9 +118,9 @@ export default {
     }),
 
     saveNewData () {
-      const newUserData = { ...this.newUserData, _id: this.user._id }
-
       this.isSaving = true
+
+      const newUserData = assign({ _id: this.user._id }, this.newUserData)
 
       this.editUser(newUserData)
         .then(this.stopEditing)
@@ -132,20 +129,13 @@ export default {
           this.isSaving = false
         })
     },
-    startEditing () {
-      this.setInitialNewUserData()
-      this.isEditing = true
-    },
     stopEditing () {
-      this.setInitialNewUserData()
+      this.newUserData = {}
       this.isEditing = false
     },
-    setInitialNewUserData () {
-      const { username, displayName, avatar } = this.user
-
-      this.newUserData.username = username
-      this.newUserData.displayName = displayName
-      this.newUserData.avatar = avatar
+    startEditing () {
+      this.newUserData = pick(this.user, ['username', 'displayName', 'avatar'])
+      this.isEditing = true
     },
     removeProfile () {
       this.removeUser(this.user)
