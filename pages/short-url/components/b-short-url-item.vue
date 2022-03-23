@@ -28,7 +28,7 @@
       </template>
     </div>
 
-    <div class="badge badge--indigo hide-on-hover space-x-1.5 font-semibold text-gray-600">
+    <div class="badge badge--indigo hide-on-hover space-x-1.5 font-semibold text-gray-600 !shadow-none">
       <span>{{ urlData.visitedTimes }}</span>
       <fa icon="rocket" class="text-sm" />
     </div>

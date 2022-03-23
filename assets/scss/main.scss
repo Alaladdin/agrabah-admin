@@ -55,6 +55,8 @@ textarea, {
   @apply '!p-3';
 
   &__item {
+    @apply font-sans text-sm;
+
     &--default {
       @apply '!bg-indigo-400';
     }
