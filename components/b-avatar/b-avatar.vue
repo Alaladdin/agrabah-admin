@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import localMetadata from './metadata'
+
 export default {
   name : 'b-avatar',
   props: {
@@ -50,11 +52,12 @@ export default {
   computed: {
     avatarClass () {
       const fixedClasses = 'rounded-full ring-8 ring-violet-300 shadow-sm object-cover'
+      const avatarClassBySize = localMetadata.avatarClassBySize[this.size]
 
-      return [fixedClasses, ...this.avatarClassBySize[this.size]]
+      return [fixedClasses, ...avatarClassBySize]
     },
     avatarSize () {
-      return this.avatarSizes[this.size] + 'px'
+      return localMetadata.avatarSizes[this.size] + 'px'
     },
   },
   watch: {
@@ -65,29 +68,7 @@ export default {
       },
     },
   },
-  created () {
-    this.initStaticVariables()
-  },
   methods: {
-    initStaticVariables () {
-      const defaultSize = 16
-
-      this.avatarSizes = {
-        extraSmall: defaultSize * 2.5,
-        small     : defaultSize * 3,
-        medium    : defaultSize * 4,
-        large     : defaultSize * 6,
-        extraLarge: defaultSize * 10,
-      }
-
-      this.avatarClassBySize = {
-        extraSmall: ['ring-3'],
-        small     : ['ring-4'],
-        medium    : ['ring-4'],
-        large     : ['ring-5'],
-        extraLarge: ['ring-8'],
-      }
-    },
     handleUrlChange (newUrl) {
       this.avatarUrl = newUrl || process.env.DEFAULT_AVATAR_IMAGE
       this.isLoading = true

@@ -3,10 +3,7 @@
     <b-avatar class="m-x-7" :url="newUserData.avatar || user.avatar" size="extraLarge" />
 
     <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-5">
-      <b-dropdown text="Edit avatar" variant="indigo">
-        <div @click="openModal('showSelectDefaultAvatarModal')">Select avatar</div>
-        <div @click="selectAvatar">Upload image</div>
-      </b-dropdown>
+      <b-button text="Edit avatar" @click="openModal('showSelectDefaultAvatarModal')" />
 
       <div class="flex flex-col justify-start space-y-5">
         <b-input
@@ -48,19 +45,13 @@
       </div>
     </template>
 
-    <template v-if="isEditing">
-      <b-image-upload
-        ref="imageUploader"
-        v-model="newUserData.avatar"
-        :folder-name="user.username"
-      />
-
-      <b-select-avatar-modal
-        v-model="showSelectDefaultAvatarModal"
-        :selected-avatar-initial="newUserData.avatar"
-        @avatar-selected="onAvatarSelected"
-      />
-    </template>
+    <b-select-avatar-modal
+      v-if="isEditing"
+      v-model="newUserData.avatar"
+      :show="showSelectDefaultAvatarModal"
+      :new-user-data="newUserData"
+      @closed="closeModal('showSelectDefaultAvatarModal')"
+    />
 
     <b-confirm-action-modal
       v-model="showConfirmActionModal"
@@ -84,9 +75,7 @@ export default {
     'b-avatar'              : BAvatar,
     'b-button'              : BButton,
     'b-confirm-action-modal': BConfirmActionModal,
-    'b-dropdown'            : () => import('@/components/b-dropdown'),
     'b-input'               : () => import('@/components/b-input'),
-    'b-image-upload'        : () => import('@/components/b-image-upload'),
     'b-select-avatar-modal' : () => import('@/components/b-select-avatar-modal'),
   },
   data: () => ({
@@ -131,12 +120,6 @@ export default {
       removeUser: 'team/removeUser',
     }),
 
-    selectAvatar () {
-      this.$refs.imageUploader.selectFile()
-    },
-    onAvatarSelected (avatar) {
-      this.newUserData.avatar = avatar
-    },
     saveNewData () {
       const newUserData = { ...this.newUserData, _id: this.user._id }
 
@@ -171,6 +154,9 @@ export default {
     },
     openModal (field) {
       this[field] = true
+    },
+    closeModal (field) {
+      this[field] = false
     },
   },
 }

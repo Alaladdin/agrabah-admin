@@ -1,14 +1,29 @@
 <template>
   <t-dialog
-    :value="value"
+    :value="show"
     type="confirm"
-    class="w-full"
+    class="b-select-avatar-modal"
     title="Select avatar"
     variant="large"
     :pre-confirm="onConfirm"
-    @change="onInput"
+    @before-close="onClose"
   >
     <div class="grid grid-cols-8 gap-y-4">
+      <div class="flex justify-center items-center">
+        <b-button
+          class="b-select-avatar-modal__upload-btn"
+          :class="{ 'uploading' : isUploading }"
+          :style="{ width: avatarUploadBtnSize, height: avatarUploadBtnSize }"
+          variant="icon"
+          @click="selectFile"
+        >
+          <fa
+            :icon="isUploading ? 'circle-notch' : 'cloud-arrow-up'"
+            :class="{ 'animate-spin' : isUploading }"
+          />
+        </b-button>
+      </div>
+
       <div v-for="avatarUrl in avatarsList" :key="avatarUrl">
         <b-avatar
           :url="avatarUrl"
@@ -29,35 +44,46 @@
       >
         Предустановленные аватарки любезно предоставлены @minibich_room
       </b-button>
+
+      <b-image-upload
+        ref="imageUploader"
+        :value="newUserData.avatar"
+        :folder-name="currentUser.username"
+        @file-selected="onFileSelected"
+        @input="onFileUploaded"
+      />
     </div>
   </t-dialog>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { concat } from 'lodash/array'
 import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
+import avatarMetadata from '@/components/b-avatar/metadata'
+import BImageUpload from '@/components/b-image-upload'
 
 export default {
   name      : 'b-select-avatar-modal',
   components: {
-    'b-avatar': BAvatar,
-    'b-button': BButton,
+    'b-avatar'      : BAvatar,
+    'b-button'      : BButton,
+    'b-image-upload': BImageUpload,
   },
   props: {
-    value: {
+    show: {
       type   : Boolean,
       default: false,
     },
-    selectedAvatarInitial: {
-      type   : String,
-      default: '',
+    newUserData: {
+      type   : Object,
+      default: () => ({}),
     },
   },
   data () {
     return {
-      selectedAvatar: this.selectedAvatarInitial,
+      selectedAvatar: this.newUserData.avatar,
       defaultAvatars: [
         'avatar/default',
         'avatar/default__1',
@@ -65,6 +91,8 @@ export default {
         'avatar/default__3',
         'avatar/default__4',
       ],
+      avatarUploadBtnSize: avatarMetadata.avatarSizes.large + 'px',
+      isUploading        : false,
     }
   },
   computed: {
@@ -77,12 +105,14 @@ export default {
     },
   },
   watch: {
-    value (isShown) {
+    show (isShown) {
       if (isShown)
-        this.selectedAvatar = this.selectedAvatarInitial
+        this.selectedAvatar = this.newUserData.avatar
     },
   },
   methods: {
+    ...mapMutations({ commitPatchUser: 'PATCH_CURRENT_USER' }),
+
     getAvatarClass (avatarUrl) {
       const classList = ['transition', 'duration-70', 'ease-in']
 
@@ -94,14 +124,27 @@ export default {
 
       return classList
     },
+    selectFile () {
+      this.$refs.imageUploader.selectFile()
+    },
+    onFileSelected () {
+      this.isUploading = true
+    },
+    onFileUploaded (avatar) {
+      const newAvatarsList = concat(this.currentUser.avatarsList, [avatar])
+
+      this.commitPatchUser({ avatarsList: newAvatarsList })
+      this.onAvatarSelect(avatar)
+      this.isUploading = false
+    },
     onAvatarSelect (avatar) {
       this.selectedAvatar = avatar
     },
     onConfirm () {
-      this.$emit('avatar-selected', this.selectedAvatar)
+      this.$emit('input', this.selectedAvatar)
     },
-    onInput () {
-      this.$emit('input', false)
+    onClose () {
+      this.$emit('closed')
     },
   },
 }
