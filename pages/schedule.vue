@@ -128,7 +128,7 @@ export default {
         fixedClasses, {
           'opacity-50'            : this.isLoading,
           'opacity-50 bg-gray-100': this.todayFormattedDate > cellFormattedDate,
-          'bg-violet-50'          : this.todayFormattedDate === cellFormattedDate,
+          'bg-purple-50'          : this.todayFormattedDate === cellFormattedDate,
         },
       ]
     },

@@ -1,11 +1,12 @@
 <template>
   <figure class="flex flex-col items-center" @click="onClick">
-    <div v-if="isLoading" class="bg-purple-300 rounded-full">
-      <div
-        class="animate-pulse bg-purple-400"
-        :class="[avatarClass, imageClass]"
-        :style="{ width: avatarSize, height: avatarSize }"
-      />
+    <div
+      v-if="isLoading"
+      class="flex justify-center items-center text-3xl bg-purple-400 text-purple-500"
+      :class="[avatarClass, imageClass]"
+      :style="{ width: avatarSize, height: avatarSize, fontSize }"
+    >
+      <fa icon="circle-notch" class="animate-spin" />
     </div>
 
     <nuxt-img
@@ -51,13 +52,16 @@ export default {
   }),
   computed: {
     avatarClass () {
-      const fixedClasses = 'rounded-full ring-8 ring-violet-300 shadow-sm object-cover'
+      const fixedClasses = 'rounded-full ring-8 ring-purple-300 shadow-sm object-cover'
       const avatarClassBySize = localMetadata.avatarClassBySize[this.size]
 
       return [fixedClasses, ...avatarClassBySize]
     },
     avatarSize () {
       return localMetadata.avatarSizes[this.size] + 'px'
+    },
+    fontSize () {
+      return localMetadata.avatarSizes[this.size] / 2.5 + 'px'
     },
   },
   watch: {
