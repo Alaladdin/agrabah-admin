@@ -39,7 +39,7 @@ import { assign, map } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import localMetadata from './metadata'
 import BChangeItem from './components/b-change-item'
-import { formatDate } from '@/helpers'
+import { formatDate, setToLocalStorage } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BChangeInfoPlainModal from '@/components/b-change-info-plain-modal'
@@ -62,9 +62,15 @@ export default {
     ...mapGetters({ user: 'getUserData' }),
   },
   watch: {
-    data (changes) {
-      if (changes)
-        this.$setSideBarNotifications('audit', changes.length)
+    data: {
+      immediate: true,
+      handler (changes) {
+        if (changes) {
+          setToLocalStorage('last_viewed_change_id', changes[0]._id)
+
+          this.$setSideBarNotifications('audit', changes)
+        }
+      },
     },
   },
   methods: {

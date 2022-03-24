@@ -9,7 +9,7 @@ export default ({ $axios, store, error: goToErrorPage }) => {
     if (needUpdateChanges) {
       store.dispatch('audit/init')
         .then((changes) => {
-          store.$setSideBarNotifications('audit', changes.length)
+          store.$setSideBarNotifications('audit', changes)
         })
     }
   })

@@ -93,7 +93,7 @@ export default {
       if (this.user.isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()
           .then((changes) => {
-            this.$setSideBarNotifications('audit', changes.length)
+            this.$setSideBarNotifications('audit', changes)
           })
           .catch(this.$handleError)
       }
