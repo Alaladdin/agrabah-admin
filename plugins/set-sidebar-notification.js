@@ -9,7 +9,9 @@ export default ({ store }, inject) => {
       const lastViewedChangeId = getFromLocalStorage('last_viewed_change_id')
       const lastViewedChangeIndex = findIndex(value, { _id: lastViewedChangeId })
 
-      if (lastViewedChangeIndex !== -1)
+      if (lastViewedChangeIndex === -1)
+        rewrittenValue = value.length
+      else
         rewrittenValue = lastViewedChangeIndex
     }
 
