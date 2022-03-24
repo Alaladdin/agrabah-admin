@@ -3,9 +3,9 @@
     <div class="flex justify-between mb-5 text-sm">
       <b-checkbox v-model="isShowHiddenFields" class="select-none" text="Show hidden fields" />
 
-      <div class="flex">
-        <b-button class="mr-5" text="Current week" @click="applyInitialData" />
-        <b-button class="mr-3" before-icon="chevron-left" variant="white" @click="changeWeek(false)" />
+      <div class="flex space-x-3">
+        <b-button before-icon="chevron-left" variant="white" @click="changeWeek(false)" />
+        <b-button variant="white" text="Current week" @click="applyInitialData" />
         <b-button variant="white" before-icon="chevron-right" @click="changeWeek(true)" />
       </div>
     </div>

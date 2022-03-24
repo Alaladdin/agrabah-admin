@@ -97,7 +97,6 @@ export default {
       return [
         { title: 'Account age', value: accountAge },
         { title: 'Last logged at', value: lastLoggedDate },
-        { title: 'Registered at', value: formatDate(createdAt) },
         { title: 'Access level', value: scope.join(', ') },
       ]
     },
