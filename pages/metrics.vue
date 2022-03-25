@@ -18,7 +18,16 @@
           Results are cached for 30 mins
         </t-alert>
 
-        <t-table :headers="tableHeader" :data="data" />
+        <t-table :headers="tableHeader" :data="data">
+          <template #column="{ text, columnIndex, tdClass }">
+            <td :class="tdClass">
+              <b-progress-bar v-if="columnIndex === 'cpu'" class="inline-flex" :value="text" reverse-colors />
+              <div v-else :class="{ 'inline-flex badge badge--indigo' : columnIndex === 'version' }">
+                {{ text }}
+              </div>
+            </td>
+          </template>
+        </t-table>
       </template>
     </template>
   </div>
@@ -28,9 +37,13 @@
 import { keys } from 'lodash'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { setToLocalStorage, getFromLocalStorage } from '@/helpers'
+import BProgressBar from '@/components/b-progress-bar'
 
 export default {
-  name  : 'metrics',
+  name      : 'metrics',
+  components: {
+    'b-progress-bar': BProgressBar,
+  },
   mixins: [PageDefaultMixin('metrics')],
   data  : () => ({
     showCachedAlert: true,

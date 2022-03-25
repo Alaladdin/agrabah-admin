@@ -111,7 +111,7 @@ const VueTailwindSettings = {
         theadTh: 'py-3 font-normal',
         tbody  : 'bg-white text-sm',
         tr     : 'border-b last:border-b-0 border-purple-200 text-center',
-        td     : 'p-3 border-r last:border-r-0 border-purple-200',
+        td     : 'p-3 border-r last:border-r-0 border-purple-200 w-40',
         tfoot  : '',
         tfootTr: '',
         tfootTd: '',

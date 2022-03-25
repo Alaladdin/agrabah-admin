@@ -102,6 +102,13 @@
         <b-user-info :user="$auth.$state.user" />
       </div>
     </div>
+
+    <div>
+      <h2 class="mb-4 font-bold text-4xl"># Progress bar</h2>
+      <input v-model="progressBarValue" class="w-50" type="range" min="0" max="100">
+      <b-progress-bar :value="progressBarValue" />
+      <b-progress-bar :value="progressBarValue" text="Reversed colors" reverse-colors />
+    </div>
   </div>
 </template>
 
@@ -113,22 +120,25 @@ import BButton from '@/components/b-button'
 import BCheckbox from '@/components/b-checkbox'
 import BDropdown from '@/components/b-dropdown'
 import BInput from '@/components/b-input'
+import BProgressBar from '@/components/b-progress-bar'
 
 export default {
   name      : 'example',
   components: {
-    'b-input'    : BInput,
-    'b-dropdown' : BDropdown,
-    'b-checkbox' : BCheckbox,
-    'b-button'   : BButton,
-    'b-avatar'   : BAvatar,
-    'b-user-info': BUserInfo,
+    'b-input'       : BInput,
+    'b-dropdown'    : BDropdown,
+    'b-checkbox'    : BCheckbox,
+    'b-button'      : BButton,
+    'b-avatar'      : BAvatar,
+    'b-user-info'   : BUserInfo,
+    'b-progress-bar': BProgressBar,
   },
   data: () => ({
-    winxOptions   : ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy'],
-    checkbox1Value: true,
-    checkbox2Value: false,
-    isDisabled    : false,
+    winxOptions     : ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy'],
+    checkbox1Value  : true,
+    checkbox2Value  : false,
+    progressBarValue: 15,
+    isDisabled      : false,
   }),
   computed: {
     ...mapGetters({ user: 'getUserData' }),
