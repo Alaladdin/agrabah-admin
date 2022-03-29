@@ -1,5 +1,7 @@
 <template>
   <div>
+    <b-page-loader v-if="isLoading" />
+
     <div v-if="data" class="grid grid-cols-2 gap-4">
       <div
         v-for="user in data"
@@ -46,6 +48,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { clone, last } from 'lodash'
+import BPageLoader from './components/b-page-loader'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
@@ -59,6 +62,7 @@ export default {
     'b-button'              : BButton,
     'b-checkbox'            : BCheckbox,
     'b-confirm-action-modal': BConfirmActionModal,
+    'b-page-loader'         : BPageLoader,
   },
   mixins: [PageDefaultMixin('team')],
   data () {
