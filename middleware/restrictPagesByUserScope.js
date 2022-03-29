@@ -5,12 +5,12 @@ export default ({ route, store, redirect }) => {
   const user = store.getters.getUserData
   const page = find(navItems, (item) => {
     if (item.children) {
-      const childrenRoutes = map(item.children, 'path')
+      const childrenRoutes = map(item.children, 'name')
 
-      return childrenRoutes.includes(route.path)
+      return childrenRoutes.includes(route.name)
     }
 
-    return item.path === route.path
+    return item.name === route.name
   })
 
   if (page && page.scope) {

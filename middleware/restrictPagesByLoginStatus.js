@@ -1,8 +1,8 @@
 export default ({ route, store, redirect }) => {
   const user = store.getters.getUserData
-  const { path: routePath } = route
-  const isLoggedUserRestricted = user.loggedIn && routePath === '/login'
-  const isNotLoggedUserRestricted = !user.loggedIn && ['/me', '/logout'].includes(routePath)
+  const { name: routeName } = route
+  const isLoggedUserRestricted = user.loggedIn && routeName === 'login'
+  const isNotLoggedUserRestricted = !user.loggedIn && ['user/username', 'logout'].includes(routeName)
 
   if (isLoggedUserRestricted || isNotLoggedUserRestricted)
     redirect({ name: 'index' })
