@@ -84,21 +84,19 @@ export default {
   },
   methods: {
     goToProfile () {
-      if (this.user.loggedIn)
-        this.goToUserProfile()
+      const { loggedIn, username } = this.user
+
+      if (loggedIn)
+        this.$router.push({ name: 'user/username', params: { username } })
     },
     itemClicked (item) {
       item.children
         ? this.toggleFolder(item)
         : this.goToPage(item)
     },
-    goToUserProfile () {
-      const { username } = this.user
 
-      this.$router.push({
-        name  : 'user/username',
-        params: { username },
-      })
+    goToPage (item) {
+      this.$router.push({ name: item.name })
     },
     toggleFolder (folder) {
       folder.isOpen = !folder.isOpen

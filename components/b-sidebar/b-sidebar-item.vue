@@ -44,12 +44,14 @@ export default {
     ...mapGetters({ navbarNotifications: 'getNavbarNotifications' }),
 
     notificationsCount () {
-      if (this.isFolder) return 0
+      if (!this.isFolder) {
+        const itemNotifications = this.navbarNotifications[this.item.name]
 
-      const navRouterData = this.$router.resolve(this.item.path)
-      const { name: navRouterName } = navRouterData.route
+        if (itemNotifications)
+          return itemNotifications
+      }
 
-      return this.navbarNotifications[navRouterName] || 0
+      return 0
     },
     navIcon () {
       const { icon, isOpen } = this.item

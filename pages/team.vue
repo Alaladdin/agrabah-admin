@@ -110,10 +110,7 @@ export default {
     goToUserProfile (user) {
       const { username } = user
 
-      this.$router.push({
-        name  : 'user/username',
-        params: { username },
-      })
+      this.$router.push({ name: 'user/username', params: { username } })
     },
     openConfirmRemoveUserModal (user) {
       this.removingUser = user

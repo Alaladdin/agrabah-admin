@@ -1,6 +1,6 @@
 <template>
   <div class="flex space-x-4 items-center">
-    <b-avatar :url="userData.avatar" :size="avatarSize" />
+    <b-avatar :class="{ 'cursor-pointer': user }" :url="userData.avatar" :size="avatarSize" @click="goToUserProfile" />
 
     <div>
       <p class="font-semibold">{{ userData.displayName || userData.username }}</p>
@@ -42,6 +42,13 @@ export default {
   },
   methods: {
     last,
+    goToUserProfile () {
+      if (this.user) {
+        const { username } = this.user
+
+        this.$router.push({ name: 'user/username', params: { username } })
+      }
+    },
   },
 }
 </script>
