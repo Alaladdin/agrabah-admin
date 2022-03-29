@@ -1,10 +1,6 @@
 <template>
   <div class="min-h-screen flex bg-gray-200">
-    <b-sidebar
-      :nav-items="currentNavItems"
-      @item-clicked="goToPage"
-      @folder-toggled="onFolderToggle"
-    />
+    <b-sidebar :nav-items="currentNavItems" @folder-toggled="onFolderToggle" />
 
     <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -62,13 +58,13 @@ export default {
       return this.prepareNavItems(this.navItems)
     },
     pageTitle () {
-      const { username, loggedIn } = this.user
-      const { path } = this.$route
+      const { username, displayName, loggedIn } = this.user
+      const { name: routeName } = this.$route
 
-      if (!loggedIn || path !== '/')
+      if (!loggedIn || routeName !== 'index')
         return this.getCurrentPageTitle(this.navItems)
 
-      return `Hi, ${username}`
+      return `Hi, ${displayName || username}`
     },
   },
   watch: {
@@ -109,7 +105,7 @@ export default {
       each(navItems, (item) => {
         if (title) return false
 
-        if (item.path === this.$route.path)
+        if (this.$route.name === item.name)
           title = item.title
         else if (item.children)
           title = this.getCurrentPageTitle(item.children)
@@ -134,9 +130,6 @@ export default {
 
         return assign({ isOpen }, item)
       })
-    },
-    goToPage (item) {
-      this.$router.push(item.path)
     },
     onFolderToggle (folder) {
       const folderId = folder.title

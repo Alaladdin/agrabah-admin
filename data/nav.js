@@ -1,27 +1,27 @@
 export default [
   {
-    path : '/',
+    name : 'index',
     title: 'Home',
     icon : 'house',
   },
   {
-    path : '/actuality',
+    name : 'actuality',
     title: 'Actuality',
     icon : 'newspaper',
   },
   {
-    path : '/schedule',
+    name : 'schedule',
     title: 'Schedule',
     icon : 'calendar-days',
   },
   {
-    path : '/bots/vk',
+    name : 'bots/vk',
     title: 'VK Bot',
     icon : ['fab', 'vk'],
     scope: 'admin',
   },
   {
-    path : '/short-url',
+    name : 'short-url',
     title: 'Short URL',
     icon : 'link',
     scope: 'user',
@@ -31,17 +31,17 @@ export default [
     scope   : 'admin',
     children: [
       {
-        path : '/team',
+        name : 'team',
         title: 'Team',
         icon : 'user-group',
       },
       {
-        path : '/audit',
+        name : 'audit',
         title: 'Audit',
         icon : 'clock-rotate-left',
       },
       {
-        path : '/metrics',
+        name : 'metrics',
         title: 'Metrics',
         icon : 'chart-line',
       },
@@ -52,14 +52,14 @@ export default [
     scope   : 'admin',
     children: [
       {
-        path : '/components',
+        name : 'components',
         title: 'Components',
         icon : 'cubes',
       },
     ],
   },
   {
-    path  : '/me',
+    name  : 'user/username',
     title : 'Profile',
     scope : 'user',
     hidden: true,

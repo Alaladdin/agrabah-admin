@@ -8,7 +8,7 @@
         :class="getUserItemClass(user)"
       >
         <div class="flex items-center">
-          <b-avatar class="mr-5" :url="user.avatar" />
+          <b-avatar class="mr-5 cursor-pointer" :url="user.avatar" @click="goToUserProfile(user)" />
           <span class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
         </div>
 
@@ -106,6 +106,14 @@ export default {
     },
     isEditingUser (user) {
       return this.editingUserData && this.editingUserData._id === user._id
+    },
+    goToUserProfile (user) {
+      const { username } = user
+
+      this.$router.push({
+        name  : 'user/username',
+        params: { username },
+      })
     },
     openConfirmRemoveUserModal (user) {
       this.removingUser = user

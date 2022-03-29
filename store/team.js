@@ -26,9 +26,7 @@ export const actions = {
       })
   },
   removeUser (ctx, user) {
-    const data = { _id: user._id }
-
-    return this.$axios.$delete('/api/auth/removeUser', { data })
+    return this.dispatch('user/removeUser', user)
       .then((res) => {
         ctx.commit('REMOVE_ITEM', user)
 

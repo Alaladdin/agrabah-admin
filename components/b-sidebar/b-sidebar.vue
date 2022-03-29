@@ -9,18 +9,18 @@
         <nav class="sidebar__nav">
           <b-sidebar-item
             v-for="item in navItems"
-            :key="item.path || item.title"
+            :key="item.title"
             :item="item"
             :item-clicked="itemClicked"
-            :is-active="item.path === $route.path"
+            :is-active="item.name === $route.name"
           >
             <template #nested-items>
               <b-sidebar-item
                 v-for="childItem in item.children"
-                :key="childItem.path"
+                :key="childItem.name"
                 :item="childItem"
                 :item-clicked="itemClicked"
-                :is-active="childItem.path === $route.path"
+                :is-active="childItem.name === $route.name"
               />
             </template>
           </b-sidebar-item>
@@ -85,15 +85,20 @@ export default {
   methods: {
     goToProfile () {
       if (this.user.loggedIn)
-        this.goToPage({ path: '/me' })
+        this.goToUserProfile()
     },
     itemClicked (item) {
       item.children
         ? this.toggleFolder(item)
         : this.goToPage(item)
     },
-    goToPage (item) {
-      this.$emit('item-clicked', item)
+    goToUserProfile () {
+      const { username } = this.user
+
+      this.$router.push({
+        name  : 'user/username',
+        params: { username },
+      })
     },
     toggleFolder (folder) {
       folder.isOpen = !folder.isOpen

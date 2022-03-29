@@ -60,7 +60,7 @@ export const actions = {
 
     return this.$axios.$patch('/api/auth/editUser', newUserData, { updateChanges: canUpdateChanges })
       .then((user) => {
-        if (user._id === currentUserId)
+        if (currentUserId === user._id)
           ctx.commit('PATCH_CURRENT_USER', user, { root: true })
 
         return user
