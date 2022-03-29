@@ -160,17 +160,16 @@ export default {
     }),
 
     handleRouteUsernameChange (username) {
-      if (!username) {
-        const routeOptions = { name: 'user/username', params: { username: this.currentUser.username } }
-
-        this.$router.push(routeOptions)
-      } else if (!this.isCurrentUser) {
-        this.reInit()
-      }
+      if (!username)
+        this.goToCurrentUserPage()
+      else if (!this.isCurrentUser)
+        this.loadUserData()
     },
-    reInit () {
-      this.clearData()
-      this.loadUserData()
+    goToCurrentUserPage () {
+      const { username } = this.currentUser
+      const routeOptions = { name: 'user/username', params: { username } }
+
+      this.$router.push(routeOptions)
     },
     loadUserData () {
       this.isLoading = true
@@ -184,20 +183,22 @@ export default {
     saveNewData () {
       this.isSaving = true
 
-      const { username: oldUsername } = this.currentUser
       const newUserData = assign({ _id: this.currentUser._id }, this.newUserData)
 
       this.editUser(newUserData)
-        .then((newUser) => {
-          if (oldUsername !== newUser.username)
-            this.$router.replace({ name: 'user/username', params: { username: newUser.username } })
-
-          this.stopEditing()
-        })
+        .then(this.afterNewDataSaved)
         .catch(this.$handleError)
         .finally(() => {
           this.isSaving = false
         })
+    },
+    afterNewDataSaved (newUser) {
+      const { username: oldUsername } = this.currentUser
+
+      if (oldUsername !== newUser.username)
+        this.$router.replace({ name: 'user/username', params: { username: newUser.username } })
+
+      this.stopEditing()
     },
     stopEditing () {
       this.newUserData = {}
