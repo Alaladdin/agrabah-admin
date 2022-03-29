@@ -2,7 +2,7 @@
   <div>
     <b-page-loader v-if="isLoading" />
 
-    <div v-if="data" class="grid grid-cols-2 gap-4">
+    <div v-if="!isLoading && data" class="grid grid-cols-2 gap-4">
       <div
         v-for="user in data"
         :key="user._id"
