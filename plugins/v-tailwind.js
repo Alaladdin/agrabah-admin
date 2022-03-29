@@ -123,10 +123,10 @@ const VueTailwindSettings = {
     props    : {
       fixedClasses: {
         overlay  : 'fixed inset-0 flex justify-center items-center w-full h-full bg-black bg-opacity-70 z-40 backdrop-filter backdrop-blur-sm',
-        wrapper  : 'relative mx-auto max-w-1/2 w-full z-50',
-        modal    : 'relative rounded overflow-visible shadow',
+        wrapper  : 'relative mx-auto max-w-1/2 w-full h-1/2 z-50',
+        modal    : 'relative rounded overflow-visible shadow h-full',
         header   : 'p-3 border-b-1 rounded-t font-semibold',
-        body     : 'px-5 py-7',
+        body     : 'px-5 py-7 h-9/10 overflow-y-auto',
         footer   : 'p-3 border-t-1 rounded-b',
         close    : 'flex items-center justify-center rounded-full absolute right-0 top-0 -m-3 h-8 w-8 transition duration-100 ease-in-out focus:outline-none focus:ring focus:ring-opacity-50',
         closeIcon: 'h-4 w-4',
