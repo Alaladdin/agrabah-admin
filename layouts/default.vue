@@ -5,7 +5,14 @@
     <div class="pl-64 flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
         <div class="flex flex-col h-full">
-          <t-tag v-if="pageTitle" class="mb-10" variant="title" tag-name="h1">{{ pageTitle }}</t-tag>
+          <t-tag
+            v-if="pageTitle"
+            :text="pageTitle"
+            class="mb-10"
+            :class="{ 'text-2xl': user.loggedIn && $route.name === 'index' }"
+            variant="title"
+            tag-name="h1"
+          />
 
           <nuxt-child class="flex flex-col" />
 
@@ -64,7 +71,7 @@ export default {
       if (!loggedIn || routeName !== 'index')
         return this.getCurrentPageTitle(this.navItems)
 
-      return `Hi, ${displayName || username}`
+      return `Welcome back, ${displayName || username}`
     },
   },
   watch: {

@@ -1,6 +1,12 @@
 <template>
   <div class="flex space-x-4 items-center">
-    <b-avatar :class="{ 'cursor-pointer': user }" :url="userData.avatar" :size="avatarSize" @click="goToUserProfile" />
+    <b-avatar
+      :class="{ 'cursor-pointer': user }"
+      :image-class="avatarClass"
+      :url="userData.avatar"
+      :size="avatarSize"
+      @click="goToUserProfile"
+    />
 
     <div>
       <p class="font-semibold">{{ userData.displayName || userData.username }}</p>
@@ -26,6 +32,10 @@ export default {
     avatarSize: {
       type   : String,
       default: 'small',
+    },
+    avatarClass: {
+      type   : String,
+      default: '',
     },
   },
   computed: {

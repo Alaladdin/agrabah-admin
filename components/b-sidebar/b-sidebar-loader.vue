@@ -9,9 +9,8 @@
         </div>
       </div>
 
-      <div class="sidebar__profile p-3 w-full">
-        <b-avatar class="animate-pulse" image-class="sidebar__profile-avatar" size="medium" />
-        <div class="b-sidebar-loader__username animate-pulse" />
+      <div class="sidebar__profile-button justify-center !p-3 m-4 animate-pulse">
+        <fa icon="circle-notch" class="text-indigo-200 animate-spin" />
       </div>
     </div>
   </div>
@@ -20,14 +19,10 @@
 <script>
 import { reduce, reject } from 'lodash'
 import { getRandomNumber } from '@/helpers'
-import BAvatar from '@/components/b-avatar'
 import { navItems } from '@/data'
 
 export default {
-  name      : 'b-sidebar-loader',
-  components: {
-    'b-avatar': BAvatar,
-  },
+  name    : 'b-sidebar-loader',
   computed: {
     navItemsCount () {
       const rootNavItems = reject(navItems, { hidden: true })

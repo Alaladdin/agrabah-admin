@@ -143,14 +143,28 @@ textarea, {
   }
 
   &__profile {
-    @apply flex justify-between items-center text-indigo-100 bg-indigo-800;
+    @apply flex flex-col p-4;
+
+    &-user-info {
+      @apply flex items-center mb-5;
+
+      p {
+        &:first-child {
+          @apply block truncate max-w-30 text-indigo-100;
+        }
+
+        &:last-child {
+          @apply text-sm text-indigo-300;
+        }
+      }
+    }
 
     &-avatar {
-      @apply ring-indigo-600;
+      @apply mr-3 ring-indigo-500;
     }
 
     &-button {
-      @apply flex items-center px-3 h-full text-sm bg-indigo-600 hover:bg-indigo-700 transition duration-150;
+      @apply flex items-center p-2.5 rounded-2xl bg-indigo-600 hover:opacity-70 active:ring-indigo-500;
     }
   }
 }
@@ -164,7 +178,9 @@ textarea, {
 }
 
 .nuxt-link {
-  @apply flex flex-row justify-between items-center px-4 py-2 mt-2 text-sm font-semibold text-indigo-200 rounded-lg transition duration-75 ease-in-out cursor-pointer select-none;
+  @apply flex flex-row justify-between items-center px-4 py-2 mt-2;
+  @apply text-sm font-semibold text-indigo-200 rounded-lg;
+  @apply transition duration-75 ease-in-out cursor-pointer select-none;
   @apply hover:bg-indigo-800;
   @apply active:bg-indigo-900;
   @apply focus:outline-none;

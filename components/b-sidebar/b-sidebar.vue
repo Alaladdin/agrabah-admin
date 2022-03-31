@@ -27,25 +27,19 @@
         </nav>
 
         <div class="sidebar__profile">
-          <div class="flex justify-between items-center p-3">
-            <b-avatar
-              :image-class="['sidebar__profile-avatar', { 'cursor-pointer' : user.loggedIn }]"
-              :url="user.avatar"
-              size="medium"
-              @click="goToProfile"
-            />
-
-            <div class="flex flex-col select-none">
-              <span class="ml-5 text-md font-semibold truncate overflow-hidden max-w-25">
-                {{ user.displayName || user.username }}
-              </span>
-            </div>
-          </div>
+          <b-user-info
+            v-if="user.loggedIn"
+            :user="user"
+            class="sidebar__profile-user-info"
+            avatar-class="sidebar__profile-avatar"
+            avatar-size="medium"
+          />
 
           <b-button
             class="sidebar__profile-button"
-            :to="user.loggedIn ? '/logout' : '/login'"
-            :after-icon="user.loggedIn ? 'right-from-bracket' : 'right-to-bracket'"
+            :to="buttonData.to"
+            :text="buttonData.text"
+            :after-icon="buttonData.icon"
             variant="indigo"
           />
         </div>
@@ -62,13 +56,13 @@
 import { mapGetters } from 'vuex'
 import BSidebarItem from './b-sidebar-item'
 import BSidebarLoader from './b-sidebar-loader'
-import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
+import BUserInfo from '@/components/b-user-info'
 
 export default {
   name      : 'b-sidebar',
   components: {
-    'b-avatar'        : BAvatar,
+    'b-user-info'     : BUserInfo,
     'b-button'        : BButton,
     'b-sidebar-item'  : BSidebarItem,
     'b-sidebar-loader': BSidebarLoader,
@@ -81,20 +75,23 @@ export default {
   },
   computed: {
     ...mapGetters({ user: 'getUserData' }),
+
+    buttonData () {
+      const { loggedIn } = this.user
+
+      return {
+        to  : loggedIn ? '/logout' : '/login',
+        text: loggedIn ? 'Log out' : 'Log in',
+        icon: loggedIn ? 'arrow-right-from-bracket' : 'arrow-right-to-bracket',
+      }
+    },
   },
   methods: {
-    goToProfile () {
-      const { loggedIn, username } = this.user
-
-      if (loggedIn)
-        this.$router.push({ name: 'user/username', params: { username } })
-    },
     itemClicked (item) {
       item.children
         ? this.toggleFolder(item)
         : this.goToPage(item)
     },
-
     goToPage (item) {
       this.$router.push({ name: item.name })
     },
