@@ -26,8 +26,8 @@ export default {
   },
   props: {
     user: {
-      type    : Object,
-      required: true,
+      type   : Object,
+      default: () => ({}),
     },
     avatarSize: {
       type   : String,
@@ -46,7 +46,7 @@ export default {
       return {
         username: 'DELETED',
         scope   : [],
-        avatar  : 'no-user-avatar',
+        avatar  : process.env.ERROR_AVATAR_IMAGE,
       }
     },
   },
