@@ -1,4 +1,4 @@
-const { SERVER_ADDRESS, AUTH_TOKEN, CLOUDINARY_CLOUD_NAME } = process.env
+const { SERVER_ADDRESS, AUTH_TOKEN, SENTRY_DSN, CLOUDINARY_CLOUD_NAME } = process.env
 
 export default {
   head: {
@@ -34,6 +34,7 @@ export default {
     'nuxt-build-optimisations',
   ],
   modules: [
+    '@nuxtjs/sentry',
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/component-cache',
@@ -41,6 +42,10 @@ export default {
     'nuxt-helmet',
     'nuxt-fontawesome',
   ],
+  sentry: {
+    dsn    : SENTRY_DSN,
+    tracing: true,
+  },
   image: {
     dir       : 'assets/img',
     cloudinary: {
@@ -84,7 +89,7 @@ export default {
     },
   },
   router: {
-    middleware       : ['restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
+    middleware       : ['sentry', 'restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
     routeNameSplitter: '/',
   },
   auth: {
