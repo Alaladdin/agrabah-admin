@@ -29,32 +29,28 @@
 
     <div class="space-y-4">
       <h2 class="font-bold text-4xl"># Select</h2>
-      <t-select :options="winxOptions" :disabled="isDisabled" />
+      <div class="space-x-4">
+        <b-select
+          v-model="selectVariant"
+          :options="buttonVariants"
+          :variant="selectVariant !== 'default' ? selectVariant : ''"
+          :disabled="isDisabled"
+        />
+      </div>
     </div>
 
     <div class="space-y-4">
       <h2 class="font-bold text-4xl"># Dropdown</h2>
 
       <div class="flex items-center space-x-4">
-        <b-dropdown text="Choose" :disabled="isDisabled">
-          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
-        </b-dropdown>
-
-        <b-dropdown text="Choose" variant="white" :disabled="isDisabled">
-          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
-        </b-dropdown>
-
-        <b-dropdown text="Choose" variant="indigo" :disabled="isDisabled">
-          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
-        </b-dropdown>
-
-        <b-dropdown text="Choose" variant="danger" :disabled="isDisabled">
-          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
-        </b-dropdown>
-
-        <b-dropdown text="Choose" variant="link" :disabled="isDisabled">
-          <div v-for="(option, i) in winxOptions" :key="i">{{ option }}</div>
-        </b-dropdown>
+        <b-dropdown
+          v-for="variant in buttonVariants"
+          :key="variant.value"
+          text="Choose"
+          :options="winxOptions"
+          :variant="variant.value !== 'default' ? variant.value : ''"
+          :disabled="isDisabled"
+        />
       </div>
     </div>
 
@@ -121,11 +117,17 @@ import BCheckbox from '@/components/b-checkbox'
 import BDropdown from '@/components/b-dropdown'
 import BInput from '@/components/b-input'
 import BProgressBar from '@/components/b-progress-bar'
+import BSelect from '@/components/b-select'
+import { getOptionsFromFlatArray } from '@/helpers'
+
+const winxPersons = ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']
+const buttonVariants = ['default', 'white', 'indigo', 'danger', 'link']
 
 export default {
   name      : 'components',
   components: {
     'b-input'       : BInput,
+    'b-select'      : BSelect,
     'b-dropdown'    : BDropdown,
     'b-checkbox'    : BCheckbox,
     'b-button'      : BButton,
@@ -134,7 +136,9 @@ export default {
     'b-progress-bar': BProgressBar,
   },
   data: () => ({
-    winxOptions     : ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy'],
+    selectVariant   : 'default',
+    buttonVariants  : getOptionsFromFlatArray(buttonVariants),
+    winxOptions     : getOptionsFromFlatArray(winxPersons),
     checkbox1Value  : true,
     checkbox2Value  : false,
     progressBarValue: 15,

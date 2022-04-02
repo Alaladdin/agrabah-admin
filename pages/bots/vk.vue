@@ -9,7 +9,12 @@
       />
 
       <div class="flex self-end items-center">
-        <t-select v-model="vkSendToChatId" :options="chatSelectOptions" class="mr-5" />
+        <b-select
+          v-model="vkSendToChatId"
+          :options="chatsOptions"
+          variant="white"
+          class="mr-5"
+        />
         <b-button text="Send" :disabled="isSendDisabled" @click="sendMess" />
       </div>
     </div>
@@ -36,9 +41,15 @@ import { mapActions } from 'vuex'
 import { map, keys, isBoolean } from 'lodash'
 import { vkChats } from '@/data'
 import PageDefaultMixin from '@/mixins/m-page-default'
+import BSelect from '@/components/b-select'
+import BButton from '@/components/b-button'
 
 export default {
-  name  : 'vk',
+  name      : 'vk',
+  components: {
+    'b-select': BSelect,
+    'b-button': BButton,
+  },
   mixins: [PageDefaultMixin('vk')],
   data () {
     return {
@@ -48,8 +59,8 @@ export default {
     }
   },
   computed: {
-    chatSelectOptions () {
-      return map(vkChats, chat => ({ label: chat.title, value: chat.chatId }))
+    chatsOptions () {
+      return map(vkChats, chat => ({ title: chat.title, value: chat.chatId }))
     },
     botConfigFields () {
       if (!this.data) return []

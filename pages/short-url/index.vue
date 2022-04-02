@@ -9,7 +9,14 @@
         />
 
         <div class="flex items-center space-x-2 w-full">
-          <t-select v-model="protocol" class="!py-1.5" :options="protocols" />
+          <b-select
+            v-model="protocol"
+            :options="protocols"
+            class="!py-1.5"
+            button-class="py-1.5 border border-indigo-300 focus:ring-indigo-400 focus:ring-opacity-50"
+            variant="white"
+          />
+
           <b-input
             v-model="url"
             class="w-full"
@@ -37,13 +44,15 @@
 import { mapActions } from 'vuex'
 import BShortUrlItem from './components/b-short-url-item'
 import PageDefaultMixin from '@/mixins/m-page-default'
+import { getOptionsFromFlatArray, validateUrl } from '@/helpers'
 import BInput from '@/components/b-input'
 import BButton from '@/components/b-button'
-import { validateUrl } from '@/helpers'
+import BSelect from '@/components/b-select'
 
 export default {
   name      : 'short-url',
   components: {
+    'b-select'        : BSelect,
     'b-input'         : BInput,
     'b-button'        : BButton,
     'b-short-url-item': BShortUrlItem,
@@ -53,7 +62,7 @@ export default {
     url               : '',
     description       : '',
     protocol          : 'https://',
-    protocols         : ['https://', 'http://'],
+    protocols         : getOptionsFromFlatArray(['https://', 'http://']),
     clearDataOnDestroy: false,
   }),
   computed: {

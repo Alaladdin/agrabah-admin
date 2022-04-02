@@ -1,4 +1,4 @@
-import { cloneDeep, isArray, isObject, isString, random } from 'lodash'
+import { cloneDeep, map, isArray, isObject, isString, random } from 'lodash'
 import { nanoid } from 'nanoid'
 import moment from 'moment'
 import { validateUsername, validateDisplayName, validatePassword, validateUrl } from './validators'
@@ -50,8 +50,11 @@ const formatDate = (date, format = 'DD.MM.YYYY') => {
   return moment(date).format(format)
 }
 
+const getOptionsFromFlatArray = options => map(options, option => ({ title: option, value: option }))
+
 export {
   clone,
+  getOptionsFromFlatArray,
   getRandomNumber,
   formatDate,
   setToLocalStorage,

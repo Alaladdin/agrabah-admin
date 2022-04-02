@@ -1,14 +1,27 @@
 <template>
   <client-only>
-    <t-dropdown v-bind="$attrs">
-      <slot />
+    <t-dropdown :disabled="disabled">
+      <template #default="{ hide: closeDropdown }">
+        <div @click="closeDropdown">
+          <div
+            v-for="option in options"
+            :key="option.value"
+            class="dropdown__item"
+            @click="onInput(option.value)"
+          >
+            {{ option.title }}
+          </div>
+        </div>
+      </template>
 
       <template #trigger="{ mousedownHandler, blurHandler }">
         <b-button
-          class="z-20"
-          v-bind="buttonProps"
-          after-icon="caret-down"
+          :class="buttonClass"
+          :text="text"
+          :variant="variant"
           type="button"
+          after-icon="caret-down"
+          :disabled="disabled"
           @mousedown="mousedownHandler"
           @blur="blurHandler"
         />
@@ -16,13 +29,18 @@
     </t-dropdown>
 
     <template #placeholder>
-      <b-button v-bind="buttonProps" after-icon="caret-down" />
+      <b-button
+        :text="text"
+        :variant="variant"
+        type="button"
+        after-icon="caret-down"
+        :disabled="disabled"
+      />
     </template>
   </client-only>
 </template>
 
 <script>
-import { pick } from 'lodash/object'
 import BButton from '@/components/b-button'
 
 export default {
@@ -30,9 +48,31 @@ export default {
   components: {
     'b-button': BButton,
   },
-  computed: {
-    buttonProps () {
-      return pick(this.$attrs, ['text', 'variant', 'disabled'])
+  props: {
+    text: {
+      type   : String,
+      default: '',
+    },
+    options: {
+      type   : Array,
+      default: () => ([]),
+    },
+    buttonClass: {
+      type   : String,
+      default: '',
+    },
+    variant: {
+      type   : String,
+      default: '',
+    },
+    disabled: {
+      type   : Boolean,
+      default: false,
+    },
+  },
+  methods: {
+    onInput (value) {
+      this.$emit('input', value)
     },
   },
 }

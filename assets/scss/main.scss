@@ -173,7 +173,7 @@ textarea, {
   @apply self-center '!border' w-1/2 text-center;
 }
 
-.dropdown__body > * {
+.dropdown__item {
   @apply block px-3 py-2 text-gray-700 cursor-pointer transition duration-150 ease-in-out select-none hover:bg-gray-100 active:bg-gray-200
 }
 
