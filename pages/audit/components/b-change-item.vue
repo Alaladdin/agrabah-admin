@@ -15,24 +15,21 @@
             {{ getChangeTitle(change, i) }}
           </p>
 
-          <v-menu v-else :delay="{ show: 100, hide: 100 }">
-            <b-button
-              v-if="description.plain"
-              :text="getChangeTitle(change, i)"
-              variant="link"
-              @click="openChangeModal(description, change.changedAt)"
-            />
+          <b-button
+            v-else-if="description.plain"
+            :text="getChangeTitle(change, i)"
+            variant="link"
+            @click="openChangeModal(description, change.changedAt)"
+          />
 
-            <p v-else class="font-semibold text-purple-400">
+          <v-menu v-else :delay="{ show: 100, hide: 100 }">
+            <p class="font-semibold text-purple-400">
               {{ getChangeTitle(change, i) }}
             </p>
 
             <template #popper>
-              <b-change-info-plain v-if="description.plain" :change="description" />
-              <template v-else>
-                <p v-if="description.html" class="font-mono text-sm" v-html="description.value" />
-                <p v-else class="font-mono text-sm">{{ description.value }}</p>
-              </template>
+              <p v-if="description.html" class="font-mono text-sm" v-html="description.value" />
+              <p v-else class="font-mono text-sm">{{ description.value }}</p>
             </template>
           </v-menu>
         </div>
@@ -48,14 +45,12 @@
 <script>
 import BUserInfo from '@/components/b-user-info'
 import BButton from '@/components/b-button'
-import { BChangeInfoPlain } from '@/components/b-change-info-plain-modal'
 
 export default {
   name      : 'b-change-item',
   components: {
-    'b-user-info'        : BUserInfo,
-    'b-button'           : BButton,
-    'b-change-info-plain': BChangeInfoPlain,
+    'b-user-info': BUserInfo,
+    'b-button'   : BButton,
   },
   props: {
     change: {

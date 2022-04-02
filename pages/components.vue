@@ -123,7 +123,7 @@ import BInput from '@/components/b-input'
 import BProgressBar from '@/components/b-progress-bar'
 
 export default {
-  name      : 'example',
+  name      : 'components',
   components: {
     'b-input'       : BInput,
     'b-dropdown'    : BDropdown,

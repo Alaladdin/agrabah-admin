@@ -19,6 +19,7 @@ export default {
     '~/plugins/v-tooltip',
     '~/plugins/v-md-editor',
     '~/plugins/v-tailwind',
+    '~/plugins/v-virtual-scroll',
     '~/plugins/v-toast',
     '~/plugins/handle-error',
     '~/plugins/set-sidebar-notification',

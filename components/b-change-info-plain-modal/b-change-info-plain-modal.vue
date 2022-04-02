@@ -7,7 +7,7 @@
       </div>
     </template>
 
-    <b-change-info-plain :change="change" type="modal" />
+    <b-change-info-plain :change="change" />
   </t-modal>
 </template>
 

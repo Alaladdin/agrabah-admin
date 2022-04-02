@@ -15,12 +15,15 @@
         />
 
         <div class="changes__body">
-          <b-change-item
-            v-for="change in data"
-            :key="change._id"
-            :change="change"
-            @open-change-modal="openChangeModal"
-          />
+          <vue-virtual-scroll
+            v-slot="{ item }"
+            key-field="_id"
+            :items="data"
+            :item-size="73"
+            page-mode
+          >
+            <b-change-item :change="item" @open-change-modal="openChangeModal" />
+          </vue-virtual-scroll>
         </div>
 
         <b-change-info-plain-modal
@@ -65,7 +68,7 @@ export default {
     data: {
       immediate: true,
       handler (changes) {
-        if (changes) {
+        if (changes && changes.length) {
           setToLocalStorage('last_viewed_change_id', changes[0]._id)
 
           this.$setSideBarNotifications('audit', changes)

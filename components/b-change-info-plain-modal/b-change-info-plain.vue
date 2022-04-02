@@ -1,13 +1,13 @@
 <template>
-  <div class="overflow-hidden" :class="{ 'grid grid-cols-2' : !isPopupType }">
-    <div :class="oldChangeWrapperClass">
+  <div class="grid grid-cols-2 overflow-hidden">
+    <div class="pr-4 border-r">
       <p class="font-semibold font-mono"># Before</p>
-      <p :class="changeItemClass" v-html="changesData.before" />
+      <p class="break-words whitespace-pre-line" v-html="changesData.before" />
     </div>
 
-    <div :class="{ 'ml-4' : !isPopupType }">
+    <div class="ml-4">
       <p class="font-semibold font-mono"># After</p>
-      <p :class="changeItemClass" v-html="changesData.after" />
+      <p class="break-words whitespace-pre-line" v-html="changesData.after" />
     </div>
   </div>
 </template>
@@ -23,11 +23,6 @@ export default {
       type    : Object,
       required: true,
     },
-    type: {
-      type     : String,
-      default  : 'popup',
-      validator: v => ['popup', 'modal'].includes(v),
-    },
   },
   computed: {
     changesData () {
@@ -40,15 +35,6 @@ export default {
         before: diffs.before,
         after : diffs.after,
       }
-    },
-    isPopupType () {
-      return this.type === 'popup'
-    },
-    oldChangeWrapperClass () {
-      return this.isPopupType ? 'mb-5' : 'pr-4 border-r'
-    },
-    changeItemClass () {
-      return this.isPopupType ? 'truncate' : 'break-words whitespace-pre-line'
     },
   },
 }
