@@ -56,9 +56,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user          : 'getUserData',
-      updownServices: 'updown/getUpdownServices',
-      errors        : 'getErrors',
+      user        : 'getUserData',
+      updownStatus: 'updown/getUpdownStatus',
+      errors      : 'getErrors',
     }),
 
     currentNavItems () {
@@ -102,7 +102,7 @@ export default {
       }
     },
     setHomeNavbarNotifications () {
-      const notOnlineHosts = reject(this.updownServices, { isOnline: true })
+      const notOnlineHosts = reject(this.updownStatus, { isOnline: true })
 
       this.$setSideBarNotifications('index', notOnlineHosts.length)
     },
