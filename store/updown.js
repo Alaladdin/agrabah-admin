@@ -1,14 +1,14 @@
 export const state = () => ({
-  updownServices: null,
+  updownStatus: null,
 })
 
 export const getters = {
-  getUpdownServices: state => state.updownServices,
+  getUpdownStatus: state => state.updownStatus,
 }
 
 export const mutations = {
-  UPDATE_UPDOWN_SERVICES (state, updownStatus) {
-    state.updownServices = updownStatus
+  SET_UPDOWN_STATUS (state, updownStatus) {
+    state.updownStatus = updownStatus
   },
 }
 
@@ -16,7 +16,7 @@ export const actions = {
   loadUpdownStatus (ctx) {
     return this.$axios.$get('/api/getUpdownStatus')
       .then((data) => {
-        ctx.commit('UPDATE_UPDOWN_SERVICES', data.updownStatus)
+        ctx.commit('SET_UPDOWN_STATUS', data.updownStatus)
 
         return data.updownStatus
       })

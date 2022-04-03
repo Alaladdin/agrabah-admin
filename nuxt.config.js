@@ -1,4 +1,5 @@
-const { SERVER_ADDRESS, AUTH_TOKEN, SENTRY_DSN, CLOUDINARY_CLOUD_NAME } = process.env
+const { NODE_ENV, SERVER_ADDRESS, AUTH_TOKEN, SENTRY_DSN, CLOUDINARY_CLOUD_NAME } = process.env
+const isDev = NODE_ENV !== 'production'
 
 export default {
   head: {
@@ -44,8 +45,9 @@ export default {
     'nuxt-fontawesome',
   ],
   sentry: {
-    dsn    : SENTRY_DSN,
-    tracing: true,
+    dsn     : SENTRY_DSN,
+    tracing : true,
+    disabled: isDev,
   },
   image: {
     dir       : 'assets/img',
@@ -90,7 +92,9 @@ export default {
     },
   },
   router: {
-    middleware       : ['sentry', 'restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
+    middleware: isDev
+      ? ['restrictPagesByLoginStatus', 'restrictPagesByUserScope']
+      : ['sentry', 'restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
     routeNameSplitter: '/',
   },
   auth: {

@@ -1,6 +1,6 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
-    <div v-for="(service, index) in updownServices" :key="index" class="updown__item">
+    <div v-for="(service, index) in updownStatus" :key="index" class="updown__item">
       <div class="font-semibold text-md text-gray-600">
         {{ service.title }}
         <span v-if="service.linkTitle">
@@ -28,23 +28,17 @@ import { mapGetters } from 'vuex'
 export default {
   name    : 'home',
   computed: {
-    ...mapGetters('updown', { updownServices: 'getUpdownServices' }),
+    ...mapGetters('updown', { updownStatus: 'getUpdownStatus' }),
   },
   methods: {
     getIndicatorText (isOnline) {
-      if (isOnline === null) return 'unknown'
-
       return isOnline ? 'online' : 'offline'
     },
     getBgOnlineClass (isOnline) {
-      if (isOnline === null) return 'bg-gray-400'
-
-      return (isOnline ? 'bg-green-400' : 'bg-red-400')
+      return isOnline ? 'bg-green-400' : 'bg-red-400'
     },
     getTextOnlineClass (isOnline) {
-      if (isOnline === null) return 'text-gray-400'
-
-      return (isOnline ? 'text-green-400' : 'text-red-400')
+      return isOnline ? 'text-green-400' : 'text-red-400'
     },
   },
 }
