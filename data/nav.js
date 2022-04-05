@@ -59,6 +59,12 @@ export default [
     ],
   },
   {
+    name  : 'metrics/processName',
+    title : 'Stats',
+    scope : 'admin',
+    hidden: true,
+  },
+  {
     name  : 'user/username',
     title : 'Profile',
     scope : 'user',

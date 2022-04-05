@@ -4,12 +4,14 @@ import { version } from '@/package.json'
 
 export const state = () => ({
   appVersion         : null,
+  pageTitle          : null,
   navbarNotifications: {},
   errors             : [],
 })
 
 export const getters = {
   getAppVersion         : state => state.appVersion,
+  getPageTitle          : state => state.pageTitle,
   getNavbarNotifications: state => state.navbarNotifications,
   getErrors             : state => state.errors,
   getUserData           : (state) => {
@@ -47,6 +49,9 @@ export const mutations = {
   },
   REMOVE_ERROR (state, error) {
     state.errors = reject(state.errors, { id: error.id })
+  },
+  SET_PAGE_TITLE (state, title) {
+    state.pageTitle = title
   },
 }
 

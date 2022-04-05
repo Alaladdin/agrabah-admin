@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueTailwind from 'vue-tailwind'
-import { TButton, TInput, TTextarea, TAlert, TDropdown, TTag, TTable, TModal, TDialog } from 'vue-tailwind/dist/components'
+import { TButton, TInput, TTextarea, TAlert, TDropdown, TTag, TModal, TDialog } from 'vue-tailwind/dist/components'
 
 const VueTailwindSettings = {
   't-button': {
@@ -91,23 +91,6 @@ const VueTailwindSettings = {
       variants: {
         title   : 'text-3xl leading-8 font-bold text-gray-800 text-center',
         subtitle: 'text-lg leading-6 font-medium text-gray-900',
-      },
-    },
-  },
-  't-table': {
-    component: TTable,
-    props    : {
-      classes: {
-        table  : 'border-collapse border-0 rounded-lg min-w-full overflow-hidden shadow-sm',
-        thead  : 'bg-purple-200 text-purple-600 select-none',
-        theadTr: '',
-        theadTh: 'py-3 font-normal',
-        tbody  : 'bg-white text-sm',
-        tr     : 'border-b last:border-b-0 border-purple-200 text-center',
-        td     : 'p-3 border-r last:border-r-0 border-purple-200 w-40',
-        tfoot  : '',
-        tfootTr: '',
-        tfootTd: '',
       },
     },
   },

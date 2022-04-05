@@ -24,6 +24,7 @@ export default {
     '~/plugins/v-toast',
     '~/plugins/handle-error',
     '~/plugins/set-sidebar-notification',
+    '~/plugins/set-page-title',
   ],
   components: [
     { path: '~/components', pattern: '*.vue' },

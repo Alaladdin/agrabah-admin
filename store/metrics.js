@@ -1,4 +1,29 @@
-export * from '@/mixins/m-store-default'
+import * as StoreDefaultMixin from '@/mixins/m-store-default'
+
+export const state = () => ({
+  ...StoreDefaultMixin.state(),
+
+  stats: null,
+})
+
+export const getters = {
+  ...StoreDefaultMixin.getters,
+
+  getStats: state => state.stats,
+}
+
+export const mutations = {
+  ...StoreDefaultMixin.mutations,
+
+  SET_STATS (state, stats) {
+    state.stats = stats
+  },
+  CLEAR_DATA (state) {
+    state.data = null
+    state.stats = null
+    state.requestId = null
+  },
+}
 
 export const actions = {
   init (ctx) {
@@ -7,6 +32,17 @@ export const actions = {
         ctx.commit('SET_DATA', res.metrics)
 
         return res.metrics
+      })
+      .catch((err) => {
+        throw err
+      })
+  },
+  loadStats (ctx, processName) {
+    return this.$axios.$get('/api/getStats', { params: { processName } })
+      .then((res) => {
+        ctx.commit('SET_STATS', res.stats)
+
+        return res.stats
       })
       .catch((err) => {
         throw err

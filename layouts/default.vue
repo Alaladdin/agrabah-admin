@@ -48,6 +48,7 @@ export default {
     'b-sidebar'    : BSidebar,
     'b-error-modal': BErrorModal,
   },
+
   data () {
     return {
       navItems,
@@ -56,25 +57,33 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user        : 'getUserData',
-      updownStatus: 'updown/getUpdownStatus',
-      errors      : 'getErrors',
+      user           : 'getUserData',
+      updownStatus   : 'updown/getUpdownStatus',
+      customPageTitle: 'getPageTitle',
+      errors         : 'getErrors',
     }),
 
     currentNavItems () {
       return this.prepareNavItems(this.navItems)
     },
     pageTitle () {
-      const { username, displayName, loggedIn } = this.user
-      const { name: routeName } = this.$route
+      if (!this.customPageTitle) {
+        const { username, displayName, loggedIn } = this.user
+        const { name: routeName } = this.$route
 
-      if (!loggedIn || routeName !== 'index')
-        return this.getCurrentPageTitle(this.navItems)
+        if (!loggedIn || routeName !== 'index')
+          return this.getCurrentPageTitle(this.navItems)
 
-      return `Welcome back, ${displayName || username}`
+        return `Welcome back, ${displayName || username}`
+      }
+
+      return this.customPageTitle
     },
   },
   watch: {
+    '$route.name' () {
+      this.$setPageTitle(null)
+    },
     'openedFolders.length' () {
       setToLocalStorage(SIDEBAR_STORE_KEY, this.openedFolders)
     },

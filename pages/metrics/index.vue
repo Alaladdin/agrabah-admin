@@ -15,8 +15,8 @@
         </t-alert>
 
         <div class="bg-white rounded w-full">
-          <div v-for="metric in data" :key="metric._id" class="options !w-full">
-            <div>{{ metric.name }}</div>
+          <div v-for="metric in data" :key="metric.processName" class="options !w-full">
+            <b-button :text="metric.name" variant="link" @click="openMetricPage(metric)" />
             <div class="options__item flex items-center space-x-5">
               <div class="inline-flex badge badge--indigo">{{ metric.version }}</div>
               <div :class="metric.isOnline ? 'text-green-400' : 'text-red-400'">
@@ -52,6 +52,9 @@ export default {
     this.showCachedAlert = !getFromLocalStorage(key)
   },
   methods: {
+    openMetricPage ({ processName }) {
+      this.$router.push({ name: 'metrics/processName', params: { processName } })
+    },
     onAlertClose (id) {
       const key = this.getPrefixedAlertId(id)
 
