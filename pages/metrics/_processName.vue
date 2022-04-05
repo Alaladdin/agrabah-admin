@@ -93,14 +93,12 @@ export default {
       return null
     },
   },
-  beforeMount () {
-    this.$setPageTitle(this.processName)
+  beforeDestroy () {
+    this.$store.commit('metrics/CLEAR_STATS')
   },
   created () {
     this.init(this.processName)
-      .then((stats) => {
-        this.$setPageTitle(stats.name)
-      })
+      .then(stats => this.$setPageTitle(stats.name))
   },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),

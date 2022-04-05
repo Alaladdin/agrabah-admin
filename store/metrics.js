@@ -18,10 +18,8 @@ export const mutations = {
   SET_STATS (state, stats) {
     state.stats = stats
   },
-  CLEAR_DATA (state) {
-    state.data = null
+  CLEAR_STATS (state) {
     state.stats = null
-    state.requestId = null
   },
 }
 
