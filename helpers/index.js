@@ -5,10 +5,7 @@ import { validateUsername, validateDisplayName, validatePassword, validateUrl } 
 
 const clone = (...args) => cloneDeep(...args)
 const getRandomNumber = (...args) => random(...args)
-
-const generateSmallId = (size = 6) => {
-  return nanoid(size)
-}
+const generateSmallId = (size = 6) => nanoid(size)
 
 const parseError = (e) => {
   if (isString(e)) return e
@@ -46,10 +43,7 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
   return val || defaultValue
 }
 
-const formatDate = (date, format = 'DD.MM.YYYY') => {
-  return moment(date).format(format)
-}
-
+const formatDate = (date, format = 'DD.MM.YYYY') => moment(date).format(format)
 const getOptionsFromFlatArray = options => map(options, option => ({ title: option, value: option }))
 
 export {

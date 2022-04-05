@@ -10,24 +10,21 @@
       </t-alert>
 
       <template v-if="data.length">
-        <t-alert
-          class="alert---bordered mb-7"
-          :show="showCachedAlert"
-          @hidden="onAlertClose('cached')"
-        >
+        <t-alert class="alert---bordered mb-7" :show="showCachedAlert" @hidden="onAlertClose('cached')">
           Results are cached for 30 mins
         </t-alert>
 
-        <t-table :headers="tableHeader" :data="data">
-          <template #column="{ text, columnIndex, tdClass }">
-            <td :class="tdClass">
-              <b-progress-bar v-if="columnIndex === 'cpu'" class="inline-flex" :value="text" reverse-colors />
-              <div v-else :class="{ 'inline-flex badge badge--indigo' : columnIndex === 'version' }">
-                {{ text }}
+        <div class="bg-white rounded w-full">
+          <div v-for="metric in data" :key="metric._id" class="options !w-full">
+            <div>{{ metric.name }}</div>
+            <div class="options__item flex items-center space-x-5">
+              <div class="inline-flex badge badge--indigo">{{ metric.version }}</div>
+              <div :class="metric.isOnline ? 'text-green-400' : 'text-red-400'">
+                {{ metric.isOnline ? 'online' : 'offline' }}
               </div>
-            </td>
-          </template>
-        </t-table>
+            </div>
+          </div>
+        </div>
       </template>
     </template>
   </div>
@@ -37,13 +34,9 @@
 import { keys } from 'lodash'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { setToLocalStorage, getFromLocalStorage } from '@/helpers'
-import BProgressBar from '@/components/b-progress-bar'
 
 export default {
-  name      : 'metrics',
-  components: {
-    'b-progress-bar': BProgressBar,
-  },
+  name  : 'metrics',
   mixins: [PageDefaultMixin('metrics')],
   data  : () => ({
     showCachedAlert: true,
