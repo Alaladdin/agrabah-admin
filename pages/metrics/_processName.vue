@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-20 space-y-5">
+  <div class="pb-20" :class="{ 'space-y-5' : stats }">
     <b-button
       class="w-max"
       text="back"
@@ -77,6 +77,8 @@
         />
       </div>
     </template>
+
+    <b-stats-page-loader v-if="!stats" />
   </div>
 </template>
 
@@ -84,14 +86,16 @@
 import { mapActions, mapGetters } from 'vuex'
 import { map, reject, some, keys } from 'lodash'
 import localMetadata from './metadata'
+import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
 
 export default {
   name      : 'metric-stats',
   components: {
-    'b-chart-line': BChartLine,
-    'b-button'    : BButton,
+    'b-chart-line'       : BChartLine,
+    'b-button'           : BButton,
+    'b-stats-page-loader': BStatsPageLoader,
   },
   data: () => ({
     statsInfo: localMetadata.statsInfo,

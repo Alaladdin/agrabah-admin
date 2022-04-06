@@ -34,11 +34,15 @@
 import { keys } from 'lodash'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { setToLocalStorage, getFromLocalStorage } from '@/helpers'
+import BButton from '@/components/b-button'
 
 export default {
-  name  : 'metrics',
-  mixins: [PageDefaultMixin('metrics')],
-  data  : () => ({
+  name      : 'metrics',
+  mixins    : [PageDefaultMixin('metrics')],
+  components: {
+    'b-button': BButton,
+  },
+  data: () => ({
     showCachedAlert   : true,
     clearDataOnDestroy: false,
   }),

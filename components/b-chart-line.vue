@@ -148,7 +148,6 @@ export default {
       const date = this.xScale.invert(posX)
       const index = bisect.center(this.currentData, date)
       const d = this.currentData[index]
-
       const x = this.xScale(this.getXAccessor(d))
       const y = this.yScale(this.getYAccessor(d))
 
