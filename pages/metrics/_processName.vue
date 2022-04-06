@@ -11,7 +11,8 @@
     <template v-if="stats">
       <div class="font-mono">
         <div v-for="key in ['cpuUsage', 'lastCommitDate', 'memoryUsage', 'restartsCount', 'uptime']" :key="key">
-          {{ key + ': ' + stats[key] }}
+          <span>{{ key }}: </span>
+          <span>{{ key === 'lastCommitDate' ? formatDate(stats[key]) : stats[key] }}</span>
         </div>
       </div>
 
@@ -70,6 +71,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { some } from 'lodash/collection'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
+import { formatDate } from '@/helpers'
 
 export default {
   name      : 'metric-stats',
@@ -109,6 +111,8 @@ export default {
   },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
+
+    formatDate,
   },
 }
 </script>
