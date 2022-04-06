@@ -3,7 +3,7 @@
     <figure ref="chart" class="flex h-30" />
 
     <div class="text-sm font-mono">
-      <div ref="chartHeading" />
+      <div ref="chartHeading" class="mb-2 text-xs text-gray-600 font-semibold" />
       <p ref="chartTotal" />
     </div>
   </div>
@@ -25,6 +25,12 @@ export default {
     dataKey: {
       type   : String,
       default: '',
+    },
+    title: {
+      type: String,
+      default () {
+        return this.dataKey
+      },
     },
     getTotalText: {
       type: Function,
@@ -82,7 +88,7 @@ export default {
       this.drawLine()
       this.drawMarkerLine()
 
-      d3.select(this.$refs.chartHeading).text(this.dataKey)
+      d3.select(this.$refs.chartHeading).text(this.title)
       d3.select(this.$refs.chartTotal).text(this.getTotalText(last(this.currentData)))
 
       this.svg.on('mousemove', this.onMouseMove)
@@ -166,7 +172,7 @@ export default {
       return item[this.dataKey]
     },
     getHeadingText (item) {
-      return formatDate(item.date, 'HH:mm:ss')
+      return formatDate(item.date, 'HH:mm')
     },
     onMouseLeave () {
       const { chartHeading, chartTotal } = this.$refs
@@ -175,7 +181,7 @@ export default {
       this.markerLine.attr('opacity', 0)
       this.markerDot.attr('opacity', 0)
 
-      d3.select(chartHeading).text(this.dataKey)
+      d3.select(chartHeading).text(this.title)
       d3.select(chartTotal).text(this.getTotalText(lastDatum))
     },
   },

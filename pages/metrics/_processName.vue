@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-20">
+  <div class="pb-20 space-y-5">
     <b-button
       class="w-max"
       text="back"
@@ -9,14 +9,21 @@
     />
 
     <template v-if="stats">
-      <div class="font-mono">
-        <div v-for="key in ['cpuUsage', 'lastCommitDate', 'memoryUsage', 'restartsCount', 'uptime']" :key="key">
-          <span>{{ key }}: </span>
-          <span>{{ key === 'lastCommitDate' ? formatDate(stats[key]) : stats[key] }}</span>
+      <div class="grid grid-cols-5 gap-5 p-5 rounded bg-white">
+        <div
+          v-for="data in headerData"
+          :key="data.key"
+          class="flex flex-col border-r-1 last:border-none"
+        >
+          <span class="mb-1 text-xs text-gray-400">{{ data.title }}</span>
+          <div class="flex items-center">
+            <fa class="mr-3 text-gray-800 !text-lg" :icon="data.icon" />
+            <span class="text-2xl font-semibold">{{ data.value }}</span>
+          </div>
         </div>
       </div>
 
-      <div class="flex space-x-2 mb-5">
+      <div v-if="false" class="flex space-x-2">
         <b-button
           text="Start process"
           variant="indigo"
@@ -42,27 +49,31 @@
       <div v-if="metrics" class="grid grid-cols-2 gap-5">
         <b-chart-line
           :data="metrics"
-          :get-total-text="getCpuUsageText"
+          :title="statsInfo.cpuUsage.title"
           data-key="cpuUsage"
+          :get-total-text="getCpuUsageText"
         />
 
         <b-chart-line
           :data="metrics"
-          :get-total-text="getMemoryUsageText"
+          :title="statsInfo.memoryUsage.title"
           data-key="memoryUsage"
+          :get-total-text="getMemoryUsageText"
         />
 
         <b-chart-line
           v-if="hasSomeRequestsAvgLatency"
           :data="metrics"
-          :get-total-text="getRequestsAvgLatencyText"
+          :title="statsInfo.requestsAvgLatency.title"
           data-key="requestsAvgLatency"
+          :get-total-text="getRequestsAvgLatencyText"
         />
 
         <b-chart-line
           v-if="hasSomeRequestsCount"
           :data="metrics"
           data-key="requestsCount"
+          :title="statsInfo.requestsCount.title"
         />
       </div>
     </template>
@@ -71,10 +82,10 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { some } from 'lodash/collection'
+import { map, reject, some, keys } from 'lodash'
+import localMetadata from './metadata'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
-import { formatDate } from '@/helpers'
 
 export default {
   name      : 'metric-stats',
@@ -82,11 +93,30 @@ export default {
     'b-chart-line': BChartLine,
     'b-button'    : BButton,
   },
+  data: () => ({
+    statsInfo: localMetadata.statsInfo,
+  }),
   computed: {
     ...mapGetters({ stats: 'metrics/getStats' }),
 
     processName () {
       return this.$route.params.processName
+    },
+    headerData () {
+      const excludedFields = ['_id', 'processName', 'name', 'metrics']
+      const filteredStatsKeys = reject(keys(this.stats), statKey => excludedFields.includes(statKey))
+
+      return map(filteredStatsKeys, (statKey) => {
+        const value = this.stats[statKey]
+        const statInfo = this.statsInfo[statKey]
+
+        return {
+          key  : statKey,
+          title: statInfo.title,
+          icon : statInfo.icon,
+          value: statInfo.valueGetter(value),
+        }
+      })
     },
     metrics () {
       if (this.stats) {
@@ -111,11 +141,11 @@ export default {
   created () {
     this.init(this.processName)
       .then(stats => this.$setPageTitle(stats.name))
+      .catch(this.$handleError)
   },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
 
-    formatDate,
     getCpuUsageText (item) {
       return item.cpuUsage + '%'
     },
