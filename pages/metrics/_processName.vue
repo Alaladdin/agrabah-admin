@@ -50,13 +50,13 @@
         />
 
         <b-chart-line
-          v-if="metrics[0].requestsAvgLatency"
+          v-if="hasSomeRequestsAvgLatency"
           :data="metrics"
           data-key="requestsAvgLatency"
         />
 
         <b-chart-line
-          v-if="metrics[0].requestsCount"
+          v-if="hasSomeRequestsCount"
           :data="metrics"
           data-key="requestsCount"
         />
@@ -67,6 +67,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { some } from 'lodash/collection'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
 
@@ -91,6 +92,12 @@ export default {
       }
 
       return null
+    },
+    hasSomeRequestsAvgLatency () {
+      return some(this.metrics, metric => metric.requestsAvgLatency !== null)
+    },
+    hasSomeRequestsCount () {
+      return some(this.metrics, metric => metric.requestsCount !== null)
     },
   },
   beforeDestroy () {
