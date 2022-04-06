@@ -2,7 +2,7 @@
   <div ref="chartWrapper" class="p-5 rounded shadow-sm w-full bg-white">
     <figure ref="chart" class="flex h-30" />
 
-    <div class="chart-info">
+    <div class="text-sm font-mono">
       <div ref="chartHeading" />
       <p ref="chartTotal" />
     </div>
@@ -26,6 +26,12 @@ export default {
       type   : String,
       default: '',
     },
+    getTotalText: {
+      type: Function,
+      default (item) {
+        return item[this.dataKey]
+      },
+    },
   },
   data: () => ({
     currentData: [],
@@ -47,7 +53,6 @@ export default {
       },
     },
   },
-
   methods: {
     getSortedData () {
       const formattedData = map(this.data, item => ({
@@ -70,14 +75,14 @@ export default {
         .attr('height', this.areaHeight)
         .attr('viewBox', `0 0 ${this.areaWidth} ${this.areaHeight}`)
       this.xScale = d3.scaleTime().domain(xDomain).range([0, this.areaWidth])
-      this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 8]) // 8 - margin top
+      this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
 
       this.drawArea()
       this.drawLine()
       this.drawMarkerLine()
 
       d3.select(this.$refs.chartHeading).text(this.dataKey)
-      d3.select(this.$refs.chartTotal).text(this.getYAccessor(last(this.currentData)))
+      d3.select(this.$refs.chartTotal).text(this.getTotalText(last(this.currentData)))
 
       this.svg.on('mousemove', this.onMouseMove)
       this.svg.on('mouseleave', this.onMouseLeave)
@@ -129,15 +134,6 @@ export default {
         .attr('fill', 'var(--marker, var(--stroke))')
         .attr('opacity', 0)
     },
-    getXAccessor (item) {
-      return item.date
-    },
-    getYAccessor (item) {
-      return item[this.dataKey]
-    },
-    getText (data, item) {
-      return formatDate(item.date, 'HH:mm:ss')
-    },
     onMouseMove (e) {
       const { chartHeading, chartTotal } = this.$refs
       const [posX] = d3.pointer(e)
@@ -159,8 +155,17 @@ export default {
         .attr('cy', y)
         .attr('opacity', 1)
 
-      d3.select(chartHeading).text(this.getText(this.currentData, d))
-      d3.select(chartTotal).text(this.getYAccessor(d))
+      d3.select(chartHeading).text(this.getHeadingText(d))
+      d3.select(chartTotal).text(this.getTotalText(d))
+    },
+    getXAccessor (item) {
+      return item.date
+    },
+    getYAccessor (item) {
+      return item[this.dataKey]
+    },
+    getHeadingText (item) {
+      return formatDate(item.date, 'HH:mm:ss')
     },
     onMouseLeave () {
       const { chartHeading, chartTotal } = this.$refs
@@ -170,7 +175,7 @@ export default {
       this.markerDot.attr('opacity', 0)
 
       d3.select(chartHeading).text(this.dataKey)
-      d3.select(chartTotal).text(this.getYAccessor(lastDatum))
+      d3.select(chartTotal).text(this.getTotalText(lastDatum))
     },
   },
 }

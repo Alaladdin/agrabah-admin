@@ -42,17 +42,20 @@
       <div v-if="metrics" class="grid grid-cols-2 gap-5">
         <b-chart-line
           :data="metrics"
+          :get-total-text="getCpuUsageText"
           data-key="cpuUsage"
         />
 
         <b-chart-line
           :data="metrics"
+          :get-total-text="getMemoryUsageText"
           data-key="memoryUsage"
         />
 
         <b-chart-line
           v-if="hasSomeRequestsAvgLatency"
           :data="metrics"
+          :get-total-text="getRequestsAvgLatencyText"
           data-key="requestsAvgLatency"
         />
 
@@ -113,6 +116,15 @@ export default {
     ...mapActions({ init: 'metrics/loadStats' }),
 
     formatDate,
+    getCpuUsageText (item) {
+      return item.cpuUsage + '%'
+    },
+    getMemoryUsageText (item) {
+      return item.memoryUsage + 'mb'
+    },
+    getRequestsAvgLatencyText (item) {
+      return item.requestsAvgLatency + 'ms'
+    },
   },
 }
 </script>
