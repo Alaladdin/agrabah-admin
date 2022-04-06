@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'b-page-loader',
+  name: 'b-team-page-loader',
 }
 </script>

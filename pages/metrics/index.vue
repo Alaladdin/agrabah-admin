@@ -38,11 +38,11 @@ import BButton from '@/components/b-button'
 
 export default {
   name      : 'metrics',
-  mixins    : [PageDefaultMixin('metrics')],
   components: {
     'b-button': BButton,
   },
-  data: () => ({
+  mixins: [PageDefaultMixin('metrics')],
+  data  : () => ({
     showCachedAlert   : true,
     clearDataOnDestroy: false,
   }),

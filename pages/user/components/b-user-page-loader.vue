@@ -1,11 +1,11 @@
 <template>
-  <div class="b-page-loader">
-    <div class="b-page-loader__avatar animate-pulse" />
-    <div class="b-page-loader__username badge">
+  <div class="b-user-page-loader">
+    <div class="b-user-page-loader__avatar animate-pulse" />
+    <div class="b-user-page-loader__username badge">
       <p class="animate-pulse rounded h-3 w-30 bg-gray-200" />
     </div>
 
-    <div class="b-page-loader__fields">
+    <div class="b-user-page-loader__fields">
       <div v-for="field in 3" :key="field" class="options !py-4">
         <p v-for="fieldItem in 2" :key="fieldItem" class="animate-pulse rounded h-3 w-30 bg-gray-200" />
       </div>
@@ -15,6 +15,6 @@
 
 <script>
 export default {
-  name: 'b-page-loader',
+  name: 'b-user-page-loader',
 }
 </script>

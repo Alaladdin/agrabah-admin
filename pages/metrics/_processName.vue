@@ -8,6 +8,8 @@
       @click="$router.go(-1)"
     />
 
+    <b-stats-page-loader v-if="!stats" />
+
     <template v-if="stats">
       <div class="grid grid-cols-5 gap-5 p-5 rounded bg-white">
         <div
@@ -77,8 +79,6 @@
         />
       </div>
     </template>
-
-    <b-stats-page-loader v-if="!stats" />
   </div>
 </template>
 

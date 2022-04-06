@@ -1,6 +1,6 @@
 <template>
   <div class="user-page flex justify-center items-center">
-    <b-page-loader v-if="isLoading" />
+    <b-user-page-loader v-if="isLoading" />
 
     <template v-if="!isLoading">
       <t-alert v-if="!actualUser" class="alert---bordered" variant="danger" :dismissible="false" show>
@@ -77,7 +77,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { assign, pick } from 'lodash/object'
-import BPageLoader from './components/b-page-loader'
+import BUserPageLoader from './components/b-user-page-loader'
 import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
@@ -88,7 +88,7 @@ export default {
   components: {
     'b-avatar'              : BAvatar,
     'b-button'              : BButton,
-    'b-page-loader'         : BPageLoader,
+    'b-user-page-loader'    : BUserPageLoader,
     'b-confirm-action-modal': BConfirmActionModal,
     'b-input'               : () => import('@/components/b-input'),
     'b-select-avatar-modal' : () => import('@/components/b-select-avatar-modal'),
