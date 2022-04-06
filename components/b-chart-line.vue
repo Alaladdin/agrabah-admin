@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { map, last } from 'lodash'
+import { reject, map, last } from 'lodash'
 import { formatDate } from '@/helpers'
 
 const d3 = (process.client) && require('d3')
@@ -55,7 +55,8 @@ export default {
   },
   methods: {
     getSortedData () {
-      const formattedData = map(this.data, item => ({
+      const nonNullableData = reject(this.data, item => item[this.dataKey] === null)
+      const formattedData = map(nonNullableData, item => ({
         [this.dataKey]: item[this.dataKey],
         date          : new Date(item.createdAt),
       }))
