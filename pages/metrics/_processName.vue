@@ -29,7 +29,15 @@
           <span class="mb-1 text-xs text-gray-400">{{ data.title }}</span>
           <div class="flex items-center">
             <fa class="mr-3 text-gray-800 !text-lg" :icon="data.icon" />
-            <span class="text-2xl font-semibold">{{ data.value }}</span>
+            <span class="mr-5 text-2xl font-semibold">{{ data.value }}</span>
+            <div
+              v-if="data.diff"
+              class="badge !px-2 !py-1"
+              :class="data.diff > 0 ? 'badge--danger' : 'badge--success'"
+            >
+              <fa class="mr-1" :icon="data.diff > 0 ? 'caret-up' : 'caret-down'" />
+              <span>{{ data.diff }}%</span>
+            </div>
           </div>
         </div>
       </div>
@@ -93,7 +101,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { map, reject, some, keys } from 'lodash'
+import { map, reject, some, keys, find } from 'lodash'
 import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
@@ -127,11 +135,13 @@ export default {
       return map(filteredStatsKeys, (statKey) => {
         const value = this.stats[statKey]
         const statInfo = this.statsInfo[statKey]
+        const diffNum = this.getStatDiff(statKey)
 
         return {
           key  : statKey,
           title: statInfo.title,
           icon : statInfo.icon,
+          diff : diffNum,
           value: statInfo.valueGetter(value),
         }
       })
@@ -157,17 +167,31 @@ export default {
     this.clearData()
   },
   created () {
-    this.initStatsData()
+    this.loadStats()
   },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
 
-    initStatsData () {
+    loadStats () {
       const data = { processName: this.processName, period: this.period }
 
       this.init(data)
         .then(stats => this.$setPageTitle(stats.name))
         .catch(this.$handleError)
+    },
+    getPeriodDate (period) {
+
+    },
+    getStatDiff (key) {
+      if (this.metrics && ['cpuUsage', 'memoryUsage'].includes(key)) {
+        const firstStat = find(this.metrics, stat => stat !== null)
+        const diff = this.stats[key] - firstStat[key]
+
+        if (diff)
+          return (diff / firstStat[key] * 100).toFixed(1)
+      }
+
+      return 0
     },
     onPeriodChange (period) {
       this.period = period
@@ -175,7 +199,7 @@ export default {
     },
     reInit () {
       this.clearData()
-      this.initStatsData()
+      this.loadStats()
     },
     clearData () {
       this.$store.commit('metrics/CLEAR_STATS')
