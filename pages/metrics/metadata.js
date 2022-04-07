@@ -1,6 +1,11 @@
 import { formatDate } from '@/helpers'
 
 export default {
+  periodsList: [
+    'day',
+    'week',
+    'month',
+  ],
   statsInfo: {
     cpuUsage: {
       title      : 'CPU usage',
@@ -10,7 +15,7 @@ export default {
     memoryUsage: {
       title      : 'Memory usage',
       icon       : 'memory',
-      valueGetter: value => value + ' mb',
+      valueGetter: value => value + 'mb',
     },
     restartsCount: {
       title      : 'Restarts count',

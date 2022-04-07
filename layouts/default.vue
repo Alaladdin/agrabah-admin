@@ -48,11 +48,13 @@ export default {
     'b-sidebar'    : BSidebar,
     'b-error-modal': BErrorModal,
   },
-
-  data () {
+  data: () => ({
+    navItems,
+    openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
+  }),
+  head () {
     return {
-      navItems,
-      openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
+      title: this.$route.name === 'index' ? 'AGRABAH ADMIN' : this.pageTitle,
     }
   },
   computed: {

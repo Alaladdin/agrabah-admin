@@ -5,7 +5,7 @@
     :button-class="buttonClass"
     :variant="variant"
     :disabled="disabled"
-    @input="onInput"
+    @input="onSelect"
   />
 </template>
 
@@ -44,12 +44,21 @@ export default {
     selectedOptionTitle () {
       const selectedOption = find(this.options, { value: this.value })
 
-      return selectedOption.title
+      return selectedOption?.title
     },
   },
   methods: {
+    onSelect (value) {
+      this.onInput(value)
+
+      if (this.value !== value)
+        this.onChange(value)
+    },
     onInput (value) {
       this.$emit('input', value)
+    },
+    onChange (value) {
+      this.$emit('change', value)
     },
   },
 }

@@ -1,12 +1,21 @@
 <template>
   <div class="pb-20" :class="{ 'space-y-5' : stats }">
-    <b-button
-      class="w-max"
-      text="back"
-      before-icon="left-long"
-      variant="white"
-      @click="$router.go(-1)"
-    />
+    <div class="flex justify-between">
+      <b-button
+        class="w-max"
+        text="back"
+        before-icon="left-long"
+        variant="white"
+        @click="$router.go(-1)"
+      />
+
+      <b-select
+        :value="period"
+        :options="periodsOptions"
+        variant="white"
+        @change="onPeriodChange"
+      />
+    </div>
 
     <b-stats-page-loader v-if="!stats" />
 
@@ -89,16 +98,21 @@ import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
+import { getOptionsFromFlatArray } from '@/helpers'
+import BSelect from '@/components/b-select'
 
 export default {
   name      : 'metric-stats',
   components: {
     'b-chart-line'       : BChartLine,
     'b-button'           : BButton,
+    'b-select'           : BSelect,
     'b-stats-page-loader': BStatsPageLoader,
   },
   data: () => ({
-    statsInfo: localMetadata.statsInfo,
+    statsInfo     : localMetadata.statsInfo,
+    periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
+    period        : localMetadata.periodsList[0],
   }),
   computed: {
     ...mapGetters({ stats: 'metrics/getStats' }),
@@ -140,16 +154,32 @@ export default {
     },
   },
   beforeDestroy () {
-    this.$store.commit('metrics/CLEAR_STATS')
+    this.clearData()
   },
   created () {
-    this.init(this.processName)
-      .then(stats => this.$setPageTitle(stats.name))
-      .catch(this.$handleError)
+    this.initStatsData()
   },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
 
+    initStatsData () {
+      const data = { processName: this.processName, period: this.period }
+
+      this.init(data)
+        .then(stats => this.$setPageTitle(stats.name))
+        .catch(this.$handleError)
+    },
+    onPeriodChange (period) {
+      this.period = period
+      this.reInit()
+    },
+    reInit () {
+      this.clearData()
+      this.initStatsData()
+    },
+    clearData () {
+      this.$store.commit('metrics/CLEAR_STATS')
+    },
     getCpuUsageText (item) {
       return item.cpuUsage + '%'
     },
