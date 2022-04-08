@@ -76,13 +76,13 @@ export default {
 
       this.areaWidth = chartWrapper.clientWidth * 2
       this.areaHeight = chartWrapper.clientHeight - 70
+      this.xScale = d3.scaleTime().domain(xDomain).range([0, this.areaWidth])
+      this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
       this.svg = d3.select(chart)
         .append('svg')
         .attr('width', this.areaWidth)
         .attr('height', this.areaHeight)
         .attr('viewBox', `0 0 ${this.areaWidth} ${this.areaHeight}`)
-      this.xScale = d3.scaleTime().domain(xDomain).range([0, this.areaWidth])
-      this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
 
       this.drawArea()
       this.drawLine()
@@ -171,7 +171,7 @@ export default {
       return item[this.dataKey]
     },
     getHeadingText (item) {
-      return formatDate(item.date, 'HH:mm')
+      return formatDate(item.date, 'DD.MM — HH:mm')
     },
     onMouseLeave () {
       const { chartHeading, chartTotal } = this.$refs
