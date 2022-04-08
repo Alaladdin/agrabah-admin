@@ -30,7 +30,7 @@ export default {
     lastCommitDate: {
       title      : 'Last commit',
       icon       : 'calendar',
-      valueGetter: value => formatDate(value, 'DD.MM'),
+      valueGetter: value => value ? formatDate(value, 'DD.MM') : '—',
     },
     requestsAvgLatency: {
       title      : 'Requests latency (avg)',

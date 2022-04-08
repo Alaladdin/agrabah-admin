@@ -202,11 +202,15 @@ export default {
     },
     getStatDiff (key) {
       if (this.metrics && ['cpuUsage', 'memoryUsage'].includes(key)) {
-        const firstStat = find(this.metrics, stat => stat !== null)
-        const diff = this.stats[key] - firstStat[key]
+        const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)
+        const diff = this.stats[key] - firstStatValue
 
-        if (diff)
-          return (diff / firstStat[key] * 100).toFixed(1)
+        if (diff) {
+          if (!firstStatValue)
+            return diff
+
+          return (diff / firstStatValue * 100).toFixed(1)
+        }
       }
 
       return 0
