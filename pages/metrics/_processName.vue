@@ -13,6 +13,7 @@
         :value="period"
         :options="periodsOptions"
         variant="white"
+        :disabled="!stats"
         @change="onPeriodChange"
       />
     </div>

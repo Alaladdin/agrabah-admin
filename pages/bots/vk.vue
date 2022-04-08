@@ -23,7 +23,7 @@
       <h3 class="mb-6 text-xl font-semibold text-center">Bot Config</h3>
 
       <div class="flex justify-center">
-        <div class="bg-white rounded w-max">
+        <div class="rounded w-max bg-white">
           <div v-for="(field, index) in botConfigFields" :key="index" class="options">
             <span>{{ field.title }}</span>
             <span class="options__item" :class="getOptionClass(field)">
