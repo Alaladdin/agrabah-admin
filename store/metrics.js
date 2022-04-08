@@ -35,8 +35,8 @@ export const actions = {
         throw err
       })
   },
-  loadStats (ctx, { processName, period }) {
-    return this.$axios.$get('/api/getStats', { params: { processName, period } })
+  loadStats (ctx, { processName, start, finish }) {
+    return this.$axios.$get('/api/getStats', { params: { processName, start, finish } })
       .then((res) => {
         ctx.commit('SET_STATS', res.stats)
 

@@ -101,12 +101,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { map, reject, some, keys, find } from 'lodash'
+import { map, reject, some, keys, find, assign } from 'lodash'
+import moment from 'moment'
 import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
-import { getOptionsFromFlatArray } from '@/helpers'
+import { formatDate, getOptionsFromFlatArray } from '@/helpers'
 import BSelect from '@/components/b-select'
 
 export default {
@@ -173,14 +174,31 @@ export default {
     ...mapActions({ init: 'metrics/loadStats' }),
 
     loadStats () {
-      const data = { processName: this.processName, period: this.period }
+      const period = this.getPeriodDate(this.period)
+      const data = assign({ processName: this.processName }, period)
 
       this.init(data)
         .then(stats => this.$setPageTitle(stats.name))
         .catch(this.$handleError)
     },
     getPeriodDate (period) {
+      const todayFormatted = formatDate()
+      const rules = {
+        day: {
+          start : todayFormatted,
+          finish: todayFormatted,
+        },
+        week: {
+          start : formatDate(moment().subtract(7, 'days')),
+          finish: todayFormatted,
+        },
+        month: {
+          start : formatDate(moment().subtract(30, 'days')),
+          finish: todayFormatted,
+        },
+      }
 
+      return rules[period]
     },
     getStatDiff (key) {
       if (this.metrics && ['cpuUsage', 'memoryUsage'].includes(key)) {
