@@ -1,6 +1,6 @@
 <template>
   <div ref="chartWrapper" class="p-5 rounded shadow-sm w-full bg-white">
-    <figure ref="chart" class="flex h-30" />
+    <div ref="chart" class="flex h-30" />
 
     <div class="text-sm font-mono">
       <div ref="chartHeading" class="mb-2 text-xs text-gray-600 font-semibold" />

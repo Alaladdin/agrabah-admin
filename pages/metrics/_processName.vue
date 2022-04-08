@@ -30,14 +30,17 @@
           <span class="mb-1 text-xs text-gray-400">{{ data.title }}</span>
           <div class="flex items-center">
             <fa class="mr-3 text-gray-800 !text-lg" :icon="data.icon" />
-            <span class="mr-5 text-2xl font-semibold">{{ data.value }}</span>
+            <span class="mr-3 text-2xl font-semibold">{{ data.value }}</span>
             <div
               v-if="data.diff"
-              class="badge !px-2 !py-1"
+              class="badge !px-2 !rounded-full !shadow-none"
               :class="data.diff > 0 ? 'badge--danger' : 'badge--success'"
             >
-              <fa class="mr-1" :icon="data.diff > 0 ? 'caret-up' : 'caret-down'" />
-              <span>{{ data.diff }}%</span>
+              <fa class="mr-1" :icon="data.diff > 0 ? 'arrow-trend-up' : 'arrow-trend-down'" />
+              <span class="inline-flex">
+                <span v-if="data.diff > 0">+</span>
+                <span>{{ data.diff }}%</span>
+              </span>
             </div>
           </div>
         </div>
@@ -137,13 +140,13 @@ export default {
       return map(filteredStatsKeys, (statKey) => {
         const value = this.stats[statKey]
         const statInfo = this.statsInfo[statKey]
-        const diffNum = this.getStatDiff(statKey)
+        const diffPercentage = this.getStatDiffPercentage(statKey)
 
         return {
           key  : statKey,
           title: statInfo.title,
           icon : statInfo.icon,
-          diff : diffNum,
+          diff : diffPercentage,
           value: statInfo.valueGetter(value),
         }
       })
@@ -201,7 +204,7 @@ export default {
 
       return rules[period]
     },
-    getStatDiff (key) {
+    getStatDiffPercentage (key) {
       if (this.metrics && ['cpuUsage', 'memoryUsage'].includes(key)) {
         const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)
         const diff = this.stats[key] - firstStatValue
