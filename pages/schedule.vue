@@ -14,8 +14,8 @@
       <div v-for="(_, i) in 5" :key="i" class="schedule__item">
         <p class="schedule__header-item">{{ weekDays[i] }}</p>
         <div :class="getCellClasses(weekDates[i])">
-          <p class="schedule__date">{{ weekDates[i] }}</p>
-          <div v-if="isLoading" class="rounded w-full bg-gray-300 animate-pulse" :class="isShowHiddenFields ? 'h-26' : 'h-18'" />
+          <p class="schedule__date" :class="{ 'opacity-50' : isLoading }">{{ weekDates[i] }}</p>
+          <div v-if="isLoading" class="rounded w-full bg-gray-200 animate-pulse" :class="isShowHiddenFields ? 'h-26' : 'h-18'" />
           <div v-for="(s, scheduleIndex) in getScheduleForDate(weekDates[i])" :key="scheduleIndex" class="mb-4 rounded text-sm">
             <p class="truncate font-semibold mb-1">{{ s.disciplineAbbr }}</p>
             <div class="text-xs text-gray-500">
@@ -126,7 +126,6 @@ export default {
 
       return [
         fixedClasses, {
-          'opacity-50'            : this.isLoading,
           'opacity-50 bg-gray-100': this.todayFormattedDate > cellFormattedDate,
           'bg-purple-50'          : this.todayFormattedDate === cellFormattedDate,
         },
