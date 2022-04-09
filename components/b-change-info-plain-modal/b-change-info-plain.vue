@@ -1,12 +1,12 @@
 <template>
   <div class="grid grid-cols-2 overflow-hidden">
     <div class="pr-4 border-r">
-      <p class="font-semibold font-mono"># Before</p>
+      <p class="mb-5 font-semibold font-mono"># Before</p>
       <p class="break-words whitespace-pre-line" v-html="changesData.before" />
     </div>
 
     <div class="ml-4">
-      <p class="font-semibold font-mono"># After</p>
+      <p class="mb-5 font-semibold font-mono"># After</p>
       <p class="break-words whitespace-pre-line" v-html="changesData.after" />
     </div>
   </div>

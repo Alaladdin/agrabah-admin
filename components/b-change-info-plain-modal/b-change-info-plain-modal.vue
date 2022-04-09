@@ -1,5 +1,5 @@
 <template>
-  <t-modal :value="value" @closed="onClose">
+  <t-modal class="b-change-info-plain-modal" :value="value" @closed="onClose">
     <template #header>
       <div class="flex items-center">
         <p class="mr-3">{{ capitalize(change.title) }}</p>

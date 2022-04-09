@@ -32,6 +32,8 @@ export const actions = {
         return res.metrics
       })
       .catch((err) => {
+        ctx.commit('SET_DATA', [])
+
         throw err
       })
   },
@@ -43,6 +45,8 @@ export const actions = {
         return res.stats
       })
       .catch((err) => {
+        ctx.commit('SET_STATS', {})
+
         throw err
       })
   },

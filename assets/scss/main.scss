@@ -243,6 +243,12 @@ textarea, {
   }
 }
 
+.b-change-info-plain-modal {
+  .modal__wrapper {
+    @apply max-w-1/2 h-1/2;
+  }
+}
+
 .badge {
   @apply px-3 py-1 rounded shadow-sm bg-white text-gray-600 text-xs w-max;
 
@@ -398,4 +404,8 @@ textarea, {
     opacity: 1;
     transform: scale(.99);
   }
+}
+
+::selection {
+  @apply bg-purple-200 text-purple-600;
 }
