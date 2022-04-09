@@ -10,7 +10,12 @@
       />
 
       <div class="flex items-center space-x-3">
-        <b-select v-model="theme" :options="themesList" variant="white" />
+        <b-select
+          v-model="theme"
+          :options="themesOptions"
+          variant="white"
+          @change="onThemeChange"
+        />
 
         <b-select
           :value="period"
@@ -116,14 +121,17 @@ export default {
   mixins: [PageDefaultMixin('metrics')],
   data  : () => ({
     statsInfo     : localMetadata.statsInfo,
-    period        : localMetadata.periodsList[0],
-    periodDates   : localMetadata.periodDates,
     periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
-    themesList    : localMetadata.themes,
-    theme         : getFromLocalStorage(THEME_KEY, localMetadata.themes[0].value),
+    periodDates   : localMetadata.periodDates,
+    themesOptions : localMetadata.themesOptions,
+    period        : null,
+    theme         : null,
   }),
   computed: {
-    ...mapGetters({ rawData: 'metrics/getStats' }),
+    ...mapGetters('metrics', {
+      rawData      : 'getStats',
+      currentPeriod: 'getPeriod',
+    }),
 
     processName () {
       return this.$route.params.processName
@@ -157,17 +165,13 @@ export default {
       return some(this.metrics, metric => metric.requestsCount !== null)
     },
   },
-  watch: {
-    theme: {
-      immediate: true,
-      handler (theme) {
-        setToLocalStorage(THEME_KEY, theme)
-      },
-    },
-  },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
 
+    beforeInit () {
+      this.period = this.currentPeriod || this.periodsOptions[1].value
+      this.theme = getFromLocalStorage(THEME_KEY, this.themesOptions[0].value)
+    },
     getInitData () {
       return {
         ...this.periodDates[this.period],
@@ -178,8 +182,12 @@ export default {
       this.$setPageTitle(stats.name)
     },
     onPeriodChange (period) {
+      this.$store.commit('metrics/SET_PERIOD', period)
       this.period = period
       this.refresh()
+    },
+    onThemeChange (theme) {
+      setToLocalStorage(THEME_KEY, theme)
     },
     getStatDiffPercentage (key) {
       const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)

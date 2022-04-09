@@ -3,13 +3,15 @@ import * as StoreDefaultMixin from '@/mixins/m-store-default'
 export const state = () => ({
   ...StoreDefaultMixin.state(),
 
-  stats: null,
+  stats        : null,
+  currentPeriod: null,
 })
 
 export const getters = {
   ...StoreDefaultMixin.getters,
 
-  getStats: state => state.stats,
+  getStats : state => state.stats,
+  getPeriod: state => state.currentPeriod,
 }
 
 export const mutations = {
@@ -17,6 +19,9 @@ export const mutations = {
 
   SET_STATS (state, stats) {
     state.stats = stats
+  },
+  SET_PERIOD (state, period) {
+    state.currentPeriod = period
   },
   CLEAR_STATS (state) {
     state.stats = null

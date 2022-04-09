@@ -3,8 +3,8 @@
     <div ref="chart" class="flex h-30" />
 
     <div class="space-y-1 text-xs font-mono">
-      <div ref="chartHeading" class="text-gray-600 font-semibold" />
-      <p ref="chartTotal" />
+      <p ref="chartTitle" class="text-gray-600 font-semibold" />
+      <p ref="chartDesc" />
     </div>
   </div>
 </template>
@@ -73,15 +73,12 @@ export default {
       return formattedData.sort((a, b) => d3.ascending(a.date, b.date))
     },
     draw () {
-      d3.select(this.$refs.chartHeading).text(this.title)
-      d3.select(this.$refs.chartTotal).text(this.valueGetter(last(this.currentData)))
-
       const { chartWrapper, chart } = this.$refs
       const xDomain = d3.extent(this.currentData, this.getXAccessor)
       const yDomain = [0, d3.max(this.currentData, this.getYAccessor)]
 
       this.areaWidth = chartWrapper.clientWidth * 2
-      this.areaHeight = chartWrapper.clientHeight - 100
+      this.areaHeight = chartWrapper.clientHeight - 70
       this.xScale = d3.scaleLinear().domain(xDomain).range([0, this.areaWidth])
       this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
       this.svg = d3
@@ -94,6 +91,7 @@ export default {
       this.drawArea()
       this.drawLine()
       this.drawMarkerLine()
+      this.setChartInfo(last(this.currentData), this.title)
 
       this.svg.on('mousemove', this.onMouseMove)
       this.svg.on('mouseleave', this.onMouseLeave)
@@ -106,11 +104,18 @@ export default {
         .y0(this.areaHeight)
         .curve(d3.curveBumpX)
 
-      this.svg
+      const area = this.svg
         .append('path')
         .datum(this.currentData)
         .attr('d', areaGenerator)
-        .attr('fill', 'var(--fill)')
+        .attr('width', 0)
+        .attr('fill', 'var(--area)')
+
+      area
+        .transition()
+        .ease(d3.easeSin)
+        .duration(1000)
+        .attr('width', this.areaWidth)
     },
     drawLine () {
       const lineGenerator = d3
@@ -119,14 +124,21 @@ export default {
         .y(i => this.yScale(this.getYAccessor(i)))
         .curve(d3.curveBumpX)
 
-      this.svg
+      const line = this.svg
         .append('path')
         .datum(this.currentData)
         .attr('d', lineGenerator)
         .attr('stroke', 'var(--line)')
         .attr('stroke-width', 5)
-        .attr('stroke-linejoin', 'round')
         .attr('fill', 'none')
+
+      const lineLength = line.node().getTotalLength()
+
+      line
+        .attr('stroke-dashoffset', lineLength)
+        .attr('stroke-dasharray', lineLength)
+        .transition(this.getTransition())
+        .attr('stroke-dashoffset', 0)
     },
     drawMarkerLine () {
       this.markerLine = this.svg
@@ -148,27 +160,35 @@ export default {
         .attr('opacity', 0)
     },
     onMouseMove (e) {
-      const { chartHeading, chartTotal } = this.$refs
-      const [posX] = d3.pointer(e)
-      const bisect = d3.bisector(this.getXAccessor)
-      const date = this.xScale.invert(posX)
-      const index = bisect.center(this.currentData, date)
-      const d = this.currentData[index]
-      const x = this.xScale(this.getXAccessor(d))
-      const y = this.yScale(this.getYAccessor(d))
+      const { item, x, y } = this.getMovingData(e)
+      const transition = this.getTransition(50)
 
       this.markerLine
+        .attr('opacity', 1)
+        .transition(transition)
         .attr('x1', x)
         .attr('x2', x)
-        .attr('opacity', 1)
 
       this.markerDot
+        .attr('opacity', 1)
+        .transition(transition)
         .attr('cx', x)
         .attr('cy', y)
-        .attr('opacity', 1)
 
-      d3.select(chartHeading).text(this.getHeadingText(d))
-      d3.select(chartTotal).text(this.valueGetter(d))
+      this.setChartInfo(item)
+    },
+    getMovingData (e) {
+      const [posX] = d3.pointer(e)
+      const date = this.xScale.invert(posX)
+      const bisect = d3.bisector(this.getXAccessor)
+      const index = bisect.center(this.currentData, date)
+      const item = this.currentData[index]
+
+      return {
+        item,
+        x: this.xScale(this.getXAccessor(item)),
+        y: this.yScale(this.getYAccessor(item)),
+      }
     },
     getXAccessor (item) {
       return findIndex(this.currentData, { date: item.date })
@@ -176,18 +196,20 @@ export default {
     getYAccessor (item) {
       return item[this.dataKey]
     },
-    getHeadingText (item) {
-      return formatDate(item.date, 'DD.MM — HH:mm')
+    getTransition (duration = 1500) {
+      return d3.transition().ease(d3.easeSin).duration(duration)
     },
     onMouseLeave () {
-      const { chartHeading, chartTotal } = this.$refs
-      const lastDatum = last(this.currentData)
-
       this.markerLine.attr('opacity', 0)
       this.markerDot.attr('opacity', 0)
+      this.setChartInfo(last(this.currentData), this.title)
+    },
+    setChartInfo (item, title) {
+      const { chartTitle, chartDesc } = this.$refs
+      const newTitle = title || formatDate(item.date, 'DD.MM — HH:mm')
 
-      d3.select(chartHeading).text(this.title)
-      d3.select(chartTotal).text(this.valueGetter(lastDatum))
+      d3.select(chartTitle).text(newTitle)
+      d3.select(chartDesc).text(this.valueGetter(item))
     },
   },
 }

@@ -53,15 +53,15 @@ export default {
       finish: todayFormatted,
     },
   },
-  themes: [
+  themesOptions: [
     { title: 'purple', value: 'purple', color: '#8b5cf6' },
     { title: 'indigo', value: 'indigo', color: '#6366f1' },
-    { title: 'pink', value: 'pink', color: '#ec4899' },
-    { title: 'gray', value: 'gray', color: '#6b7280' },
     { title: 'teal', value: 'teal', color: '#14b8a6' },
     { title: 'cyan', value: 'cyan', color: '#06b6d4' },
-    { title: 'stone', value: 'stone', color: '#78716c' },
+    { title: 'pink', value: 'pink', color: '#ec4899' },
     { title: 'lime', value: 'lime', color: '#84cc16' },
     { title: 'yellow', value: 'yellow', color: '#f59e0b' },
+    { title: 'stone', value: 'stone', color: '#78716c' },
+    { title: 'gray', value: 'gray', color: '#6b7280' },
   ],
 }
