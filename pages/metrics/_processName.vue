@@ -46,57 +46,34 @@
         </div>
       </div>
 
-      <div v-if="false" class="flex space-x-2">
-        <b-button
-          text="Start process"
-          variant="indigo"
-          after-icon="play"
-          disabled
-        />
-
-        <b-button
-          text="Stop process"
-          variant="danger"
-          after-icon="stop"
-          disabled
-        />
-
-        <b-button
-          text="Restart process"
-          ariant="white"
-          after-icon="rotate-right"
-          disabled
-        />
-      </div>
-
       <div v-if="metrics" class="grid grid-cols-2 gap-5">
         <b-chart-line
           :data="metrics"
           :title="statsInfo.cpuUsage.title"
+          :value-getter="getChartValueGetter('cpuUsage')"
           data-key="cpuUsage"
-          :get-total-text="getCpuUsageText"
         />
 
         <b-chart-line
           :data="metrics"
           :title="statsInfo.memoryUsage.title"
+          :value-getter="getChartValueGetter('memoryUsage')"
           data-key="memoryUsage"
-          :get-total-text="getMemoryUsageText"
         />
 
         <b-chart-line
           v-if="hasSomeRequestsAvgLatency"
           :data="metrics"
           :title="statsInfo.requestsAvgLatency.title"
+          :value-getter="getChartValueGetter('requestsAvgLatency')"
           data-key="requestsAvgLatency"
-          :get-total-text="getRequestsAvgLatencyText"
         />
 
         <b-chart-line
           v-if="hasSomeRequestsCount"
           :data="metrics"
-          data-key="requestsCount"
           :title="statsInfo.requestsCount.title"
+          data-key="requestsCount"
         />
       </div>
     </template>
@@ -124,8 +101,8 @@ export default {
   },
   data: () => ({
     statsInfo     : localMetadata.statsInfo,
-    periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
     period        : localMetadata.periodsList[0],
+    periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
   }),
   computed: {
     ...mapGetters({ stats: 'metrics/getStats' }),
@@ -230,14 +207,8 @@ export default {
     clearData () {
       this.$store.commit('metrics/CLEAR_STATS')
     },
-    getCpuUsageText (item) {
-      return item.cpuUsage + '%'
-    },
-    getMemoryUsageText (item) {
-      return item.memoryUsage + 'mb'
-    },
-    getRequestsAvgLatencyText (item) {
-      return item.requestsAvgLatency + 'ms'
+    getChartValueGetter (key) {
+      return item => this.statsInfo[key].valueGetter(item[key])
     },
   },
 }

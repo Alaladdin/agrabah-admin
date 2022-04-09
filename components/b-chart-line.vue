@@ -1,16 +1,16 @@
 <template>
-  <div ref="chartWrapper" class="p-5 rounded shadow-sm w-full bg-white">
+  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white">
     <div ref="chart" class="flex h-30" />
 
-    <div class="text-sm font-mono">
-      <div ref="chartHeading" class="mb-2 text-xs text-gray-600 font-semibold" />
+    <div class="space-y-1 text-xs font-mono">
+      <div ref="chartHeading" class="text-gray-600 font-semibold" />
       <p ref="chartTotal" />
     </div>
   </div>
 </template>
 
 <script>
-import { reject, map, last } from 'lodash'
+import { map, last } from 'lodash'
 import { formatDate } from '@/helpers'
 
 const d3 = (process.client) && require('d3')
@@ -32,7 +32,7 @@ export default {
         return this.dataKey
       },
     },
-    getTotalText: {
+    valueGetter: {
       type: Function,
       default (item) {
         return item[this.dataKey]
@@ -60,10 +60,9 @@ export default {
     },
   },
   methods: {
-    getSortedData () {
-      const nonNullableData = reject(this.data, item => item[this.dataKey] === null)
-      const formattedData = map(nonNullableData, item => ({
-        [this.dataKey]: item[this.dataKey],
+    getSortedData (data) {
+      const formattedData = map(data, item => ({
+        [this.dataKey]: item[this.dataKey] || 0,
         date          : new Date(item.createdAt),
       }))
 
@@ -89,7 +88,7 @@ export default {
       this.drawMarkerLine()
 
       d3.select(this.$refs.chartHeading).text(this.title)
-      d3.select(this.$refs.chartTotal).text(this.getTotalText(last(this.currentData)))
+      d3.select(this.$refs.chartTotal).text(this.valueGetter(last(this.currentData)))
 
       this.svg.on('mousemove', this.onMouseMove)
       this.svg.on('mouseleave', this.onMouseLeave)
@@ -162,7 +161,7 @@ export default {
         .attr('opacity', 1)
 
       d3.select(chartHeading).text(this.getHeadingText(d))
-      d3.select(chartTotal).text(this.getTotalText(d))
+      d3.select(chartTotal).text(this.valueGetter(d))
     },
     getXAccessor (item) {
       return item.date
@@ -181,7 +180,7 @@ export default {
       this.markerDot.attr('opacity', 0)
 
       d3.select(chartHeading).text(this.title)
-      d3.select(chartTotal).text(this.getTotalText(lastDatum))
+      d3.select(chartTotal).text(this.valueGetter(lastDatum))
     },
   },
 }

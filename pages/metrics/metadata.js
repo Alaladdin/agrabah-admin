@@ -1,12 +1,8 @@
 import { formatDate } from '@/helpers'
 
 export default {
-  periodsList: [
-    'day',
-    'week',
-    'month',
-  ],
-  statsInfo: {
+  periodsList: ['day', 'week', 'month'],
+  statsInfo  : {
     cpuUsage: {
       title      : 'CPU usage',
       icon       : 'microchip',
@@ -30,15 +26,14 @@ export default {
     lastCommitDate: {
       title      : 'Last commit',
       icon       : 'calendar',
-      valueGetter: value => value ? formatDate(value, 'DD.MM') : '—',
+      valueGetter: value => value ? formatDate(value, 'DD.MM.YY') : '—',
     },
     requestsAvgLatency: {
       title      : 'Requests latency (avg)',
       valueGetter: value => value + 'ms',
     },
     requestsCount: {
-      title      : 'Requests count',
-      valueGetter: value => value + 'ms',
+      title: 'Requests count',
     },
   },
 }

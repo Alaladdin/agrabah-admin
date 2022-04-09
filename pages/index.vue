@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import BHomePageLoader from './components/b-home-page-loader'
+import BHomePageLoader from './index/components/b-home-page-loader'
 
 export default {
   name      : 'home',

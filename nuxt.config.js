@@ -93,9 +93,7 @@ export default {
     },
   },
   router: {
-    middleware: isDev
-      ? ['restrictPagesByLoginStatus', 'restrictPagesByUserScope']
-      : ['sentry', 'restrictPagesByLoginStatus', 'restrictPagesByUserScope'],
+    middleware       : ['restrictPagesByLoginStatus', 'restrictPagesByUserScope'].concat(isDev ? [] : ['sentry']),
     routeNameSplitter: '/',
   },
   auth: {
