@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white" :class="theme + '__theme'">
+  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white" :class="`theme-${theme}`">
     <div ref="chart" class="flex h-30" />
 
     <div class="space-y-1 text-xs font-mono">
@@ -13,7 +13,7 @@
 import { map, last } from 'lodash'
 import { formatDate } from '@/helpers'
 
-const d3 = (process.client) && require('d3')
+const d3 = process.client && require('d3')
 
 export default {
   name : 'b-chart-line',
@@ -191,62 +191,5 @@ export default {
 </script>
 
 <style lang='scss'>
-.purple__theme {
-  --fill: #ddd6fe;    // 200
-  --line: #8b5cf6;    // 500
-  --marker: #7c3aed;  // 600
-}
-
-.indigo__theme {
-  --fill: #c7d2fe;
-  --line: #6366f1;
-  --marker: #4f46e5;
-}
-
-.pink__theme {
-  --fill: #fbcfe8;
-  --line: #ec4899;
-  --marker: #db2777;
-}
-
-.gray__theme {
-  --fill: #e5e7eb;
-  --line: #6b7280;
-  --marker: #4b5563;
-}
-
-.teal__theme {
-  --fill: #99f6e4;
-  --line: #14b8a6;
-  --marker: #0d9488;
-}
-
-.cyan__theme {
-  --fill: #a5f3fc;
-  --line: #06b6d4;
-  --marker: #0891b2;
-}
-
-.stone__theme {
-  --fill: #e7e5e4;
-  --line: #78716c;
-  --marker: #57534e;
-}
-
-.lime__theme {
-  --fill: #d9f99d;
-  --line: #84cc16;
-  --marker: #65a30d;
-}
-
-.yellow__theme {
-  --fill: #fde68a;
-  --line: #f59e0b;
-  --marker: #d97706;
-}
-
-svg {
-  width: 100%;
-  height: auto;
-}
+@import 'b-chart-line';
 </style>

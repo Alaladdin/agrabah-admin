@@ -1,0 +1,60 @@
+.theme {
+  &-purple {
+    --fill: #ddd6fe; // 200
+    --line: #8b5cf6; // 500
+    --marker: #7c3aed; // 600
+  }
+
+  &-indigo {
+    --fill: #c7d2fe;
+    --line: #6366f1;
+    --marker: #4f46e5;
+  }
+
+  &-pink {
+    --fill: #fbcfe8;
+    --line: #ec4899;
+    --marker: #db2777;
+  }
+
+  &-gray {
+    --fill: #e5e7eb;
+    --line: #6b7280;
+    --marker: #4b5563;
+  }
+
+  &-teal {
+    --fill: #99f6e4;
+    --line: #14b8a6;
+    --marker: #0d9488;
+  }
+
+  &-cyan {
+    --fill: #a5f3fc;
+    --line: #06b6d4;
+    --marker: #0891b2;
+  }
+
+  &-stone {
+    --fill: #e7e5e4;
+    --line: #78716c;
+    --marker: #57534e;
+  }
+
+  &-lime {
+    --fill: #d9f99d;
+    --line: #84cc16;
+    --marker: #65a30d;
+  }
+
+  &-yellow {
+    --fill: #fde68a;
+    --line: #f59e0b;
+    --marker: #d97706;
+  }
+}
+
+svg {
+  width: 100%;
+  height: auto;
+}
