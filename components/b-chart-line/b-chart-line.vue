@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { map, last } from 'lodash'
+import { map, last, findIndex } from 'lodash'
 import { formatDate } from '@/helpers'
 
 const d3 = process.client && require('d3')
@@ -73,15 +73,19 @@ export default {
       return formattedData.sort((a, b) => d3.ascending(a.date, b.date))
     },
     draw () {
+      d3.select(this.$refs.chartHeading).text(this.title)
+      d3.select(this.$refs.chartTotal).text(this.valueGetter(last(this.currentData)))
+
       const { chartWrapper, chart } = this.$refs
       const xDomain = d3.extent(this.currentData, this.getXAccessor)
       const yDomain = [0, d3.max(this.currentData, this.getYAccessor)]
 
       this.areaWidth = chartWrapper.clientWidth * 2
-      this.areaHeight = chartWrapper.clientHeight - 70
-      this.xScale = d3.scaleTime().domain(xDomain).range([0, this.areaWidth])
+      this.areaHeight = chartWrapper.clientHeight - 100
+      this.xScale = d3.scaleLinear().domain(xDomain).range([0, this.areaWidth])
       this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
-      this.svg = d3.select(chart)
+      this.svg = d3
+        .select(chart)
         .append('svg')
         .attr('width', this.areaWidth)
         .attr('height', this.areaHeight)
@@ -91,14 +95,12 @@ export default {
       this.drawLine()
       this.drawMarkerLine()
 
-      d3.select(this.$refs.chartHeading).text(this.title)
-      d3.select(this.$refs.chartTotal).text(this.valueGetter(last(this.currentData)))
-
       this.svg.on('mousemove', this.onMouseMove)
       this.svg.on('mouseleave', this.onMouseLeave)
     },
     drawArea () {
-      const areaGenerator = d3.area()
+      const areaGenerator = d3
+        .area()
         .x(i => this.xScale(this.getXAccessor(i)))
         .y1(i => this.yScale(this.getYAccessor(i)))
         .y0(this.areaHeight)
@@ -111,7 +113,8 @@ export default {
         .attr('fill', 'var(--fill)')
     },
     drawLine () {
-      const lineGenerator = d3.line()
+      const lineGenerator = d3
+        .line()
         .x(i => this.xScale(this.getXAccessor(i)))
         .y(i => this.yScale(this.getYAccessor(i)))
         .curve(d3.curveBumpX)
@@ -168,7 +171,7 @@ export default {
       d3.select(chartTotal).text(this.valueGetter(d))
     },
     getXAccessor (item) {
-      return item.date
+      return findIndex(this.currentData, { date: item.date })
     },
     getYAccessor (item) {
       return item[this.dataKey]
