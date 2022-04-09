@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-20" :class="{ 'space-y-5' : stats }">
+  <div class="pb-20" :class="{ 'space-y-5' : !isLoading }">
     <div class="flex justify-between">
       <b-button
         class="w-max"
@@ -13,15 +13,19 @@
         :value="period"
         :options="periodsOptions"
         variant="white"
-        :disabled="!stats"
+        :disabled="isLoading"
         @change="onPeriodChange"
       />
     </div>
 
-    <b-stats-page-loader v-if="!stats" />
+    <b-stats-page-loader v-if="isLoading" />
 
-    <template v-if="stats">
-      <div class="grid grid-cols-5 gap-5 p-5 rounded bg-white">
+    <template v-if="!isLoading">
+      <t-alert v-if="!headerData.length" class="alert---bordered !mt-15" :dismissible="false" show>
+        No available data
+      </t-alert>
+
+      <div v-if="headerData.length" class="grid grid-cols-5 gap-5 p-5 rounded bg-white">
         <div
           v-for="data in headerData"
           :key="data.key"
@@ -82,14 +86,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { map, reject, some, keys, find, assign } from 'lodash'
-import moment from 'moment'
+import { map, reject, some, keys, find } from 'lodash'
 import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
-import { formatDate, getOptionsFromFlatArray } from '@/helpers'
+import { getOptionsFromFlatArray } from '@/helpers'
 import BSelect from '@/components/b-select'
+import PageDefaultMixin from '@/mixins/m-page-default'
 
 export default {
   name      : 'metric-stats',
@@ -99,25 +103,28 @@ export default {
     'b-select'           : BSelect,
     'b-stats-page-loader': BStatsPageLoader,
   },
-  data: () => ({
+  mixins: [PageDefaultMixin('metrics')],
+  data  : () => ({
     statsInfo     : localMetadata.statsInfo,
     period        : localMetadata.periodsList[0],
+    periodDates   : localMetadata.periodDates,
     periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
   }),
   computed: {
-    ...mapGetters({ stats: 'metrics/getStats' }),
+    ...mapGetters({ rawData: 'metrics/getStats' }),
 
     processName () {
       return this.$route.params.processName
     },
     headerData () {
       const excludedFields = ['_id', 'processName', 'name', 'metrics']
-      const filteredStatsKeys = reject(keys(this.stats), statKey => excludedFields.includes(statKey))
+      const diffFields = ['cpuUsage', 'memoryUsage']
+      const filteredStatsKeys = reject(keys(this.data), statKey => excludedFields.includes(statKey))
 
       return map(filteredStatsKeys, (statKey) => {
-        const value = this.stats[statKey]
         const statInfo = this.statsInfo[statKey]
-        const diffPercentage = this.getStatDiffPercentage(statKey)
+        const diffPercentage = diffFields.includes(statKey) && this.getStatDiffPercentage(statKey)
+        const value = this.data[statKey]
 
         return {
           key  : statKey,
@@ -129,14 +136,7 @@ export default {
       })
     },
     metrics () {
-      if (this.stats) {
-        const { metrics } = this.stats
-
-        if (metrics.length)
-          return metrics
-      }
-
-      return null
+      return this.data.metrics || null
     },
     hasSomeRequestsAvgLatency () {
       return some(this.metrics, metric => metric.requestsAvgLatency !== null)
@@ -145,70 +145,40 @@ export default {
       return some(this.metrics, metric => metric.requestsCount !== null)
     },
   },
-  beforeDestroy () {
-    this.clearData()
-  },
-  created () {
-    this.loadStats()
-  },
   methods: {
     ...mapActions({ init: 'metrics/loadStats' }),
 
-    loadStats () {
-      const period = this.getPeriodDate(this.period)
-      const data = assign({ processName: this.processName }, period)
-
-      this.init(data)
-        .then(stats => this.$setPageTitle(stats.name))
-        .catch(this.$handleError)
-    },
-    getPeriodDate (period) {
-      const todayFormatted = formatDate()
-      const rules = {
-        day: {
-          start : todayFormatted,
-          finish: todayFormatted,
-        },
-        week: {
-          start : formatDate(moment().subtract(7, 'days')),
-          finish: todayFormatted,
-        },
-        month: {
-          start : formatDate(moment().subtract(30, 'days')),
-          finish: todayFormatted,
-        },
+    getInitData () {
+      return {
+        ...this.periodDates[this.period],
+        processName: this.processName,
       }
-
-      return rules[period]
+    },
+    afterInit (stats) {
+      this.$setPageTitle(stats.name)
+    },
+    onPeriodChange (period) {
+      this.period = period
+      this.refresh()
     },
     getStatDiffPercentage (key) {
-      if (this.metrics && ['cpuUsage', 'memoryUsage'].includes(key)) {
-        const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)
-        const diff = this.stats[key] - firstStatValue
+      const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)
+      const diff = this.data[key] - firstStatValue
 
-        if (diff) {
-          if (!firstStatValue)
-            return diff
+      if (diff) {
+        if (!firstStatValue)
+          return diff
 
-          return (diff / firstStatValue * 100).toFixed(1)
-        }
+        return (diff / firstStatValue * 100).toFixed(1)
       }
 
       return 0
     },
-    onPeriodChange (period) {
-      this.period = period
-      this.reInit()
-    },
-    reInit () {
-      this.clearData()
-      this.loadStats()
+    getChartValueGetter (key) {
+      return item => this.statsInfo[key].valueGetter(item[key])
     },
     clearData () {
       this.$store.commit('metrics/CLEAR_STATS')
-    },
-    getChartValueGetter (key) {
-      return item => this.statsInfo[key].valueGetter(item[key])
     },
   },
 }
