@@ -1,5 +1,5 @@
 <template>
-  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white">
+  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white" :class="theme + '__theme'">
     <div ref="chart" class="flex h-30" />
 
     <div class="space-y-1 text-xs font-mono">
@@ -31,6 +31,10 @@ export default {
       default () {
         return this.dataKey
       },
+    },
+    theme: {
+      type   : String,
+      default: '',
     },
     valueGetter: {
       type: Function,
@@ -116,7 +120,7 @@ export default {
         .append('path')
         .datum(this.currentData)
         .attr('d', lineGenerator)
-        .attr('stroke', 'var(--stroke)')
+        .attr('stroke', 'var(--line)')
         .attr('stroke-width', 5)
         .attr('stroke-linejoin', 'round')
         .attr('fill', 'none')
@@ -129,7 +133,7 @@ export default {
         .attr('y1', 0)
         .attr('y2', this.areaHeight)
         .attr('stroke-width', 3)
-        .attr('stroke', 'var(--marker, var(--stroke))')
+        .attr('stroke', 'var(--marker, var(--line))')
         .attr('opacity', 0)
 
       this.markerDot = this.svg
@@ -137,7 +141,7 @@ export default {
         .attr('cx', 0)
         .attr('cy', 0)
         .attr('r', 8)
-        .attr('fill', 'var(--marker, var(--stroke))')
+        .attr('fill', 'var(--marker, var(--line))')
         .attr('opacity', 0)
     },
     onMouseMove (e) {
@@ -187,10 +191,58 @@ export default {
 </script>
 
 <style lang='scss'>
-:root {
-  --stroke: #7a41eb;
-  --fill: #ddd7fc;
-  --marker: #403dc6;
+.purple__theme {
+  --fill: #ddd6fe;    // 200
+  --line: #8b5cf6;    // 500
+  --marker: #7c3aed;  // 600
+}
+
+.indigo__theme {
+  --fill: #c7d2fe;
+  --line: #6366f1;
+  --marker: #4f46e5;
+}
+
+.pink__theme {
+  --fill: #fbcfe8;
+  --line: #ec4899;
+  --marker: #db2777;
+}
+
+.gray__theme {
+  --fill: #e5e7eb;
+  --line: #6b7280;
+  --marker: #4b5563;
+}
+
+.teal__theme {
+  --fill: #99f6e4;
+  --line: #14b8a6;
+  --marker: #0d9488;
+}
+
+.cyan__theme {
+  --fill: #a5f3fc;
+  --line: #06b6d4;
+  --marker: #0891b2;
+}
+
+.stone__theme {
+  --fill: #e7e5e4;
+  --line: #78716c;
+  --marker: #57534e;
+}
+
+.lime__theme {
+  --fill: #d9f99d;
+  --line: #84cc16;
+  --marker: #65a30d;
+}
+
+.yellow__theme {
+  --fill: #fde68a;
+  --line: #f59e0b;
+  --marker: #d97706;
 }
 
 svg {

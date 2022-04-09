@@ -9,7 +9,12 @@
             class="dropdown__item"
             @click="onInput(option.value)"
           >
-            {{ option.title }}
+            <span
+              v-if="option.color"
+              class="inline-block mr-2 rounded w-2 h-2"
+              :style="{ backgroundColor: option.color }"
+            />
+            <span>{{ option.title }}</span>
           </div>
         </div>
       </template>
@@ -18,6 +23,7 @@
         <b-button
           :class="buttonClass"
           :text="text"
+          :color="color"
           :variant="variant"
           type="button"
           after-icon="caret-down"
@@ -31,6 +37,7 @@
     <template #placeholder>
       <b-button
         :text="text"
+        :color="color"
         :variant="variant"
         type="button"
         after-icon="caret-down"
@@ -50,6 +57,10 @@ export default {
   },
   props: {
     text: {
+      type   : String,
+      default: '',
+    },
+    color: {
       type   : String,
       default: '',
     },

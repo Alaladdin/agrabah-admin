@@ -1,17 +1,35 @@
 <template>
   <div class="space-y-25 mb-25">
-    <div>
-      <b-button class="mb-10" text="Toggle disabled state" @click="toggleDisabled" />
+    <b-button class="mb-10 !w-max" text="Toggle disabled state" @click="toggleDisabled" />
 
-      <h2 class="mb-4 font-bold text-4xl"># Button</h2>
-      <div class="flex space-x-3">
-        <b-button text="Default button" :disabled="isDisabled" />
-        <b-button text="Before icon" before-icon="dragon" :disabled="isDisabled" />
-        <b-button text="After icon" after-icon="dragon" :disabled="isDisabled" />
-        <b-button text="White button" variant="white" :disabled="isDisabled" />
-        <b-button text="Indigo button" variant="indigo" :disabled="isDisabled" />
-        <b-button text="Danger button" variant="danger" :disabled="isDisabled" />
-        <b-button text="Link button" variant="link" :disabled="isDisabled" />
+    <div class="space-y-10">
+      <div class="space-y-4">
+        <h2 class="font-bold text-4xl"># Button</h2>
+        <div class="flex space-x-3">
+          <b-button text="Default button" :disabled="isDisabled" />
+          <b-button text="White button" variant="white" :disabled="isDisabled" />
+          <b-button text="Indigo button" variant="indigo" :disabled="isDisabled" />
+          <b-button text="Danger button" variant="danger" :disabled="isDisabled" />
+          <b-button text="Link button" variant="link" :disabled="isDisabled" />
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="mb-4 font-bold text-2xl">— With color</h3>
+
+        <div class="flex space-x-3">
+          <b-button text="With color" color="#fff" :disabled="isDisabled" />
+          <b-button text="With color" color="#14b8a6" variant="white" :disabled="isDisabled" />
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="mb-4 font-bold text-2xl">— With icon</h3>
+
+        <div class="flex space-x-3">
+          <b-button text="Before icon" before-icon="dragon" :disabled="isDisabled" />
+          <b-button text="After icon" after-icon="dragon" :disabled="isDisabled" />
+        </div>
       </div>
     </div>
 

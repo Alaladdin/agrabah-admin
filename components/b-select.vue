@@ -1,6 +1,7 @@
 <template>
   <b-dropdown
-    :text="selectedOptionTitle"
+    :text="selectedOption.text"
+    :color="selectedOption.color"
     :options="options"
     :button-class="buttonClass"
     :variant="variant"
@@ -41,10 +42,17 @@ export default {
     },
   },
   computed: {
-    selectedOptionTitle () {
+    selectedOption () {
       const selectedOption = find(this.options, { value: this.value })
 
-      return selectedOption?.title
+      if (!selectedOption)
+        return {}
+
+      return {
+        text : selectedOption.title,
+        color: selectedOption.color,
+        value: selectedOption.value,
+      }
     },
   },
   methods: {

@@ -6,16 +6,20 @@
         text="back"
         before-icon="left-long"
         variant="white"
-        @click="$router.go(-1)"
+        @click="$router.push('/metrics')"
       />
 
-      <b-select
-        :value="period"
-        :options="periodsOptions"
-        variant="white"
-        :disabled="isLoading"
-        @change="onPeriodChange"
-      />
+      <div class="flex items-center space-x-3">
+        <b-select v-model="theme" :options="themesList" variant="white" />
+
+        <b-select
+          :value="period"
+          :options="periodsOptions"
+          variant="white"
+          :disabled="isLoading"
+          @change="onPeriodChange"
+        />
+      </div>
     </div>
 
     <b-stats-page-loader v-if="isLoading" />
@@ -54,6 +58,7 @@
         <b-chart-line
           :data="metrics"
           :title="statsInfo.cpuUsage.title"
+          :theme="theme"
           :value-getter="getChartValueGetter('cpuUsage')"
           data-key="cpuUsage"
         />
@@ -61,6 +66,7 @@
         <b-chart-line
           :data="metrics"
           :title="statsInfo.memoryUsage.title"
+          :theme="theme"
           :value-getter="getChartValueGetter('memoryUsage')"
           data-key="memoryUsage"
         />
@@ -69,6 +75,7 @@
           v-if="hasSomeRequestsAvgLatency"
           :data="metrics"
           :title="statsInfo.requestsAvgLatency.title"
+          :theme="theme"
           :value-getter="getChartValueGetter('requestsAvgLatency')"
           data-key="requestsAvgLatency"
         />
@@ -77,6 +84,7 @@
           v-if="hasSomeRequestsCount"
           :data="metrics"
           :title="statsInfo.requestsCount.title"
+          :theme="theme"
           data-key="requestsCount"
         />
       </div>
@@ -91,9 +99,11 @@ import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
 import BButton from '@/components/b-button'
-import { getOptionsFromFlatArray } from '@/helpers'
+import { getFromLocalStorage, getOptionsFromFlatArray, setToLocalStorage } from '@/helpers'
 import BSelect from '@/components/b-select'
 import PageDefaultMixin from '@/mixins/m-page-default'
+
+const THEME_KEY = 'stats__theme'
 
 export default {
   name      : 'metric-stats',
@@ -109,6 +119,8 @@ export default {
     period        : localMetadata.periodsList[0],
     periodDates   : localMetadata.periodDates,
     periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
+    themesList    : localMetadata.themes,
+    theme         : getFromLocalStorage(THEME_KEY, localMetadata.themes[0].value),
   }),
   computed: {
     ...mapGetters({ rawData: 'metrics/getStats' }),
@@ -143,6 +155,14 @@ export default {
     },
     hasSomeRequestsCount () {
       return some(this.metrics, metric => metric.requestsCount !== null)
+    },
+  },
+  watch: {
+    theme: {
+      immediate: true,
+      handler (theme) {
+        setToLocalStorage(THEME_KEY, theme)
+      },
     },
   },
   methods: {

@@ -1,6 +1,11 @@
 <template>
   <t-button v-bind="buttonProps" class="b-button" v-on="$listeners">
     <slot>
+      <span
+        v-if="color"
+        class="rounded w-2 h-2"
+        :style="{ backgroundColor: color }"
+      />
       <fa v-if="beforeIcon" :icon="beforeIcon" />
       <span v-if="text">{{ text }}</span>
       <fa v-if="afterIcon" :icon="afterIcon" />
@@ -16,6 +21,10 @@ export default {
   props: {
     text: {
       type   : [String, Array],
+      default: '',
+    },
+    color: {
+      type   : String,
       default: '',
     },
     beforeIcon: {
