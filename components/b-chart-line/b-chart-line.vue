@@ -42,6 +42,10 @@ export default {
         return item[this.dataKey]
       },
     },
+    showTime: {
+      type   : Boolean,
+      default: true,
+    },
   },
   data: () => ({
     currentData: [],
@@ -65,12 +69,10 @@ export default {
   },
   methods: {
     getSortedData (data) {
-      const formattedData = map(data, item => ({
+      return map(data, item => ({
         [this.dataKey]: item[this.dataKey] || 0,
         date          : new Date(item.createdAt),
       }))
-
-      return formattedData.sort((a, b) => d3.ascending(a.date, b.date))
     },
     draw () {
       const { chartWrapper, chart } = this.$refs
@@ -165,17 +167,14 @@ export default {
     },
     onMouseMove (e) {
       const { item, x, y } = this.getMovingData(e)
-      const transition = this.getTransition(50)
 
       this.markerLine
         .attr('opacity', 1)
-        .transition(transition)
         .attr('x1', x)
         .attr('x2', x)
 
       this.markerDot
         .attr('opacity', 1)
-        .transition(transition)
         .attr('cx', x)
         .attr('cy', y)
 
@@ -210,7 +209,8 @@ export default {
     },
     setChartInfo (item, title) {
       const { chartTitle, chartDesc } = this.$refs
-      const newTitle = title || formatDate(item.date, 'DD.MM — HH:mm')
+      const format = this.showTime ? 'DD.MM — HH:mm' : 'DD.MM'
+      const newTitle = title || formatDate(item.date, format)
 
       d3.select(chartTitle).text(newTitle)
       d3.select(chartDesc).text(this.valueGetter(item))

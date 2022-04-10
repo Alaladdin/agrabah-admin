@@ -66,6 +66,7 @@
           :theme="theme"
           :value-getter="getChartValueGetter('cpuUsage')"
           data-key="cpuUsage"
+          :show-time="period === 'day'"
         />
 
         <b-chart-line
@@ -74,6 +75,7 @@
           :theme="theme"
           :value-getter="getChartValueGetter('memoryUsage')"
           data-key="memoryUsage"
+          :show-time="period === 'day'"
         />
 
         <b-chart-line
@@ -83,6 +85,7 @@
           :theme="theme"
           :value-getter="getChartValueGetter('requestsAvgLatency')"
           data-key="requestsAvgLatency"
+          :show-time="period === 'day'"
         />
 
         <b-chart-line
@@ -91,6 +94,7 @@
           :title="statsInfo.requestsCount.title"
           :theme="theme"
           data-key="requestsCount"
+          :show-time="period === 'day'"
         />
       </div>
     </template>

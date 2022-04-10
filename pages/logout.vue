@@ -14,7 +14,7 @@
 
     <div class="flex justify-between">
       <b-button class="mr-5" text="Get back" before-icon="left-long" @click="goBack" />
-      <b-button text="Logout" after-icon="arrow-right-to-bracket" variant="white" @click="logout" />
+      <b-button text="Logout" after-icon="arrow-right-from-bracket" variant="white" @click="logout" />
     </div>
   </div>
 </template>
