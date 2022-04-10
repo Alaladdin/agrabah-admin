@@ -1,3 +1,5 @@
+import { assign } from 'lodash/object'
+import { map } from 'lodash'
 import * as StoreDefaultMixin from '@/mixins/m-store-default'
 
 export const state = () => ({
@@ -19,6 +21,17 @@ export const mutations = {
 
   SET_STATS (state, stats) {
     state.stats = stats
+  },
+  PATCH_STATS (state, newStats) {
+    state.stats = assign({}, state.stats, newStats)
+  },
+  PATCH_ITEM (state, newItem) {
+    state.data = map(state.data, (item) => {
+      if (item.processName !== newItem.processName)
+        return item
+
+      return assign({}, item, newItem)
+    })
   },
   SET_PERIOD (state, period) {
     state.currentPeriod = period
@@ -53,6 +66,15 @@ export const actions = {
         ctx.commit('SET_STATS', {})
 
         throw err
+      })
+  },
+  setProcessStatus (ctx, { processName, enable }) {
+    return this.$axios.$post('/api/setProcessStatus', { processName, enable })
+      .then((res) => {
+        ctx.commit('PATCH_STATS', { isOnline: enable })
+        ctx.commit('PATCH_ITEM', { processName, isOnline: enable })
+
+        return res.result
       })
   },
 }

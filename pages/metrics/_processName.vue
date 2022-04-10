@@ -2,7 +2,6 @@
   <div class="pb-20" :class="{ 'space-y-5' : !isLoading }">
     <div class="flex justify-between">
       <b-button
-        class="w-max"
         text="back"
         before-icon="left-long"
         variant="white"
@@ -10,6 +9,15 @@
       />
 
       <div class="flex items-center space-x-3">
+        <b-button
+          v-if="!isLoading && canManageProcess"
+          :text="data.isOnline ? 'online' : 'offline'"
+          :color="data.isOnline ? '#14b8a6' : '#dc2626'"
+          variant="white"
+          :disabled="isTogglingProcess"
+          @click="toggleProcess()"
+        />
+
         <b-select
           v-model="theme"
           :options="themesOptions"
@@ -103,7 +111,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { map, reject, some, keys, find } from 'lodash'
+import { map, some, keys, find, filter } from 'lodash'
 import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
@@ -124,12 +132,13 @@ export default {
   },
   mixins: [PageDefaultMixin('metrics')],
   data  : () => ({
-    statsInfo     : localMetadata.statsInfo,
-    periodsOptions: getOptionsFromFlatArray(localMetadata.periodsList),
-    periodDates   : localMetadata.periodDates,
-    themesOptions : localMetadata.themesOptions,
-    period        : null,
-    theme         : null,
+    statsInfo        : localMetadata.statsInfo,
+    periodsOptions   : getOptionsFromFlatArray(localMetadata.periodsList),
+    periodDates      : localMetadata.periodDates,
+    themesOptions    : localMetadata.themesOptions,
+    period           : null,
+    theme            : null,
+    isTogglingProcess: false,
   }),
   computed: {
     ...mapGetters('metrics', {
@@ -140,14 +149,16 @@ export default {
     processName () {
       return this.$route.params.processName
     },
+    canManageProcess () {
+      return !['server', 'admin'].includes(this.processName)
+    },
     headerData () {
-      const excludedFields = ['_id', 'processName', 'name', 'metrics']
-      const diffFields = ['cpuUsage', 'memoryUsage']
-      const filteredStatsKeys = reject(keys(this.data), statKey => excludedFields.includes(statKey))
+      const headerFields = ['cpuUsage', 'memoryUsage', 'uptime', 'lastCommitDate', 'restartsCount']
+      const filteredStatsKeys = filter(keys(this.data), statKey => headerFields.includes(statKey))
 
       return map(filteredStatsKeys, (statKey) => {
         const statInfo = this.statsInfo[statKey]
-        const diffPercentage = diffFields.includes(statKey) && this.getStatDiffPercentage(statKey)
+        const diffPercentage = ['cpuUsage', 'memoryUsage'].includes(statKey) && this.getStatDiffPercentage(statKey)
         const value = this.data[statKey]
 
         return {
@@ -170,7 +181,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions({ init: 'metrics/loadStats' }),
+    ...mapActions('metrics', {
+      init            : 'loadStats',
+      setProcessStatus: 'setProcessStatus',
+    }),
 
     beforeInit () {
       this.period = this.currentPeriod || this.periodsOptions[0].value
@@ -205,6 +219,20 @@ export default {
       }
 
       return 0
+    },
+    toggleProcess () {
+      const data = {
+        processName: this.processName,
+        enable     : !this.data.isOnline,
+      }
+
+      this.isTogglingProcess = true
+
+      this.setProcessStatus(data)
+        .catch(this.$handleError)
+        .finally(() => {
+          this.isTogglingProcess = false
+        })
     },
     getChartValueGetter (key) {
       return item => this.statsInfo[key].valueGetter(item[key])
