@@ -71,7 +71,12 @@ export const actions = {
   setProcessStatus (ctx, { processName, enable }) {
     return this.$axios.$post('/api/setProcessStatus', { processName, enable }, { updateChanges: true })
       .then((res) => {
-        ctx.commit('PATCH_STATS', { isOnline: enable })
+        const statsData = { isOnline: enable }
+
+        if (!enable)
+          statsData.uptime = '0h'
+
+        ctx.commit('PATCH_STATS', statsData)
         ctx.commit('PATCH_ITEM', { processName, isOnline: enable })
 
         return res.result
