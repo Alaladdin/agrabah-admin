@@ -9,9 +9,6 @@
  * don't use "plain: true" with "html: true"
  */
 
-import { find } from 'lodash'
-import { vkChats } from '@/data'
-
 export default {
   fieldsInfo: {
     content: {
@@ -22,16 +19,16 @@ export default {
       title: 'lazy actuality',
       plain: true,
     },
-    vkMessage: {
-      title      : 'Message sent via VK bot',
+    processToggled: {
+      title      : 'Process managed',
       html       : true,
       valueGetter: (data) => {
-        const chat = find(vkChats, { chatId: data.chatId }) || {}
+        const onlineClass = data.enable ? '#14b8a6' : '#dc2626'
 
         return `
         <div>
-          <div><strong>Chat:</strong>${chat.title || 'unknown'}</div>
-          <div><strong>Message:</strong>${data.message}</div>
+          <div><strong>Process:</strong> ${data.title || data.processName}</div>
+          <div><strong>Enabled:</strong> <span style="color: ${onlineClass}">${data.enable}</span></div>
         </div>
         `
       },

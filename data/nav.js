@@ -15,12 +15,6 @@ export default [
     icon : 'calendar-days',
   },
   {
-    name : 'bots/vk',
-    title: 'VK Bot',
-    icon : ['fab', 'vk'],
-    scope: 'admin',
-  },
-  {
     name : 'short-url',
     title: 'Short URL',
     icon : 'link',
