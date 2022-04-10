@@ -80,7 +80,7 @@ export default {
       const yDomain = [0, d3.max(this.currentData, this.getYAccessor)]
 
       this.areaWidth = chartWrapper.clientWidth * 2
-      this.areaHeight = chartWrapper.clientHeight
+      this.areaHeight = chartWrapper.clientHeight - 70
       this.xScale = d3.scaleLinear().domain(xDomain).range([0, this.areaWidth])
       this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
       this.svg = d3
