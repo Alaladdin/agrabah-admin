@@ -169,7 +169,7 @@ export default {
     ...mapActions({ init: 'metrics/loadStats' }),
 
     beforeInit () {
-      this.period = this.currentPeriod || this.periodsOptions[1].value
+      this.period = this.currentPeriod || this.periodsOptions[0].value
       this.theme = getFromLocalStorage(THEME_KEY, this.themesOptions[0].value)
     },
     getInitData () {

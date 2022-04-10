@@ -1,10 +1,10 @@
 <template>
-  <div ref="chartWrapper" class="px-5 py-3 rounded shadow-sm w-full bg-white" :class="`theme-${theme}`">
-    <div ref="chart" class="flex h-30" />
+  <div ref="chartWrapper" class="b-chart-line" :class="`theme-${theme}`">
+    <div ref="chart" class="flex h-30 overflow-hidden" />
 
     <div class="space-y-1 text-xs font-mono">
-      <p ref="chartTitle" class="text-gray-600 font-semibold" />
-      <p ref="chartDesc" />
+      <p ref="chartTitle" class="font-semibold transition" style="color: var(--line)" />
+      <p ref="chartDesc" class="transition" style="color: var(--marker)" />
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
       const yDomain = [0, d3.max(this.currentData, this.getYAccessor)]
 
       this.areaWidth = chartWrapper.clientWidth * 2
-      this.areaHeight = chartWrapper.clientHeight - 70
+      this.areaHeight = chartWrapper.clientHeight
       this.xScale = d3.scaleLinear().domain(xDomain).range([0, this.areaWidth])
       this.yScale = d3.scaleLinear().domain(yDomain).range([this.areaHeight, 0])
       this.svg = d3
@@ -97,6 +97,13 @@ export default {
       this.svg.on('mouseleave', this.onMouseLeave)
     },
     drawArea () {
+      const initialAreaGenerator = d3
+        .area()
+        .x(i => this.xScale(this.getXAccessor(i)))
+        .y1(0)
+        .y0(this.areaHeight)
+        .curve(d3.curveBumpX)
+
       const areaGenerator = d3
         .area()
         .x(i => this.xScale(this.getXAccessor(i)))
@@ -107,15 +114,12 @@ export default {
       const area = this.svg
         .append('path')
         .datum(this.currentData)
-        .attr('d', areaGenerator)
-        .attr('width', 0)
+        .attr('d', initialAreaGenerator)
         .attr('fill', 'var(--area)')
 
       area
-        .transition()
-        .ease(d3.easeSin)
-        .duration(1000)
-        .attr('width', this.areaWidth)
+        .transition(this.getTransition())
+        .attr('d', areaGenerator)
     },
     drawLine () {
       const lineGenerator = d3
