@@ -2,9 +2,23 @@
   @apply ease-in-out;
 }
 
-button {
-  cursor: pointer;
-  background-color: inherit;
+
+body,
+textarea, {
+  overflow: auto;
+  @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.1s;
+  transition-property: opacity, transform;
+}
+
+.page-enter,
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
 textarea {
@@ -35,24 +49,6 @@ textarea {
       @apply pointer-events-none bg-gray-100 transition duration-150;
     }
   }
-}
-
-body,
-textarea, {
-  overflow: auto;
-  @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
-}
-
-.page-enter-active,
-.page-leave-active {
-  transition: all 0.1s;
-  transition-property: opacity, transform;
-}
-
-.page-enter,
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-5px);
 }
 
 .v-toast {
@@ -224,25 +220,6 @@ textarea, {
   }
 }
 
-.changes {
-  &__body {
-    @apply mb-10 rounded overflow-hidden;
-  }
-
-  &__item {
-    @apply flex items-center p-4 border-b last:border-b-0 bg-white shadow-sm transition duration-20 hover:bg-purple-50;
-
-    &-content {
-      @apply grid max-w-8/10 w-full;
-      grid-template-columns: 1fr 2.5fr;
-    }
-
-    &-description {
-      @apply flex items-center text-sm;
-    }
-  }
-}
-
 .b-change-info-plain-modal {
   .modal__wrapper {
     @apply max-w-1/2 h-1/2;
@@ -343,7 +320,7 @@ textarea, {
     border-radius: 4px;
     width: 100%;
     height: 100%;
-    transition: 200ms all ease-in-out;
+    transition: 200ms all;
     transition-property: background, width;
 
     &--low {

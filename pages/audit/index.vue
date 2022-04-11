@@ -11,19 +11,16 @@
           class="self-end mb-5"
           text="Clear history"
           variant="indigo"
-          @click="clearChanges"
+          @click="clearChangesHistory"
         />
 
         <div class="changes__body">
-          <vue-virtual-scroll
-            v-slot="{ item }"
-            key-field="_id"
-            :items="data"
-            :item-size="73"
-            page-mode
-          >
-            <b-change-item :change="item" @open-change-modal="openChangeModal" />
-          </vue-virtual-scroll>
+          <b-change-item
+            v-for="change in data"
+            :key="change._id"
+            :change="change"
+            @open-change-modal="openChangeModal"
+          />
         </div>
 
         <b-change-info-plain-modal
@@ -106,6 +103,10 @@ export default {
 
       return { title: field.id }
     },
+    clearChangesHistory () {
+      this.clearChanges()
+        .catch(this.$handleError)
+    },
     openChangeModal (change, changedAt) {
       this.changeModalData = assign({}, change, { changedAt })
       this.openModal('showChangeModal')
@@ -116,3 +117,7 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+@import 'audit';
+</style>

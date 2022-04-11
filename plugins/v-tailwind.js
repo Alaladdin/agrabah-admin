@@ -6,14 +6,14 @@ const VueTailwindSettings = {
   't-button': {
     component: TButton,
     props    : {
-      fixedClasses: 'flex items-center justify-center px-4 py-1 rounded font-semibold text-sm font-sans shadow-sm select-none transition duration-200 ease-in-out focus:outline-none active:ring disabled:pointer-events-none disabled:cursor-default disabled:opacity-60',
+      fixedClasses: 'flex items-center justify-center px-4 py-1 rounded font-semibold text-sm font-sans shadow-sm cursor-pointer select-none transition duration-200 ease-in-out focus:outline-none active:ring disabled:pointer-events-none disabled:cursor-default disabled:opacity-60',
       classes     : 'text-white bg-gray-800 hover:bg-gray-900 active:ring-gray-400',
       variants    : {
         icon  : '!p-0 text-gray-600 shadow-none',
         white : 'text-gray-800 bg-white hover:bg-light-400 active:ring-gray-300',
         indigo: 'text-white bg-indigo-500 hover:bg-indigo-600 active:ring-indigo-300',
         danger: 'text-white bg-red-500 hover:bg-red-600 active:ring-red-300',
-        link  : '!p-0 text-indigo-500 shadow-none hover:text-indigo-600 active:text-indigo-300 bg-none',
+        link  : '!p-0 text-indigo-500 bg-transparent shadow-none hover:text-indigo-600 active:text-indigo-300 bg-none',
       },
     },
   },

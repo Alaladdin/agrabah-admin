@@ -15,12 +15,14 @@ export default {
   render: {
     asyncScripts: true,
   },
-  plugins: [
+  parallel  : true,
+  cache     : true,
+  hardSource: true,
+  plugins   : [
     '~/plugins/axios',
     '~/plugins/v-tooltip',
     '~/plugins/v-md-editor',
     '~/plugins/v-tailwind',
-    '~/plugins/v-virtual-scroll',
     '~/plugins/v-toast',
     '~/plugins/handle-error',
     '~/plugins/set-sidebar-notification',
