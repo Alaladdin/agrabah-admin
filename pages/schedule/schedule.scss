@@ -1,0 +1,15 @@
+.schedule {
+  @apply grid grid-cols-5 rounded-lg overflow-hidden shadow-sm;
+
+  &__item {
+    @apply bg-white border-purple-200 border-r-1 last:border-r-0;
+  }
+
+  &__header-item {
+    @apply py-3 bg-purple-200 text-purple-600 text-center select-none;
+  }
+
+  &__date {
+    @apply mb-2 text-right text-xs text-gray-400 font-semibold select-none;
+  }
+}

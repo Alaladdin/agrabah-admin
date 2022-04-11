@@ -38,3 +38,9 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+.b-change-info-plain-modal .modal__wrapper {
+  @apply max-w-1/2 h-1/2;
+}
+</style>

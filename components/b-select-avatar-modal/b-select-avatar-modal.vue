@@ -150,3 +150,7 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+@import 'b-select-avatar-modal';
+</style>

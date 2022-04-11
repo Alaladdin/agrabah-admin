@@ -95,3 +95,7 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+@import 'short-url';
+</style>

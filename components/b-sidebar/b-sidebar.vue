@@ -103,3 +103,7 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+@import 'b-sidebar';
+</style>

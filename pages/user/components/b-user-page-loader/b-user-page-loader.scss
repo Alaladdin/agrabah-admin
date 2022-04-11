@@ -1,0 +1,15 @@
+.b-user-page-loader {
+  @apply flex flex-col justify-center items-center;
+
+  &__avatar {
+    @apply m-x-7 rounded-full w-40 h-40 shadow-sm ring-8 ring-purple-300 bg-purple-400;
+  }
+
+  &__username {
+    @apply flex justify-center items-center mb-5 w-25 h-7;
+  }
+
+  &__fields {
+    @apply rounded shadow-sm bg-white overflow-hidden;
+  }
+}

@@ -18,3 +18,7 @@ export default {
   name: 'b-user-page-loader',
 }
 </script>
+
+<style lang='scss'>
+@import 'b-user-page-loader';
+</style>

@@ -1,0 +1,49 @@
+.sidebar {
+  @apply fixed inline-flex flex-row min-h-screen bg-indigo-700;
+
+  &__container {
+    @apply flex flex-col flex-shrink-0 w-full md:w-64 text-gray-700;
+  }
+
+  &__title-container {
+    @apply flex flex-shrink-0 flex-row items-center justify-center px-8 py-4;
+  }
+
+  &__title {
+    @apply rounded-lg text-lg text-indigo-200 font-semibold tracking-widest uppercase;
+  }
+
+  &__nav {
+    @apply flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto;
+
+    &-badge {
+      @apply inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600;
+    }
+  }
+
+  &__profile {
+    @apply flex flex-col p-4;
+
+    &-user-info {
+      @apply flex items-center mb-5;
+
+      p {
+        &:first-child {
+          @apply block truncate max-w-30 text-indigo-100;
+        }
+
+        &:last-child {
+          @apply text-sm text-indigo-300;
+        }
+      }
+    }
+
+    &-avatar {
+      @apply mr-3 ring-indigo-500;
+    }
+
+    &-button {
+      @apply flex items-center p-2.5 rounded-2xl bg-indigo-600 hover:opacity-70 active:ring-indigo-500;
+    }
+  }
+}
