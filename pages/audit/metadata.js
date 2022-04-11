@@ -24,11 +24,12 @@ export default {
       html       : true,
       valueGetter: (data) => {
         const onlineClass = data.enable ? '#14b8a6' : '#dc2626'
+        const onlineText = data.enable ? 'turned on' : 'turned off'
 
         return `
         <div>
           <div><strong>Process:</strong> ${data.title || data.processName}</div>
-          <div><strong>Enabled:</strong> <span style="color: ${onlineClass}">${data.enable}</span></div>
+          <div><strong>Status:</strong> <span style="color: ${onlineClass}">${onlineText}</span></div>
         </div>
         `
       },
