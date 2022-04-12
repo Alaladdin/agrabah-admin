@@ -15,10 +15,7 @@ export default {
   render: {
     asyncScripts: true,
   },
-  parallel  : true,
-  cache     : true,
-  hardSource: true,
-  plugins   : [
+  plugins: [
     '~/plugins/axios',
     '~/plugins/v-tooltip',
     '~/plugins/v-md-editor',

@@ -20,15 +20,16 @@ export default {
       plain: true,
     },
     processToggled: {
-      title      : 'Process managed',
+      title      : 'process managed',
       html       : true,
       valueGetter: (data) => {
         const onlineClass = data.enable ? '#14b8a6' : '#dc2626'
         const onlineText = data.enable ? 'turned on' : 'turned off'
+        const link = `<a href='/metrics/${data.processName}' class='text-indigo-500'>${data.title || data.processName}</a>`
 
         return `
         <div>
-          <div><strong>Process:</strong> ${data.title || data.processName}</div>
+          <div><strong>Process:</strong> ${link}</div>
           <div><strong>Status:</strong> <span style="color: ${onlineClass}">${onlineText}</span></div>
         </div>
         `

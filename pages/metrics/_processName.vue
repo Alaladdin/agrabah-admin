@@ -15,7 +15,7 @@
           :color="data.isOnline ? '#14b8a6' : '#dc2626'"
           variant="white"
           :disabled="isTogglingProcess"
-          @click="toggleProcess()"
+          @click="toggleProcess"
         />
 
         <b-select
@@ -42,12 +42,8 @@
         No available data
       </t-alert>
 
-      <div v-if="headerData.length" class="grid grid-cols-5 gap-5 p-5 rounded bg-white">
-        <div
-          v-for="data in headerData"
-          :key="data.key"
-          class="flex flex-col border-r-1 last:border-none"
-        >
+      <div v-if="headerData.length" class="grid grid-cols-4 gap-5 p-5 rounded bg-white">
+        <div v-for="data in headerData" :key="data.key" class="flex flex-col border-r-1 last:border-none">
           <span class="mb-1 text-xs text-gray-400">{{ data.title }}</span>
           <div class="flex items-center">
             <fa class="mr-3 text-gray-800 !text-lg" :icon="data.icon" />
@@ -67,7 +63,11 @@
         </div>
       </div>
 
-      <div v-if="metrics" class="grid grid-cols-2 gap-5">
+      <t-alert v-if="!metrics.length" class="alert---bordered !mt-15" :dismissible="false" show>
+        No available data
+      </t-alert>
+
+      <div v-if="metrics.length" class="grid grid-cols-2 gap-5">
         <b-chart-line
           :data="metrics"
           :title="statsInfo.cpuUsage.title"
@@ -208,14 +208,18 @@ export default {
       setToLocalStorage(THEME_KEY, theme)
     },
     getStatDiffPercentage (key) {
-      const { [key]: firstStatValue } = find(this.metrics, stat => stat !== null)
-      const diff = this.data[key] - firstStatValue
+      const firstNonNullableStat = find(this.metrics, stat => stat !== null)
 
-      if (diff) {
-        if (!firstStatValue)
-          return diff
+      if (firstNonNullableStat) {
+        const firstStatValue = firstNonNullableStat[key]
+        const diff = this.data[key] - firstStatValue
 
-        return (diff / firstStatValue * 100).toFixed(1)
+        if (diff) {
+          if (!firstStatValue)
+            return diff
+
+          return (diff / firstStatValue * 100).toFixed(1)
+        }
       }
 
       return 0
