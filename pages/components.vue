@@ -113,7 +113,7 @@
     <div>
       <h2 class="mb-4 font-bold text-4xl"># User info</h2>
       <div class="p-4 rounded-lg w-max bg-white">
-        <b-user-info :user="$auth.$state.user" />
+        <b-user-info :user="user" />
       </div>
     </div>
   </div>

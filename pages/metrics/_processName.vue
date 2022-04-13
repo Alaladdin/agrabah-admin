@@ -10,11 +10,10 @@
 
       <div class="flex items-center space-x-3">
         <b-button
-          v-if="!isLoading && canManageProcess"
-          :text="data.isOnline ? 'online' : 'offline'"
-          :color="data.isOnline ? '#14b8a6' : '#dc2626'"
+          :text="toggleButtonStatusData.text"
+          :color="toggleButtonStatusData.color"
           variant="white"
-          :disabled="isTogglingProcess"
+          :disabled="!canToggleProcess"
           @click="toggleProcess"
         />
 
@@ -149,8 +148,25 @@ export default {
     processName () {
       return this.$route.params.processName
     },
-    canManageProcess () {
-      return !['server', 'admin'].includes(this.processName)
+    canToggleProcess () {
+      const canManageProcess = !['server', 'admin'].includes(this.processName)
+
+      return canManageProcess && !this.isLoading && !this.isTogglingProcess
+    },
+    toggleButtonStatusData () {
+      if (this.data) {
+        const { isOnline } = this.data
+
+        return {
+          text : isOnline ? 'online' : 'offline',
+          color: isOnline ? '#14b8a6' : '#dc2626',
+        }
+      }
+
+      return {
+        text : 'loading',
+        color: '#ea580c',
+      }
     },
     headerData () {
       const headerFields = ['cpuUsage', 'memoryUsage', 'uptime', 'lastCommitDate', 'restartsCount']
