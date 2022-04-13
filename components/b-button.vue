@@ -1,5 +1,5 @@
 <template>
-  <t-button v-bind="buttonProps" class="b-button" v-on="$listeners">
+  <t-button v-bind="buttonProps" class="b-button" v-on="!buttonProps.disabled && $listeners">
     <slot>
       <span
         v-if="color"
