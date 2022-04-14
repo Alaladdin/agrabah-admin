@@ -108,13 +108,15 @@ export default {
     }),
 
     profileInfoFields () {
-      const { lastLoggedAt, createdAt, scope } = this.actualUser
+      const { lastLoggedAt, lastOnline, createdAt, scope } = this.actualUser
       const accountAge = moment().diff(createdAt, 'days') + ' days'
       const lastLoggedDate = formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY')
+      const lastOnlineDate = formatDate(lastOnline, 'HH:mm:ss DD.MM.YYYY')
 
       return [
         { title: 'Account age', value: accountAge },
         { title: 'Last logged at', value: lastLoggedDate },
+        { title: 'Last online', value: lastOnlineDate },
         { title: 'Access level', value: scope.join(', ') },
       ]
     },
@@ -193,10 +195,8 @@ export default {
         })
     },
     afterNewDataSaved (newUser) {
-      const { username: oldUsername } = this.currentUser
-
-      if (oldUsername !== newUser.username)
-        this.$router.replace({ name: 'user/username', params: { username: newUser.username } })
+      this.$router.replace({ name: 'user/username', params: { username: newUser.username } })
+        .catch(() => {})
 
       this.stopEditing()
     },
