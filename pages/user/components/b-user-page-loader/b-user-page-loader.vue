@@ -6,7 +6,7 @@
     </div>
 
     <div class="b-user-page-loader__fields">
-      <div v-for="field in 3" :key="field" class="options !py-4">
+      <div v-for="field in 4" :key="field" class="options !py-4">
         <p v-for="fieldItem in 2" :key="fieldItem" class="animate-pulse rounded h-3 w-30 bg-gray-200" />
       </div>
     </div>
