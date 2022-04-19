@@ -7,7 +7,7 @@
         :style="{ backgroundColor: color }"
       />
       <fa v-if="beforeIcon" :icon="beforeIcon" />
-      <span v-if="text">{{ text }}</span>
+      <span v-if="text" :class="textClass">{{ text }}</span>
       <fa v-if="afterIcon" :icon="afterIcon" />
     </slot>
   </t-button>
@@ -21,6 +21,10 @@ export default {
   props: {
     text: {
       type   : [String, Array],
+      default: '',
+    },
+    textClass: {
+      type   : String,
       default: '',
     },
     color: {

@@ -12,6 +12,7 @@
     </span>
 
     <t-input
+      ref="input"
       :value="value"
       :class="inputClass"
       :placeholder="$attrs.placeholder || $props.label"

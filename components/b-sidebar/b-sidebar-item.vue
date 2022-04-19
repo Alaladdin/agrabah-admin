@@ -10,7 +10,7 @@
         {{ notificationsCount }}
       </span>
 
-      <fa v-if="item.children" :icon="item.isOpen ? 'caret-up' : 'caret-down'" />
+      <b-caret v-if="item.children" :value="item.isOpen" is-inverted-animation />
     </a>
 
     <client-only>
@@ -23,9 +23,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import BCaret from '@/components/b-caret'
 
 export default {
-  name : 'b-sidebar-item',
+  name      : 'b-sidebar-item',
+  components: {
+    'b-caret': BCaret,
+  },
   props: {
     item: {
       type   : Object,
