@@ -29,6 +29,9 @@ export default {
     { path: '~/components', pattern: '*.vue' },
     { path: '~/components', pattern: '**/*.js' },
   ],
+  build: {
+    analyze: true,
+  },
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',

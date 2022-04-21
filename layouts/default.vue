@@ -134,8 +134,8 @@ export default {
     prepareNavItems (navItems) {
       const { scope: userScope } = this.user
       const currentNavItems = filter(navItems, (item) => {
-        if (!item.scope) return true
         if (item.hidden) return false
+        if (!item.scope) return true
 
         return userScope.includes(item.scope)
       })

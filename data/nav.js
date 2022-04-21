@@ -10,6 +10,11 @@ export default [
     icon : 'newspaper',
   },
   {
+    name  : 'actuality/actualityId',
+    title : 'Actuality',
+    hidden: true,
+  },
+  {
     name : 'schedule',
     title: 'Schedule',
     icon : 'calendar-days',

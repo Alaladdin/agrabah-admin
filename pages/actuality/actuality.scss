@@ -1,0 +1,21 @@
+.actuality {
+  &__section-item {
+    @apply flex justify-between items-center px-5 py-4 cursor-pointer;
+    @apply hover:bg-gray-50;
+    @apply active:bg-gray-100;
+
+    .show-on-hover {
+      @apply opacity-0;
+    }
+
+    &:hover {
+      .show-on-hover {
+        @apply opacity-100;
+      }
+
+      .hide-on-hover {
+        @apply opacity-0 hidden;
+      }
+    }
+  }
+}
