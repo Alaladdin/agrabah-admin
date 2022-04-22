@@ -19,16 +19,18 @@
           />
         </form>
 
-        <div v-if="!isLoading && !data.length" class="p-4 font-semibold text-center bg-indigo-50 text-indigo-400">
-          No actualities
-        </div>
+        <template v-if="!isLoading && data">
+          <div v-if="!data.length" class="p-4 font-semibold text-center bg-indigo-50 text-indigo-400">
+            No actualities
+          </div>
 
-        <b-actuality-item
-          v-for="item in data"
-          :key="item._id"
-          :item="item"
-          @toggle-caret="toggleSection"
-        />
+          <b-actuality-item
+            v-for="item in data"
+            :key="item._id"
+            :item="item"
+            @toggle-caret="toggleSection"
+          />
+        </template>
       </div>
     </div>
   </div>

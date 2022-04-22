@@ -1,5 +1,14 @@
 <template>
   <div class="flex w-full">
+    <div class="mb-4">
+      <b-button
+        text="back"
+        before-icon="left-long"
+        variant="white"
+        @click="$router.push('/actuality')"
+      />
+    </div>
+
     <div class="flex justify-between mb-3 w-full">
       <v-md-editor
         v-model="data.data"
@@ -7,8 +16,8 @@
         :class="{ 'disabled' : isEditDisabled }"
         :mode="user.isAdmin ? 'editable' : 'preview'"
         left-toolbar="code bold link italic"
-        right-toolbar="switchActualityType | preview sync-scroll fullscreen"
-        placeholder="Urgent things"
+        right-toolbar="preview sync-scroll fullscreen"
+        placeholder="Some cool words"
         autofocus
         @keydown.native.enter.ctrl="onEnter"
       />
@@ -100,8 +109,8 @@ export default {
     getInitData () {
       return this.actualityId
     },
-    getPreparedData (data) {
-      return assign({}, data, getFromLocalStorage(this.actualityStoreKey))
+    getPreparedData (actuality) {
+      return assign({}, actuality, getFromLocalStorage(this.actualityStoreKey))
     },
     afterInit (actuality) {
       this.$setPageTitle(actuality.name)
@@ -115,21 +124,22 @@ export default {
 
       this.editActuality(this.data)
         .catch(this.$handleError)
+        .then(this.handleActualityChange)
         .finally(() => {
           this.isUpdating = false
         })
     },
+    refresh () {
+      this.setLocalActuality()
+      this.clearData()
+    },
     handleActualityChange () {
-      if (!this.isLoading && !this.hasAnyChanges)
-        return this.clearLocalActuality()
+      const newLocalActuality = !this.isLoading && !this.hasAnyChanges ? {} : { data: this.data.data }
 
-      setToLocalStorage(this.actualityStoreKey, this.data.data)
+      this.setLocalActuality(newLocalActuality)
     },
-    clearAdditionalData () {
-      this.clearLocalActuality()
-    },
-    clearLocalActuality () {
-      setToLocalStorage(this.actualityStoreKey, {})
+    setLocalActuality (localActuality = {}) {
+      setToLocalStorage(this.actualityStoreKey, localActuality)
     },
     clearData () {
       this.$store.commit('actuality/CLEAR_ACTUALITY')

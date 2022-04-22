@@ -1,4 +1,4 @@
-import { map, pick, reject, assign } from 'lodash'
+import { map, pick, reject, assign, omit } from 'lodash'
 
 export const state = () => ({
   data     : null,
@@ -142,8 +142,9 @@ export const actions = {
       .then((data) => {
         assign(actuality, data.actuality)
 
-        if (actuality.sectionId)
-          ctx.commit('ADD_ACTUALITY', actuality)
+        actuality.sectionId
+          ? ctx.commit('ADD_ACTUALITY', actuality)
+          : ctx.commit('SET_ACTUALITY', actuality)
 
         return actuality
       })
@@ -154,7 +155,11 @@ export const actions = {
   editActuality (ctx, actuality) {
     return ctx.dispatch('setActualityItem', actuality)
       .then((data) => {
-        ctx.commit('PATCH_ACTUALITY', assign(actuality, data.actuality))
+        const newActuality = assign(actuality, data.actuality)
+
+        actuality.sectionId
+          ? ctx.commit('PATCH_ACTUALITY', omit(newActuality, ['data', 'updatedBy']))
+          : ctx.commit('SET_ACTUALITY', newActuality)
 
         return data.actuality
       })

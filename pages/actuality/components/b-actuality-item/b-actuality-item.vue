@@ -47,7 +47,7 @@
             after-icon="floppy-disk"
             variant="indigo"
             :disabled="isFormInvalid || isSaving"
-            @click.stop="editItem"
+            @click="editItem"
           />
           <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click.stop="stopEditing" />
         </template>
@@ -148,9 +148,11 @@ export default {
         .catch(this.$handleError)
     },
     onItemClick () {
-      this.isSectionItemType
-        ? this.toggleCaret()
-        : this.goToActuality()
+      if (!this.editingItem) {
+        this.isSectionItemType
+          ? this.toggleCaret()
+          : this.goToActuality()
+      }
     },
     goToActuality () {
       this.$router.push({ name: 'actuality/actualityId', params: { actualityId: this.item._id } })
