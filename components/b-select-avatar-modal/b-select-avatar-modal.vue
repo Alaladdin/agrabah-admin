@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { concat } from 'lodash/array'
 import BAvatar from '@/components/b-avatar'
 import BButton from '@/components/b-button'
@@ -83,43 +83,47 @@ export default {
   },
   data () {
     return {
-      selectedAvatar: this.newUserData.avatar,
-      defaultAvatars: [
-        'avatar/default',
-        'avatar/default__1',
-        'avatar/default__2',
-        'avatar/default__3',
-        'avatar/default__4',
-      ],
+      selectedAvatar     : this.newUserData.avatar,
       avatarUploadBtnSize: avatarMetadata.avatarSizes.large + 'px',
       isUploading        : false,
     }
   },
   computed: {
-    ...mapGetters({ currentUser: 'getUserData' }),
+    ...mapGetters({
+      currentUser       : 'getUserData',
+      defaultAvatarsList: 'user/getDefaultAvatarsList',
+    }),
 
     avatarsList () {
-      const userAvatars = this.currentUser.avatarsList
+      const userAvatarsList = this.currentUser.avatarsList
 
-      return concat(this.defaultAvatars, userAvatars)
+      return concat(this.defaultAvatarsList, userAvatarsList)
     },
   },
   watch: {
     show (isShown) {
-      if (isShown)
-        this.selectedAvatar = this.newUserData.avatar
+      if (isShown) this.init()
     },
   },
   methods: {
+    ...mapActions({ loadDefaultAvatarsList: 'user/loadDefaultAvatarsList' }),
     ...mapMutations({ commitPatchUser: 'PATCH_CURRENT_USER' }),
 
+    init () {
+      this.selectedAvatar = this.newUserData.avatar
+
+      if (!this.defaultAvatarsList) {
+        this.loadDefaultAvatarsList()
+          .catch(this.$handleError)
+      }
+    },
     getAvatarClass (avatarUrl) {
       const classList = ['transition', 'duration-70', 'ease-in']
 
       if (avatarUrl !== this.selectedAvatar)
         classList.push('ring-2 opacity-40')
 
-      if (this.defaultAvatars.includes(avatarUrl))
+      if (this.defaultAvatarsList && this.defaultAvatarsList.includes(avatarUrl))
         classList.push('ring-yellow-400')
 
       return classList
@@ -131,9 +135,7 @@ export default {
       this.isUploading = true
     },
     onFileUploaded (avatar) {
-      this.commitPatchUser({
-        avatarsList: concat(this.currentUser.avatarsList, [avatar]),
-      })
+      this.commitPatchUser({ avatarsList: concat(this.currentUser.avatarsList, [avatar]) })
 
       this.onAvatarSelect(avatar)
       this.isUploading = false
