@@ -21,6 +21,8 @@
       </div>
     </div>
 
+    <b-context-menu />
+
     <b-error-modal
       v-for="error in errors"
       :key="error.id"
@@ -38,15 +40,17 @@ import BAppVersion from '@/components/b-app-version'
 import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
 import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
+import BContextMenu from '@/components/b-context-menu'
 
 const SIDEBAR_STORE_KEY = 'sidebar__opened_folders'
 
 export default {
   name      : 'default',
   components: {
-    'b-app-version': BAppVersion,
-    'b-sidebar'    : BSidebar,
-    'b-error-modal': BErrorModal,
+    'b-app-version' : BAppVersion,
+    'b-sidebar'     : BSidebar,
+    'b-context-menu': BContextMenu,
+    'b-error-modal' : BErrorModal,
   },
   data: () => ({
     navItems,

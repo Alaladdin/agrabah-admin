@@ -1,5 +1,4 @@
-import { assign } from 'lodash/object'
-import { map } from 'lodash'
+import { map, assign } from 'lodash'
 import * as StoreDefaultMixin from '@/mixins/m-store-default'
 
 export const state = () => ({

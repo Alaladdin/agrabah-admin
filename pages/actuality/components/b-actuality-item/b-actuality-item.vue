@@ -7,6 +7,7 @@
         '!py-3': editingItem,
         'bg-gray-100 !hover:bg-gray-100': isSectionItemType
       }"
+      @contextmenu.prevent="currentUser.isAdmin && showContextMenu($event)"
       @click="onItemClick"
     >
       <div class="flex flex-col w-full max-w-6/10 h-full">
@@ -40,44 +41,23 @@
         </div>
       </div>
 
-      <div v-if="user.isAdmin" class="flex space-x-2 show-on-hover">
-        <template v-if="editingItem">
-          <b-button
-            class="!px-1.5"
-            after-icon="floppy-disk"
-            variant="indigo"
-            :disabled="isFormInvalid || isSaving"
-            @click="editItem"
-          />
-          <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click.stop="stopEditing" />
-        </template>
-
-        <template v-if="!editingItem">
-          <b-button v-if="isSectionItemType" class="!px-1.5" after-icon="plus" variant="indigo" @click.stop="addActualityItem" />
-          <b-button class="!px-1.5" after-icon="pencil" variant="indigo" @click.stop="startEditing" />
-          <b-button class="!px-1.5" after-icon="trash-can" variant="danger" :disabled="isRemoving" @click.stop="removeItem" />
-        </template>
-      </div>
-
-      <span class="items-end font-semibold text-xs text-gray-600" :class="{ 'hide-on-hover': user.isAdmin }">
+      <span class="items-end font-semibold text-xs text-gray-600">
         {{ item.updatedAt }}
       </span>
     </div>
 
-    <template>
-      <b-actuality-item
-        v-for="actuality in item.actualities"
-        v-show="isSectionItemType && item.isOpened"
-        :key="actuality._id"
-        :item="actuality"
-        class="fade-in origin-right last:border-b-none"
-      />
-    </template>
+    <b-actuality-item
+      v-for="actuality in item.actualities"
+      v-show="isSectionItemType && item.isOpened"
+      :key="actuality._id"
+      :item="actuality"
+      class="last:border-b-none"
+    />
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import BButton from '@/components/b-button'
 import BInput from '@/components/b-input'
 import { clone } from '@/helpers'
@@ -103,7 +83,7 @@ export default {
     isRemoving   : false,
   }),
   computed: {
-    ...mapGetters({ user: 'getUserData' }),
+    ...mapGetters({ currentUser: 'getUserData' }),
 
     isFormInvalid () {
       if (!this.editingItem) return false
@@ -115,8 +95,66 @@ export default {
     },
   },
   methods: {
-    ...mapActions('actuality', ['setSection', 'editSection', 'removeSection', 'setActuality', 'editActuality', 'removeActuality']),
+    ...mapMutations('context-menu', {
+      commitSetContextMenuButtons   : 'SET_BUTTONS',
+      commitSetContextMenuPosition  : 'SET_POSITION',
+      commitSetContextMenuVisibility: 'SET_VISIBILITY',
+    }),
 
+    ...mapActions('actuality', [
+      'setSection',
+      'editSection',
+      'removeSection',
+      'setActuality',
+      'editActuality',
+      'removeActuality',
+    ]),
+
+    showContextMenu (e) {
+      const buttons = this.editingItem
+        ? [{
+            title   : 'Save',
+            icon    : 'floppy-disk',
+            disabled: this.isFormInvalid || this.isSaving,
+            callback: this.editItem,
+          },
+          {
+            title   : 'Cancel',
+            icon    : 'xmark',
+            callback: this.stopEditing,
+          }]
+        : [{
+            title   : 'Edit',
+            icon    : 'pencil',
+            disabled: this.isSaving,
+            callback: this.startEditing,
+          },
+          {
+            title   : 'Remove',
+            icon    : 'trash-can',
+            disabled: this.isRemoving,
+            callback: this.removeItem,
+          }]
+
+      if (this.isSectionItemType) {
+        buttons.unshift({
+          title       : 'Add actuality',
+          icon        : 'plus',
+          dividerAfter: true,
+          callback    : this.addActualityItem,
+        })
+      } else {
+        buttons.push({
+          type   : 'user',
+          user   : this.item.updatedBy,
+          divider: true,
+        })
+      }
+
+      this.commitSetContextMenuButtons(buttons)
+      this.commitSetContextMenuPosition({ x: e.x, y: e.y })
+      this.commitSetContextMenuVisibility(true)
+    },
     editItem () {
       const action = this.isSectionItemType ? this.editSection : this.editActuality
 
