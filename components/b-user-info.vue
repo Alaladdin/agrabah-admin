@@ -1,15 +1,15 @@
 <template>
   <div class="flex space-x-4 items-center">
     <b-avatar
-      :class="{ 'cursor-pointer': user }"
+      :class="{ 'cursor-pointer': !!user }"
       :image-class="avatarClass"
       :url="userData.avatar"
       :size="avatarSize"
       @click="goToUserProfile"
     />
 
-    <div>
-      <p class="font-semibold">{{ userData.displayName || userData.username }}</p>
+    <div class="max-w-1/2">
+      <p class="truncate font-semibold">{{ userData.displayName || userData.username }}</p>
       <p class="text-xs text-gray-600">{{ last(userData.scope) }}</p>
     </div>
   </div>
