@@ -1,7 +1,7 @@
 <template>
   <b-button
     class="transform"
-    :class="{ 'rotate-180': !value }"
+    :class="{ 'rotate-180': isInvertedAnimation ? value : !value }"
     :before-icon="caretIcon"
     style="color: inherit"
     variant="icon"
