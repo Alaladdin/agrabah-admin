@@ -53,7 +53,7 @@ export default {
   },
   mixins: [PageDefaultMixin('audit')],
   data  : () => ({
-    fieldsInfo        : localMetadata.fieldsInfo,
+    changesInfo       : localMetadata.changesInfo,
     changeModalData   : null,
     showChangeModal   : false,
     clearDataOnDestroy: false,
@@ -79,13 +79,20 @@ export default {
     getPreparedData (changes) {
       return map(changes, (change) => {
         const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')
-        const descriptions = map(change.descriptions, this.getFieldInfo)
+        const descriptions = map(change.descriptions, field => this.getFieldInfo(change, field))
+        const changeInfo = this.changesInfo[change.name]
+        const additionalData = {
+          title    : changeInfo.title || change.name,
+          route    : changeInfo.getRoute && changeInfo.getRoute(change),
+          descriptions,
+          changedAt: changedAtDate,
+        }
 
-        return assign({}, change, { descriptions, changedAt: changedAtDate })
+        return assign({}, change, additionalData)
       })
     },
-    getFieldInfo (field) {
-      const fieldInfo = this.fieldsInfo[field.id]
+    getFieldInfo (change, field) {
+      const fieldInfo = this.changesInfo[change.name][field.id]
 
       if (fieldInfo) {
         if (fieldInfo.plain)

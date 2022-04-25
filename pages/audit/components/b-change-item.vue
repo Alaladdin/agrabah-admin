@@ -8,7 +8,16 @@
       />
 
       <div class="changes__item-description">
-        <p class="mr-2 font-semibold">Modified:</p>
+        <p class="text-sm space-x-1">
+          <b-button
+            class="!inline-block font-bold uppercase"
+            :class="{ 'text-gray-700 cursor-default': !change.route}"
+            :text="change.title"
+            :to="change.route || {}"
+            :variant="change.route ? 'link' : 'icon'"
+          />
+          <span class="mr-2">changed:</span>
+        </p>
 
         <div v-for="(description, i) in change.descriptions" :key="i" class="mr-1">
           <p v-if="!description.value" class="text-sm">

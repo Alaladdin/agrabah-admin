@@ -111,12 +111,12 @@ export const actions = {
   setActualitySection (ctx, section) {
     const sectionData = pick(section, ['_id', 'name'])
 
-    return this.$axios.$post('/api/setActualitySection', { section: sectionData })
+    return this.$axios.$post('/api/setActualitySection', { section: sectionData }, { updateChanges: true })
   },
   removeSection (ctx, section) {
     const sectionData = { _id: section._id }
 
-    return this.$axios.$delete('/api/removeActualitySection', { data: sectionData })
+    return this.$axios.$delete('/api/removeActualitySection', { data: sectionData, updateChanges: true })
       .then((data) => {
         ctx.commit('REMOVE_ITEM', sectionData)
 
@@ -175,7 +175,7 @@ export const actions = {
   removeActuality (ctx, actuality) {
     const actualityData = pick(actuality, ['_id', 'sectionId'])
 
-    return this.$axios.$delete('/api/removeActuality', { data: actualityData })
+    return this.$axios.$delete('/api/removeActuality', { data: actualityData, updateChanges: true })
       .then((data) => {
         ctx.commit('REMOVE_ACTUALITY', actualityData)
 
