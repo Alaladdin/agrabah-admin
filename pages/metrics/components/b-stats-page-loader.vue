@@ -3,7 +3,7 @@
     <div class="absolute w-full h-full bg-gradient-to-b from-transparent to-gray-200" />
     <div class="grid grid-cols-5 gap-5 p-5 pt-6 rounded h-23 bg-white">
       <div
-        v-for="i in 5"
+        v-for="i in 4"
         :key="`header__${i}`"
         class="flex flex-col border-r-1 last:border-none"
       >

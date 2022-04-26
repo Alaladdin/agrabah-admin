@@ -1,7 +1,7 @@
 <template>
   <div class="actuality">
     <div class="flex justify-center">
-      <div class="rounded w-150 overflow-hidden shadow-sm bg-white">
+      <div class="rounded w-150 overflow-hidden" :class="{ 'shadow-sm bg-white': !isLoading }">
         <form v-if="user.isAdmin" class="flex" @submit.prevent="addSectionItem">
           <b-input
             v-model.trim="newSectionName"
@@ -18,6 +18,8 @@
             :disabled="isAddButtonDisabled"
           />
         </form>
+
+        <b-actuality-page-loader v-if="isLoading" />
 
         <template v-if="!isLoading && data">
           <div v-if="!data.length" class="p-4 font-semibold text-center bg-indigo-50 text-indigo-400">
@@ -40,6 +42,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import { map, assign, reject } from 'lodash'
 import BActualityItem from './components/b-actuality-item'
+import BActualityPageLoader from './components/b-actuality-page-loader'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BInput from '@/components/b-input'
 import BButton from '@/components/b-button'
@@ -50,9 +53,10 @@ const SECTIONS_STORE_KEY = 'actualities__opened_sections'
 export default {
   name      : 'actuality',
   components: {
-    'b-input'         : BInput,
-    'b-button'        : BButton,
-    'b-actuality-item': BActualityItem,
+    'b-input'                : BInput,
+    'b-button'               : BButton,
+    'b-actuality-item'       : BActualityItem,
+    'b-actuality-page-loader': BActualityPageLoader,
   },
   mixins: [PageDefaultMixin('actuality')],
   data () {
