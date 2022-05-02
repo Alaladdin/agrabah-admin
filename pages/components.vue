@@ -102,11 +102,11 @@
     <div>
       <h2 class="mb-4 font-bold text-4xl"># Avatar</h2>
       <div class="flex space-x-5">
-        <b-avatar :url="user.avatar" size="extraSmall" />
-        <b-avatar :url="user.avatar" size="small" />
-        <b-avatar :url="user.avatar" size="medium" />
-        <b-avatar :url="user.avatar" size="large" />
-        <b-avatar :url="user.avatar" size="extraLarge" />
+        <b-avatar :user="user" size="extraSmall" />
+        <b-avatar :user="user" size="small" />
+        <b-avatar :user="user" size="medium" />
+        <b-avatar :user="user" size="large" />
+        <b-avatar :user="user" size="extraLarge" />
       </div>
     </div>
 

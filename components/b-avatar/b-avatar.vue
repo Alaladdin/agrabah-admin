@@ -1,40 +1,44 @@
 <template>
-  <figure class="flex flex-col items-center" @click="onClick">
+  <figure class="b-avatar" @click="onClick">
     <div
       v-if="isLoading"
-      class="flex justify-center items-center text-3xl bg-purple-400 text-purple-500"
-      :class="[avatarClass, imageClass]"
+      class="flex justify-center items-center text-3xl text-purple-500 bg-purple-400"
+      :class="avatarClassList"
       :style="{ width: avatarSize, height: avatarSize, fontSize }"
     >
       <fa icon="circle-notch" class="animate-spin" />
     </div>
 
-    <nuxt-img
-      v-show="!isLoading"
-      provider="cloudinary"
-      preset="avatar"
-      :class="[avatarClass, imageClass]"
-      :src="avatarUrl"
-      :width="avatarSize"
-      :height="avatarSize"
-      style="user-drag: none"
-      crossorigin="anonymous"
-      preload
-      @load.native="onLoad"
-      @error.native="onLoadError"
-    />
+    <div v-show="!isLoading" class="relative">
+      <nuxt-img
+        ref="avatar"
+        provider="cloudinary"
+        preset="avatar"
+        crossorigin="anonymous"
+        :class="avatarClassList"
+        :src="avatarUrl"
+        :width="avatarSize"
+        :height="avatarSize"
+        preload
+        @load.native="onLoad"
+        @error.native="onLoadError"
+      />
+
+      <span v-if="isUserOnline" :class="['b-avatar__status--online', size]" />
+    </div>
   </figure>
 </template>
 
 <script>
+import moment from 'moment'
 import localMetadata from './metadata'
 
 export default {
   name : 'b-avatar',
   props: {
-    url: {
-      type   : String,
-      default: '',
+    user: {
+      type   : Object,
+      default: () => ({}),
     },
     size: {
       type     : String,
@@ -51,11 +55,8 @@ export default {
     isLoading: true,
   }),
   computed: {
-    avatarClass () {
-      const fixedClasses = 'rounded-full ring-8 ring-purple-300 shadow-sm object-cover'
-      const avatarClassBySize = localMetadata.avatarClassBySize[this.size]
-
-      return [fixedClasses, ...avatarClassBySize]
+    avatarClassList () {
+      return ['b-avatar__image', this.size, this.imageClass]
     },
     avatarSize () {
       return localMetadata.avatarSizes[this.size] + 'px'
@@ -63,9 +64,20 @@ export default {
     fontSize () {
       return localMetadata.avatarSizes[this.size] / 2.5 + 'px'
     },
+    isUserOnline () {
+      const { lastOnline } = this.user
+
+      if (lastOnline) {
+        const onlineMinutesAgo = moment().diff(lastOnline, 'minutes')
+
+        return onlineMinutesAgo <= 10
+      }
+
+      return false
+    },
   },
   watch: {
-    url: {
+    'user.avatar': {
       immediate: true,
       handler (newUrl) {
         this.handleUrlChange(newUrl)
@@ -89,3 +101,7 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+@import 'b-avatar';
+</style>

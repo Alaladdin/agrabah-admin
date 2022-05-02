@@ -5,7 +5,7 @@
     @contextmenu.prevent="canEditUser && showContextMenu($event)"
   >
     <div class="flex items-center">
-      <b-avatar class="mr-5 cursor-pointer" :url="user.avatar" @click="goToUserProfile" />
+      <b-avatar class="mr-5 cursor-pointer" :user="user" @click="goToUserProfile" />
       <span class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
     </div>
 

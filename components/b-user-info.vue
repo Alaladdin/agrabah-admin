@@ -1,9 +1,9 @@
 <template>
-  <div class="flex space-x-4 items-center">
+  <div class="b-user-info flex space-x-4 items-center">
     <b-avatar
       :class="{ 'cursor-pointer': !!user }"
       :image-class="avatarClass"
-      :url="userData.avatar"
+      :user="userData"
       :size="avatarSize"
       @click="goToUserProfile"
     />
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { last, pick } from 'lodash'
+import { last } from 'lodash'
 import BAvatar from '@/components/b-avatar'
 
 export default {
@@ -41,7 +41,7 @@ export default {
   computed: {
     userData () {
       if (this.user)
-        return pick(this.user, ['username', 'displayName', 'scope', 'avatar'])
+        return this.user
 
       return {
         username: 'DELETED',
@@ -62,3 +62,9 @@ export default {
   },
 }
 </script>
+
+<style lang='scss'>
+.b-user-info .b-avatar .b-avatar__status--online {
+    @apply border-white;
+}
+</style>

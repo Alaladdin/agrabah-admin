@@ -1,0 +1,49 @@
+.b-avatar {
+  @apply flex flex-col items-center;
+
+  &__image {
+    -webkit-user-drag: none;
+    @apply rounded-full ring-purple-300 shadow-sm object-cover w-full h-full;
+
+    &.extraSmall {
+      @apply ring-3;
+    }
+
+    &.small,
+    &.medium {
+      @apply ring-4;
+    }
+
+    &.large {
+      @apply ring-5;
+    }
+
+    &.extraLarge {
+      @apply ring-8;
+    }
+  }
+
+  &__status--online {
+    @apply absolute right-0 bottom-0 rounded-full bg-green-400;
+
+    &.extraSmall {
+      @apply -bottom-0.5 border-2 w-3 h-3;
+    }
+
+    &.small {
+      @apply -bottom-1 border-3 w-4 h-4;
+    }
+
+    &.medium {
+      @apply -bottom-0.5 border-3 w-4 h-4;
+    }
+
+    &.large {
+      @apply bottom-1 border-3 w-5 h-5;
+    }
+
+    &.extraLarge {
+      @apply right-1 bottom-2 border-4 w-7 h-7
+    }
+  }
+}

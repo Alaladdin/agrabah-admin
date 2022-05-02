@@ -24,8 +24,16 @@
   &__profile {
     @apply flex flex-col p-4;
 
+    .b-avatar {
+      @apply mr-3;
+    }
+
     &-user-info {
       @apply flex items-center mb-5;
+
+      .b-avatar .b-avatar__status--online {
+        @apply border-indigo-700;
+      }
 
       p {
         &:first-child {
@@ -36,10 +44,6 @@
           @apply text-sm text-indigo-300;
         }
       }
-    }
-
-    &-avatar {
-      @apply mr-3 ring-indigo-500;
     }
 
     &-button {

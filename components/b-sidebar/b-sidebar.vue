@@ -31,7 +31,7 @@
             v-if="user.loggedIn"
             :user="user"
             class="sidebar__profile-user-info"
-            avatar-class="sidebar__profile-avatar"
+            avatar-class="!ring-indigo-500"
             avatar-size="medium"
           />
 

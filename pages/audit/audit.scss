@@ -1,10 +1,10 @@
 .changes {
   &__body {
-    @apply mb-10 rounded overflow-hidden;
+    @apply mb-10 rounded shadow-sm overflow-hidden;
   }
 
   &__item {
-    @apply flex items-center p-4 border-b last:border-b-0 bg-white shadow-sm transition duration-20 hover:bg-purple-50;
+    @apply flex items-center p-4 border-b last:border-b-0 bg-white hover:bg-purple-50;
 
     &-content {
       @apply grid max-w-6/10 w-full;

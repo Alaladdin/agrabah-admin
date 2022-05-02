@@ -8,7 +8,7 @@
       </t-alert>
 
       <template v-if="actualUser">
-        <b-avatar class="m-x-7" :url="newUserData.avatar || actualUser.avatar" size="extraLarge" />
+        <b-avatar class="m-x-7" :user="newUserData.avatar ? newUserData : actualUser" size="extraLarge" />
 
         <div v-if="isEditing" class="flex flex-col justify-center items-center space-y-5">
           <b-button text="Edit avatar" variant="white" @click="openModal('showSelectDefaultAvatarModal')" />

@@ -26,7 +26,7 @@
 
       <div v-for="avatarUrl in avatarsList" :key="avatarUrl">
         <b-avatar
-          :url="avatarUrl"
+          :user="{ avatar: avatarUrl }"
           class="cursor-pointer"
           :image-class="getAvatarClass(avatarUrl)"
           size="large"
