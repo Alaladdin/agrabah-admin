@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="team">
     <b-team-page-loader v-if="isLoading" />
 
     <div v-if="!isLoading && data" class="grid grid-cols-2 gap-4">

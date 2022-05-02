@@ -121,10 +121,10 @@ export default {
       const classList = ['transition', 'duration-70', 'ease-in']
 
       if (avatarUrl !== this.selectedAvatar)
-        classList.push('ring-2 opacity-40')
+        classList.push('!ring-2 opacity-60')
 
       if (this.defaultAvatarsList && this.defaultAvatarsList.includes(avatarUrl))
-        classList.push('ring-yellow-400')
+        classList.push('!ring-yellow-400')
 
       return classList
     },
