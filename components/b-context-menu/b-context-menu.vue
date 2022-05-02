@@ -11,7 +11,7 @@
 
         <div
           v-if="button.type !== 'user'"
-          :class="['b-context-menu__item', { 'disabled': button.disabled }]"
+          :class="['b-context-menu__item', button.class, { 'disabled': button.disabled }]"
           @click="!button.disabled && onClick(button.callback)"
         >
           <fa :icon="button.icon" class="mr-2" />
