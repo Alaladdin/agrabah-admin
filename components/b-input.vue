@@ -37,7 +37,7 @@ export default {
       default: '',
     },
     inputClass: {
-      type   : String,
+      type   : [String, Array, Object],
       default: '',
     },
   },
