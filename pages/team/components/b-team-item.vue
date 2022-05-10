@@ -75,7 +75,7 @@ export default {
           },
           {
             title   : 'Remove',
-            icon    : 'trash-can',
+            icon    : ['far', 'trash-can'],
             class   : '!text-red-500',
             disabled: isButtonsDisabled,
             callback: this.removeUserProfile,

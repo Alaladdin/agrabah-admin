@@ -1,16 +1,15 @@
 .b-context-menu {
-  @apply fixed border rounded-lg top-0 left-0 z-10 shadow-lg transform-gpu overflow-hidden select-none;
+  @apply fixed border border-gray-300 rounded-lg top-0 left-0 z-10 shadow-lg transform-gpu overflow-hidden select-none;
 
   &__body {
-    @apply w-40 bg-white transform-gpu origin-top-left;
+    @apply w-40 bg-white transform-gpu;
 
     animation: contextMenuFadeIn 50ms forwards;
   }
 
   &__item {
-    @apply p-3 text-gray-600 text-sm cursor-pointer transition-all;
-    @apply hover:(pl-4 bg-gray-100 text-gray-700);
-    @apply active:(pl-4 bg-gray-200 text-gray800);
+    @apply p-3 text-gray-600 text-sm cursor-pointer;
+    @apply hover:bg-gray-100;
 
     &.disabled {
       @apply opacity-60 pointer-events-none;
@@ -20,7 +19,7 @@
 
 @keyframes contextMenuFadeIn {
   from {
-    transform: scale(.7);
+    transform: scale(.95);
   }
 
   to {
