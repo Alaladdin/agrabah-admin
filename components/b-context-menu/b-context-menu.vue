@@ -1,8 +1,8 @@
 <template>
   <div
-    v-show="isVisible"
-    class="b-context-menu"
-    :style="{ transform: `translate(${position.x}px, ${position.y}px)` }"
+    ref="contextMenu"
+    :class="['b-context-menu', { 'invisible' : !isVisible }]"
+    :style="{ transform: `translate(${contextMenuPosition.x}px, ${contextMenuPosition.y}px)` }"
     @contextmenu.capture.prevent
   >
     <div class="b-context-menu__body">
@@ -41,16 +41,55 @@ export default {
   components: {
     'b-user-info': BUserInfo,
   },
+  data: () => ({
+    offset    : 20,
+    baseWidth : 160,
+    baseHeight: 160,
+  }),
   computed: {
     ...mapGetters('context-menu', {
       buttons  : 'getButtons',
       position : 'getPosition',
       isVisible: 'getIsVisible',
     }),
+
+    contextMenuPosition () {
+      if (process.client) {
+        const { contextMenu } = this.$refs
+        const width = contextMenu?.clientWidth || this.baseWidth
+        const height = contextMenu?.clientHeight || this.baseHeight
+
+        const { x: posX, y: posY } = this.position
+        const hasSpaceX = window.innerWidth + this.offset > width + posX
+        const hasSpaceY = window.innerHeight + this.offset > height + posY
+
+        return {
+          x: posX - (hasSpaceX ? 0 : width),
+          y: posY - (hasSpaceY ? 0 : height),
+        }
+      }
+
+      return this.position
+    },
+  },
+  created () {
+    if (process.client)
+      this.setEventListeners()
+  },
+  beforeDestroy () {
+    this.removeEventListeners()
   },
   methods: {
     ...mapMutations('context-menu', { commitSetVisibility: 'SET_VISIBILITY' }),
 
+    setEventListeners () {
+      window.addEventListener('scroll', this.hideContextMenu)
+      window.addEventListener('resize', this.hideContextMenu)
+    },
+    removeEventListeners () {
+      window.removeEventListener('scroll', this.hideContextMenu)
+      window.removeEventListener('resize', this.hideContextMenu)
+    },
     onClick (buttonCallback) {
       buttonCallback()
       this.hideContextMenu()

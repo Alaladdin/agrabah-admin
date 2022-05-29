@@ -1,4 +1,6 @@
 .actuality {
+  @apply pb-15;
+
   &__section-item {
     @apply flex justify-between items-center px-5 py-4 cursor-pointer;
     @apply hover:bg-gray-50;
