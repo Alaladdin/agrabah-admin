@@ -5,7 +5,7 @@
       class="mb-1.5 text-sm font-semibold text-gray-700 transition duration-100 ease-in-out"
       :class="{
         'opacity-60' : $attrs.disabled !== undefined,
-        'text-red-900': $attrs.variant && $attrs.variant.danger
+        'text-red-900': variant.danger || variant === 'danger'
       }"
     >
       {{ label }}
@@ -15,7 +15,9 @@
       ref="input"
       :value="value"
       :class="inputClass"
-      :placeholder="$attrs.placeholder || $props.label"
+      :placeholder="placeholder"
+      :variant="variant"
+      :required="required"
       v-bind="allowedAttrs"
       @input="onInput"
     />
@@ -40,8 +42,24 @@ export default {
       type   : [String, Array, Object],
       default: '',
     },
+    placeholder: {
+      type: String,
+      default () {
+        return 'Enter ' + this.label.toLowerCase()
+      },
+    },
+    required: {
+      type   : Boolean,
+      default: false,
+    },
   },
   computed: {
+    variant () {
+      if (this.allowedAttrs.variant)
+        return this.allowedAttrs.variant
+
+      return (this.required && !this.value) ? 'danger' : ''
+    },
     allowedAttrs () {
       return omit(this.$attrs, ['class', 'placeholder'])
     },

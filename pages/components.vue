@@ -35,9 +35,13 @@
 
     <div class="space-y-4">
       <h2 class="font-bold text-4xl"># Input</h2>
-      <b-input value="Default" label="Label" placeholder="Default" :disabled="isDisabled" />
-      <b-input value="Danger" placeholder="Danger" variant="danger" :disabled="isDisabled" />
-      <b-input value="Success" placeholder="Success" variant="success" :disabled="isDisabled" />
+      <b-input v-model="inputValue" placeholder="No label" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Auto placeholder" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Danger via object" :variant="{ 'danger': !inputValue }" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Default" placeholder="Default" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Danger" placeholder="Danger" variant="danger" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Success" placeholder="Success" variant="success" :disabled="isDisabled" />
+      <b-input v-model="inputValue" label="Required" :disabled="isDisabled" required />
     </div>
 
     <div>
@@ -145,6 +149,7 @@ export default {
     'b-user-info': BUserInfo,
   },
   data: () => ({
+    inputValue      : '',
     selectVariant   : 'default',
     buttonVariants  : getOptionsFromFlatArray(buttonVariants),
     winxOptions     : getOptionsFromFlatArray(winxPersons),

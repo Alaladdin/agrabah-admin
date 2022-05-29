@@ -20,9 +20,9 @@
             v-model="editingItem.name"
             class="!w-full"
             :input-class="['text-sm', isSectionItemType ? '!py-1.2' : '!py-0.8']"
-            placeholder="Name"
-            :variant="{ 'danger': !editingItem.name }"
+            placeholder="Enter name"
             :disabled="isSaving"
+            required
           />
 
           <template v-if="!editingItem">
@@ -35,14 +35,26 @@
               v-if="!isSectionItemType"
               class="max-w-full"
               text-class="font-semibold truncate"
-              :text="item.name"
               variant="link"
+              :text="item.name"
             />
           </template>
         </div>
       </div>
 
-      <span class="items-end font-semibold text-xs text-gray-600">
+      <div v-if="editingItem" class="flex space-x-2">
+        <b-button
+          class="!px-1.5 max-w-full"
+          after-icon="floppy-disk"
+          variant="indigo"
+          :disabled="!editingItem.name"
+          @click.stop="editItem"
+        />
+
+        <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click.stop="stopEditing" />
+      </div>
+
+      <span v-if="!editingItem" class="items-end font-semibold text-xs text-gray-600">
         {{ item.updatedAt }}
       </span>
     </div>

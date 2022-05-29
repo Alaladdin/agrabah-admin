@@ -7,6 +7,7 @@
           v-model="editingUrl.description"
           input-class="!py-1.2 text-sm"
           placeholder="Description"
+          required
         />
         <span v-if="!editingUrl" class="font-semibold">{{ urlData.description }}</span>
         <span class="select-none">—</span>
