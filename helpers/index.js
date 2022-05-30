@@ -1,4 +1,4 @@
-import { cloneDeep, map, isArray, isObject, isString, random, isUndefined } from 'lodash'
+import { cloneDeep, map, isArray, isObject, isString, random, isNull } from 'lodash'
 import { nanoid } from 'nanoid'
 import moment from 'moment'
 import { validateUsername, validateDisplayName, validatePassword, validateUrl } from './validators'
@@ -40,7 +40,7 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
 
   val = val && isJson(val) && JSON.parse(val)
 
-  return isUndefined(val) ? defaultValue : val
+  return isNull(val) ? defaultValue : val
 }
 
 const formatDate = (date, format = 'DD.MM.YYYY') => moment(date).format(format)
