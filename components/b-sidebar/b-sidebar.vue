@@ -87,12 +87,14 @@ import BSidebarItem from './b-sidebar-item'
 import BSidebarLoader from './b-sidebar-loader'
 import BButton from '@/components/b-button'
 import BUserInfo from '@/components/b-user-info'
+import BAvatar from '@/components/b-avatar'
 import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 
 export default {
   name      : 'b-sidebar',
   components: {
     'b-user-info'     : BUserInfo,
+    'b-avatar'        : BAvatar,
     'b-button'        : BButton,
     'b-sidebar-item'  : BSidebarItem,
     'b-sidebar-loader': BSidebarLoader,
