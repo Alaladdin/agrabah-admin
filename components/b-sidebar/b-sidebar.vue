@@ -45,14 +45,25 @@
         </nav>
 
         <div class="sidebar__profile">
-          <b-user-info
-            v-if="user.loggedIn"
-            :user="user"
-            class="sidebar__profile-user-info"
-            avatar-class="!ring-indigo-500"
-            avatar-size="medium"
-          />
+          <div v-if="user.loggedIn" class="flex" :class="isMenuOpened ? 'flex-col-reverse' : 'flex-col'">
+            <b-user-info
+              ref="userInfo"
+              :user="user"
+              :class="{ 'invisible': !isMenuOpened }"
+              class="sidebar__profile-user-info"
+              avatar-class="!ring-indigo-500"
+              avatar-size="medium"
+            />
 
+            <b-avatar
+              :class="{ 'invisible': isMenuOpened }"
+              class="sidebar__profile-user-info !mr-0 cursor-pointer"
+              image-class="!ring-indigo-500"
+              :user="user"
+              size="extraSmall"
+              @click="goToUserProfile"
+            />
+          </div>
           <b-button
             class="sidebar__profile-button"
             :to="buttonData.to"
@@ -125,6 +136,9 @@ export default {
     toggleMenu () {
       this.isMenuOpened = !this.isMenuOpened
       setToLocalStorage('is_menu_opened', this.isMenuOpened)
+    },
+    goToUserProfile () {
+      this.$refs.userInfo.goToUserProfile()
     },
   },
 }

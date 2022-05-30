@@ -38,7 +38,7 @@
   }
 
   &__profile {
-    @apply flex flex-col p-4;
+    @apply flex justify-center flex-col p-4;
 
     .b-avatar {
       @apply mr-3;
@@ -87,10 +87,6 @@
         &--nested {
           @apply pl-0;
         }
-      }
-
-      &__profile-user-info {
-        @apply invisible;
       }
     }
   }
