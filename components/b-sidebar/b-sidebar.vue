@@ -1,8 +1,24 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :class="{ 'closed': !isMenuOpened }">
     <div class="sidebar__container">
       <div class="sidebar__title-container">
-        <h1 class="sidebar__title">AGRABAH ADMIN</h1>
+        <div class="flex justify-between items-center w-full">
+          <nuxt-img
+            preset="default"
+            class="rounded-full ring-2 ring-indigo-300 shadow-xl"
+            src="oib__orig__square.png"
+            width="32"
+            height="32"
+          />
+
+          <h1 v-if="isMenuOpened" class="sidebar__title ml-4">AGRABAH ADMIN</h1>
+        </div>
+        <b-button
+          class="sidebar__toggler"
+          variant="indigo"
+          :before-icon="isMenuOpened ? 'angle-left' : 'angle-right'"
+          @click="toggleMenu"
+        />
       </div>
 
       <client-only>
@@ -13,6 +29,7 @@
             :item="item"
             :item-clicked="itemClicked"
             :is-active="item.name === $route.name"
+            :is-menu-opened="isMenuOpened"
           >
             <template #nested-items>
               <b-sidebar-item
@@ -21,6 +38,7 @@
                 :item="childItem"
                 :item-clicked="itemClicked"
                 :is-active="childItem.name === $route.name"
+                :is-menu-opened="isMenuOpened"
               />
             </template>
           </b-sidebar-item>
@@ -38,7 +56,7 @@
           <b-button
             class="sidebar__profile-button"
             :to="buttonData.to"
-            :text="buttonData.text"
+            :text="isMenuOpened ? buttonData.text : ''"
             :after-icon="buttonData.icon"
             variant="indigo"
           />
@@ -58,6 +76,7 @@ import BSidebarItem from './b-sidebar-item'
 import BSidebarLoader from './b-sidebar-loader'
 import BButton from '@/components/b-button'
 import BUserInfo from '@/components/b-user-info'
+import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 
 export default {
   name      : 'b-sidebar',
@@ -73,6 +92,9 @@ export default {
       default: () => ([]),
     },
   },
+  data: () => ({
+    isMenuOpened: getFromLocalStorage('is_menu_opened', true),
+  }),
   computed: {
     ...mapGetters({ user: 'getUserData' }),
 
@@ -99,6 +121,10 @@ export default {
       folder.isOpen = !folder.isOpen
 
       this.$emit('folder-toggled', folder)
+    },
+    toggleMenu () {
+      this.isMenuOpened = !this.isMenuOpened
+      setToLocalStorage('is_menu_opened', this.isMenuOpened)
     },
   },
 }

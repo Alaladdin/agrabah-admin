@@ -1,23 +1,39 @@
 .sidebar {
-  @apply fixed inline-flex flex-row min-h-screen bg-indigo-700;
+  $parent: &;
+
+  @apply pr-64 inline-flex flex-row h-screen;
 
   &__container {
-    @apply flex flex-col flex-shrink-0 w-full md:w-64 text-gray-700;
-  }
-
-  &__title-container {
-    @apply flex flex-shrink-0 flex-row items-center justify-center px-8 py-4;
+    @apply fixed flex flex-col w-64 h-full bg-indigo-700 text-gray-700;
   }
 
   &__title {
-    @apply rounded-lg text-lg text-indigo-200 font-semibold tracking-widest uppercase;
+    @apply text-indigo-200 font-semibold tracking-widest uppercase;
+
+    &-container {
+      @apply flex items-center px-6 py-4;
+    }
+  }
+
+  &__toggler {
+    @apply absolute -right-3 px-2.5 py-1.5 shadow-sm text-xs text-white rounded-full;
   }
 
   &__nav {
-    @apply flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto;
+    @apply flex-grow px-4 pb-4;
 
     &-badge {
       @apply inline-flex px-2 py-1 rounded leading-none text-xs bg-indigo-600;
+    }
+  }
+
+  &__item {
+    &-title {
+      @apply mr-1;
+    }
+
+    &--nested {
+      @apply pl-4;
     }
   }
 
@@ -48,6 +64,34 @@
 
     &-button {
       @apply flex items-center p-2.5 rounded-2xl bg-indigo-600 hover:opacity-70 active:ring-indigo-500;
+    }
+  }
+
+  &.closed {
+    @apply pr-20;
+
+    #{$parent} {
+      &__container {
+        @apply w-20;
+      }
+
+      &__nav-badge {
+        @apply hidden;
+      }
+
+      &__item {
+        &-title {
+          @apply hidden;
+        }
+
+        &--nested {
+          @apply pl-0;
+        }
+      }
+
+      &__profile-user-info {
+        @apply invisible;
+      }
     }
   }
 }

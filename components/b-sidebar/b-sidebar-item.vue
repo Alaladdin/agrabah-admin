@@ -1,20 +1,24 @@
 <template>
-  <div>
-    <a class="nuxt-link w-full" :class="{ 'active': isActive, 'disabled': item.disabled }" @click="itemClicked(item)">
+  <div class="sidebar__item">
+    <a
+      class="nuxt-link w-full"
+      :class="{ 'active': isActive, 'disabled': item.disabled, '!hidden': isFolder && !isMenuOpened }"
+      @click="itemClicked(item)"
+    >
       <div>
         <fa class="mr-3 !w-4 text-indigo-100" :icon="navIcon" />
-        <span class="mr-1">{{ item.title }}</span>
+        <span class="sidebar__item-title">{{ item.title }}</span>
       </div>
 
-      <span v-if="notificationsCount" class="sidebar__nav-badge">
+      <span v-if="isMenuOpened && notificationsCount" class="sidebar__nav-badge">
         {{ notificationsCount }}
       </span>
 
-      <b-caret v-if="item.children" :value="item.isOpen" is-inverted-animation />
+      <b-caret v-if="isFolder" :value="item.isOpen" is-inverted-animation />
     </a>
 
     <client-only>
-      <div v-if="item.isOpen" class="pl-4">
+      <div v-if="!isMenuOpened || item.isOpen" class="sidebar__item--nested">
         <slot name="nested-items" />
       </div>
     </client-only>
@@ -42,6 +46,10 @@ export default {
     isActive: {
       type   : Boolean,
       default: false,
+    },
+    isMenuOpened: {
+      type   : Boolean,
+      default: true,
     },
   },
   computed: {

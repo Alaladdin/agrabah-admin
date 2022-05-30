@@ -2,7 +2,7 @@
   <div class="min-h-screen flex bg-gray-200">
     <b-sidebar :nav-items="currentNavItems" @folder-toggled="onFolderToggle" />
 
-    <div class="pl-64 flex justify-center w-full">
+    <div class="flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
         <div class="flex flex-col h-full">
           <t-tag
