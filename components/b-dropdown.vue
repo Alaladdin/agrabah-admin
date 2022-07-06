@@ -2,35 +2,39 @@
   <client-only>
     <t-dropdown :disabled="disabled">
       <template #default="{ hide: closeDropdown }">
-        <div @click="closeDropdown">
-          <div
-            v-for="option in options"
-            :key="option.value"
-            class="dropdown__item"
-            @click="onInput(option.value)"
-          >
-            <span
-              v-if="option.color"
-              class="inline-block mr-2 rounded w-2 h-2"
-              :style="{ backgroundColor: option.color }"
-            />
-            <span>{{ option.title }}</span>
+        <slot>
+          <div @click="closeDropdown">
+            <div
+              v-for="option in options"
+              :key="option.value"
+              class="dropdown__item"
+              @click="onInput(option.value)"
+            >
+              <span
+                v-if="option.color"
+                class="inline-block mr-2 rounded w-2 h-2"
+                :style="{ backgroundColor: option.color }"
+              />
+              <span>{{ option.title }}</span>
+            </div>
           </div>
-        </div>
+        </slot>
       </template>
 
       <template #trigger="{ mousedownHandler, blurHandler }">
-        <b-button
-          :class="buttonClass"
-          :text="text"
-          :color="color"
-          :variant="variant"
-          type="button"
-          after-icon="caret-down"
-          :disabled="disabled"
-          @mousedown="mousedownHandler"
-          @blur="blurHandler"
-        />
+        <slot name="trigger" :mousedownHandler="mousedownHandler" :blurHandler="blurHandler">
+          <b-button
+            :class="buttonClass"
+            :text="text"
+            :color="color"
+            :variant="variant"
+            type="button"
+            after-icon="caret-down"
+            :disabled="disabled"
+            @mousedown="mousedownHandler"
+            @blur="blurHandler"
+          />
+        </slot>
       </template>
     </t-dropdown>
 

@@ -45,6 +45,8 @@ export default {
     placeholder: {
       type: String,
       default () {
+        if (!this.label) return ''
+
         return 'Enter ' + this.label.toLowerCase()
       },
     },

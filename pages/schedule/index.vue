@@ -11,7 +11,7 @@
     </div>
 
     <div class="schedule">
-      <div v-for="(_, i) in 5" :key="i" class="schedule__item">
+      <div v-for="(_, i) in 5" :key="i" class="schedule__item" :class="isShowHiddenFields ? 'min-h-50' : 'min-h-42'">
         <p class="schedule__header-item">{{ weekDays[i] }}</p>
         <div :class="getCellClasses(weekDates[i])">
           <p class="schedule__date" :class="{ 'opacity-50' : isLoading }">{{ weekDates[i] }}</p>
