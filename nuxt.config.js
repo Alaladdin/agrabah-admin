@@ -121,4 +121,5 @@ export default {
     color : '#4C4BE0',
     height: '5px',
   },
+  telemetry: false,
 }
