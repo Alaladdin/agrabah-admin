@@ -19,7 +19,6 @@
         :src="avatarUrl"
         :width="avatarSize"
         :height="avatarSize"
-        preload
         @load.native="onLoad"
         @error.native="onLoadError"
       />
