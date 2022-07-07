@@ -84,25 +84,6 @@
           data-key="memoryUsage"
           :show-time="period === 'day'"
         />
-
-        <b-chart-line
-          v-if="hasSomeRequestsAvgLatency"
-          :data="metrics"
-          :title="statsInfo.requestsAvgLatency.title"
-          :theme="theme"
-          :value-getter="getChartValueGetter('requestsAvgLatency')"
-          data-key="requestsAvgLatency"
-          :show-time="period === 'day'"
-        />
-
-        <b-chart-line
-          v-if="hasSomeRequestsCount"
-          :data="metrics"
-          :title="statsInfo.requestsCount.title"
-          :theme="theme"
-          data-key="requestsCount"
-          :show-time="period === 'day'"
-        />
       </div>
     </template>
   </div>
@@ -110,7 +91,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { map, some, keys, find, filter } from 'lodash'
+import { map, keys, find, filter } from 'lodash'
 import localMetadata from './metadata'
 import BStatsPageLoader from './components/b-stats-page-loader'
 import BChartLine from '@/components/b-chart-line'
@@ -188,12 +169,6 @@ export default {
     },
     metrics () {
       return this.data.metrics || null
-    },
-    hasSomeRequestsAvgLatency () {
-      return some(this.metrics, metric => metric.requestsAvgLatency !== null)
-    },
-    hasSomeRequestsCount () {
-      return some(this.metrics, metric => metric.requestsCount !== null)
     },
   },
   methods: {

@@ -31,13 +31,6 @@ export default {
       icon       : 'calendar',
       valueGetter: value => value ? formatDate(value, 'DD.MM.YY') : '—',
     },
-    requestsAvgLatency: {
-      title      : 'Requests latency (avg)',
-      valueGetter: value => value + 'ms',
-    },
-    requestsCount: {
-      title: 'Requests count',
-    },
   },
   periodDates: {
     day: {
