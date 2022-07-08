@@ -20,6 +20,12 @@ export default [
     icon : 'calendar-days',
   },
   {
+    name : 'bars',
+    title: 'Bars',
+    icon : 'book',
+    scope: 'user',
+  },
+  {
     name : 'short-url',
     title: 'Short URL',
     icon : 'link',

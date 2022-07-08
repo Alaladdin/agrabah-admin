@@ -12,12 +12,16 @@ export default (storeName) => {
     },
     computed: {
       ...mapGetters(storeName, { rawData: 'getData' }),
+
+      initOnCreate () {
+        return true
+      },
     },
     watch: {
       rawData: {
         immediate: true,
         handler (data) {
-          if (data === null)
+          if (data === null && this.initOnCreate)
             this.initData()
           else
             this.applyData(data)

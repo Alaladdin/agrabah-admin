@@ -1,0 +1,29 @@
+.bars {
+  @apply items-center;
+
+  &__table {
+    @apply grid self-center rounded w-full shadow-sm text-sm bg-white overflow-hidden;
+
+    &-row {
+      @apply grid not-last:border-b-1 border-purple-200 even:bg-purple-50;
+
+      grid-template-columns: 1.3fr repeat(7, minmax(0, 1.5fr));
+
+      > * {
+        @apply p-3;
+      }
+
+      &__header {
+        @apply text-center bg-purple-200 text-purple-600;
+      }
+
+      &__mark {
+        @apply self-center border-l-1 border-purple-200 text-center;
+
+        &--semester + &--final {
+          @apply border-l-2
+        }
+      }
+    }
+  }
+}
