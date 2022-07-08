@@ -9,8 +9,6 @@ export const actions = {
         return users
       })
       .catch((err) => {
-        ctx.commit('SET_DATA', false)
-
         throw err
       })
   },

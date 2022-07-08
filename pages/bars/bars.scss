@@ -26,4 +26,8 @@
       }
     }
   }
+
+  &__info-bar {
+    @apply fixed right-0 top-4/10 flex flex-col justify-between px-4 py-5 rounded-l-lg min-w-50 shadow-sm bg-white;
+  }
 }

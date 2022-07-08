@@ -2,7 +2,7 @@
   <div class="team">
     <b-team-page-loader v-if="isLoading" />
 
-    <template v-if="!isLoading && data">
+    <template v-if="data && !isLoading">
       <b-button class="flex self-end mb-5" text="Refresh" variant="white" @click="refresh" />
       <div class="grid grid-cols-2 gap-4">
         <b-team-item

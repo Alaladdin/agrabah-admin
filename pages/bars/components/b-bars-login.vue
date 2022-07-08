@@ -4,12 +4,14 @@
       v-model="username"
       label="Username"
       :disabled="isSaving"
+      required
     />
     <b-input
       v-model="password"
-      type="password"
       label="Password"
+      type="password"
       :disabled="isSaving"
+      required
     />
     <b-button
       class="ml-auto"
