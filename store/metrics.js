@@ -62,8 +62,6 @@ export const actions = {
         return res.stats
       })
       .catch((err) => {
-        ctx.commit('SET_STATS', {})
-
         throw err
       })
   },

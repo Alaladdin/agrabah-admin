@@ -28,7 +28,7 @@
             :key="item.title"
             :item="item"
             :item-clicked="itemClicked"
-            :is-active="item.name === $route.name"
+            :is-active="$route.name.includes(item.name)"
             :is-menu-opened="isMenuOpened"
           >
             <template #nested-items>
@@ -37,7 +37,7 @@
                 :key="childItem.name"
                 :item="childItem"
                 :item-clicked="itemClicked"
-                :is-active="childItem.name === $route.name"
+                :is-active="$route.name.includes(childItem.name)"
                 :is-menu-opened="isMenuOpened"
               />
             </template>

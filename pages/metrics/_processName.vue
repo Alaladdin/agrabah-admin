@@ -10,8 +10,8 @@
 
       <div class="flex items-center space-x-3">
         <b-button
-          :text="toggleButtonStatusData.text"
-          :color="toggleButtonStatusData.color"
+          :text="statusToggleButtonData.text"
+          :color="statusToggleButtonData.color"
           variant="white"
           :disabled="!canToggleProcess"
           @click="toggleProcess"
@@ -37,10 +37,6 @@
     <b-stats-page-loader v-if="isLoading" />
 
     <template v-if="!isLoading">
-      <t-alert v-if="!headerData.length" class="alert---bordered !mt-15" :dismissible="false" show>
-        No available data
-      </t-alert>
-
       <div v-if="headerData.length" class="grid grid-cols-4 gap-5 p-5 rounded bg-white">
         <div v-for="data in headerData" :key="data.key" class="flex flex-col border-r-1 last:border-none">
           <span class="mb-1 text-xs text-gray-400">{{ data.title }}</span>
@@ -62,11 +58,11 @@
         </div>
       </div>
 
-      <t-alert v-if="!metrics.length" class="alert---bordered !mt-15" :dismissible="false" show>
+      <t-alert v-if="!metrics || !metrics.length" class="alert---bordered !mt-15" :dismissible="false" show>
         No available data
       </t-alert>
 
-      <div v-if="metrics.length" class="grid grid-cols-2 gap-5">
+      <div v-if="metrics && metrics.length" class="grid grid-cols-2 gap-5">
         <b-chart-line
           :data="metrics"
           :title="statsInfo.cpuUsage.title"
@@ -132,9 +128,9 @@ export default {
     canToggleProcess () {
       const canManageProcess = !['server', 'admin'].includes(this.processName)
 
-      return canManageProcess && !this.isLoading && !this.isTogglingProcess
+      return canManageProcess && this.data && !this.isLoading && !this.isTogglingProcess
     },
-    toggleButtonStatusData () {
+    statusToggleButtonData () {
       if (this.data) {
         const { isOnline } = this.data
 
@@ -168,7 +164,7 @@ export default {
       })
     },
     metrics () {
-      return this.data.metrics || null
+      return this.data?.metrics
     },
   },
   methods: {
