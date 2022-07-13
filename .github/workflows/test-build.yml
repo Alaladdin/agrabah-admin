@@ -1,4 +1,4 @@
-name: Deploy
+name: Test build
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     name: Test build
-    environment: deploy
     runs-on: ubuntu-latest
 
     steps:
