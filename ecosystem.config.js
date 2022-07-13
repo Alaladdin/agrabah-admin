@@ -21,7 +21,7 @@ module.exports = {
       path         : process.env.DEPLOY_PATH,
       'pre-deploy' : 'pm2 stop ./ecosystem.config.js',
       'post-deploy': [
-        'npm install --production',
+        'npm install --omit=dev',
         'npm run build',
         'pm2 start ./ecosystem.config.js --env production --update-env',
       ].join('; '),

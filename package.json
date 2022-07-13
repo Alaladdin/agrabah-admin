@@ -13,6 +13,17 @@
     "deploy:setup": "pm2 deploy production setup",
     "deploy:prod": "pm2 deploy ecosystem.config.js production --force"
   },
+  "keywords": ["nuxt", "vue"],
+  "homepage": "https://github.com/Alaladdin/agrabah-admin#readme",
+  "bugs": {
+    "url": "https://github.com/Alaladdin/agrabah-admin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alaladdin/agrabah-admin.git"
+  },
+  "license": "ISC",
+  "author": "Alaladdin",
   "lint-staged": {
     "*.{js,vue}": "eslint"
   },
@@ -21,15 +32,22 @@
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@kangc/v-md-editor": "^1.7.11",
+    "@nuxt/cli": "^2.15.8",
     "@nuxt/image": "^0.6.0",
+    "@nuxt/utils": "^2.15.8",
     "@nuxtjs/auth-next": "5.0.0-1648802546.c9880dc",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/component-cache": "^1.1.6",
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/eslint-module": "^3.0.2",
     "@nuxtjs/sentry": "^5.1.7",
     "@sentry/tracing": "^7.5.1",
+    "@windicss/plugin-scrollbar": "^1.2.3",
     "core-js": "^3.23.3",
     "d3": "^7.6.1",
+    "dotenv": "^16.0.1",
+    "eslint": "^7.29.0",
+    "husky": "^8.0.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "nanoid": "^4.0.0",
@@ -37,6 +55,9 @@
     "nuxt-build-optimisations": "^1.0.7",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-helmet": "^3.0.0",
+    "nuxt-windicss": "^1.1.1",
+    "sass": "^1.45.0",
+    "sass-loader": "^10.2.0",
     "simple-text-diff": "^1.7.0",
     "v-tooltip": "^3.0.0-beta.1",
     "valid-url": "^1.0.9",
@@ -46,19 +67,9 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
-    "@nuxt/cli": "^2.15.8",
-    "@nuxt/utils": "^2.15.8",
     "@nuxtjs/eslint-config": "^6.0.1",
-    "@nuxtjs/eslint-module": "^3.0.2",
-    "@windicss/plugin-scrollbar": "^1.2.3",
-    "dotenv": "^16.0.1",
-    "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
-    "nuxt-windicss": "^1.1.1",
-    "sass": "^1.45.0",
-    "sass-loader": "^10.2.0"
+    "lint-staged": "^13.0.3"
   }
 }
