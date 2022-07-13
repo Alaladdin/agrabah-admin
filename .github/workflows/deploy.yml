@@ -6,25 +6,6 @@ on:
       - main
 
 jobs:
-  build:
-    name: Test build
-    environment: deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
   deploy:
     name: Deploy
     environment: deploy
@@ -35,9 +16,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-
-      - name: Install packages
-        run: npm install pm2 dotenv
 
       - name: Set up SSH
         run: |
@@ -50,6 +28,9 @@ jobs:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Install packages
+        run: npm install pm2 dotenv
 
       - name: Deploy
         run: npm run deploy:prod
