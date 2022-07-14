@@ -110,7 +110,7 @@ export default {
     ...mapMutations({ commitPatchUser: 'PATCH_CURRENT_USER' }),
 
     init () {
-      this.selectedAvatar = this.newUserData.avatar
+      this.selectedAvatar = this.newUserData.avatar || process.env.DEFAULT_AVATAR_IMAGE
 
       if (!this.defaultAvatarsList) {
         this.loadDefaultAvatarsList()
@@ -123,7 +123,7 @@ export default {
       if (avatarUrl !== this.selectedAvatar)
         classList.push('!ring-2 opacity-60')
 
-      if (this.defaultAvatarsList && this.defaultAvatarsList.includes(avatarUrl))
+      if (this.defaultAvatarsList?.includes(avatarUrl))
         classList.push('!ring-yellow-400')
 
       return classList
@@ -136,7 +136,6 @@ export default {
     },
     onFileUploaded (avatar) {
       this.commitPatchUser({ avatarsList: concat(this.currentUser.avatarsList, [avatar]) })
-
       this.onAvatarSelect(avatar)
       this.isUploading = false
     },
