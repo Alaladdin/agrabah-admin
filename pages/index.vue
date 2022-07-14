@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="space-y-10">
     <b-home-page-loader v-if="!updownStatus" />
 
     <div class="grid grid-cols-2 gap-4">
@@ -23,20 +23,37 @@
         </div>
       </div>
     </div>
+
+    <div v-if="changes && changes.length">
+      <p class="mb-3 font-semibold text-gray-600">
+        Last changes
+      </p>
+
+      <audit-body
+        class="max-h-100 !overflow-y-auto"
+        :limit="10"
+        suppress-modal
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import BHomePageLoader from './index/components/b-home-page-loader'
+import AuditBody from '@/pages/audit/audit-body'
 
 export default {
   name      : 'home',
   components: {
+    'audit-body'        : AuditBody,
     'b-home-page-loader': BHomePageLoader,
   },
   computed: {
-    ...mapGetters('updown', { updownStatus: 'getUpdownStatus' }),
+    ...mapGetters({
+      updownStatus: 'updown/getUpdownStatus',
+      changes     : 'audit/getData',
+    }),
   },
   methods: {
     getIndicatorText (isOnline) {

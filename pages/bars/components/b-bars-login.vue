@@ -1,5 +1,5 @@
 <template>
-  <form class="self-center space-y-5" @submit.prevent="!isSaveDisabled && setBarsUser()">
+  <form class="space-y-5" @submit.prevent="!isSaveDisabled && setBarsUser()">
     <b-input
       v-model="username"
       label="Username"

@@ -1,45 +1,35 @@
 <template>
-  <div class="changes">
-    <template v-if="data">
-      <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>
-        No changes
-      </t-alert>
+  <div v-if="data" class="changes">
+    <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>
+      No changes
+    </t-alert>
 
-      <template v-if="data.length">
-        <b-button
-          v-if="user.isOwner"
-          class="self-end mb-5"
-          text="Clear history"
-          variant="indigo"
-          @click="clearChangesHistory"
-        />
+    <template v-if="data.length">
+      <b-button
+        v-if="user.isOwner"
+        class="self-end mb-5"
+        text="Clear history"
+        variant="indigo"
+        @click="clearChangesHistory"
+      />
 
-        <div class="changes__body">
-          <b-change-item
-            v-for="change in data"
-            :key="change._id"
-            :change="change"
-            @open-change-modal="openChangeModal"
-          />
-        </div>
+      <audit-body @open-change-modal="openChangeModal" />
 
-        <b-change-info-plain-modal
-          v-if="changeModalData"
-          v-model="showChangeModal"
-          :change="changeModalData"
-          @closed="onCloseChangeModal"
-        />
-      </template>
+      <b-change-info-plain-modal
+        v-if="changeModalData"
+        v-model="showChangeModal"
+        :change="changeModalData"
+        @closed="onCloseChangeModal"
+      />
     </template>
   </div>
 </template>
 
 <script>
-import { assign, map } from 'lodash'
+import { assign } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
-import localMetadata from './metadata'
-import BChangeItem from './components/b-change-item'
-import { formatDate, setToLocalStorage } from '@/helpers'
+import AuditBody from './audit-body'
+import { setToLocalStorage } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BChangeInfoPlainModal from '@/components/b-change-info-plain-modal'
@@ -47,13 +37,12 @@ import BChangeInfoPlainModal from '@/components/b-change-info-plain-modal'
 export default {
   name      : 'audit',
   components: {
-    'b-change-item'            : BChangeItem,
+    'audit-body'               : AuditBody,
     'b-button'                 : BButton,
     'b-change-info-plain-modal': BChangeInfoPlainModal,
   },
   mixins: [PageDefaultMixin('audit')],
   data  : () => ({
-    changesInfo       : localMetadata.changesInfo,
     changeModalData   : null,
     showChangeModal   : false,
     clearDataOnDestroy: false,
@@ -76,40 +65,6 @@ export default {
   methods: {
     ...mapActions('audit', ['clearChanges']),
 
-    getPreparedData (changes) {
-      return map(changes, (change) => {
-        const changedAtDate = formatDate(change.changedAt, 'HH:mm DD.MM')
-        const descriptions = map(change.descriptions, field => this.getFieldInfo(change, field))
-        const changeInfo = this.changesInfo[change.name]
-        const additionalData = {
-          title    : changeInfo.title || change.name,
-          route    : changeInfo.getRoute && changeInfo.getRoute(change),
-          descriptions,
-          changedAt: changedAtDate,
-        }
-
-        return assign({}, change, additionalData)
-      })
-    },
-    getFieldInfo (change, field) {
-      const fieldInfo = this.changesInfo[change.name][field.id]
-
-      if (fieldInfo) {
-        if (fieldInfo.plain)
-          return assign({}, fieldInfo, { value: field })
-
-        if (!fieldInfo.valueGetter)
-          return fieldInfo
-
-        return {
-          title: fieldInfo.title,
-          html : !!fieldInfo.html,
-          value: fieldInfo.valueGetter(field),
-        }
-      }
-
-      return { title: field.id }
-    },
     clearChangesHistory () {
       this.clearChanges()
         .catch(this.$handleError)
@@ -124,7 +79,3 @@ export default {
   },
 }
 </script>
-
-<style lang='scss'>
-@import 'audit';
-</style>

@@ -26,8 +26,9 @@
 
           <b-button
             v-else-if="description.plain"
+            :class="{ 'cursor-default': suppressModal }"
             :text="getChangeTitle(change, i)"
-            variant="link"
+            :variant="suppressModal ? 'icon' : 'link'"
             @click="openChangeModal(description, change.changedAt)"
           />
 
@@ -65,6 +66,10 @@ export default {
     change: {
       type   : Object,
       default: () => ({}),
+    },
+    suppressModal: {
+      type   : Boolean,
+      default: false,
     },
   },
   methods: {
