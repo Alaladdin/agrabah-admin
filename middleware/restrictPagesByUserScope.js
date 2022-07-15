@@ -13,7 +13,7 @@ export default ({ route, store, redirect }) => {
     return item.name === route.name
   })
 
-  if (page && page.scope) {
+  if (page?.scope) {
     const hasAccess = user.scope.includes(page.scope)
 
     if (!hasAccess)

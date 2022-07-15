@@ -3,7 +3,7 @@
 
   &__image {
     -webkit-user-drag: none;
-    @apply rounded-full ring-purple-300 shadow-sm object-cover w-full h-full;
+    @apply rounded-full ring-purple-300 shadow-sm object-cover;
 
     &.extraSmall {
       @apply ring-3;

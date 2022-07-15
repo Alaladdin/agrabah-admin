@@ -1,16 +1,17 @@
 import vue from 'vue'
 import { assign, reject } from 'lodash'
 import { version } from '@/package.json'
+import { formatDate } from '@/helpers'
 
 export const state = () => ({
-  appVersion         : null,
+  packageData        : { version: 'x.x.x' },
   pageTitle          : null,
   navbarNotifications: {},
   errors             : [],
 })
 
 export const getters = {
-  getAppVersion         : state => state.appVersion,
+  getPackageData        : state => state.packageData,
   getPageTitle          : state => state.pageTitle,
   getNavbarNotifications: state => state.navbarNotifications,
   getErrors             : state => state.errors,
@@ -38,8 +39,8 @@ export const mutations = {
   PATCH_CURRENT_USER (state, data) {
     state.auth.user = assign({}, state.auth.user, data)
   },
-  SET_APP_VERSION (state, data) {
-    state.appVersion = data
+  PATCH_PACKAGE_DATA (state, data) {
+    state.packageData = assign({}, state.packageData, data)
   },
   SET_SIDEBAR_NOTIFICATION (state, { key, value }) {
     vue.set(state.navbarNotifications, key, value)
@@ -57,7 +58,33 @@ export const mutations = {
 
 export const actions = {
   loadAppVersion (ctx) {
-    ctx.commit('SET_APP_VERSION', version)
+    ctx.commit('PATCH_PACKAGE_DATA', { version })
+  },
+  loadBranchData (ctx) {
+    const requestOptions = { headers: { authorization: `token ${process.env.GITHUB_TOKEN}` } }
+
+    return fetch('https://api.github.com/repos/Alaladdin/agrabah-admin/branches/main', requestOptions)
+      .then((res) => {
+        if (!res.ok) throw res
+
+        return res.json()
+      })
+      .then(({ commit, _links }) => {
+        const avatarUrl = new URL(commit.author.avatar_url)
+
+        avatarUrl.searchParams.append('s', '40')
+
+        const branchData = {
+          committer: {
+            name  : commit.author.login,
+            avatar: avatarUrl.href,
+            url   : _links.html,
+            date  : formatDate(commit.commit.author.date, 'DD.MM HH:mm'),
+          },
+        }
+
+        ctx.commit('PATCH_PACKAGE_DATA', branchData)
+      })
   },
   editUser (ctx, newUserData) {
     const { _id : currentUserId, scope: userScope } = ctx.getters.getUserData

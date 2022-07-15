@@ -12,9 +12,9 @@
     <div v-show="!isLoading" class="relative">
       <nuxt-img
         ref="avatar"
-        provider="cloudinary"
         preset="avatar"
         crossorigin="anonymous"
+        :provider="$attrs.provider || 'cloudinary'"
         :class="avatarClassList"
         :src="avatarUrl"
         :width="avatarSize"
