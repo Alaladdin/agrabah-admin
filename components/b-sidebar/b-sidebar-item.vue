@@ -2,7 +2,11 @@
   <div class="sidebar__item">
     <a
       class="nuxt-link w-full"
-      :class="{ 'active': isActive, 'disabled': item.disabled, '!hidden': isFolder && !isMenuOpened }"
+      :class="{
+        'active': isActive,
+        'disabled': item.disabled,
+        '!hidden': isFolder && !isMenuOpened
+      }"
       @click="itemClicked(item)"
     >
       <div>
