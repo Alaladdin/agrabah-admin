@@ -1,5 +1,4 @@
-const { NODE_ENV, SERVER_ADDRESS, AUTH_TOKEN, SENTRY_DSN, CLOUDINARY_CLOUD_NAME } = process.env
-const isDev = NODE_ENV !== 'production'
+const isDev = process.env.NODE_ENV !== 'production'
 
 export default {
   head: {
@@ -47,15 +46,19 @@ export default {
     'nuxt-helmet',
     'nuxt-fontawesome',
   ],
+  server: {
+    host: process.env.HOST || '0.0.0.0',
+    port: process.env.PORT || 3000,
+  },
   sentry: {
-    dsn     : SENTRY_DSN,
+    dsn     : process.env.SENTRY_DSN,
     tracing : true,
     disabled: isDev,
   },
   image: {
     dir       : 'assets/img',
     cloudinary: {
-      baseURL: `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/`,
+      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
     },
     presets: {
       default: {
@@ -87,10 +90,10 @@ export default {
   },
   proxy: {
     '/api': {
-      target     : SERVER_ADDRESS,
+      target     : process.env.API_ADDRESS,
       pathRewrite: { '^/api/': '/' },
       headers    : {
-        AuthToken: AUTH_TOKEN,
+        AuthToken: process.env.AUTH_TOKEN,
       },
     },
   },
