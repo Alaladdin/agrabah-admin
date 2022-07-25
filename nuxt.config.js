@@ -90,7 +90,7 @@ export default {
   },
   proxy: {
     '/api': {
-      target     : process.env.API_ADDRESS,
+      target     : process.env.API_URL,
       pathRewrite: { '^/api/': '/' },
       headers    : {
         AuthToken: process.env.AUTH_TOKEN,
