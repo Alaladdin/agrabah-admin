@@ -1,8 +1,7 @@
+.idea
 node_modules/
 .github
-.idea
 .nuxt
 dist
 .eslintcache
-.tmp
 .env
