@@ -1,3 +1,5 @@
+import concat from 'lodash/concat'
+
 const isDev = process.env.NODE_ENV !== 'production'
 
 export default {
@@ -37,15 +39,14 @@ export default {
     'nuxt-windicss',
     'nuxt-build-optimisations',
   ],
-  modules: [
-    '@nuxtjs/sentry',
+  modules: concat([
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/component-cache',
     '@nuxt/image',
     'nuxt-helmet',
     'nuxt-fontawesome',
-  ],
+  ], isDev ? [] : ['@nuxtjs/sentry']),
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || 3000,
@@ -98,7 +99,7 @@ export default {
     },
   },
   router: {
-    middleware       : ['restrictPagesByLoginStatus', 'restrictPagesByUserScope'].concat(isDev ? [] : ['sentry']),
+    middleware       : concat(['restrictPagesByLoginStatus', 'restrictPagesByUserScope'], isDev ? [] : ['sentry']),
     routeNameSplitter: '/',
   },
   auth: {
