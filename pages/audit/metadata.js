@@ -54,23 +54,5 @@ export default {
         plain: true,
       },
     },
-    stats: {
-      getRoute      : change => ({ path: `/metrics/${change.descriptions[0].processName}` }),
-      processToggled: {
-        title      : 'process managed',
-        html       : true,
-        valueGetter: (change) => {
-          const onlineClass = change.enable ? '#14b8a6' : '#dc2626'
-          const onlineText = change.enable ? 'turned on' : 'turned off'
-
-          return `
-            <div>
-              <div><strong>Process:</strong> ${change.title || change.processName}</div>
-              <div><strong>Status:</strong> <span style="color: ${onlineClass}">${onlineText}</span></div>
-            </div>
-        `
-        },
-      },
-    },
   },
 }

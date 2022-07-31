@@ -45,11 +45,6 @@ export default [
         title: 'Audit',
         icon : 'clock-rotate-left',
       },
-      {
-        name : 'metrics',
-        title: 'Metrics',
-        icon : 'chart-line',
-      },
     ],
   },
   {
@@ -62,12 +57,6 @@ export default [
         icon : 'cubes',
       },
     ],
-  },
-  {
-    name  : 'metrics/processName',
-    title : 'Stats',
-    scope : 'admin',
-    hidden: true,
   },
   {
     name  : 'user/username',
