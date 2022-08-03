@@ -59,7 +59,7 @@ export default {
   image: {
     dir       : 'assets/img',
     cloudinary: {
-      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
+      baseURL: 'https://res.cloudinary.com/agrabah/image/upload/',
     },
     presets: {
       default: {
