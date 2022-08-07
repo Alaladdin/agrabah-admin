@@ -87,10 +87,7 @@ export default {
       this.beforeRequest()
 
       this.$axios.$post('/api/auth/register', this.userData)
-        .then(({ user }) => {
-          this.$auth.setUser(user)
-          this.$auth.setUserToken(user.token)
-        })
+        .then(data => this.applyUser(data.user))
         .catch(this.onFail)
         .finally(() => {
           this.isSigning = false
@@ -100,6 +97,7 @@ export default {
       this.beforeRequest()
 
       this.$auth.loginWith('local', { data: this.userData })
+        .then(result => this.applyUser(result.data.user))
         .catch(this.onFail)
         .finally(() => {
           this.isSigning = false
@@ -108,6 +106,10 @@ export default {
     beforeRequest () {
       this.isSigning = true
       this.error = ''
+    },
+    applyUser (user) {
+      this.$auth.setUser(user)
+      this.$auth.setUserToken(user.token)
     },
     onFail (res) {
       this.error = res.error

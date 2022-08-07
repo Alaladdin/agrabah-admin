@@ -103,18 +103,21 @@ export default {
     routeNameSplitter: '/',
   },
   auth: {
+    cookie: {
+      options: {
+        maxAge: 60 * 60 * 24 * 30,
+        secure: !isDev,
+      },
+    },
     strategies: {
       local: {
         token: {
           property: 'user.token',
-          type    : 'Bearer',
-          maxAge  : 60 * 60 * 24 * 14,
-          global  : true,
-          required: true,
+          maxAge  : 60 * 60 * 24 * 30,
         },
         user: {
           property : 'user',
-          autoFetch: true,
+          autoFetch: false,
         },
         endpoints: {
           user  : { url: '/api/auth/user', method: 'get' },
