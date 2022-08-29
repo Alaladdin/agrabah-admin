@@ -3,9 +3,7 @@
     <b-user-page-loader v-if="isLoading" />
 
     <template v-if="!isLoading">
-      <t-alert v-if="!actualUser" class="alert---bordered" variant="danger" :dismissible="false" show>
-        No user found
-      </t-alert>
+      <b-alert v-if="!actualUser" text="No user found" variant="danger" />
 
       <template v-if="actualUser">
         <b-avatar class="m-x-7" :user="newUserData.avatar ? newUserData : actualUser" size="extraLarge" />
@@ -82,11 +80,13 @@ import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
+import BAlert from '@/components/b-alert'
 
 export default {
   name      : 'user',
   components: {
     'b-avatar'              : BAvatar,
+    'b-alert'               : BAlert,
     'b-button'              : BButton,
     'b-user-page-loader'    : BUserPageLoader,
     'b-confirm-action-modal': BConfirmActionModal,

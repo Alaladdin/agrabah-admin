@@ -1,8 +1,6 @@
 <template>
   <div v-if="data" class="changes">
-    <t-alert v-if="!data.length" class="alert---bordered" :dismissible="false" show>
-      No changes
-    </t-alert>
+    <b-alert v-if="!data.length" text="No changes" />
 
     <template v-if="data.length">
       <b-button
@@ -33,11 +31,13 @@ import { setToLocalStorage } from '@/helpers'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BChangeInfoPlainModal from '@/components/b-change-info-plain-modal'
+import BAlert from '@/components/b-alert'
 
 export default {
   name      : 'audit',
   components: {
     'audit-body'               : AuditBody,
+    'b-alert'                  : BAlert,
     'b-button'                 : BButton,
     'b-change-info-plain-modal': BChangeInfoPlainModal,
   },

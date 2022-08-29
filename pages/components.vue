@@ -86,11 +86,16 @@
 
     <div class="space-y-3">
       <h2 class="mb-4 font-bold text-4xl"># Alert</h2>
-      <t-alert :dismissible="false" show>Not dismissible</t-alert>
-      <t-alert show>Default alert</t-alert>
-      <t-alert variant="warn" show>Warn alert</t-alert>
-      <t-alert variant="danger" show>Danger alert</t-alert>
-      <t-alert variant="success" show>Success alert</t-alert>
+      <b-alert>Default</b-alert>
+      <b-alert variant="warn">Warn alert</b-alert>
+      <b-alert variant="danger">Danger alert</b-alert>
+      <b-alert variant="success">Success alert</b-alert>
+
+      <h3 class="mb-4 font-bold text-2xl">— Dismissible</h3>
+      <b-alert borderless dismissible>Default</b-alert>
+      <b-alert variant="warn" borderless dismissible>Warn alert</b-alert>
+      <b-alert variant="danger" borderless dismissible>Danger alert</b-alert>
+      <b-alert variant="success" borderless dismissible>Success alert</b-alert>
     </div>
 
     <div>
@@ -132,6 +137,7 @@ import BCheckbox from '@/components/b-checkbox'
 import BDropdown from '@/components/b-dropdown'
 import BInput from '@/components/b-input'
 import BSelect from '@/components/b-select'
+import BAlert from '@/components/b-alert'
 import { getOptionsFromFlatArray } from '@/helpers'
 
 const winxPersons = ['Bloom', 'Musa', 'Stella', 'Aisha', 'Daphne', 'Flora', 'Tecna', 'Roxy']
@@ -144,6 +150,7 @@ export default {
     'b-select'   : BSelect,
     'b-dropdown' : BDropdown,
     'b-checkbox' : BCheckbox,
+    'b-alert'    : BAlert,
     'b-button'   : BButton,
     'b-avatar'   : BAvatar,
     'b-user-info': BUserInfo,
