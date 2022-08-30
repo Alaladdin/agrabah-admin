@@ -7,7 +7,7 @@
     &-row {
       @apply grid not-last:border-b-1 border-purple-200 even:bg-purple-50;
 
-      grid-template-columns: 1.3fr repeat(6, minmax(0, 1.5fr));
+      grid-template-columns: 1.3fr repeat(7, minmax(0, 1.5fr));
 
       > * {
         @apply p-3;
