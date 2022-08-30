@@ -1,42 +1,50 @@
 <template>
   <div class="bars">
-    <b-bars-page-loader v-if="isLoading" />
+    <b-bars-page-loader v-if="isParsing || isLoading" />
 
     <b-bars-login v-if="needToLogin" class="w-3/10" />
 
-    <div v-if="!needToLogin && !isLoading" class="flex flex-col w-full">
-      <t-alert
-        v-if="!data.marks.length && !data.isCredentialsError"
-        class="alert---bordered mb-5 !w-full animate-pulse"
-        :dismissible="false"
-        show
-      >
-        Bars is parsing now
-      </t-alert>
-
-      <t-alert
+    <div v-if="!needToLogin && !isParsing && !isLoading" class="flex flex-col w-full">
+      <b-alert
         v-if="data.isCredentialsError"
-        class="alert---bordered mb-5 !w-full"
+        custom-class="p-b-0"
         variant="danger"
-        :dismissible="false"
-        show
       >
-        Credentials error
-      </t-alert>
+        <div class="p-b-4 border-b border-red-400">Credentials error</div>
+        <div class="grid grid-cols-3 items-center justify-center">
+          <p class="text-sm font-semibold text-red-700">{{ data.username }}</p>
+          <p class="text-xs text-red-600">{{ data.updatedAt }}</p>
+          <b-button
+            class="!rounded-none"
+            text="Delete account"
+            variant="danger"
+            :disabled="isUpdating"
+            @click="removeBarsUser"
+          />
+        </div>
+      </b-alert>
 
-      <b-bars-content :data="data" :is-updating="isUpdating" />
+      <b-bars-content
+        v-if="!data.isCredentialsError"
+        :data="data"
+        :is-updating="isUpdating"
+        @refresh-marks="refreshBarsMarks"
+        @remove-user="removeBarsUser"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { assign, concat, map, maxBy } from 'lodash'
 import BBarsLogin from './components/b-bars-login'
 import BBarsPageLoader from './components/b-bars-page-loader'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { formatDate } from '@/helpers'
 import BBarsContent from '@/pages/bars/components/b-bars-content'
+import BAlert from '@/components/b-alert'
+import BButton from '@/components/b-button'
 
 export default {
   name      : 'bars',
@@ -44,6 +52,8 @@ export default {
     'b-bars-login'      : BBarsLogin,
     'b-bars-page-loader': BBarsPageLoader,
     'b-bars-content'    : BBarsContent,
+    'b-button'          : BButton,
+    'b-alert'           : BAlert,
   },
   mixins: [PageDefaultMixin('bars')],
   data  : () => ({
@@ -59,6 +69,11 @@ export default {
     needToLogin () {
       return !this.currentUser.barsUser
     },
+    isParsing () {
+      const { marks, isCredentialsError } = this.data || {}
+
+      return !this.needToLogin && !marks?.length && !isCredentialsError
+    },
   },
   watch: {
     needToLogin (needToLogin) {
@@ -68,6 +83,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions('bars', ['refreshMarks', 'removeUser']),
+
     getPreparedData (data) {
       if (!data) return null
 
@@ -88,6 +105,15 @@ export default {
         marks,
         updatedAt: formatDate(data.updatedAt, 'DD.MM.YYYY HH:mm'),
       })
+    },
+    refreshBarsMarks () {
+      this.refreshMarks()
+        .then(this.startBarsLoading)
+        .catch(this.$handleError)
+    },
+    removeBarsUser () {
+      this.removeUser()
+        .catch(this.$handleError)
     },
     startBarsLoading () {
       this.stopBarsDataLoading()

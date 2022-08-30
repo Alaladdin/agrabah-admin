@@ -1,7 +1,6 @@
 <template>
   <t-alert
-    class="!w-full"
-    :class="{ 'alert---bordered': !borderless }"
+    :class="[customClass, { 'alert---bordered': !borderless }]"
     :variant="variant"
     :dismissible="dismissible"
     show
@@ -16,6 +15,10 @@ export default {
   props: {
     text: {
       type   : String,
+      default: '',
+    },
+    customClass: {
+      type   : [Object, Array, String],
       default: '',
     },
     variant: {

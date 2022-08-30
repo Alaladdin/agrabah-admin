@@ -6,9 +6,16 @@
         class="rounded w-2 h-2"
         :style="{ backgroundColor: color }"
       />
-      <fa v-if="beforeIcon" :icon="beforeIcon" />
-      <span v-if="text" :class="textClass">{{ text }}</span>
-      <fa v-if="afterIcon" :icon="afterIcon" />
+
+      <div v-if="loading">
+        <fa icon="circle-notch" class="animate-spin" />
+      </div>
+
+      <template v-if="!loading">
+        <fa v-if="beforeIcon" :icon="beforeIcon" />
+        <span v-if="text" :class="textClass">{{ text }}</span>
+        <fa v-if="afterIcon" :icon="afterIcon" />
+      </template>
     </slot>
   </t-button>
 </template>
@@ -36,8 +43,12 @@ export default {
       default: '',
     },
     afterIcon: {
-      type   : String,
+      type   : [String, Array],
       default: '',
+    },
+    loading: {
+      type   : Boolean,
+      default: false,
     },
   },
   computed: {

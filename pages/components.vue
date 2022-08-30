@@ -11,6 +11,7 @@
           <b-button text="Indigo button" variant="indigo" :disabled="isDisabled" />
           <b-button text="Danger button" variant="danger" :disabled="isDisabled" />
           <b-button text="Link button" variant="link" :disabled="isDisabled" />
+          <b-button text="Loading button" variant="indigo" :loading="isDisabled" :disabled="isDisabled" />
         </div>
       </div>
 

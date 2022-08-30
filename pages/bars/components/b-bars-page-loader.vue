@@ -32,7 +32,7 @@ export default {
   data: () => ({
     plugsCounts: {
       rows         : 10,
-      semesterMarks: 4,
+      semesterMarks: 3,
       finalMarks   : 3,
     },
   }),

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex space-x-5">
+  <div class="relative flex items-start space-x-5">
     <div v-if="data.marks.length" class="bars__table">
       <div
         v-for="mark in data.marks"
@@ -36,7 +36,8 @@
         class="mb-2"
         text="Update"
         variant="indigo"
-        :disabled="data.isCredentialsError || isUpdating"
+        :disabled="isUpdating"
+        :loading="isUpdating"
         @click="refreshBarsMarks"
       />
 
@@ -51,7 +52,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 
@@ -75,15 +76,11 @@ export default {
     ...mapGetters({ currentUser: 'getUserData' }),
   },
   methods: {
-    ...mapActions('bars', ['refreshMarks', 'removeUser']),
-
     refreshBarsMarks () {
-      this.refreshMarks()
-        .catch(this.$handleError)
+      this.$emit('refresh-marks')
     },
     removeBarsUser () {
-      this.removeUser()
-        .catch(this.$handleError)
+      this.$emit('remove-user')
     },
   },
 }

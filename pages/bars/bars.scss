@@ -2,12 +2,12 @@
   @apply items-center;
 
   &__table {
-    @apply grid self-center rounded w-full shadow-sm text-sm bg-white overflow-hidden;
+    @apply grid rounded w-full shadow-sm text-sm bg-white overflow-hidden;
 
     &-row {
       @apply grid not-last:border-b-1 border-purple-200 even:bg-purple-50;
 
-      grid-template-columns: 1.3fr repeat(7, minmax(0, 1.5fr));
+      grid-template-columns: 1.3fr repeat(6, minmax(0, 1.5fr));
 
       > * {
         @apply p-3;
@@ -28,6 +28,6 @@
   }
 
   &__info-bar {
-    @apply fixed right-0 top-4/10 flex flex-col justify-between px-4 py-5 rounded-l-lg min-w-50 shadow-sm bg-white;
+    @apply relative right-0 flex flex-col justify-between px-4 py-5 rounded min-w-50 shadow-sm bg-white;
   }
 }
