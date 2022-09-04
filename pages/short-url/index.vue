@@ -42,6 +42,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import some from 'lodash/some'
 import BShortUrlItem from './components/b-short-url-item'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { getOptionsFromFlatArray, validateUrl } from '@/helpers'
@@ -70,7 +71,12 @@ export default {
       return this.protocol + this.url
     },
     isFormInvalid () {
-      return !validateUrl(this.fullUrl) || !this.description.trim()
+      return !validateUrl(this.fullUrl) || !this.description.trim() || !this.isUrlUnique
+    },
+    isUrlUnique () {
+      const currentUrl = this.protocol + this.url
+
+      return !some(this.data, { url: currentUrl })
     },
   },
   methods: {
