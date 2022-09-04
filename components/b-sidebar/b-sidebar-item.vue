@@ -1,5 +1,10 @@
 <template>
   <div class="sidebar__item">
+    <div
+      v-if="item.needDivider"
+      class="mt-2 bg-indigo-500 rounded-full h-1px"
+    />
+
     <a
       class="nuxt-link w-full"
       :class="{

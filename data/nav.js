@@ -32,31 +32,31 @@ export default [
     scope: 'user',
   },
   {
-    title   : 'Options',
-    scope   : 'admin',
-    children: [
-      {
-        name : 'team',
-        title: 'Team',
-        icon : 'user-group',
-      },
-      {
-        name : 'audit',
-        title: 'Audit',
-        icon : 'clock-rotate-left',
-      },
-    ],
+    name       : 'team',
+    title      : 'Team',
+    icon       : 'user-group',
+    scope      : 'admin',
+    needDivider: true,
   },
   {
-    title   : 'Dev',
-    scope   : 'admin',
-    children: [
-      {
-        name : 'components',
-        title: 'Components',
-        icon : 'cubes',
-      },
-    ],
+    name : 'audit',
+    title: 'Audit',
+    icon : 'clock-rotate-left',
+    scope: 'admin',
+  },
+  {
+    name    : 'api-key',
+    title   : 'Api Keys',
+    icon    : 'key',
+    disabled: true,
+    scope   : 'owner',
+  },
+  {
+    name       : 'components',
+    title      : 'Components',
+    icon       : 'cubes',
+    scope      : 'admin',
+    needDivider: true,
   },
   {
     name  : 'user/username',
