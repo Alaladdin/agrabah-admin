@@ -21,6 +21,7 @@ export default {
   },
   plugins: [
     '~/plugins/axios',
+    '~/plugins/socket.client',
     '~/plugins/v-tooltip',
     '~/plugins/v-md-editor',
     '~/plugins/v-tailwind',
@@ -96,6 +97,10 @@ export default {
       headers    : {
         AuthToken: process.env.AUTH_TOKEN,
       },
+    },
+    '/ws': {
+      target: process.env.API_URL,
+      ws    : true,
     },
   },
   router: {

@@ -38,7 +38,8 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
 
   let val = localStorage.getItem(key)
 
-  val = val && isJson(val) && JSON.parse(val)
+  if (isJson(val))
+    val = JSON.parse(val)
 
   return isNull(val) ? defaultValue : val
 }

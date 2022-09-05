@@ -97,6 +97,12 @@ export default {
   created () {
     this.init()
   },
+  mounted () {
+    this.$socket.on('users-online', (sock) => {
+      this.$store.commit('SET_ONLINE_USERS', sock.onlineUsers)
+      this.$setSideBarNotifications('team', sock.onlineUsers.length)
+    })
+  },
   methods: {
     ...mapActions({
       loadUpdownStatus: 'updown/loadUpdownStatus',

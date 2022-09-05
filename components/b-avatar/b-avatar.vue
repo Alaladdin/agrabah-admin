@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { mapGetters } from 'vuex'
 import localMetadata from './metadata'
 
 export default {
@@ -54,6 +54,8 @@ export default {
     isLoading: true,
   }),
   computed: {
+    ...mapGetters({ onlineUsers: 'getOnlineUsers' }),
+
     avatarClassList () {
       return ['b-avatar__image', this.size, this.imageClass]
     },
@@ -64,15 +66,7 @@ export default {
       return localMetadata.avatarSizes[this.size] / 2.5 + 'px'
     },
     isUserOnline () {
-      const { lastOnline } = this.user
-
-      if (lastOnline) {
-        const onlineMinutesAgo = moment().diff(lastOnline, 'minutes')
-
-        return onlineMinutesAgo <= 10
-      }
-
-      return false
+      return this.onlineUsers.includes(this.user._id)
     },
   },
   watch: {

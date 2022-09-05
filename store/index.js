@@ -6,6 +6,7 @@ import { formatDate } from '@/helpers'
 export const state = () => ({
   packageData        : { version: 'x.x.x' },
   pageTitle          : null,
+  onlineUsers        : [],
   navbarNotifications: {},
   errors             : [],
 })
@@ -13,6 +14,7 @@ export const state = () => ({
 export const getters = {
   getPackageData        : state => state.packageData,
   getPageTitle          : state => state.pageTitle,
+  getOnlineUsers        : state => state.onlineUsers,
   getNavbarNotifications: state => state.navbarNotifications,
   getErrors             : state => state.errors,
   getUserData           : (state) => {
@@ -38,6 +40,9 @@ export const getters = {
 export const mutations = {
   PATCH_CURRENT_USER (state, data) {
     state.auth.user = assign({}, state.auth.user, data)
+  },
+  SET_ONLINE_USERS (state, users) {
+    state.onlineUsers = users
   },
   PATCH_PACKAGE_DATA (state, data) {
     state.packageData = assign({}, state.packageData, data)
