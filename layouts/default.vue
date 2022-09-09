@@ -41,6 +41,7 @@ import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
 import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 import BContextMenu from '@/components/b-context-menu'
+import socketMixin from '@/mixins/socket'
 
 const SIDEBAR_STORE_KEY = 'sidebar__opened_folders'
 
@@ -52,7 +53,8 @@ export default {
     'b-context-menu': BContextMenu,
     'b-error-modal' : BErrorModal,
   },
-  data: () => ({
+  mixins: [socketMixin],
+  data  : () => ({
     navItems,
     openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
   }),
@@ -96,12 +98,6 @@ export default {
   },
   created () {
     this.init()
-  },
-  mounted () {
-    this.$socket.on('users-online', (sock) => {
-      this.$store.commit('SET_ONLINE_USERS', sock.onlineUsers)
-      this.$setSideBarNotifications('team', sock.onlineUsers.length)
-    })
   },
   methods: {
     ...mapActions({

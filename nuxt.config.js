@@ -102,6 +102,10 @@ export default {
       target: process.env.API_URL,
       ws    : true,
     },
+    '/wss': {
+      target: process.env.API_URL,
+      ws    : true,
+    },
   },
   router: {
     middleware       : concat(['restrictPagesByLoginStatus', 'restrictPagesByUserScope'], isDev ? [] : ['sentry']),
