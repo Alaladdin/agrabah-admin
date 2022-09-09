@@ -41,7 +41,7 @@ import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
 import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 import BContextMenu from '@/components/b-context-menu'
-import socketMixin from '@/mixins/socket'
+import SocketMixin from '@/mixins/m-socket'
 
 const SIDEBAR_STORE_KEY = 'sidebar__opened_folders'
 
@@ -53,7 +53,7 @@ export default {
     'b-context-menu': BContextMenu,
     'b-error-modal' : BErrorModal,
   },
-  mixins: [socketMixin],
+  mixins: [SocketMixin],
   data  : () => ({
     navItems,
     openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
