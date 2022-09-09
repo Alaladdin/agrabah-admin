@@ -2,7 +2,7 @@
 export default {
   mounted () {
     if (this.user.loggedIn)
-      this.initSocket(this.user.token)
+      this.initSocket()
   },
   beforeDestroy () {
     this.$socket.off()
@@ -12,13 +12,16 @@ export default {
     this.$setSideBarNotifications('team', 0)
   },
   methods: {
-    initSocket (userToken) {
+    initSocket () {
+      this.connectSocket()
+      this.$socket.on('users-online', this.usersOnline)
+    },
+    connectSocket () {
       this.$socket.io.opts.extraHeaders = {
         AuthToken    : process.env.AUTH_TOKEN,
-        Authorization: 'Bearer ' + userToken,
+        Authorization: this.$auth.strategy.token.get(),
       }
       this.$socket.connect()
-      this.$socket.on('users-online', this.usersOnline)
     },
     usersOnline (sock) {
       this.$store.commit('SET_ONLINE_USERS', sock.onlineUsers)
