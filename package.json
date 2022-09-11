@@ -65,14 +65,14 @@
     "valid-url": "^1.0.9",
     "vue-clickaway": "^2.2.2",
     "vue-tailwind": "^2.5.1",
-    "vue-toast-notification": "^0.6.3"
+    "vue-toast-notification": "^0.6.3",
+    "vue-template-babel-compiler": "^2.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",
     "@nuxtjs/eslint-config": "^6.0.1",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
-    "lint-staged": "^13.0.3",
-    "vue-template-babel-compiler": "^2.0.0"
+    "lint-staged": "^13.0.3"
   }
 }
