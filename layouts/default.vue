@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex bg-gray-200">
-    <b-sidebar :nav-items="currentNavItems" @folder-toggled="onFolderToggle" />
+    <b-sidebar :nav-items="currentNavItems" />
 
     <div class="flex justify-center w-full">
       <div class="flex flex-col pt-32 w-4/6 h-full">
@@ -9,7 +9,6 @@
             v-if="pageTitle"
             :text="pageTitle"
             class="mb-10"
-            :class="{ 'text-2xl': user.loggedIn && $route.name === 'index' }"
             variant="title"
             tag-name="h1"
           />
@@ -34,16 +33,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { assign, each, filter, map, reject } from 'lodash'
+import { filter, find, reject } from 'lodash'
 import { navItems } from '@/data'
 import BAppVersion from '@/components/b-app-version'
 import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
-import { getFromLocalStorage, setToLocalStorage } from '@/helpers'
 import BContextMenu from '@/components/b-context-menu'
 import SocketMixin from '@/mixins/m-socket'
-
-const SIDEBAR_STORE_KEY = 'sidebar__opened_folders'
 
 export default {
   name      : 'default',
@@ -56,7 +52,6 @@ export default {
   mixins: [SocketMixin],
   data  : () => ({
     navItems,
-    openedFolders: getFromLocalStorage(SIDEBAR_STORE_KEY, []),
   }),
   head () {
     return {
@@ -72,17 +67,17 @@ export default {
     }),
 
     currentNavItems () {
-      return this.prepareNavItems(this.navItems)
+      const { scope: userScope } = this.user
+
+      return filter(this.navItems, (item) => {
+        return !item.hidden && (!item.scope || userScope.includes(item.scope))
+      })
     },
     pageTitle () {
       if (!this.customPageTitle) {
-        const { username, displayName, loggedIn } = this.user
-        const { name: routeName } = this.$route
+        const navItem = find(this.navItems, { name: this.$route.name })
 
-        if (!loggedIn || routeName !== 'index')
-          return this.getCurrentPageTitle(this.navItems)
-
-        return `Welcome back, ${displayName || username}`
+        return navItem.title
       }
 
       return this.customPageTitle
@@ -91,9 +86,6 @@ export default {
   watch: {
     '$route.name' () {
       this.$setPageTitle(null)
-    },
-    'openedFolders.length' () {
-      setToLocalStorage(SIDEBAR_STORE_KEY, this.openedFolders)
     },
   },
   created () {
@@ -119,49 +111,9 @@ export default {
       }
     },
     setHomeNavbarNotifications () {
-      const notOnlineHosts = reject(this.updownStatus, { isOnline: true })
+      const offlineHosts = reject(this.updownStatus, { isOnline: true })
 
-      this.$setSideBarNotifications('index', notOnlineHosts.length)
-    },
-    getCurrentPageTitle (navItems) {
-      let title = ''
-
-      each(navItems, (item) => {
-        if (title) return false
-
-        if (this.$route.name === item.name)
-          title = item.title
-        else if (item.children)
-          title = this.getCurrentPageTitle(item.children)
-      })
-
-      return title
-    },
-    prepareNavItems (navItems) {
-      const { scope: userScope } = this.user
-      const currentNavItems = filter(navItems, (item) => {
-        if (item.hidden) return false
-        if (!item.scope) return true
-
-        return userScope.includes(item.scope)
-      })
-
-      return map(currentNavItems, (item) => {
-        if (!item.children)
-          return item
-
-        const isOpen = this.openedFolders.includes(item.title)
-
-        return assign({ isOpen }, item)
-      })
-    },
-    onFolderToggle (folder) {
-      const folderId = folder.title
-
-      if (folder.isOpen)
-        this.openedFolders.push(folderId)
-      else
-        this.openedFolders = reject(this.openedFolders, openedId => openedId === folderId)
+      this.$setSideBarNotifications('index', offlineHosts.length)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)

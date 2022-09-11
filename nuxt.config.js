@@ -34,6 +34,13 @@ export default {
     { path: '~/components', pattern: '*.vue' },
     { path: '~/components', pattern: '**/*.js' },
   ],
+  build: {
+    loaders: {
+      vue: {
+        compiler: require('vue-template-babel-compiler'),
+      },
+    },
+  },
   buildModules: [
     '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',

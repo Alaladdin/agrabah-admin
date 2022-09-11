@@ -1,6 +1,4 @@
 .sidebar {
-  $parent: &;
-
   @apply pr-64 inline-flex flex-row h-screen;
 
   &__container {
@@ -15,10 +13,6 @@
     }
   }
 
-  &__toggler {
-    @apply absolute -right-3 px-2.5 py-1.5 shadow-sm text-xs text-white rounded-full;
-  }
-
   &__nav {
     @apply flex-grow px-4 pb-4;
 
@@ -28,32 +22,28 @@
   }
 
   &__item {
-    &-title {
-      @apply mr-1;
-    }
-
-    &--nested {
-      @apply pl-4;
+    &-group-title {
+      @apply mt-7 pl-4 text-xs font-semibold uppercase tracking-wider text-indigo-300 select-none;
     }
   }
 
   &__profile {
     @apply flex justify-center flex-col p-4;
 
-    .b-avatar {
-      @apply mr-3;
-    }
-
     &-user-info {
       @apply flex items-center mb-5;
 
-      .b-avatar .b-avatar__status--online {
-        @apply '!border-indigo-700';
+      .b-avatar {
+        @apply mr-3;
+
+        .b-avatar__status--online {
+          @apply '!border-indigo-700';
+        }
       }
 
       p {
         &:first-child {
-          @apply block truncate max-w-30 text-indigo-100;
+          @apply truncate max-w-30 text-indigo-100;
         }
 
         &:last-child {
@@ -64,30 +54,6 @@
 
     &-button {
       @apply flex items-center p-2.5 rounded-2xl bg-indigo-600 hover:opacity-70 active:ring-indigo-500;
-    }
-  }
-
-  &.closed {
-    @apply pr-20;
-
-    #{$parent} {
-      &__container {
-        @apply w-20;
-      }
-
-      &__nav-badge {
-        @apply hidden;
-      }
-
-      &__item {
-        &-title {
-          @apply hidden;
-        }
-
-        &--nested {
-          @apply pl-0;
-        }
-      }
     }
   }
 }

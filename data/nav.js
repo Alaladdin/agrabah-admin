@@ -32,6 +32,7 @@ export default [
     scope: 'user',
   },
   {
+    groupName  : 'Manage',
     name       : 'team',
     title      : 'Team',
     icon       : 'user-group',
@@ -52,6 +53,7 @@ export default [
     scope   : 'owner',
   },
   {
+    groupName  : 'Development',
     name       : 'components',
     title      : 'Components',
     icon       : 'cubes',
