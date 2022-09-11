@@ -21,8 +21,6 @@
             v-for="item in navItems"
             :key="item.title"
             :item="item"
-            :item-clicked="goToPage"
-            :is-active="$route.name.includes(item.name)"
           />
         </nav>
 
@@ -86,11 +84,6 @@ export default {
         text: loggedIn ? 'Log out' : 'Log in',
         icon: loggedIn ? 'arrow-right-from-bracket' : 'arrow-right-to-bracket',
       }
-    },
-  },
-  methods: {
-    goToPage (item) {
-      this.$router.push({ name: item.name })
     },
   },
 }
