@@ -1,3 +1,5 @@
+import { mapGetters } from 'vuex'
+import { keys } from 'lodash'
 
 export default {
   mounted () {
@@ -8,13 +10,26 @@ export default {
     this.$socket.off()
     this.$socket.disconnect()
 
-    this.$store.commit('SET_ONLINE_USERS', [])
+    this.$store.commit('CLEAR_ONLINE_USERS')
     this.$setSideBarNotifications('team', 0)
+  },
+  watch: {
+    pageTitle () {
+      this.sendUserActivity()
+    },
+  },
+  computed: {
+    ...mapGetters({
+      pageTitle: 'getPageTitle',
+    }),
   },
   methods: {
     initSocket () {
       this.connectSocket()
-      this.$socket.on('users-online', this.usersOnline)
+      this.sendUserActivity()
+      this.$socket.on('connect', this.onConnect)
+      this.$socket.on('disconnect', this.onDisconnect)
+      this.$socket.on('users-online', this.onUsersOnline)
     },
     connectSocket () {
       this.$socket.io.opts.extraHeaders = {
@@ -23,9 +38,21 @@ export default {
       }
       this.$socket.connect()
     },
-    usersOnline (sock) {
-      this.$store.commit('SET_ONLINE_USERS', sock.onlineUsers)
-      this.$setSideBarNotifications('team', sock.onlineUsers.length)
+    onConnect () {
+      this.$toast.success('Connected to socket', { duration: 2000 })
+    },
+    onDisconnect () {
+      this.$toast.error('Disconnected from socket', { duration: 2000 })
+    },
+    onUsersOnline (onlineUsers) {
+      this.$store.commit('SET_ONLINE_USERS', onlineUsers)
+      this.$setSideBarNotifications('team', keys(onlineUsers).length)
+    },
+    sendUserActivity () {
+      this.$socket?.emit('user-activity', {
+        page  : this.pageTitle?.toLowerCase(),
+        action: 'chilling',
+      })
     },
   },
 }

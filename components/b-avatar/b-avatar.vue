@@ -66,7 +66,7 @@ export default {
       return localMetadata.avatarSizes[this.size] / 2.5 + 'px'
     },
     isUserOnline () {
-      return this.onlineUsers.includes(this.user._id)
+      return !!this.onlineUsers[this.user._id]
     },
   },
   watch: {

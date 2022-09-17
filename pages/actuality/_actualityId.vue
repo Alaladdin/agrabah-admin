@@ -14,7 +14,7 @@
         v-model="data.data"
         class="w-full text-sm !resize-y bg-red-200"
         :class="{ 'disabled' : isEditDisabled }"
-        :mode="user.isAdmin ? 'editable' : 'preview'"
+        :mode="currentUser.isAdmin ? 'editable' : 'preview'"
         left-toolbar="code bold link italic"
         right-toolbar="preview sync-scroll fullscreen"
         placeholder="Some cool words"
@@ -25,7 +25,7 @@
 
     <div class="flex justify-between items-center rounded select-none">
       <div class="flex font-semibold text-sm space-x-2 text-indigo-600 leading-normal">
-        <v-menu v-if="data.updatedAt" class="rounded shadow-sm bg-indigo-200" :disabled="!data.updatedBy">
+        <v-menu v-if="data?.updatedAt" class="rounded shadow-sm bg-indigo-200" :disabled="!data.updatedBy">
           <p class="px-4 py-1">{{ updatedAtText }}</p>
 
           <template #popper>
@@ -39,8 +39,21 @@
       </div>
 
       <div class="flex space-x-2">
-        <b-button text="Refresh" variant="white" :disabled="isEditDisabled" @click="refresh" />
-        <b-button v-if="user.isAdmin" text="Update" :disabled="isUpdateDisabled" @click="updateActuality" />
+        <b-button
+          text="Refresh"
+          variant="white"
+          :disabled="isEditDisabled"
+          @click="refresh"
+        />
+
+        <client-only>
+          <b-button
+            v-if="currentUser?.isAdmin"
+            text="Update"
+            :disabled="isUpdateDisabled"
+            @click="updateActuality"
+          />
+        </client-only>
       </div>
     </div>
   </div>
@@ -67,8 +80,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      rawData: 'actuality/getActuality',
-      user   : 'getUserData',
+      rawData    : 'actuality/getActuality',
+      currentUser: 'getUserData',
     }),
 
     actualityId () {
@@ -116,7 +129,7 @@ export default {
       this.$setPageTitle(actuality.name)
     },
     onEnter () {
-      if (!this.isUpdateDisabled && this.user.isAdmin)
+      if (!this.isUpdateDisabled && this.currentUser.isAdmin)
         this.updateActuality()
     },
     updateActuality () {

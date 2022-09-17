@@ -4,13 +4,10 @@
     :class="{ 'ring-2 ring-purple-300': currentUser._id === user._id }"
     @contextmenu.prevent="canEditUser && showContextMenu($event)"
   >
-    <div class="flex items-center">
-      <b-avatar class="mr-5 cursor-pointer" :user="user" @click="goToUserProfile" />
-      <span class="font-semibold text-xl">{{ user.displayName || user.username }}</span>
-    </div>
+    <b-user-info :user="user" />
 
     <div class="flex">
-      <div v-if="!editingUserData" class="text-sm">{{ last(user.scope) }}</div>
+      <div v-if="!editingUserData && activityInfo" class="mr-2 text-purple-400 text-sm">{{ activityInfo }}</div>
 
       <div v-if="editingUserData" class="flex mr-3 space-x-3 text-sm">
         <b-checkbox checked disabled>user</b-checkbox>
@@ -22,21 +19,24 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { last } from 'lodash'
 import BCheckbox from '@/components/b-checkbox'
-import BAvatar from '@/components/b-avatar'
 import { clone } from '@/helpers'
+import BUserInfo from '@/components/b-user-info'
 
 export default {
   name      : 'b-team-item',
   components: {
-    'b-checkbox': BCheckbox,
-    'b-avatar'  : BAvatar,
+    'b-user-info': BUserInfo,
+    'b-checkbox' : BCheckbox,
   },
   props: {
     user: {
       type   : Object,
       default: () => ({}),
+    },
+    activityInfo: {
+      type   : String,
+      default: null,
     },
   },
   data: () => ({
@@ -90,7 +90,6 @@ export default {
       commitSetContextMenuVisibility: 'SET_VISIBILITY',
     }),
 
-    last,
     showContextMenu (e) {
       this.commitSetContextMenuButtons(this.contextMenuButtons)
       this.commitSetContextMenuPosition({ x: e.x, y: e.y })
@@ -120,11 +119,6 @@ export default {
     },
     stopEditing () {
       this.editingUserData = null
-    },
-    goToUserProfile () {
-      const { username } = this.user
-
-      this.$router.push({ name: 'user/username', params: { username } })
     },
   },
 }

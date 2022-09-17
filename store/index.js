@@ -1,12 +1,12 @@
 import vue from 'vue'
-import { assign, reject } from 'lodash'
+import { assign, each, reject } from 'lodash'
 import { version } from '@/package.json'
 import { formatDate } from '@/helpers'
 
 export const state = () => ({
   packageData        : { version: 'x.x.x' },
   pageTitle          : null,
-  onlineUsers        : [],
+  onlineUsers        : {},
   navbarNotifications: {},
   errors             : [],
 })
@@ -41,8 +41,22 @@ export const mutations = {
   PATCH_CURRENT_USER (state, data) {
     state.auth.user = assign({}, state.auth.user, data)
   },
-  SET_ONLINE_USERS (state, users) {
-    state.onlineUsers = users
+  SET_ONLINE_USERS (state, onlineUsers) {
+    const newOnlineUsers = {}
+
+    each(onlineUsers, (userInfo) => {
+      const { user, activity } = userInfo
+
+      newOnlineUsers[user._id] = {
+        ...user,
+        activity: activity && `${activity.action} on ${activity.page} page`,
+      }
+    })
+
+    state.onlineUsers = newOnlineUsers
+  },
+  CLEAR_ONLINE_USERS (state) {
+    state.onlineUsers = {}
   },
   PATCH_PACKAGE_DATA (state, data) {
     state.packageData = assign({}, state.packageData, data)
