@@ -110,8 +110,9 @@ export default {
       ws    : true,
     },
     '/wss': {
-      target: process.env.API_URL,
-      ws    : true,
+      target     : process.env.API_URL,
+      pathRewrite: { '^/wss/': '/ws' },
+      ws         : true,
     },
   },
   router: {
