@@ -9,6 +9,7 @@
           v-for="user in data"
           :key="user._id"
           :user="user"
+          :activity-info="onlineUsers[user._id]?.activity"
         />
       </div>
     </template>
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import BTeamPageLoader from './components/b-team-page-loader'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BTeamItem from '@/pages/team/components/b-team-item'
@@ -32,5 +34,8 @@ export default {
   data  : () => ({
     clearDataOnDestroy: false,
   }),
+  computed: {
+    ...mapGetters({ onlineUsers: 'getOnlineUsers' }),
+  },
 }
 </script>

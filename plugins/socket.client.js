@@ -4,6 +4,7 @@ export default ({ app }, inject) => {
   const socketClient = io({
     path             : '/ws',
     reconnectionDelay: 5000,
+    secure           : false,
     autoConnect      : false,
   })
 
