@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { escape } from 'lodash'
+import escape from 'lodash/escape'
 import diff from 'simple-text-diff'
 
 export default {
@@ -39,18 +39,3 @@ export default {
   },
 }
 </script>
-
-<style lang='scss'>
-ins, del {
-  padding: 2px 0;
-  @apply text-white no-underline
-}
-
-ins {
-  @apply bg-green-400
-}
-
-del {
-  @apply bg-red-400
-}
-</style>

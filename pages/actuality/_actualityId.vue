@@ -13,10 +13,11 @@
       <b-markdown-editor
         v-model="data.data"
         placeholder="Some cool words"
+        :old-value="rawData?.data"
         :editable="!!currentUser?.isAdmin"
         :disabled="isEditDisabled"
-        autofocus
         @keydown.native.enter.ctrl="onEnter"
+        @input="onActualityChange"
       />
     </div>
 
@@ -30,8 +31,8 @@
           </template>
         </v-menu>
 
-        <div v-if="hasAnyChanges" class="badge badge--warn fade-in !text-sm">
-          Unsaved changes
+        <div v-if="changedText" class="badge badge--warn fade-in !text-sm">
+          {{ changedText }}
         </div>
       </div>
 
@@ -58,7 +59,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { assign } from 'lodash'
+import { assign, find, pick } from 'lodash'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BUserInfo from '@/components/b-user-info'
@@ -81,6 +82,7 @@ export default {
     ...mapGetters({
       rawData    : 'actuality/getActuality',
       currentUser: 'getUserData',
+      onlineUsers: 'getOnlineUsers',
     }),
 
     actualityId () {
@@ -100,17 +102,36 @@ export default {
 
       return this.data.data.trim() !== this.rawData.data.trim()
     },
+    changedText () {
+      const { displayName, username } = this.userEditing || {}
+
+      if (displayName || username)
+        return `Editing now by ${displayName || username}`
+
+      return (this.hasAnyChanges) ? 'Unsaved changes' : ''
+    },
+    userEditing () {
+      const userEditing = find(this.onlineUsers, { activity: { action: 'editing', pageId: this.actualityId } })
+
+      return (userEditing?._id === this.currentUser._id) ? null : userEditing
+    },
     isUpdateDisabled () {
       return !this.hasAnyChanges || this.isEditDisabled
     },
     isEditDisabled () {
-      return this.isLoading || this.isUpdating
+      return this.isLoading || this.isUpdating || !!this.userEditing
     },
   },
   watch: {
     'data.data' () {
       this.handleActualityChange()
     },
+  },
+  beforeDestroy () {
+    if (!this.currentUser.loggedIn) return
+
+    this.$socket.emit('user-activity', null)
+    this.$socket.off('actuality-editing')
   },
   methods: {
     ...mapActions('actuality', {
@@ -136,19 +157,39 @@ export default {
 
       this.editActuality(this.data)
         .catch(this.$handleError)
-        .then(this.handleActualityChange)
+        .then(() => {
+          this.setLocalActuality()
+        })
         .finally(() => {
           this.isUpdating = false
         })
     },
     refresh () {
+      this.$socket.emit('actuality-editing', pick(this.rawData, ['_id', 'data']))
       this.setLocalActuality()
       this.clearData()
+    },
+    onActualityChange () {
+      if (this.$socket.connected && !this.userEditing) {
+        this.$socket.emit('actuality-editing', pick(this.data, ['_id', 'data']))
+        this.$socket.emit('user-activity', {
+          pageTitle: this.data.name,
+          pageId   : this.data._id,
+          action   : 'editing',
+        })
+      }
     },
     handleActualityChange () {
       const newLocalActuality = !this.isLoading && !this.hasAnyChanges ? {} : { data: this.data.data }
 
       this.setLocalActuality(newLocalActuality)
+
+      this.$socket.on('actuality-editing', (e) => {
+        const { actuality } = e
+
+        if (!this.userEditing && actuality._id === this.actualityId)
+          this.data.data = actuality.data ?? ''
+      })
     },
     setLocalActuality (localActuality = {}) {
       setToLocalStorage(this.actualityStoreKey, localActuality)

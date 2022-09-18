@@ -25,23 +25,37 @@
         variant="link"
         @click="changeVariant(null)"
       />
+      <b-button
+        class="b-markdown-editor__bar-button"
+        :class="{ 'active': variant === 'diff' }"
+        title="View changes"
+        before-icon="not-equal"
+        variant="link"
+        @click="changeVariant('diff')"
+      />
     </div>
 
     <div class="w-full h-full" :class="{ 'pb-7': editable, 'b-markdown-editor__columns': !variant }">
-      <textarea
-        v-if="variant !== 'preview'"
-        ref="textarea"
-        :class="['b-markdown-editor__editor', { 'disabled': disabled }]"
-        :value="value"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        @input="onInput"
-      />
-      <div
-        v-if="variant !== 'edit'"
-        :class="['b-markdown-editor__preview', { 'disabled': disabled }]"
-        v-html="markedPreview"
-      />
+      <template v-if="variant === 'diff'">
+        <div class="b-markdown-editor__preview !p-5" v-html="diffPreview" />
+      </template>
+
+      <template v-else>
+        <textarea
+          v-if="variant !== 'preview'"
+          ref="textarea"
+          :class="['b-markdown-editor__editor', { 'disabled': disabled }]"
+          :value="value"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          @input="onInput"
+        />
+        <div
+          v-if="variant !== 'edit'"
+          :class="['b-markdown-editor__preview', { 'disabled': disabled }]"
+          v-html="markedPreview"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -49,6 +63,7 @@
 <script>
 import escape from 'lodash/escape'
 import { marked } from 'marked'
+import diff from 'simple-text-diff'
 import BButton from '@/components/b-button'
 
 export default {
@@ -58,6 +73,10 @@ export default {
   },
   props: {
     value: {
+      type   : String,
+      default: '',
+    },
+    oldValue: {
       type   : String,
       default: '',
     },
@@ -76,7 +95,8 @@ export default {
   },
   data () {
     return {
-      variant: this.editable ? null : 'preview',
+      diffPreview: '',
+      variant    : this.editable ? null : 'preview',
     }
   },
   computed: {
@@ -85,6 +105,10 @@ export default {
     },
   },
   watch: {
+    value () {
+      if (this.variant === 'diff')
+        this.calculateDiff()
+    },
     variant: {
       immediate: true,
       handler (v) {
@@ -103,6 +127,16 @@ export default {
     },
     changeVariant (variant) {
       this.variant = variant
+
+      if (variant === 'diff')
+        this.calculateDiff()
+    },
+    calculateDiff () {
+      const oldVal = escape(this.oldValue)
+      const newVal = escape(this.value)
+      const diffs = diff.diffPatchBySeparator(oldVal, newVal, '\n')
+
+      this.diffPreview = marked.parse(diffs.after)
     },
     onInput (e) {
       this.$emit('input', e.target.value)

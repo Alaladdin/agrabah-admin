@@ -18,6 +18,19 @@ textarea, {
   width: 6px !important;
 }
 
+ins, del {
+  padding: 2px 0;
+  @apply text-white no-underline
+}
+
+ins {
+  @apply bg-green-400
+}
+
+del {
+  @apply bg-red-400 text-white;
+}
+
 .page-enter-active,
 .page-leave-active {
   transition: all 0.1s;

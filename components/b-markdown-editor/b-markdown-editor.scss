@@ -25,6 +25,7 @@
   &__preview {
     @apply p-5 text-sm;
     @apply w-full h-full overflow-y-scroll;
+    @apply text-gray-700;
 
     &.disabled {
       @apply '!opacity-80 bg-gray-100 cursor-auto'
@@ -37,7 +38,7 @@
   }
 
   &__preview {
-    @apply text-gray-700 bg-gray;
+    @apply bg-gray-50;
   }
 
   h1, h2, h3, h4, h5, h6 {
