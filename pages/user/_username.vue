@@ -76,7 +76,7 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import { assign, pick } from 'lodash/object'
 import BUserPageLoader from './components/b-user-page-loader'
-import { formatDate, validateUsername, validateDisplayName } from '@/helpers'
+import { validateUsername, validateDisplayName } from '@/helpers'
 import BButton from '@/components/b-button'
 import BAvatar from '@/components/b-avatar'
 import BConfirmActionModal from '@/components/b-confirm-action-modal'
@@ -110,8 +110,8 @@ export default {
     profileInfoFields () {
       const { lastLoggedAt, lastOnline, createdAt, scope } = this.actualUser
       const accountAge = moment().diff(createdAt, 'days') + ' days'
-      const lastLoggedDate = formatDate(lastLoggedAt, 'HH:mm:ss DD.MM.YYYY')
-      const lastOnlineDate = formatDate(lastOnline, 'HH:mm:ss DD.MM.YYYY')
+      const lastLoggedDate = moment(lastLoggedAt).fromNow()
+      const lastOnlineDate = moment(lastOnline).fromNow()
 
       return [
         { title: 'Account age', value: accountAge },
