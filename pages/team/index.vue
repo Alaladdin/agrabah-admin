@@ -9,7 +9,7 @@
           v-for="user in data"
           :key="user._id"
           :user="user"
-          :activity-info="onlineUsers[user._id]?.activity"
+          :activity-info="onlineUsers[user._id]?.activityText"
         />
       </div>
     </template>

@@ -3,6 +3,21 @@ import { assign, each, reject } from 'lodash'
 import { version } from '@/package.json'
 import { formatDate } from '@/helpers'
 
+const getUserActivityText = (activity) => {
+  if (!activity) return null
+
+  const { action, pageTitle } = activity
+  let format = '{actionName} on {pageTitle} page'
+
+  if (action === 'editing')
+    format = '{actionName} {pageTitle}'
+
+  return format
+    .replace('{actionName}', action)
+    .replace('{pageTitle}', pageTitle)
+    .toLowerCase()
+}
+
 export const state = () => ({
   packageData        : { version: 'x.x.x' },
   pageTitle          : null,
@@ -12,9 +27,23 @@ export const state = () => ({
 })
 
 export const getters = {
-  getPackageData        : state => state.packageData,
-  getPageTitle          : state => state.pageTitle,
-  getOnlineUsers        : state => state.onlineUsers,
+  getPackageData: state => state.packageData,
+  getPageTitle  : state => state.pageTitle,
+  getOnlineUsers: (state) => {
+    const onlineUsers = {}
+
+    each(state.onlineUsers, (userInfo) => {
+      const { user, activity } = userInfo
+
+      onlineUsers[user._id] = {
+        ...user,
+        activity,
+        activityText: getUserActivityText(activity),
+      }
+    })
+
+    return onlineUsers
+  },
   getNavbarNotifications: state => state.navbarNotifications,
   getErrors             : state => state.errors,
   getUserData           : (state) => {
@@ -44,18 +73,7 @@ export const mutations = {
     state.auth.user = assign({}, state.auth.user, data)
   },
   SET_ONLINE_USERS (state, onlineUsers) {
-    const newOnlineUsers = {}
-
-    each(onlineUsers, (userInfo) => {
-      const { user, activity } = userInfo
-
-      newOnlineUsers[user._id] = {
-        ...user,
-        activity: activity && `${activity.action} on ${activity.page} page`,
-      }
-    })
-
-    state.onlineUsers = newOnlineUsers
+    state.onlineUsers = onlineUsers
   },
   CLEAR_ONLINE_USERS (state) {
     state.onlineUsers = {}

@@ -27,8 +27,6 @@ export default {
     initSocket () {
       this.connectSocket()
       this.sendUserActivity()
-      this.$socket.on('connect', this.onConnect)
-      this.$socket.on('disconnect', this.onDisconnect)
       this.$socket.on('users-online', this.onUsersOnline)
     },
     connectSocket () {
@@ -38,20 +36,14 @@ export default {
       }
       this.$socket.connect()
     },
-    onConnect () {
-      this.$toast.success('Connected to socket', { duration: 2000 })
-    },
-    onDisconnect () {
-      this.$toast.error('Disconnected from socket', { duration: 2000 })
-    },
     onUsersOnline (onlineUsers) {
       this.$store.commit('SET_ONLINE_USERS', onlineUsers)
       this.$setSideBarNotifications('team', keys(onlineUsers).length)
     },
     sendUserActivity () {
       this.$socket?.emit('user-activity', {
-        page  : this.pageTitle?.toLowerCase(),
-        action: 'chilling',
+        pageTitle: this.pageTitle?.toLowerCase(),
+        action   : 'chilling',
       })
     },
   },

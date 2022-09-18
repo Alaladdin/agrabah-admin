@@ -15,6 +15,7 @@
 
           <nuxt-child class="flex flex-col" />
 
+          <b-socket-indicator />
           <b-app-version />
         </div>
       </div>
@@ -36,6 +37,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { filter, find, reject } from 'lodash'
 import { navItems } from '@/data'
 import BAppVersion from '@/components/b-app-version'
+import BSocketIndicator from '@/components/b-socket-indicator'
 import BSidebar from '@/components/b-sidebar'
 import BErrorModal from '@/components/b-error-modal'
 import BContextMenu from '@/components/b-context-menu'
@@ -44,10 +46,11 @@ import SocketMixin from '@/mixins/m-socket'
 export default {
   name      : 'default',
   components: {
-    'b-app-version' : BAppVersion,
-    'b-sidebar'     : BSidebar,
-    'b-context-menu': BContextMenu,
-    'b-error-modal' : BErrorModal,
+    'b-socket-indicator': BSocketIndicator,
+    'b-app-version'     : BAppVersion,
+    'b-sidebar'         : BSidebar,
+    'b-context-menu'    : BContextMenu,
+    'b-error-modal'     : BErrorModal,
   },
   mixins: [SocketMixin],
   data  : () => ({
