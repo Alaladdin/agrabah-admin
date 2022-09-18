@@ -3,7 +3,7 @@ import { keys } from 'lodash'
 
 export default {
   mounted () {
-    if (this.user.loggedIn)
+    if (this.currentUser.loggedIn)
       this.initSocket()
   },
   beforeDestroy () {
@@ -20,7 +20,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      pageTitle: 'getPageTitle',
+      currentUser: 'getUserData',
+      pageTitle  : 'getPageTitle',
     }),
   },
   methods: {

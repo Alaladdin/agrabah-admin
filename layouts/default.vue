@@ -15,7 +15,10 @@
 
           <nuxt-child class="flex flex-col" />
 
-          <b-socket-indicator />
+          <client-only>
+            <b-socket-indicator v-if="currentUser.loggedIn" />
+          </client-only>
+
           <b-app-version />
         </div>
       </div>
@@ -63,14 +66,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user           : 'getUserData',
+      currentUser    : 'getUserData',
       updownStatus   : 'updown/getUpdownStatus',
       customPageTitle: 'getPageTitle',
       errors         : 'getErrors',
     }),
 
     currentNavItems () {
-      const { scope: userScope } = this.user
+      const { scope: userScope } = this.currentUser
 
       return filter(this.navItems, (item) => {
         return !item.hidden && (!item.scope || userScope.includes(item.scope))
@@ -105,7 +108,7 @@ export default {
         .then(this.setHomeNavbarNotifications)
         .catch(this.$handleError)
 
-      if (this.user.isAdmin && this.$route.name !== 'audit') {
+      if (this.currentUser.isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()
           .then((changes) => {
             this.$setSideBarNotifications('audit', changes)
