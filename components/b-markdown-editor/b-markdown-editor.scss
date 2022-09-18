@@ -1,0 +1,84 @@
+.b-markdown-editor {
+  @apply rounded-md overflow-hidden h-120 shadow-sm;
+  @apply bg-white w-full;
+
+  &__bar {
+    @apply flex justify-end border-b;
+
+    &-button {
+      @apply '!px-3 !py-2' rounded-none;
+      @apply text-gray-700;
+      @apply hover:(text-gray-600 bg-gray-100);
+      @apply active:(text-gray-600 bg-gray-100 opacity-70);
+
+      &.active {
+        @apply bg-gray-100;
+      }
+    }
+  }
+
+  &__columns {
+    @apply grid grid-cols-2;
+  }
+
+  &__editor,
+  &__preview {
+    @apply p-5 text-sm;
+    @apply w-full h-full overflow-y-scroll;
+
+    &.disabled {
+      @apply '!opacity-80 bg-gray-100 cursor-auto'
+    }
+  }
+
+  &__editor {
+    @apply outline-none resize-none;
+    @apply border-r font-mono;
+  }
+
+  &__preview {
+    @apply text-gray-700 bg-gray;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply py-2 font-semibold;
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-3xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  h5 {
+    @apply text-md;
+  }
+
+  a {
+    @apply text-indigo-500;
+  }
+
+  pre {
+    @apply px-4 py-3 rounded-md bg-indigo-100;
+
+    code {
+      @apply bg-transparent
+    }
+  }
+
+  code {
+    @apply bg-indigo-100 whitespace-pre-line;
+  }
+}

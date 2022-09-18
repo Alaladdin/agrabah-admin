@@ -23,7 +23,6 @@ export default {
     '~/plugins/axios',
     '~/plugins/socket.client',
     '~/plugins/v-tooltip',
-    '~/plugins/v-md-editor',
     '~/plugins/v-tailwind',
     '~/plugins/v-toast',
     '~/plugins/handle-error',

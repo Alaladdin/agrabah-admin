@@ -10,14 +10,11 @@
     </div>
 
     <div class="flex justify-between mb-3 w-full">
-      <v-md-editor
+      <b-markdown-editor
         v-model="data.data"
-        class="w-full text-sm !resize-y bg-red-200"
-        :class="{ 'disabled' : isEditDisabled }"
-        :mode="currentUser.isAdmin ? 'editable' : 'preview'"
-        left-toolbar="code bold link italic"
-        right-toolbar="preview sync-scroll fullscreen"
         placeholder="Some cool words"
+        :editable="currentUser.isAdmin"
+        :disabled="isEditDisabled"
         autofocus
         @keydown.native.enter.ctrl="onEnter"
       />
@@ -66,12 +63,14 @@ import PageDefaultMixin from '@/mixins/m-page-default'
 import BButton from '@/components/b-button'
 import BUserInfo from '@/components/b-user-info'
 import { formatDate, getFromLocalStorage, setToLocalStorage } from '@/helpers'
+import BMarkdownEditor from '@/components/b-markdown-editor'
 
 export default {
   name      : 'actuality-id',
   components: {
-    'b-button'   : BButton,
-    'b-user-info': BUserInfo,
+    'b-button'         : BButton,
+    'b-user-info'      : BUserInfo,
+    'b-markdown-editor': BMarkdownEditor,
   },
   mixins: [PageDefaultMixin('actuality')],
   data  : () => ({

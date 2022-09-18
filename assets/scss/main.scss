@@ -9,7 +9,13 @@ button {
 body,
 textarea, {
   overflow: auto;
-  @apply scrollbar scrollbar-thin scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500 scrollbar-track-gray-300 scrollbar-thumb-rounded;
+  @apply scrollbar scrollbar-thumb-rounded;
+  @apply scrollbar-thumb-gray-400 hover:scrollbar-thumb-gray-500;
+  @apply scrollbar-track-gray-300;
+}
+
+::-webkit-scrollbar {
+  width: 6px !important;
 }
 
 .page-enter-active,
@@ -36,22 +42,6 @@ textarea {
   padding: 15px 18px !important;
 
   @apply max-w-xl;
-}
-
-.v-md-editor {
-  @apply h-120;
-
-  textarea,
-  .vuepress-markdown-body {
-    @apply bg-transparent;
-  }
-
-  &.disabled {
-    .v-md-editor__editor-wrapper,
-    .v-md-editor__preview-wrapper {
-      @apply pointer-events-none bg-gray-100 transition duration-150;
-    }
-  }
 }
 
 .v-toast {
