@@ -54,7 +54,12 @@
         <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click.stop="stopEditing" />
       </div>
 
-      <span v-if="!editingItem" class="items-end font-semibold text-xs text-gray-600">
+      <span v-if="userEditing" class="items-end font-semibold text-xs text-gray-600">
+        <span>editing now by </span>
+        <span>{{ userEditing.displayName || userEditing.username }}</span>
+      </span>
+
+      <span v-else-if="!editingItem" class="items-end font-semibold text-xs text-gray-600">
         {{ item.updatedAt }}
       </span>
     </div>
@@ -71,6 +76,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import find from 'lodash/find'
 import BButton from '@/components/b-button'
 import BInput from '@/components/b-input'
 import { clone } from '@/helpers'
@@ -96,7 +102,10 @@ export default {
     isRemoving   : false,
   }),
   computed: {
-    ...mapGetters({ currentUser: 'getUserData' }),
+    ...mapGetters({
+      currentUser: 'getUserData',
+      onlineUsers: 'getOnlineUsers',
+    }),
 
     isFormInvalid () {
       if (!this.editingItem) return false
@@ -105,6 +114,14 @@ export default {
     },
     isSectionItemType () {
       return !!this.item.actualities
+    },
+    userEditing () {
+      return find(this.onlineUsers, {
+        activity: {
+          action: 'editing',
+          pageId: this.item._id,
+        },
+      })
     },
   },
   methods: {
