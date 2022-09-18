@@ -1,7 +1,7 @@
 <template>
-  <div class="badge fixed top-3 right-25 px-3 py-1">
-    <span :class="['mr-1', indicatorTextClass]">{{ indicatorText }}</span>
-    <span :class="['updown__online-indicator', indicatorClass]" />
+  <div class="badge fixed top-3 right-25 px-3 py-1 space-x-1">
+    <span :class="['updown__online-indicator !h-2 !w-2', indicatorClass]" />
+    <span :class="[indicatorTextClass]">{{ indicatorText }}</span>
   </div>
 </template>
 
