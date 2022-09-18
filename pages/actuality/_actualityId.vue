@@ -13,7 +13,7 @@
       <b-markdown-editor
         v-model="data.data"
         placeholder="Some cool words"
-        :editable="currentUser.isAdmin"
+        :editable="!!currentUser?.isAdmin"
         :disabled="isEditDisabled"
         autofocus
         @keydown.native.enter.ctrl="onEnter"

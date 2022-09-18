@@ -25,6 +25,8 @@ export const getters = {
         username: 'guest',
         scope   : ['guest'],
         loggedIn: false,
+        isAdmin : false,
+        isOwner : false,
       }
     }
 
