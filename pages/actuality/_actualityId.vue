@@ -133,6 +133,14 @@ export default {
     this.$socket.emit('user-activity', null)
     this.$socket.off('actuality-editing')
   },
+  mounted () {
+    this.$socket.on('actuality-editing', (e) => {
+      const { actuality } = e
+
+      if (this.userEditing && actuality._id === this.actualityId)
+        this.data.data = actuality.data ?? ''
+    })
+  },
   methods: {
     ...mapActions('actuality', {
       init         : 'getActuality',
@@ -183,13 +191,6 @@ export default {
       const newLocalActuality = !this.isLoading && !this.hasAnyChanges ? {} : { data: this.data.data }
 
       this.setLocalActuality(newLocalActuality)
-
-      this.$socket.on('actuality-editing', (e) => {
-        const { actuality } = e
-
-        if (!this.userEditing && actuality._id === this.actualityId)
-          this.data.data = actuality.data ?? ''
-      })
     },
     setLocalActuality (localActuality = {}) {
       setToLocalStorage(this.actualityStoreKey, localActuality)
