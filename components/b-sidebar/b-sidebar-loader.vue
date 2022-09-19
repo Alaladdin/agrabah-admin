@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { reduce, reject } from 'lodash'
+import reject from 'lodash/reject'
 import { getRandomNumber } from '@/helpers'
 import { navItems } from '@/data'
 
@@ -25,9 +25,9 @@ export default {
   name    : 'b-sidebar-loader',
   computed: {
     navItemsCount () {
-      const rootNavItems = reject(navItems, { hidden: true })
+      const visibleNavItems = reject(navItems, { hidden: true })
 
-      return reduce(rootNavItems, (sum, { children }) => sum + (!!children && children.length), rootNavItems.length)
+      return visibleNavItems.length
     },
     randomWidthsStyles () {
       const widthsStyles = []

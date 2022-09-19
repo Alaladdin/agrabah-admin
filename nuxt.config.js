@@ -8,7 +8,7 @@ export default {
     meta : [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'AGRABAH ADMIN' },
+      { hid: 'description', name: 'description', content: 'AGRABAH ADMIN CONSOLE' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
@@ -107,11 +107,6 @@ export default {
     '/ws': {
       target: process.env.API_URL,
       ws    : true,
-    },
-    '/wss': {
-      target     : process.env.API_URL,
-      pathRewrite: { '^/wss/': '/ws' },
-      ws         : true,
     },
   },
   router: {
