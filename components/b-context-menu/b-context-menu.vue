@@ -2,7 +2,7 @@
   <div
     ref="contextMenu"
     :class="['b-context-menu', { 'invisible' : !isVisible }]"
-    :style="{ transform: `translate(${contextMenuPosition.x}px, ${contextMenuPosition.y}px)` }"
+    :style="{ transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)` }"
     @contextmenu.capture.prevent
   >
     <div class="b-context-menu__body">
@@ -53,15 +53,16 @@ export default {
       isVisible: 'getIsVisible',
     }),
 
-    contextMenuPosition () {
+    currentPosition () {
       if (process.client) {
         const { contextMenu } = this.$refs
-        const width = contextMenu?.clientWidth || this.baseWidth
-        const height = contextMenu?.clientHeight || this.baseHeight
-
         const { x: posX, y: posY } = this.position
-        const hasSpaceX = window.innerWidth + this.offset > width + posX
-        const hasSpaceY = window.innerHeight + this.offset > height + posY
+        const contextMenuRect = contextMenu?.getBoundingClientRect()
+        const width = contextMenuRect?.width || this.baseWidth
+        const height = contextMenuRect?.height || this.baseHeight
+
+        const hasSpaceX = posX + width <= window.innerWidth - this.offset
+        const hasSpaceY = posY + height <= window.innerHeight - this.offset
 
         return {
           x: posX - (hasSpaceX ? 0 : width),
@@ -83,11 +84,11 @@ export default {
     ...mapMutations('context-menu', { commitSetVisibility: 'SET_VISIBILITY' }),
 
     setEventListeners () {
-      window.addEventListener('scroll', this.hideContextMenu)
+      window.addEventListener('scroll', this.hideContextMenu, { passive: true })
       window.addEventListener('resize', this.hideContextMenu)
     },
     removeEventListeners () {
-      window.removeEventListener('scroll', this.hideContextMenu)
+      window.removeEventListener('scroll', this.hideContextMenu, { passive: true })
       window.removeEventListener('resize', this.hideContextMenu)
     },
     onClick (buttonCallback) {
