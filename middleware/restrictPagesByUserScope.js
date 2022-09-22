@@ -6,7 +6,7 @@ export default ({ route, store, redirect }) => {
   const page = find(navItems, { name: route.name })
 
   if (page?.scope) {
-    const hasAccess = currentUser.scope.includes(page.scope)
+    const hasAccess = currentUser?.scope.includes(page.scope)
 
     if (!hasAccess)
       redirect({ name: 'index' })

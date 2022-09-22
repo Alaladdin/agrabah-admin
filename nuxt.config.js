@@ -98,14 +98,14 @@ export default {
   },
   proxy: {
     '/api': {
-      target     : process.env.API_URL,
+      target     : process.env.API_ADDRESS,
       pathRewrite: { '^/api/': '/' },
       headers    : {
         AuthToken: process.env.AUTH_TOKEN,
       },
     },
     '/ws': {
-      target: process.env.API_URL,
+      target: process.env.API_ADDRESS,
       ws    : true,
     },
   },
