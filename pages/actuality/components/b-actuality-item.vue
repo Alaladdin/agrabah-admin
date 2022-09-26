@@ -12,8 +12,6 @@
     >
       <div class="flex flex-col w-full max-w-6/10 h-full">
         <div class="flex items-center">
-          <b-caret v-if="isSectionItemType" class="mr-4" :value="item.isOpened" />
-
           <b-input
             v-if="editingItem"
             ref="nameInput"
@@ -54,14 +52,18 @@
         <b-button class="!px-1.5" after-icon="xmark" variant="danger" @click.stop="stopEditing" />
       </div>
 
-      <span v-if="userEditing" class="items-end font-semibold text-xs text-gray-600">
-        <span>editing now by </span>
-        <span>{{ userEditing.displayName || userEditing.username }}</span>
-      </span>
+      <div v-if="!editingItem" class="flex items-center">
+        <span v-if="userEditingName" class="items-end font-semibold text-xs text-gray-600">
+          <span>editing now by </span>
+          <span>{{ userEditingName }}</span>
+        </span>
 
-      <span v-else-if="!editingItem" class="items-end font-semibold text-xs text-gray-600">
-        {{ item.updatedAt }}
-      </span>
+        <span v-if="!isSectionItemType && !userEditingName" class="items-end font-semibold text-xs text-gray-600">
+          {{ item.updatedAt }}
+        </span>
+
+        <b-caret v-if="isSectionItemType" class="ml-4" :value="item.isOpened" />
+      </div>
     </div>
 
     <b-actuality-item
@@ -115,13 +117,18 @@ export default {
     isSectionItemType () {
       return !!this.item.actualities
     },
-    userEditing () {
-      return find(this.onlineUsers, {
+    userEditingName () {
+      const userEditing = find(this.onlineUsers, {
         activity: {
           action: 'editing',
           pageId: this.item._id,
         },
       })
+
+      if (this.currentUser._id === userEditing?._id)
+        return 'you'
+
+      return userEditing?.displayName || userEditing?.username
     },
   },
   methods: {
