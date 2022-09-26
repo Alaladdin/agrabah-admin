@@ -1,7 +1,7 @@
 <template>
   <b-button
     class="transform"
-    :class="{ 'rotate-180': isInvertedAnimation ? value : !value }"
+    :class="{ 'rotate-180': invertedAnimation ? value : !value }"
     :before-icon="caretIcon"
     style="color: inherit"
     variant="icon"
@@ -21,19 +21,14 @@ export default {
       type   : Boolean,
       default: false,
     },
-    isInvertedAnimation: {
+    invertedAnimation: {
       type   : Boolean,
       default: false,
     },
   },
   computed: {
     caretIcon () {
-      return this.isInvertedAnimation ? 'caret-down' : 'caret-up'
-    },
-  },
-  methods: {
-    toggleCaret () {
-      this.$emit('input', !this.value)
+      return this.invertedAnimation ? 'angle-down' : 'angle-up'
     },
   },
 }

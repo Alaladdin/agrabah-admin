@@ -62,7 +62,12 @@
           {{ item.updatedAt }}
         </span>
 
-        <b-caret v-if="isSectionItemType" class="ml-4" :value="item.isOpened" />
+        <b-caret
+          v-if="isSectionItemType"
+          class="ml-4 !text-gray-600"
+          :value="item.isOpened"
+          inverted-animation
+        />
       </div>
     </div>
 
