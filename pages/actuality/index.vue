@@ -1,7 +1,7 @@
 <template>
   <div class="actuality">
     <div class="flex justify-center">
-      <div class="rounded w-150 overflow-hidden" :class="{ 'shadow-sm bg-white': !isLoading }">
+      <div class="rounded-2xl w-150 overflow-hidden" :class="{ 'shadow bg-white': !isLoading }">
         <form v-if="user.isAdmin" class="flex" @submit.prevent="addSectionItem">
           <b-input
             v-model.trim="newSectionName"

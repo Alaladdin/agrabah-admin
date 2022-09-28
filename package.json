@@ -46,8 +46,10 @@
     "core-js": "^3.23.3",
     "dotenv": "^16.0.1",
     "eslint": "^7.29.0",
+    "gsap": "^3.11.2",
     "husky": "^8.0.1",
     "lodash": "^4.17.21",
+    "marked": "^4.1.0",
     "moment": "^2.29.4",
     "nanoid": "^4.0.0",
     "nuxt": "^2.15.8",
@@ -64,8 +66,7 @@
     "vue-clickaway": "^2.2.2",
     "vue-tailwind": "^2.5.1",
     "vue-template-babel-compiler": "^2.0.0",
-    "vue-toast-notification": "^0.6.3",
-    "marked": "^4.1.0"
+    "vue-toast-notification": "^0.6.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.5",

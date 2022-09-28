@@ -3,7 +3,6 @@
     <div
       class="actuality__section-item border-b w-full select-none"
       :class="{
-        '!pl-11': !isSectionItemType,
         '!py-3': editingItem,
         'bg-gray-100 !hover:bg-gray-100': isSectionItemType
       }"
@@ -71,23 +70,37 @@
       </div>
     </div>
 
-    <b-actuality-item
-      v-for="actuality in item.actualities"
-      v-show="isSectionItemType && item.isOpened"
-      :key="actuality._id"
-      :item="actuality"
-      class="last:border-b-none"
-    />
+    <transition
+      v-if="item.actualities"
+      @enter="enter"
+      @leave="leave"
+    >
+      <div
+        v-show="isSectionItemType && item.isOpened"
+        :data-height="item.actualities.length * 53"
+        class="overflow-hidden"
+      >
+        <b-actuality-item
+          v-for="actuality in item.actualities"
+          :key="actuality._id"
+          :item="actuality"
+        />
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import find from 'lodash/find'
+import { gsap } from 'gsap'
+import { CSSPlugin } from 'gsap/CSSPlugin'
 import BButton from '@/components/b-button'
 import BInput from '@/components/b-input'
 import { clone } from '@/helpers'
 import BCaret from '@/components/b-caret'
+
+gsap.registerPlugin(CSSPlugin)
 
 export default {
   name      : 'b-actuality-item',
@@ -247,6 +260,40 @@ export default {
     },
     stopEditing () {
       this.editingItem = null
+    },
+    enter (el, done) {
+      gsap
+        .fromTo(el,
+          this.getFadeIn(),
+          this.getFadeOut(el)
+        )
+        .then(() => {
+          done()
+        })
+    },
+    leave (el, done) {
+      gsap
+        .fromTo(el,
+          this.getFadeOut(el),
+          this.getFadeIn()
+        )
+        .then(() => {
+          done()
+        })
+    },
+    getFadeIn () {
+      return {
+        height  : 0,
+        opacity : 0,
+        duration: 0.2,
+      }
+    },
+    getFadeOut (el) {
+      return {
+        height  : el.dataset.height + 'px',
+        opacity : 1,
+        duration: 0.2,
+      }
     },
   },
 }
