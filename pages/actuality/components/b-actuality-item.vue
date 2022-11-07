@@ -77,6 +77,7 @@
     >
       <div
         v-show="isSectionItemType && item.isOpened"
+        :id="item._id"
         :data-height="item.actualities.length * 53"
         class="overflow-hidden"
       >
@@ -93,14 +94,12 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import find from 'lodash/find'
-import { gsap } from 'gsap'
-import { CSSPlugin } from 'gsap/CSSPlugin'
 import BButton from '@/components/b-button'
 import BInput from '@/components/b-input'
 import { clone } from '@/helpers'
 import BCaret from '@/components/b-caret'
 
-gsap.registerPlugin(CSSPlugin)
+const gsap = (process.client) ? require('gsap').gsap : null
 
 export default {
   name      : 'b-actuality-item',
@@ -142,6 +141,9 @@ export default {
           pageId: this.item._id,
         },
       })
+
+      if (!userEditing)
+        return null
 
       if (this.currentUser._id === userEditing?._id)
         return 'you'
@@ -229,17 +231,33 @@ export default {
       this.isRemoving = true
 
       action(this.item)
+        .then(() => {
+          if (!this.isSectionItemType)
+            this.recalculateSectionStyles(this.item.sectionId)
+        })
         .catch(this.$handleError)
         .finally(() => {
           this.isRemoving = false
         })
     },
     addActualityItem () {
-      if (!this.item.isOpened)
-        this.toggleCaret()
-
       this.setActuality({ sectionId: this.item._id, name: 'New actuality' })
+        .then(() => {
+          if (this.item.isOpened)
+            this.recalculateSectionStyles(this.item._id)
+        })
         .catch(this.$handleError)
+        .finally(() => {
+          if (!this.item.isOpened)
+            this.toggleCaret()
+        })
+    },
+    recalculateSectionStyles (sectionId) {
+      const element = document.getElementById(sectionId)
+
+      gsap.to(element, {
+        height: element.dataset.height + 'px',
+      })
     },
     onItemClick () {
       if (!this.editingItem) {
