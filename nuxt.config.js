@@ -41,8 +41,8 @@ export default {
     },
   },
   buildModules: [
-    '@nuxtjs/eslint-module',
     '@nuxtjs/dotenv',
+    '@nuxtjs/eslint-module',
     'nuxt-windicss',
     'nuxt-build-optimisations',
   ],
