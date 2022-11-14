@@ -168,9 +168,6 @@ export default {
     ]),
 
     showContextMenu (e) {
-      console.log(process.env.GITHUB_TOKEN)
-      console.log(this.$config.API_BASE_URL)
-      console.log(this.$config)
       const buttons = this.editingItem
         ? [{
             title   : 'Save',

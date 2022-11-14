@@ -79,14 +79,14 @@ export default {
   },
   methods: {
     handleUrlChange (newUrl) {
-      this.avatarUrl = newUrl || process.env.DEFAULT_AVATAR_IMAGE
+      this.avatarUrl = newUrl || this.$config.defaultAvatarImage
       this.isLoading = true
     },
     onLoad () {
       this.isLoading = false
     },
     onLoadError () {
-      this.avatarUrl = process.env.ERROR_AVATAR_IMAGE
+      this.avatarUrl = this.$config.errorAvatarImage
     },
     onClick () {
       this.$emit('click')

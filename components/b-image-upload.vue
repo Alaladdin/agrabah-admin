@@ -52,7 +52,7 @@ export default {
     uploadImage (image) {
       const data = JSON.stringify({
         public_id_prefix: this.folderName || this.uploadPreset,
-        api_key         : process.env.CLOUDINARY_CLOUD_NAME,
+        api_key         : this.$config.cloudinaryCloudName,
         file            : image,
         upload_preset   : this.uploadPreset,
       })

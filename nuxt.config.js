@@ -20,10 +20,12 @@ export default {
     level: 9,
   },
   publicRuntimeConfig: {
-    CLOUDINARY_CLOUD_NAME: 'agrabah',
-    DEFAULT_AVATAR_IMAGE : 'avatar/default',
-    ERROR_AVATAR_IMAGE   : 'avatar/error.png',
-    GITHUB_TOKEN         : process.env.GITHUB_TOKEN,
+    authToken          : process.env.AUTH_TOKEN,
+    cloudinaryApiKey   : process.env.CLOUDINARY_API_KEY,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    defaultAvatarImage : process.env.DEFAULT_AVATAR_IMAGE,
+    errorAvatarImage   : process.env.ERROR_AVATAR_IMAGE,
+    githubToken        : process.env.GITHUB_TOKEN,
   },
   plugins: [
     '~/plugins/axios',
