@@ -19,6 +19,12 @@ export default {
   compressor: {
     level: 9,
   },
+  publicRuntimeConfig: {
+    CLOUDINARY_CLOUD_NAME: 'agrabah',
+  },
+  privateRuntimeConfig: {
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN || 'process.env.API_SECRET',
+  },
   plugins: [
     '~/plugins/axios',
     '~/plugins/socket.client',
