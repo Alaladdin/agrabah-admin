@@ -65,6 +65,13 @@ export default {
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
     githubToken        : process.env.GITHUB_TOKEN,
   },
+  publicRuntimeConfig: {
+    authToken          : process.env.AUTH_TOKEN,
+    defaultAvatarImage : process.env.DEFAULT_AVATAR_IMAGE,
+    errorAvatarImage   : process.env.ERROR_AVATAR_IMAGE,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    githubToken        : process.env.GITHUB_TOKEN,
+  },
   sentry: {
     dsn     : process.env.SENTRY_DSN,
     tracing : true,
