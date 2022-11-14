@@ -9,7 +9,7 @@
 </template>
 
 <script>
-const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${process.env.cloudinaryCloudName}/upload`
+const UPLOAD_URL = 'https://api.cloudinary.com/v1_1/agrabah/upload'
 
 export default {
   name : 'b-image-upload',
@@ -52,7 +52,7 @@ export default {
     uploadImage (image) {
       const data = JSON.stringify({
         public_id_prefix: this.folderName || this.uploadPreset,
-        api_key         : process.env.cloudinaryCloudName,
+        api_key         : process.env.CLOUDINARY_CLOUD_NAME,
         file            : image,
         upload_preset   : this.uploadPreset,
       })

@@ -32,7 +32,7 @@ export default {
     },
     connectSocket () {
       this.$socket.io.opts.extraHeaders = {
-        AuthToken    : process.env.authToken,
+        AuthToken    : process.env.AUTH_TOKEN,
         Authorization: this.$auth.strategy.token.get(),
       }
       this.$socket.connect()

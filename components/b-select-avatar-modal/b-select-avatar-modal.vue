@@ -110,7 +110,7 @@ export default {
     ...mapMutations({ commitPatchUser: 'PATCH_CURRENT_USER' }),
 
     init () {
-      this.selectedAvatar = this.newUserData.avatar || process.env.defaultAvatarImage
+      this.selectedAvatar = this.newUserData.avatar || process.env.DEFAULT_AVATAR_IMAGE
 
       if (!this.defaultAvatarsList) {
         this.loadDefaultAvatarsList()

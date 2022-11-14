@@ -108,8 +108,6 @@ export default {
     }),
 
     profileInfoFields () {
-      console.log(this.context, this)
-
       const { lastLoggedAt, lastOnline, createdAt, scope } = this.actualUser
       const accountAge = moment().diff(createdAt, 'days') + ' days'
       const lastLoggedDate = moment(lastLoggedAt).fromNow()
