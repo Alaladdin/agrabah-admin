@@ -100,8 +100,7 @@ export const actions = {
     ctx.commit('PATCH_PACKAGE_DATA', { version })
   },
   loadBranchData (ctx) {
-    console.log(ctx)
-    const requestOptions = { headers: { authorization: `token ${process.env.GITHUB_TOKEN}` } }
+    const requestOptions = { headers: { authorization: `token ${this.$config.githubToken}` } }
 
     return fetch('https://api.github.com/repos/Alaladdin/agrabah-admin/branches/main', requestOptions)
       .then((res) => {
