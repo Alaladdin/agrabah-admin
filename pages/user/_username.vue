@@ -105,6 +105,7 @@ export default {
     ...mapGetters({
       user       : 'user/getUser',
       currentUser: 'getUserData',
+      onlineUsers: 'getOnlineUsers',
     }),
 
     profileInfoFields () {
@@ -112,11 +113,12 @@ export default {
       const accountAge = moment().diff(createdAt, 'days') + ' days'
       const lastLoggedDate = moment(lastLoggedAt).fromNow()
       const lastOnlineDate = moment(lastOnline).fromNow()
+      const isOnline = !!this.onlineUsers[this.actualUser._id]
 
       return [
         { title: 'Account age', value: accountAge },
         { title: 'Last logged at', value: lastLoggedDate },
-        { title: 'Last online', value: lastOnlineDate },
+        { title: 'Last online', value: isOnline ? 'now' : lastOnlineDate },
         { title: 'Access level', value: scope.join(', ') },
       ]
     },

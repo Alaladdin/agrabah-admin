@@ -18,8 +18,6 @@ const getUserActivityText = (activity) => {
     .toLowerCase()
 }
 
-console.log(process.env)
-
 export const state = () => ({
   packageData        : { version: 'x.x.x' },
   pageTitle          : null,
