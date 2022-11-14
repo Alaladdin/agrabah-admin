@@ -21,9 +21,9 @@ export default {
   },
   publicRuntimeConfig: {
     CLOUDINARY_CLOUD_NAME: 'agrabah',
-  },
-  privateRuntimeConfig: {
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN || 'process.env.API_SECRET',
+    DEFAULT_AVATAR_IMAGE : 'avatar/default',
+    ERROR_AVATAR_IMAGE   : 'avatar/error.png',
+    GITHUB_TOKEN         : process.env.GITHUB_TOKEN,
   },
   plugins: [
     '~/plugins/axios',
