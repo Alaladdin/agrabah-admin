@@ -46,7 +46,7 @@ export default {
       return {
         username: 'DELETED',
         scope   : [],
-        avatar  : process.env.ERROR_AVATAR_IMAGE,
+        avatar  : process.env.errorAvatarImage,
       }
     },
   },
