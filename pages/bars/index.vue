@@ -77,9 +77,10 @@ export default {
   },
   watch: {
     needToLogin (needToLogin) {
-      needToLogin
-        ? this.stopBarsDataLoading()
-        : this.startBarsLoading()
+      if (needToLogin)
+        this.stopBarsDataLoading()
+      else if (this.isParsing)
+        this.startBarsLoading()
     },
   },
   methods: {
@@ -138,7 +139,7 @@ export default {
 
         if (triesCount >= MAX_TRIES)
           this.stopBarsDataLoading()
-      }, 1000 * 10)
+      }, 3 * 1000)
     },
     stopBarsDataLoading () {
       this.isUpdating = false
