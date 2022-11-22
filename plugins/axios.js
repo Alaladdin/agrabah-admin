@@ -1,4 +1,4 @@
-export default ({ $axios, store, error: goToErrorPage }) => {
+export default ({ app, $axios, store, error: goToErrorPage }) => {
   let needUpdateChanges = false
 
   $axios.onRequest((config) => {
@@ -19,6 +19,9 @@ export default ({ $axios, store, error: goToErrorPage }) => {
 
     if ($axios.isCancel(error))
       return
+
+    if (response.status === 401)
+      app.$auth.logout()
 
     if (response.status === 403)
       goToErrorPage({ statusCode: 403 })
