@@ -123,13 +123,14 @@ export default {
       let triesCount = 0
 
       this.isUpdating = true
+      this.lastUpdatedDate = this.rawData.updatedAt
 
       this.barsInterval = setInterval(() => {
         triesCount += 1
 
         this.init()
-          .then(({ marks, isCredentialsError }) => {
-            if (marks.length || isCredentialsError)
+          .then(({ updatedAt }) => {
+            if (this.lastUpdatedDate !== updatedAt)
               this.stopBarsDataLoading()
           })
           .catch((err) => {
