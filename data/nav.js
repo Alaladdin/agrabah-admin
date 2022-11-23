@@ -26,10 +26,11 @@ export default [
     scope: 'user',
   },
   {
-    name : 'mail',
-    title: 'Mail',
-    icon : 'envelope',
-    scope: 'user',
+    name    : 'mail',
+    title   : 'Mail',
+    icon    : 'envelope',
+    scope   : 'user',
+    disabled: true,
   },
   {
     name : 'short-url',
