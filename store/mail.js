@@ -25,4 +25,10 @@ export const actions = {
         throw err
       })
   },
+  refreshMail () {
+    return this.$axios.$post('/api/mail/refresh')
+      .catch((err) => {
+        throw err
+      })
+  },
 }

@@ -11,6 +11,9 @@
           class="h-full"
           before-icon="arrows-rotate"
           variant="indigo"
+          :disabled="isUpdating"
+          :loading="isUpdating"
+          @click="refreshMailData"
         />
       </div>
       <div class="mail__container">
@@ -57,6 +60,7 @@ export default {
   data  : () => ({
     search            : '',
     openedMail        : null,
+    isUpdating        : false,
     clearDataOnDestroy: false,
   }),
   watch: {
@@ -79,7 +83,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('mail', ['setMail']),
+    ...mapActions('mail', ['setMail', 'refreshMail']),
 
     getPreparedData (data) {
       if (!data) return null
@@ -91,6 +95,15 @@ export default {
         receivers  : item.receivers.join(', '),
         receivedAt : formatDateCalendar(item.receivedAt, 'HH:mm DD.MM'),
       }))
+    },
+    refreshMailData () {
+      this.isUpdating = true
+
+      this.refreshMail()
+        .catch(this.$handleError)
+        .finally(() => {
+          this.isUpdating = false
+        })
     },
     openMail (mail) {
       this.openedMail = mail
