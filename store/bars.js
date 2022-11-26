@@ -25,7 +25,7 @@ export const actions = {
       })
   },
   refreshMarks () {
-    return this.$axios.$post('/api/bars/user/refreshMarks')
+    return this.$axios.$post('/api/bars/user/refreshMarks', null, { progress: false })
       .catch((err) => {
         throw err
       })
