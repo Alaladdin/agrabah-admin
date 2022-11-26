@@ -26,7 +26,7 @@ export const actions = {
       })
   },
   refreshMail () {
-    return this.$axios.$post('/api/mail/refresh')
+    return this.$axios.$post('/api/mail/refresh', null, { progress: false })
       .catch((err) => {
         throw err
       })
