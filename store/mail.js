@@ -15,7 +15,7 @@ export const actions = {
   setMail (ctx, mail) {
     ctx.commit('PATCH_ITEM', mail)
 
-    return this.$axios.$patch('/api/mail', mail)
+    return this.$axios.$patch('/api/mail', mail, { progress: false })
       .then((data) => {
         ctx.commit('PATCH_ITEM', data.mail)
 
