@@ -43,6 +43,10 @@
               <span>{{ field.title }}</span>
               <span class="options__item">{{ field.value }}</span>
             </p>
+            <p v-for="(field, index) in additionalProfileInfoFields" :key="index" class="options text-gray-500">
+              <span>{{ field.title }}</span>
+              <span class="options__item">{{ field.value }}</span>
+            </p>
           </div>
 
           <div v-if="isCurrentUser" class="flex space-x-2">
@@ -121,6 +125,18 @@ export default {
         { title: 'Last online', value: isOnline ? 'now' : lastOnlineDate },
         { title: 'Access level', value: scope.join(', ') },
       ]
+    },
+    additionalProfileInfoFields () {
+      const { barsUser } = this.actualUser
+      const fields = []
+
+      if (this.currentUser.isAdmin) {
+        fields.push(
+          { title: 'Has bars user', value: !!barsUser + '' }
+        )
+      }
+
+      return fields
     },
     actualUser () {
       return this.isCurrentUser ? this.currentUser : this.user
