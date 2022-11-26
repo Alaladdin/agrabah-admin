@@ -45,6 +45,15 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
 }
 
 const formatDate = (date, format = 'DD.MM.YYYY') => moment(date).format(format)
+const formatDateCalendar = (date, format = 'DD.MM.YYYY') => moment(date).calendar({
+  lastWeek: 'MMM DD',
+  lastDay : '[Yesterday]',
+  sameDay : 'LT',
+  nextDay : '[Tomorrow]',
+  nextWeek: 'MMM DD',
+  sameElse: 'DD.MM.YY',
+})
+
 const getOptionsFromFlatArray = options => map(options, option => ({ title: option, value: option }))
 
 export {
@@ -52,6 +61,7 @@ export {
   getOptionsFromFlatArray,
   getRandomNumber,
   formatDate,
+  formatDateCalendar,
   setToLocalStorage,
   getFromLocalStorage,
   validateUsername,

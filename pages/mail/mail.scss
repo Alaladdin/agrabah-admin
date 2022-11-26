@@ -1,0 +1,21 @@
+.mail {
+  @apply items-center text-gray-800;
+
+  &__container {
+    @apply flex w-full bg-white rounded max-h-70vh h-full overflow-hidden shadow;
+  }
+
+  &__item {
+    @apply p-3 cursor-pointer hover:(bg-purple-100) active:(bg-purple-200);
+    @apply select-none text-sm border-b border-purple-100;
+
+    &:active,
+    &.active {
+      @apply bg-purple-200 border-purple-200;
+    }
+
+    &.read {
+      @apply opacity-70;
+    }
+  }
+}

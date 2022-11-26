@@ -30,6 +30,7 @@ export default {
   plugins: [
     '~/plugins/axios',
     '~/plugins/socket.client',
+    '~/plugins/v-text-highlight.client',
     '~/plugins/v-tooltip',
     '~/plugins/v-tailwind',
     '~/plugins/v-toast',
