@@ -101,17 +101,30 @@ export default {
     ...mapActions({
       loadUpdownStatus: 'updown/loadUpdownStatus',
       loadChanges     : 'audit/init',
+      loadMail        : 'mail/init',
     }),
 
     init () {
+      const { barsUser, isAdmin } = this.currentUser
+
       this.loadUpdownStatus()
         .then(this.setHomeNavbarNotifications)
         .catch(this.$handleError)
 
-      if (this.currentUser.isAdmin && this.$route.name !== 'audit') {
+      if (isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()
           .then((changes) => {
             this.$setSideBarNotifications('audit', changes)
+          })
+          .catch(this.$handleError)
+      }
+
+      if (barsUser && this.$route.name !== 'mail') {
+        this.loadMail()
+          .then((mail) => {
+            const unreadMailCount = reject(mail, 'isRead')
+
+            this.$setSideBarNotifications('mail', unreadMailCount.length)
           })
           .catch(this.$handleError)
       }
