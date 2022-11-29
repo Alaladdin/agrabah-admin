@@ -5,24 +5,11 @@
     <b-bars-login v-if="needToLogin" class="w-3/10" />
 
     <div v-if="!needToLogin && !isParsing && !isLoading" class="flex flex-col w-full">
-      <b-alert
+      <b-bars-credentials-error
         v-if="data.isCredentialsError"
-        custom-class="p-b-0"
-        variant="danger"
-      >
-        <div class="p-b-4 border-b border-red-400">Credentials error</div>
-        <div class="grid grid-cols-3 items-center justify-center">
-          <p class="text-sm font-semibold text-red-700">{{ data.username }}</p>
-          <p class="text-xs text-red-600">{{ data.updatedAt }}</p>
-          <b-button
-            class="!rounded-none"
-            text="Delete account"
-            variant="danger"
-            :disabled="isUpdating"
-            @click="removeBarsUser"
-          />
-        </div>
-      </b-alert>
+        :bars-data="data"
+        :can-delete="!isUpdating"
+      />
 
       <b-bars-content
         v-if="!data.isCredentialsError"
@@ -38,22 +25,20 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { assign, concat, map, maxBy } from 'lodash'
-import BBarsLogin from './components/b-bars-login'
-import BBarsPageLoader from './components/b-bars-page-loader'
+import BarsLogin from './components/b-bars-login'
+import BarsPageLoader from './components/b-bars-page-loader'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { formatDate } from '@/helpers'
-import BBarsContent from '@/pages/bars/components/b-bars-content'
-import BAlert from '@/components/b-alert'
-import BButton from '@/components/b-button'
+import BarsContent from '@/pages/bars/components/b-bars-content'
+import BarsCredentialsError from '@/pages/bars/components/b-bars-credentials-error'
 
 export default {
   name      : 'bars',
   components: {
-    'b-bars-login'      : BBarsLogin,
-    'b-bars-page-loader': BBarsPageLoader,
-    'b-bars-content'    : BBarsContent,
-    'b-button'          : BButton,
-    'b-alert'           : BAlert,
+    'b-bars-page-loader'      : BarsPageLoader,
+    'b-bars-credentials-error': BarsCredentialsError,
+    'b-bars-login'            : BarsLogin,
+    'b-bars-content'          : BarsContent,
   },
   mixins: [PageDefaultMixin('bars')],
   data  : () => ({
@@ -119,7 +104,7 @@ export default {
     startBarsLoading () {
       this.stopBarsDataLoading()
 
-      const MAX_TRIES = 5
+      const maxTries = 5
       let triesCount = 0
 
       this.isUpdating = true
@@ -138,7 +123,7 @@ export default {
             this.$handleError(err)
           })
 
-        if (triesCount >= MAX_TRIES)
+        if (triesCount >= maxTries)
           this.stopBarsDataLoading()
       }, 3 * 1000)
     },
