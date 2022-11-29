@@ -18,4 +18,9 @@
       @apply opacity-70;
     }
   }
+
+  &__progress {
+    @apply relative w-full h-2px rounded bg-purple-300 transform -translate-x-full transition duration-200;
+    box-shadow: 0 0 5px #ddd6fe;
+  }
 }
