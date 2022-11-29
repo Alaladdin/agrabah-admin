@@ -3,35 +3,40 @@
     <b-alert v-if="isLoading" text="Loading..." />
 
     <template v-if="!isLoading">
-      <div class="flex items-baseline mb-2 w-full">
-        <b-input
-          v-model="search"
-          class="mr-3 w-full"
-          placeholder="Search"
-        />
-        <b-button
-          class="h-full"
-          before-icon="arrows-rotate"
-          variant="indigo"
-          :disabled="isUpdating"
-          :loading="isUpdating"
-          @click="refreshMailData"
-        />
-      </div>
+      <b-input
+        v-model="search"
+        class="mail__search"
+        placeholder="Search"
+      />
+
       <div class="mail__container">
         <div class="flex flex-col w-2/5 border-r overflow-y-auto">
           <div v-if="!data.length" class="m-auto text-xl">
             no mails found
           </div>
 
-          <b-mail-item
-            v-for="mail in data"
-            :key="mail._id"
-            :mail="mail"
-            :search="search"
-            :is-active="mail._id === openedMail?._id"
-            @open-mail="openMail"
-          />
+          <template v-if="data.length">
+            <div class="sticky top-0 flex justify-between px-3 py-2 w-full bg-purple-50 text-gray-500 text-sm z-1">
+              <div>mails count: {{ rawData.length }}</div>
+              <b-button
+                class="h-full text-gray-500"
+                before-icon="arrows-rotate"
+                variant="icon"
+                :disabled="isUpdating"
+                :loading="isUpdating"
+                @click="refreshMailData"
+              />
+            </div>
+
+            <b-mail-item
+              v-for="mail in data"
+              :key="mail._id"
+              :mail="mail"
+              :search="search"
+              :is-active="mail._id === openedMail?._id"
+              @open-mail="openMail"
+            />
+          </template>
         </div>
         <div class="flex flex-col w-3/5">
           <div v-if="!openedMail" class="m-auto text-xl">

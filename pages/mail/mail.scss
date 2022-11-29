@@ -1,6 +1,14 @@
 .mail {
   @apply items-center text-gray-800;
 
+  &__search {
+    @apply mb-2 w-full;
+
+    input {
+      @apply '!px-3 py-2 border-purple-200 focus:ring-purple-300';
+    }
+  }
+
   &__container {
     @apply flex w-full bg-white rounded max-h-70vh h-full overflow-hidden shadow;
   }
