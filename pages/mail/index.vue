@@ -77,23 +77,17 @@ export default {
     isUpdating        : false,
     clearDataOnDestroy: false,
   }),
+  computed: {
+    searchVal () {
+      return this.search.toLowerCase()
+    },
+  },
   watch: {
-    search (search) {
-      const searchVal = search.toLowerCase()
-
-      if (searchVal) {
-        this.data = filter(this.rawData, (item) => {
-          const itemTitle = item.title?.toLowerCase()
-          const itemBody = item.body.toLowerCase()
-          const itemSender = item.sender.toLowerCase()
-
-          return itemTitle?.includes(searchVal) || itemBody.includes(searchVal) || itemSender.includes(searchVal)
-        })
-
-        this.data = this.getPreparedData(this.data)
-      } else {
-        this.data = this.getPreparedData(this.rawData)
-      }
+    search () {
+      this.onSearchChanged()
+    },
+    rawData () {
+      this.onSearchChanged()
     },
   },
   methods: {
@@ -107,6 +101,21 @@ export default {
         title     : item.title || 'UNTITLED',
         receivedAt: formatDateCalendar(item.receivedAt, 'HH:mm DD.MM'),
       }))
+    },
+    onSearchChanged () {
+      let newData = this.getPreparedData(this.rawData)
+
+      if (this.searchVal) {
+        newData = filter(newData, (item) => {
+          const title = item.title.toLowerCase()
+          const body = item.body.toLowerCase()
+          const sender = item.sender.toLowerCase()
+
+          return title.includes(this.searchVal) || body.includes(this.searchVal) || sender.includes(this.searchVal)
+        })
+      }
+
+      this.data = newData
     },
     refreshMailData () {
       this.isUpdating = true

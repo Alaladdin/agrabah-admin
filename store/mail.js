@@ -16,11 +16,7 @@ export const actions = {
     ctx.commit('PATCH_ITEM', mail)
 
     return this.$axios.$patch('/api/mail', mail, { progress: false })
-      .then((data) => {
-        ctx.commit('PATCH_ITEM', data.mail)
-
-        return data.mail
-      })
+      .then(data => data.mail)
       .catch((err) => {
         throw err
       })

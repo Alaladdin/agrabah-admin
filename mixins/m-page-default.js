@@ -1,5 +1,5 @@
 import { mapActions, mapGetters } from 'vuex'
-import { clone } from 'lodash'
+import { clone } from '@/helpers'
 
 export default (storeName) => {
   return {
