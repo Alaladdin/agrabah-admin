@@ -24,10 +24,17 @@
           <div v-if="mail.attachments.length" class="flex">
             <p class="mr-2">Attachments:</p>
             <div>
-              <div v-for="(file, index) in mail.attachments" :key="index" class="flex items-center mr-3 max-w-full text-purple-400 cursor-pointer">
-                <fa class="mr-1" :icon="file.icon" />
-                <span>{{ file.name }}</span>
-              </div>
+              <a
+                v-for="(attach, index) in mail.attachments"
+                :key="index"
+                class="flex items-center mr-3 max-w-full text-purple-400 cursor-pointer"
+                :href="`/api/mail/files?mpeiUser=${currentUser.barsUser}&messageId=${mail._id}&fileId=${attach._id}`"
+                :download="attach.name"
+                target="_blank"
+              >
+                <fa class="mr-1" :icon="attach.icon" />
+                <span>{{ attach.name }}</span>
+              </a>
             </div>
           </div>
         </div>
@@ -44,6 +51,7 @@
 
 <script>
 import throttle from 'lodash/throttle'
+import { mapGetters } from 'vuex'
 
 const listenerOptions = { passive: true, capture: true }
 
@@ -58,6 +66,9 @@ export default {
       type   : String,
       default: '',
     },
+  },
+  computed: {
+    ...mapGetters({ currentUser: 'getUserData' }),
   },
   watch: {
     'mail._id' () {

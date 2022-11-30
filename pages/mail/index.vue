@@ -173,11 +173,11 @@ export default {
         ...item,
         title      : item.title || 'UNTITLED',
         receivedAt : formatDateCalendar(item.receivedAt),
-        attachments: map(item.attachments, (fileName) => {
-          const fileExt = last(fileName.split('.'))
+        attachments: map(item.attachments, (attach) => {
+          const fileExt = last(attach.name.split('.'))
           const fileIcon = localMetadata.fileIcons[fileExt] || localMetadata.fileIcons.default
 
-          return { name: fileName, icon: fileIcon }
+          return { ...attach, icon: fileIcon }
         }),
       }))
     },
