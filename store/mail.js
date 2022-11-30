@@ -21,10 +21,11 @@ export const actions = {
         throw err
       })
   },
-  refreshMail () {
-    return this.$axios.$post('/api/mail/refresh', null, { progress: false })
-      .catch((err) => {
-        throw err
-      })
+  clearMailCache () {
+    return this.$axios({
+      url     : '/api/mail',
+      method  : 'PURGE',
+      progress: false,
+    })
   },
 }

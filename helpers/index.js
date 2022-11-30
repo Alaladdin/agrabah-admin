@@ -45,7 +45,7 @@ const getFromLocalStorage = (key, defaultValue = {}) => {
 }
 
 const formatDate = (date, format = 'DD.MM.YYYY') => moment(date).format(format)
-const formatDateCalendar = (date, format = 'DD.MM.YYYY') => moment(date).calendar({
+const formatDateCalendar = date => moment(date).calendar({
   lastWeek: 'MMM DD',
   lastDay : '[Yesterday]',
   sameDay : 'LT',

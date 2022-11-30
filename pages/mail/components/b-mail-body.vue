@@ -17,13 +17,18 @@
           <div class="flex">
             <p class="mr-2">From: </p>
             <text-highlight :queries="search">
-              {{ mail.sender }}
+              {{ mail.from }}
             </text-highlight>
           </div>
 
-          <div class="flex">
-            <p class="mr-2">Attachments: </p>
-            <p>not_ready_yet :(</p>
+          <div v-if="mail.attachments.length" class="flex">
+            <p class="mr-2">Attachments:</p>
+            <div>
+              <div v-for="(file, index) in mail.attachments" :key="index" class="flex items-center mr-3 max-w-full text-purple-400 cursor-pointer">
+                <fa class="mr-1" :icon="file.icon" />
+                <span>{{ file.name }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -31,7 +36,7 @@
       <div ref="progress" class="mail__progress" />
     </div>
 
-    <div class="p-5 py-3 w-full whitespace-pre-line text-sm text-gray-600 bg-purple-50">
+    <div v-if="mail.body" class="p-5 py-3 w-full whitespace-pre-line break-all text-sm text-gray-600 bg-purple-50">
       <text-highlight :queries="search">{{ mail.body }}</text-highlight>
     </div>
   </div>

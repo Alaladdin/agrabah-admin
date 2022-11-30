@@ -1,10 +1,10 @@
 <template>
   <div class="mail h-full">
-    <b-alert v-if="isLoading" text="Loading..." />
+    <b-alert v-if="isLoading || isBarsDataLoading" text="Loading..." />
 
     <b-bars-login v-if="needToLogin" class="w-3/10" />
 
-    <template v-if="!needToLogin && !isLoading">
+    <template v-if="!needToLogin && !isBarsDataLoading && !isLoading">
       <b-bars-credentials-error
         v-if="barsData.isCredentialsError"
         :bars-data="barsData"
@@ -19,19 +19,18 @@
         />
 
         <div class="mail__container">
-          <div class="flex flex-col w-2/5 border-r overflow-y-auto">
+          <div class="relative flex flex-col w-2/5 border-r overflow-y-auto">
             <div class="sticky top-0 flex justify-between px-3 py-2 w-full bg-purple-50 text-gray-500 text-sm z-1">
               <div>count: {{ rawData.length }}</div>
 
               <div class="flex space-x-3">
-                <div>updated at: {{ barsData.updatedAt }}</div>
                 <b-button
                   class="h-full text-gray-500"
                   before-icon="arrows-rotate"
                   variant="icon"
                   :disabled="isUpdating"
                   :loading="isUpdating"
-                  @click="refreshMailData"
+                  @click="refreshMail"
                 />
                 <b-button
                   class="h-full text-red-400"
@@ -55,6 +54,13 @@
               :is-active="mail._id === openedMail?._id"
               @open-mail="openMail"
             />
+            <b-button
+              class="mt-auto !py-2 rounded-none w-full border-t text-gray-500 bg-purple-50 hover:(text-gray-500 bg-purple-100)"
+              text="load more"
+              after-icon="download"
+              variant="icon"
+              disabled
+            />
           </div>
           <div class="flex flex-col w-3/5">
             <div v-if="!openedMail" class="m-auto text-xl">
@@ -75,10 +81,11 @@
 </template>
 
 <script>
-import { assign, filter, map } from 'lodash'
+import { assign, filter, last, map } from 'lodash'
 import { mapActions, mapGetters } from 'vuex'
 import MailItem from './components/b-mail-item'
 import MailBody from './components/b-mail-body'
+import localMetadata from './metadata'
 import PageDefaultMixin from '@/mixins/m-page-default'
 import { formatDate, formatDateCalendar } from '@/helpers'
 import Input from '@/components/b-input'
@@ -103,6 +110,7 @@ export default {
     search            : '',
     openedMail        : null,
     isUpdating        : false,
+    isBarsDataLoading : false,
     clearDataOnDestroy: false,
   }),
   computed: {
@@ -133,26 +141,42 @@ export default {
     rawData () {
       this.onSearchChanged()
     },
+    needToLogin (needToLogin) {
+      if (!needToLogin)
+        this.initData()
+    },
   },
   methods: {
     ...mapActions({
-      setMail     : 'mail/setMail',
-      refreshMail : 'mail/refreshMail',
-      loadBarsData: 'bars/init',
-      removeUser  : 'bars/removeUser',
+      setMail       : 'mail/setMail',
+      clearMailCache: 'mail/clearMailCache',
+      loadBarsData  : 'bars/init',
+      removeUser    : 'bars/removeUser',
     }),
 
     beforeInit () {
-      if (!this.barsData)
+      if (!this.barsData) {
+        this.isBarsDataLoading = true
+
         return this.loadBarsData()
+          .finally(() => {
+            this.isBarsDataLoading = false
+          })
+      }
     },
     getPreparedData (data) {
       if (!data) return null
 
       return map(data, item => ({
         ...item,
-        title     : item.title || 'UNTITLED',
-        receivedAt: formatDateCalendar(item.receivedAt, 'HH:mm DD.MM'),
+        title      : item.title || 'UNTITLED',
+        receivedAt : formatDateCalendar(item.receivedAt),
+        attachments: map(item.attachments, (fileName) => {
+          const fileExt = last(fileName.split('.'))
+          const fileIcon = localMetadata.fileIcons[fileExt] || localMetadata.fileIcons.default
+
+          return { name: fileName, icon: fileIcon }
+        }),
       }))
     },
     onSearchChanged () {
@@ -161,51 +185,24 @@ export default {
       if (this.searchVal) {
         newData = filter(newData, (item) => {
           const title = item.title.toLowerCase()
-          const body = item.body.toLowerCase()
-          const sender = item.sender.toLowerCase()
+          const body = item.body?.toLowerCase()
+          const from = item.from.toLowerCase()
 
-          return title.includes(this.searchVal) || body.includes(this.searchVal) || sender.includes(this.searchVal)
+          return title.includes(this.searchVal) || body?.includes(this.searchVal) || from.includes(this.searchVal)
         })
       }
 
       this.data = newData
     },
-    refreshMailData () {
-      this.refreshMail()
-        .then(this.startMailLoading)
-        .catch(this.$handleError)
-    },
-    startMailLoading () {
-      this.stopMailDataLoading()
-
-      const maxTries = 5
-      let triesCount = 0
-
+    refreshMail () {
       this.isUpdating = true
-      this.lastUpdatedDate = this.barsData.updatedAt
 
-      this.mailInterval = setInterval(() => {
-        triesCount += 1
-
-        this.loadBarsData()
-          .then(({ updatedAt }) => {
-            if (this.lastUpdatedDate !== updatedAt) {
-              this.init()
-              this.stopMailDataLoading()
-            }
-          })
-          .catch((err) => {
-            this.stopMailDataLoading()
-            this.$handleError(err)
-          })
-
-        if (triesCount >= maxTries)
-          this.stopMailDataLoading()
-      }, 30 * 1000)
-    },
-    stopMailDataLoading () {
-      this.isUpdating = false
-      clearInterval(this.mailInterval)
+      this.clearMailCache()
+        .then(this.init)
+        .catch(this.$handleError)
+        .finally(() => {
+          this.isUpdating = false
+        })
     },
     removeBarsUser () {
       this.removeUser()
@@ -215,10 +212,10 @@ export default {
     openMail (mail) {
       this.openedMail = mail
 
-      if (!mail.isRead) {
-        this.setMail({ _id: mail._id, isRead: true })
-          .catch(this.$handleError)
-      }
+      // if (!mail.isRead) {
+      //   this.setMail({ _id: mail._id, isRead: true })
+      //     .catch(this.$handleError)
+      // }
     },
   },
 }

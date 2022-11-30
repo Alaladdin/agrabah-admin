@@ -14,12 +14,12 @@
   }
 
   &__item {
-    @apply p-3 cursor-pointer hover:(bg-purple-100) active:(bg-purple-200);
-    @apply select-none text-sm border-b border-purple-100;
+    @apply p-3 cursor-pointer hover:bg-purple-100 active:bg-purple-200;
+    @apply select-none text-sm not-last-of-type:(border-b border-purple-100);
 
     &:active,
     &.active {
-      @apply bg-purple-200 border-purple-200;
+      @apply bg-purple-200 not-last-of-type:(border-b border-purple-200);
     }
 
     &.read {

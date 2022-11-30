@@ -8,16 +8,18 @@
       <div class="max-w-8/10">
         <div class="mb-2 font-semibold truncate">
           <text-highlight :queries="search">
-            {{ mail.sender }}
-          </text-highlight>
-        </div>
-        <div class="text-sm truncate">
-          <text-highlight :queries="search">
             {{ mail.title }}
           </text-highlight>
         </div>
+        <div class="text-sm text-gray-500 truncate">
+          <text-highlight :queries="search">
+            {{ mail.from }}
+          </text-highlight>
+        </div>
       </div>
-      <div class="text-xs">{{ mail.receivedAt }}</div>
+      <div class="text-xs">
+        {{ mail.receivedAt }}
+      </div>
     </div>
   </div>
 </template>
