@@ -57,7 +57,6 @@
             <b-button
               class="mt-auto !py-2 rounded-none w-full border-t text-gray-500 bg-purple-50 hover:(text-gray-500 bg-purple-100)"
               text="load more"
-              after-icon="download"
               variant="icon"
               disabled
             />
