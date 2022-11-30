@@ -113,7 +113,10 @@ export default {
     clearDataOnDestroy: false,
   }),
   computed: {
-    ...mapGetters({ currentUser: 'getUserData', rawBarsData: 'bars/getData' }),
+    ...mapGetters({
+      currentUser: 'getUserData',
+      rawBarsData: 'bars/getData',
+    }),
 
     barsData () {
       if (!this.rawBarsData)

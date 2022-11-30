@@ -22,10 +22,6 @@ export const actions = {
       })
   },
   clearMailCache () {
-    return this.$axios({
-      url     : '/api/mail',
-      method  : 'PURGE',
-      progress: false,
-    })
+    return this.$axios.$delete('/api/mail', { progress: false })
   },
 }
