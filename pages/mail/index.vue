@@ -58,7 +58,9 @@
               class="mt-auto !py-2 rounded-none w-full border-t text-gray-500 bg-purple-50 hover:(text-gray-500 bg-purple-100)"
               text="load more"
               variant="icon"
-              disabled
+              :disabled="isMoreLoading"
+              :loading="isMoreLoading"
+              @click="loadMore"
             />
           </div>
           <div class="flex flex-col w-3/5">
@@ -107,8 +109,10 @@ export default {
   mixins: [PageDefaultMixin('mail')],
   data  : () => ({
     search            : '',
+    mailListOffset    : 0,
     openedMail        : null,
     isUpdating        : false,
+    isMoreLoading     : false,
     isBarsDataLoading : false,
     clearDataOnDestroy: false,
   }),
@@ -150,7 +154,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      setMail       : 'mail/setMail',
+      toggleRead    : 'mail/toggleRead',
+      loadMoreMail  : 'mail/loadMoreMail',
       clearMailCache: 'mail/clearMailCache',
       loadBarsData  : 'bars/init',
       removeUser    : 'bars/removeUser',
@@ -174,10 +179,10 @@ export default {
         title      : item.title || 'UNTITLED',
         receivedAt : formatDateCalendar(item.receivedAt),
         attachments: map(item.attachments, (attach) => {
-          const fileExt = last(attach.name.split('.'))
+          const fileExt = last(attach.name?.split('.'))
           const fileIcon = localMetadata.fileIcons[fileExt] || localMetadata.fileIcons.default
 
-          return { ...attach, icon: fileIcon }
+          return { ...attach, name: attach.name || 'unknown', icon: fileIcon }
         }),
       }))
     },
@@ -198,12 +203,23 @@ export default {
     },
     refreshMail () {
       this.isUpdating = true
+      this.mailListOffset = 0
 
       this.clearMailCache()
         .then(this.init)
         .catch(this.$handleError)
         .finally(() => {
           this.isUpdating = false
+        })
+    },
+    loadMore () {
+      this.isMoreLoading = true
+      this.mailListOffset += 10
+
+      this.loadMoreMail({ offset: this.mailListOffset })
+        .catch(this.$handleError)
+        .finally(() => {
+          this.isMoreLoading = false
         })
     },
     removeBarsUser () {
@@ -214,10 +230,10 @@ export default {
     openMail (mail) {
       this.openedMail = mail
 
-      // if (!mail.isRead) {
-      //   this.setMail({ _id: mail._id, isRead: true })
-      //     .catch(this.$handleError)
-      // }
+      if (!mail.isRead) {
+        this.toggleRead({ _id: mail._id, isRead: true })
+          .catch(this.$handleError)
+      }
     },
   },
 }

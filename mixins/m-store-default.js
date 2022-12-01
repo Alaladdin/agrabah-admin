@@ -19,8 +19,11 @@ export const mutations = {
   ADD_ITEM (state, data) {
     state.data.push(data)
   },
-  ADD_ITEM_BEGIN (state, data) {
+  ADD_ITEM_START (state, data) {
     state.data.unshift(data)
+  },
+  ADD_ITEMS (state, data) {
+    state.data.push(...data)
   },
   PATCH_ITEM (state, newItem) {
     state.data = map(state.data, (item) => {

@@ -15,7 +15,7 @@ export const actions = {
   addUrl (ctx, url) {
     return this.$axios.$post('/api/addUrl', { url })
       .then((data) => {
-        ctx.commit('ADD_ITEM_BEGIN', data.url)
+        ctx.commit('ADD_ITEM_START', data.url)
 
         return data.url
       })
