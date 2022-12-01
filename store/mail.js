@@ -24,7 +24,6 @@ export const actions = {
 
     return this.$axios.$post('/api/mail/read', { mail }, { progress: false })
       .then(() => ctx.dispatch('clearMailCache'))
-      .then(() => ctx.dispatch('init'))
       .catch((err) => {
         throw err
       })
