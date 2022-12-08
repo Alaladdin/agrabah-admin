@@ -3,7 +3,7 @@ export * from '@/mixins/m-store-default'
 
 export const actions = {
   init (ctx) {
-    return this.$axios.$get('/api/getChanges')
+    return this.$axios.$get('/api/changes')
       .then((data) => {
         const changes = reverse(data.changes)
 
@@ -16,7 +16,7 @@ export const actions = {
       })
   },
   clearChanges (ctx) {
-    return this.$axios.$post('/api/clearChanges')
+    return this.$axios.$delete('/api/changes')
       .then(() => {
         ctx.commit('SET_DATA', [])
 

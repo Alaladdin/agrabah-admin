@@ -40,19 +40,6 @@ export default [
     needDivider: true,
   },
   {
-    name : 'audit',
-    title: 'Audit',
-    icon : 'clock-rotate-left',
-    scope: 'admin',
-  },
-  {
-    name    : 'api-key',
-    title   : 'Api Keys',
-    icon    : 'key',
-    disabled: true,
-    scope   : 'owner',
-  },
-  {
     groupName  : 'Development',
     name       : 'components',
     title      : 'Components',

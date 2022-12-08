@@ -5,7 +5,7 @@ export default ({ store }, inject) => {
   const setSideBarNotifications = (key, value) => {
     let rewrittenValue = null
 
-    if (key === 'audit') {
+    if (key === 'index') {
       const lastViewedChangeId = getFromLocalStorage('last_viewed_change_id')
       const lastViewedChangeIndex = findIndex(value, { _id: lastViewedChangeId })
 

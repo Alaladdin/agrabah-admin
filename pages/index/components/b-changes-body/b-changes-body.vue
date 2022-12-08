@@ -13,14 +13,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { assign, map, take } from 'lodash'
-import localMetadata from '@/pages/audit/metadata'
-import BChangeItem from '@/pages/audit/components/b-change-item'
+import ChangeItem from '../b-change-item'
+import localMetadata from './metadata'
 import { formatDate } from '@/helpers'
 
 export default {
-  name      : 'audit-body',
+  name      : 'b-changes-body',
   components: {
-    'b-change-item': BChangeItem,
+    'b-change-item': ChangeItem,
   },
   props: {
     limit: {
@@ -38,7 +38,7 @@ export default {
   computed: {
     ...mapGetters({
       user      : 'getUserData',
-      rawChanges: 'audit/getData',
+      rawChanges: 'changes/getData',
     }),
 
     changes () {
@@ -87,5 +87,5 @@ export default {
 </script>
 
 <style lang='scss'>
-@import "audit-body";
+@import "b-changes-body";
 </style>

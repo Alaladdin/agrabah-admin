@@ -98,16 +98,16 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadChanges: 'audit/init',
+      loadChanges: 'changes/init',
     }),
 
     init () {
       const { isAdmin } = this.currentUser
 
-      if (isAdmin && this.$route.name !== 'audit') {
+      if (isAdmin && this.$route.name !== 'index') {
         this.loadChanges()
           .then((changes) => {
-            this.$setSideBarNotifications('audit', changes)
+            this.$setSideBarNotifications('index', changes)
           })
           .catch(this.$handleError)
       }

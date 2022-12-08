@@ -7,9 +7,9 @@ export default ({ app, $axios, store, error: goToErrorPage }) => {
 
   $axios.onResponse(() => {
     if (needUpdateChanges) {
-      store.dispatch('audit/init')
+      store.dispatch('changes/init')
         .then((changes) => {
-          store.$setSideBarNotifications('audit', changes)
+          store.$setSideBarNotifications('index', changes)
         })
     }
   })
