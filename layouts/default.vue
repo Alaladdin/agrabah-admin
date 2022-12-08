@@ -37,7 +37,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { filter, find, reject } from 'lodash'
+import { filter, find } from 'lodash'
 import { navItems } from '@/data'
 import BAppVersion from '@/components/b-app-version'
 import BSocketIndicator from '@/components/b-socket-indicator'
@@ -67,7 +67,6 @@ export default {
   computed: {
     ...mapGetters({
       currentUser    : 'getUserData',
-      updownStatus   : 'updown/getUpdownStatus',
       customPageTitle: 'getPageTitle',
       errors         : 'getErrors',
     }),
@@ -99,16 +98,11 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadUpdownStatus: 'updown/loadUpdownStatus',
-      loadChanges     : 'audit/init',
+      loadChanges: 'audit/init',
     }),
 
     init () {
       const { isAdmin } = this.currentUser
-
-      this.loadUpdownStatus()
-        .then(this.setHomeNavbarNotifications)
-        .catch(this.$handleError)
 
       if (isAdmin && this.$route.name !== 'audit') {
         this.loadChanges()
@@ -117,11 +111,6 @@ export default {
           })
           .catch(this.$handleError)
       }
-    },
-    setHomeNavbarNotifications () {
-      const offlineHosts = reject(this.updownStatus, { isOnline: true })
-
-      this.$setSideBarNotifications('index', offlineHosts.length)
     },
     closeErrorModal (error) {
       this.$store.commit('REMOVE_ERROR', error)
