@@ -49,8 +49,8 @@ export default {
         const descriptions = map(change.descriptions, field => this.getFieldInfo(change, field))
         const changeInfo = this.changesInfo[change.name]
         const additionalData = {
-          title    : changeInfo.title || change.name,
-          route    : changeInfo.getRoute && changeInfo.getRoute(change),
+          title    : changeInfo?.title || change.name,
+          route    : changeInfo?.getRoute?.(change),
           descriptions,
           changedAt: changedAtDate,
         }
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     getFieldInfo (change, field) {
-      const fieldInfo = this.changesInfo[change.name][field.id]
+      const fieldInfo = this.changesInfo[change.name]?.[field.id]
 
       if (fieldInfo) {
         if (fieldInfo.plain)
