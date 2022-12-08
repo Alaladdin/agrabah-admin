@@ -32,12 +32,6 @@ export default [
     scope: 'user',
   },
   {
-    name : 'short-url',
-    title: 'Short URL',
-    icon : 'link',
-    scope: 'user',
-  },
-  {
     groupName  : 'Manage',
     name       : 'team',
     title      : 'Team',

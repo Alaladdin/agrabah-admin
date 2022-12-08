@@ -1,7 +1,7 @@
 import { cloneDeep, map, isArray, isObject, isString, random, isNull } from 'lodash'
 import { nanoid } from 'nanoid'
 import moment from 'moment'
-import { validateUsername, validateDisplayName, validatePassword, validateUrl } from './validators'
+import { validateUsername, validateDisplayName, validatePassword } from './validators'
 
 const clone = (...args) => cloneDeep(...args)
 const getRandomNumber = (...args) => random(...args)
@@ -67,7 +67,6 @@ export {
   validateUsername,
   validateDisplayName,
   validatePassword,
-  validateUrl,
   generateSmallId,
   parseError
 }
